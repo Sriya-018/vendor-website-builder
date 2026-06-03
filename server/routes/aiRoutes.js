@@ -340,7 +340,7 @@ function generateWebsiteHTML(businessData, photos, template, theme, heroImage) {
     </nav>
 
     <!-- Full-screen Hero Section -->
-    <header class="relative min-h-[100vh] w-full flex items-center justify-center overflow-hidden">
+    <header class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0 w-full h-full">
             <img src="${heroBg}" class="w-full h-full object-cover scale-105 animate-pulse-slow" alt="Hero Background" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(businessName)}/1200/800'">
             <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/60 to-gray-900/90 w-full h-full"></div>
