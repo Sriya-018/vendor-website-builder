@@ -4,13 +4,26 @@ const Website = require('../models/Website');
 const Business = require('../models/Business');
 const Photo = require('../models/Photo');
 
+const cache = new Map();
+
 // Get published website by slug
 router.get('/:slug', async (req, res) => {
   try {
+    const slug = req.params.slug;
+    
+    if (cache.has(slug)) {
+      const cachedSite = cache.get(slug);
+      // Fire and forget view increment
+      Website.findByIdAndUpdate(cachedSite._id, { $inc: { views: 1 } }).exec();
+      return res.json(cachedSite);
+    }
+    
     const website = await Website.findOne({ slug: req.params.slug, published: true })
       .populate('businessId');
     
     if (!website) return res.status(404).json({ error: 'Website not found' });
+    
+    cache.set(slug, website);
     
     // Increment view count
     website.views += 1;

@@ -5,6 +5,7 @@ import Setup from './pages/Setup';
 import Dashboard from './pages/Dashboard';
 import WebsiteView from './pages/WebsiteView';
 import EditWebsite from './pages/EditWebsite';
+import Templates from './pages/Templates';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -29,7 +30,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Landing setToken={setToken} setBusinessId={setBusinessId} />} />
+        <Route path="/" element={<Landing token={token} setToken={setToken} setBusinessId={setBusinessId} />} />
+        <Route path="/templates" element={<Templates token={token} businessId={businessId} />} />
         <Route path="/setup" element={
           token ? <Setup token={token} businessId={businessId} setBusinessId={setBusinessId} /> : <Navigate to="/" />
         } />

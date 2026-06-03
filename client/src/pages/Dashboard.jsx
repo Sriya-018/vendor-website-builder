@@ -51,7 +51,7 @@ function Dashboard({ token, businessId }) {
     <div className="flex min-h-screen bg-[#f8f9fa] font-sans text-gray-800">
       {/* Sidebar - Desktop */}
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 h-screen sticky top-0">
-        <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+        <div className="p-6 border-b border-gray-100 flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate('/')}>
           <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-md font-bold">
             {business.businessName?.charAt(0).toUpperCase() || 'B'}
           </div>
@@ -102,7 +102,7 @@ function Dashboard({ token, businessId }) {
       <main className="flex-1 max-w-7xl mx-auto w-full">
         {/* Top Navbar Mobile */}
         <div className="md:hidden flex items-center justify-between bg-white px-4 py-4 border-b border-gray-200">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
              <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-md font-bold">
               {business.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
