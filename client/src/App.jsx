@@ -1,0 +1,48 @@
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Setup from './pages/Setup';
+import Dashboard from './pages/Dashboard';
+import WebsiteView from './pages/WebsiteView';
+import EditWebsite from './pages/EditWebsite';
+
+function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [businessId, setBusinessId] = useState(localStorage.getItem('businessId'));
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token');
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (businessId) {
+      localStorage.setItem('businessId', businessId);
+    } else {
+      localStorage.removeItem('businessId');
+    }
+  }, [businessId]);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing setToken={setToken} setBusinessId={setBusinessId} />} />
+        <Route path="/setup" element={
+          token ? <Setup token={token} businessId={businessId} setBusinessId={setBusinessId} /> : <Navigate to="/" />
+        } />
+        <Route path="/dashboard" element={
+          token ? <Dashboard token={token} businessId={businessId} /> : <Navigate to="/" />
+        } />
+        <Route path="/edit" element={
+          token ? <EditWebsite token={token} businessId={businessId} /> : <Navigate to="/" />
+        } />
+        <Route path="/website/:slug" element={<WebsiteView />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
