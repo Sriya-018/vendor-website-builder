@@ -99,14 +99,14 @@ function Setup({ token, businessId, setBusinessId }) {
         theme: { primaryColor: '#2563eb', secondaryColor: '#4f46e5' }
       });
       
-      await axios.post(`${API_URL}/website/${businessId}`, {
+      const saveRes = await axios.post(`${API_URL}/website/${businessId}`, {
         html: response.data.html,
         css: response.data.css,
         template: businessData.category,
         published: true
       });
       
-      navigate('/dashboard');
+      navigate(`/website/${saveRes.data.slug}`);
     } catch (error) {
       alert('Failed to generate website');
     }

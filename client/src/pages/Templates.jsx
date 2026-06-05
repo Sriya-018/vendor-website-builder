@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +6,10 @@ const API_URL = 'http://localhost:5000/api';
 import { 
   FaStore, FaArrowRight, FaTimes, FaSearch, 
   FaChevronRight, FaPlus, FaCheck, FaTrash, 
-  FaStar, FaMobileAlt, FaDesktop, FaShoppingCart
+  FaStar, FaMobileAlt, FaDesktop, FaShoppingCart,
+  FaCamera, FaUpload, FaSpinner, FaPhone, FaEnvelope,
+  FaMapMarkerAlt, FaImage, FaMagic, FaWhatsapp, FaInstagram,
+  FaFacebook, FaTwitter, FaGlobe, FaRedo, FaVideo
 } from 'react-icons/fa';
 
 // --- MOCK DATA ---
@@ -99,11 +102,38 @@ function Templates({ token, businessId }) {
   const [drawerStep, setDrawerStep] = useState(1);
   const [isPublishing, setIsPublishing] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  
+  // Camera states
+  const [showCameraModal, setShowCameraModal] = useState(false);
+  const [currentProductIndex, setCurrentProductIndex] = useState(null);
+  const [stream, setStream] = useState(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   // Flow State
-  const [storeDetails, setStoreDetails] = useState({ name: '', tagline: '' });
+  const [storeDetails, setStoreDetails] = useState({ 
+    name: '', 
+    tagline: '', 
+    phone: '', 
+    email: '', 
+    address: '',
+    socialMedia: {
+      whatsapp: '',
+      instagram: '',
+      facebook: '',
+      twitter: ''
+    }
+  });
   const [products, setProducts] = useState([]);
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '' });
+  const [newProduct, setNewProduct] = useState({ 
+    name: '', 
+    price: '', 
+    category: '', 
+    description: '',
+    image: null,
+    imagePreview: null,
+    isRemovingBg: false 
+  });
 
   const filteredTemplates = activeCategory === 'All' 
     ? MOCK_TEMPLATES 
@@ -117,21 +147,295 @@ function Templates({ token, businessId }) {
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
-    // Optional: reset state here if desired
+    // Stop camera stream if active
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setShowCameraModal(false);
+    // Reset states
+    setProducts([]);
+    setStoreDetails({ 
+      name: '', 
+      tagline: '', 
+      phone: '', 
+      email: '', 
+      address: '',
+      socialMedia: {
+        whatsapp: '',
+        instagram: '',
+        facebook: '',
+        twitter: ''
+      }
+    });
   };
 
+  // Camera functions
+  const startCamera = async (productIndex = null) => {
+    setCurrentProductIndex(productIndex);
+    setShowCameraModal(true);
+    
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } // Use back camera on mobile
+      });
+      setStream(mediaStream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      alert('Unable to access camera. Please check permissions or use file upload instead.');
+      setShowCameraModal(false);
+    }
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+      
+      // Set canvas dimensions to match video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      // Draw video frame to canvas
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Convert canvas to blob
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], `product-photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
+        
+        if (currentProductIndex === null) {
+          // For new product
+          const previewUrl = URL.createObjectURL(file);
+          setNewProduct(prev => ({ 
+            ...prev, 
+            image: file,
+            imagePreview: previewUrl,
+            originalImage: file
+          }));
+          // Auto-remove background
+          await removeBackground(file);
+        } else {
+          // For existing product
+          const updatedProducts = [...products];
+          const previewUrl = URL.createObjectURL(file);
+          updatedProducts[currentProductIndex] = {
+            ...updatedProducts[currentProductIndex],
+            image: file,
+            imagePreview: previewUrl,
+            originalImage: file,
+            isRemovingBg: true
+          };
+          setProducts(updatedProducts);
+          // Auto-remove background
+          await removeBackground(file, currentProductIndex);
+        }
+        
+        // Stop camera and close modal
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          setStream(null);
+        }
+        setShowCameraModal(false);
+        setCurrentProductIndex(null);
+      }, 'image/jpeg', 0.9);
+    }
+  };
+
+  const retakePhoto = () => {
+    // Just keep camera open, user can capture again
+    // The video stream continues
+  };
+
+  // Background removal function
+  // Updated removeBackground function with better debugging
+const removeBackground = async (imageFile, productIndex = null) => {
+  console.log('removeBackground called with:', { productIndex, fileName: imageFile.name, fileSize: imageFile.size });
+  
+  // For new product being added
+  if (productIndex === null) {
+    setNewProduct(prev => ({ ...prev, isRemovingBg: true }));
+    
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      
+      console.log('Sending request to backend:', `${API_URL}/upload/product-image`);
+      
+      // Call YOUR backend API
+      const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      console.log('Backend response:', response.data);
+      
+      // Get the processed image URL from your backend
+      const imageUrl = response.data.url;
+      console.log('Processed image URL:', imageUrl);
+      
+      // Fetch the image to create a blob URL for preview
+      const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
+        responseType: 'blob'
+      });
+      
+      const processedImageUrl = URL.createObjectURL(imageResponse.data);
+      console.log('Created preview URL:', processedImageUrl);
+      
+      setNewProduct(prev => ({ 
+        ...prev, 
+        image: imageResponse.data,
+        imagePreview: processedImageUrl,
+        isRemovingBg: false 
+      }));
+      
+      return processedImageUrl;
+    } catch (error) {
+      console.error('Background removal failed - Full error:', error);
+      if (error.response) {
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+        alert(`Background removal failed: ${error.response.data?.error || error.message}`);
+      } else {
+        alert('Background removal failed. Check console for details.');
+      }
+      
+      // Fallback: use original image
+      const fallbackUrl = URL.createObjectURL(imageFile);
+      setNewProduct(prev => ({ 
+        ...prev, 
+        image: imageFile,
+        imagePreview: fallbackUrl,
+        isRemovingBg: false 
+      }));
+      return null;
+    }
+  } 
+  // For existing product update
+  else {
+    const updatedProducts = [...products];
+    updatedProducts[productIndex].isRemovingBg = true;
+    setProducts(updatedProducts);
+    
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      
+      console.log('Sending request to backend for existing product:', productIndex);
+      
+      const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      console.log('Backend response for existing product:', response.data);
+      
+      const imageUrl = response.data.url;
+      
+      // Fetch the processed image
+      const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
+        responseType: 'blob'
+      });
+      
+      const processedImageUrl = URL.createObjectURL(imageResponse.data);
+      
+      updatedProducts[productIndex] = {
+        ...updatedProducts[productIndex],
+        image: imageResponse.data,
+        imagePreview: processedImageUrl,
+        isRemovingBg: false
+      };
+      setProducts([...updatedProducts]);
+      
+      return processedImageUrl;
+    } catch (error) {
+      console.error('Background removal failed for existing product:', error);
+      // Fallback: use original image
+      const fallbackUrl = URL.createObjectURL(imageFile);
+      updatedProducts[productIndex] = {
+        ...updatedProducts[productIndex],
+        image: imageFile,
+        imagePreview: fallbackUrl,
+        isRemovingBg: false
+      };
+      setProducts([...updatedProducts]);
+      alert('Background removal failed. Using original image.');
+      return null;
+    }
+  }
+};
+
+
+ const handleImageUpload = async (e, productIndex = null) => {
+  const file = e.target.files[0];
+  if (file) {
+    console.log('Image selected:', { name: file.name, size: file.size, type: file.type });
+    
+    if (productIndex === null) {
+      // For new product
+      const previewUrl = URL.createObjectURL(file);
+      setNewProduct(prev => ({ 
+        ...prev, 
+        image: file,
+        imagePreview: previewUrl,
+        originalImage: file
+      }));
+      // Auto-remove background
+      await removeBackground(file);
+    } else {
+      // For existing product
+      const updatedProducts = [...products];
+      const previewUrl = URL.createObjectURL(file);
+      updatedProducts[productIndex] = {
+        ...updatedProducts[productIndex],
+        image: file,
+        imagePreview: previewUrl,
+        originalImage: file,
+        isRemovingBg: true
+      };
+      setProducts(updatedProducts);
+      // Auto-remove background
+      await removeBackground(file, productIndex);
+    }
+  }
+};
+
   const addProduct = () => {
-    if (!newProduct.name || !newProduct.price) return;
-    if (products.length >= 10) {
-      alert("You can only add up to 10 products in this demo.");
+    if (!newProduct.name || !newProduct.price) {
+      alert('Please fill in product name and price');
       return;
     }
-    setProducts([...products, { ...newProduct, id: Date.now() }]);
-    setNewProduct({ name: '', price: '', category: '' });
+    setProducts([...products, { 
+      ...newProduct, 
+      id: Date.now(),
+      imagePreview: newProduct.imagePreview || null,
+      image: newProduct.image || null
+    }]);
+    setNewProduct({ 
+      name: '', 
+      price: '', 
+      category: '', 
+      description: '',
+      image: null,
+      imagePreview: null,
+      isRemovingBg: false 
+    });
   };
 
   const removeProduct = (id) => {
     setProducts(products.filter(p => p.id !== id));
+  };
+
+  const handleWhatsAppClick = (phoneNumber) => {
+    // Format phone number for WhatsApp
+    const formattedNumber = phoneNumber.replace(/\D/g, '');
+    const whatsappUrl = `https://wa.me/${formattedNumber}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleLaunch = async () => {
@@ -142,17 +446,40 @@ function Templates({ token, businessId }) {
         const businessData = {
           businessName: storeDetails.name || 'My Awesome Store',
           description: storeDetails.tagline || '',
+          phone: storeDetails.phone || '',
+          email: storeDetails.email || '',
+          address: storeDetails.address || '',
+          socialMedia: storeDetails.socialMedia,
           category: previewTemplate?.category || 'General',
-          services: products.map(p => ({ name: p.name, price: p.price, category: p.category }))
+          services: products.map(p => ({ 
+            name: p.name, 
+            price: p.price, 
+            category: p.category,
+            description: p.description,
+            hasImage: !!p.imagePreview
+          }))
         };
 
         // Update business info
         await axios.put(`${API_URL}/business/${businessId}`, businessData);
         
+        // Upload product images if any
+        const productImages = [];
+        for (const product of products) {
+          if (product.image) {
+            const imageFormData = new FormData();
+            imageFormData.append('image', product.image, 'product.png');
+            const uploadResponse = await axios.post(`${API_URL}/upload/product-image`, imageFormData);
+            productImages.push(uploadResponse.data.url);
+          } else {
+            productImages.push(null);
+          }
+        }
+        
         // Generate AI website
         const response = await axios.post(`${API_URL}/ai/generate-website`, {
           businessData,
-          photos: [], // no photos in this flow
+          productImages,
           template: previewTemplate?.category || 'General',
           theme: { 
             primaryColor: previewTemplate?.colors?.primary || '#2563eb', 
@@ -161,7 +488,7 @@ function Templates({ token, businessId }) {
         });
         
         // Save the generated website
-        await axios.post(`${API_URL}/website/${businessId}`, {
+        const saveRes = await axios.post(`${API_URL}/website/${businessId}`, {
           html: response.data.html,
           css: response.data.css,
           template: previewTemplate?.category || 'General',
@@ -172,7 +499,7 @@ function Templates({ token, businessId }) {
         setShowSuccessToast(true);
         closeDrawer();
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate(`/website/${saveRes.data.slug}`);
         }, 1500);
       } catch (error) {
         console.error('Failed to launch website', error);
@@ -185,7 +512,7 @@ function Templates({ token, businessId }) {
         setIsPublishing(false);
         alert('Website generated! Please log in to save and manage your new store.');
         closeDrawer();
-        navigate('/'); // redirect to landing for login
+        navigate('/');
       }, 2000);
     }
   };
@@ -209,7 +536,6 @@ function Templates({ token, businessId }) {
       
       if(action.type === 'CHANGE_THEME') {
         reply = `I will change the theme color to ${action.color} when you launch your store!`;
-        // In a full implementation, we'd update previewTemplate.colors here
       } else if(action.type === 'ADD_PRODUCT') {
         reply = `I've added ${action.productName} for $${action.price} to your catalog.`;
         setProducts(prev => [...prev, { id: Date.now(), name: action.productName, price: action.price, category: 'AI Added' }]);
@@ -225,6 +551,55 @@ function Templates({ token, businessId }) {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-20 relative">
+      {/* Camera Modal */}
+      {showCameraModal && (
+        <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
+          <div className="relative w-full h-full max-w-lg mx-auto bg-black">
+            <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center">
+              <button 
+                onClick={() => {
+                  if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    setStream(null);
+                  }
+                  setShowCameraModal(false);
+                }}
+                className="bg-black/50 text-white p-3 rounded-full"
+              >
+                <FaTimes className="text-xl" />
+              </button>
+              <div className="bg-black/50 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                Take Product Photo
+              </div>
+              <button 
+                onClick={retakePhoto}
+                className="bg-black/50 text-white p-3 rounded-full"
+              >
+                <FaRedo className="text-xl" />
+              </button>
+            </div>
+            
+            <video 
+              ref={videoRef} 
+              autoPlay 
+              playsInline 
+              className="w-full h-full object-cover"
+            />
+            
+            <canvas ref={canvasRef} className="hidden" />
+            
+            <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+              <button 
+                onClick={capturePhoto}
+                className="bg-white rounded-full p-6 shadow-2xl hover:scale-105 transition-transform"
+              >
+                <div className="w-16 h-16 rounded-full border-4 border-gray-300 bg-white"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* FULL SCREEN PUBLISHING LOADER */}
       {isPublishing && (
         <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex flex-col items-center justify-center text-white">
@@ -236,6 +611,7 @@ function Templates({ token, businessId }) {
           <style>{`@keyframes progress { 0% { width: 0%; margin-left: 0%; } 50% { width: 100%; margin-left: 0%; } 100% { width: 0%; margin-left: 100%; } }`}</style>
         </div>
       )}
+      
       {/* SUCCESS TOAST */}
       {showSuccessToast && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-fade-in-up">
@@ -421,16 +797,21 @@ function Templates({ token, businessId }) {
                 <h2 className="text-3xl font-bold text-center mb-12" style={{ color: previewTemplate.colors.primary }}>Featured Products</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {(products.length > 0 ? products : [
-                    { id: 1, name: 'Sample Product 1', price: '49.99' },
-                    { id: 2, name: 'Sample Product 2', price: '89.99' },
-                    { id: 3, name: 'Sample Product 3', price: '129.99' }
+                    { id: 1, name: 'Sample Product 1', price: '49.99', description: 'Sample description' },
+                    { id: 2, name: 'Sample Product 2', price: '89.99', description: 'Sample description' },
+                    { id: 3, name: 'Sample Product 3', price: '129.99', description: 'Sample description' }
                   ]).map((item, idx) => (
                     <div key={item.id || idx} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 transition-transform hover:-translate-y-1">
-                      <div className="h-64 bg-gray-200">
-                        <img src={`https://picsum.photos/seed/${item.name}/600/600`} className="w-full h-full object-cover" alt={item.name} />
+                      <div className="h-64 bg-gray-200 relative">
+                        {item.imagePreview ? (
+                          <img src={item.imagePreview} className="w-full h-full object-contain bg-white" alt={item.name} />
+                        ) : (
+                          <img src={`https://picsum.photos/seed/${item.name}/600/600`} className="w-full h-full object-cover" alt={item.name} />
+                        )}
                       </div>
-                      <div className="p-6 text-center">
-                        <h4 className="font-bold text-lg mb-2 text-gray-800 truncate">{item.name}</h4>
+                      <div className="p-6">
+                        <h4 className="font-bold text-lg mb-2 text-gray-800">{item.name}</h4>
+                        {item.description && <p className="text-gray-500 text-sm mb-3">{item.description}</p>}
                         <p className="text-gray-500 mb-4">${item.price}</p>
                         <button className="w-full py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90" style={{ backgroundColor: previewTemplate.colors.primary }}>
                           Add to Cart
@@ -441,9 +822,76 @@ function Templates({ token, businessId }) {
                 </div>
               </div>
               
-              {/* Mock Footer */}
-              <div className="py-12 text-center" style={{ backgroundColor: previewTemplate.colors.primary, color: 'white' }}>
-                <p className="opacity-70">© 2026 MockStore. Powered by VendorBuild.</p>
+              {/* Mock Footer with Contact Info */}
+              <div className="py-12" style={{ backgroundColor: previewTemplate.colors.primary, color: 'white' }}>
+                <div className="max-w-6xl mx-auto px-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                      <h3 className="font-bold text-lg mb-4">Contact Us</h3>
+                      {storeDetails.phone && (
+                        <div className="flex items-center gap-3 mb-3">
+                          <FaPhone />
+                          <span>{storeDetails.phone}</span>
+                        </div>
+                      )}
+                      {storeDetails.email && (
+                        <div className="flex items-center gap-3 mb-3">
+                          <FaEnvelope />
+                          <span>{storeDetails.email}</span>
+                        </div>
+                      )}
+                      {storeDetails.address && (
+                        <div className="flex items-center gap-3">
+                          <FaMapMarkerAlt />
+                          <span>{storeDetails.address}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-4">Follow Us</h3>
+                      <div className="flex gap-4">
+                        {storeDetails.socialMedia?.whatsapp && (
+                          <button 
+                            onClick={() => handleWhatsAppClick(storeDetails.socialMedia.whatsapp)}
+                            className="bg-green-500 hover:bg-green-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+                          >
+                            <FaWhatsapp className="text-xl" />
+                          </button>
+                        )}
+                        {storeDetails.socialMedia?.instagram && (
+                          <a href={storeDetails.socialMedia.instagram} target="_blank" rel="noopener noreferrer" 
+                             className="bg-pink-500 hover:bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                            <FaInstagram className="text-xl" />
+                          </a>
+                        )}
+                        {storeDetails.socialMedia?.facebook && (
+                          <a href={storeDetails.socialMedia.facebook} target="_blank" rel="noopener noreferrer"
+                             className="bg-blue-700 hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                            <FaFacebook className="text-xl" />
+                          </a>
+                        )}
+                        {storeDetails.socialMedia?.twitter && (
+                          <a href={storeDetails.socialMedia.twitter} target="_blank" rel="noopener noreferrer"
+                             className="bg-gray-700 hover:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                            <FaTwitter className="text-xl" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+                      <ul className="space-y-2">
+                        <li><a href="#" className="hover:underline">About Us</a></li>
+                        <li><a href="#" className="hover:underline">Shipping Policy</a></li>
+                        <li><a href="#" className="hover:underline">Returns & Refunds</a></li>
+                        <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="text-center pt-8 border-t border-white/20">
+                    <p className="opacity-70">© 2026 {storeDetails.name || 'MockStore'}. Powered by VendorBuild.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -500,7 +948,7 @@ function Templates({ token, businessId }) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Store Name</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Store Name *</label>
                     <input 
                       type="text" 
                       value={storeDetails.name}
@@ -509,8 +957,9 @@ function Templates({ token, businessId }) {
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
                   </div>
+                  
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Tagline (Optional)</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Tagline</label>
                     <input 
                       type="text" 
                       value={storeDetails.tagline}
@@ -519,42 +968,214 @@ function Templates({ token, businessId }) {
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <FaPhone className="inline mr-2 text-gray-400" /> Phone Number *
+                    </label>
+                    <input 
+                      type="tel" 
+                      value={storeDetails.phone}
+                      onChange={(e) => setStoreDetails({...storeDetails, phone: e.target.value})}
+                      placeholder="+1 234 567 8900"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Will be displayed on your website with WhatsApp button</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <FaEnvelope className="inline mr-2 text-gray-400" /> Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+                    </label>
+                    <input 
+                      type="email" 
+                      value={storeDetails.email}
+                      onChange={(e) => setStoreDetails({...storeDetails, email: e.target.value})}
+                      placeholder="contact@yourstore.com"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <FaMapMarkerAlt className="inline mr-2 text-gray-400" /> Store Address
+                    </label>
+                    <textarea 
+                      value={storeDetails.address}
+                      onChange={(e) => setStoreDetails({...storeDetails, address: e.target.value})}
+                      placeholder="123 Business St., Suite 100, City, Country"
+                      rows="3"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white resize-none"
+                    />
+                  </div>
+
+                  {/* Social Media Section */}
+                  <div className="border-t border-gray-200 pt-6 mt-4">
+                    <h4 className="font-semibold text-gray-900 mb-4">Social Media Links (Optional)</h4>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                          <FaWhatsapp className="text-green-600" /> WhatsApp Number
+                        </label>
+                        <input 
+                          type="tel" 
+                          value={storeDetails.socialMedia.whatsapp}
+                          onChange={(e) => setStoreDetails({
+                            ...storeDetails, 
+                            socialMedia: {...storeDetails.socialMedia, whatsapp: e.target.value}
+                          })}
+                          placeholder="+1 234 567 8900"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Customers can chat with you directly via WhatsApp</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                          <FaInstagram className="text-pink-600" /> Instagram URL
+                        </label>
+                        <input 
+                          type="url" 
+                          value={storeDetails.socialMedia.instagram}
+                          onChange={(e) => setStoreDetails({
+                            ...storeDetails, 
+                            socialMedia: {...storeDetails.socialMedia, instagram: e.target.value}
+                          })}
+                          placeholder="https://instagram.com/yourstore"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                          <FaFacebook className="text-blue-700" /> Facebook URL
+                        </label>
+                        <input 
+                          type="url" 
+                          value={storeDetails.socialMedia.facebook}
+                          onChange={(e) => setStoreDetails({
+                            ...storeDetails, 
+                            socialMedia: {...storeDetails.socialMedia, facebook: e.target.value}
+                          })}
+                          placeholder="https://facebook.com/yourstore"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                          <FaTwitter className="text-blue-400" /> Twitter URL
+                        </label>
+                        <input 
+                          type="url" 
+                          value={storeDetails.socialMedia.twitter}
+                          onChange={(e) => setStoreDetails({
+                            ...storeDetails, 
+                            socialMedia: {...storeDetails.socialMedia, twitter: e.target.value}
+                          })}
+                          placeholder="https://twitter.com/yourstore"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Store Logo</label>
                     <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-                      <p className="text-blue-600 font-medium text-sm">Click to upload logo</p>
-                      <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
+                      <input type="file" accept="image/*" className="hidden" id="logo-upload" />
+                      <label htmlFor="logo-upload" className="cursor-pointer">
+                        <FaImage className="text-3xl text-gray-400 mx-auto mb-2" />
+                        <p className="text-blue-600 font-medium text-sm">Click to upload logo</p>
+                        <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
+                      </label>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* STEP 2: Products */}
+              {/* STEP 2: Products - Unlimited Products with Camera */}
               {drawerStep === 2 && (
                 <div className="space-y-6 animate-fade-in-up">
                   <div className="mb-6">
                     <h3 className="font-jakarta text-2xl font-bold text-gray-900">Add Products</h3>
-                    <p className="text-gray-500 mt-1 text-sm">Add a few items to get your catalog started.</p>
+                    <p className="text-gray-500 mt-1 text-sm">Add as many products as you want to your catalog.</p>
                   </div>
 
                   {/* Add Product Form */}
-                  <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200">
+                  <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 sticky top-0">
                     <div className="space-y-4">
+                      {/* Product Image Upload with Camera Options */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
+                        <div className="flex gap-3">
+                          <button 
+                            onClick={() => startCamera(null)}
+                            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
+                          >
+                            <FaCamera className="text-2xl mx-auto mb-2" />
+                            <span className="text-xs font-semibold">Take Photo</span>
+                          </button>
+                          <button 
+                            onClick={() => document.getElementById('product-image-input').click()}
+                            className="flex-1 bg-white border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-blue-400 transition-colors"
+                          >
+                            <FaUpload className="text-2xl text-gray-400 mx-auto mb-2" />
+                            <span className="text-xs text-gray-500">Upload File</span>
+                          </button>
+                        </div>
+                        <input 
+                          id="product-image-input"
+                          type="file" 
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(e, null)}
+                          className="hidden"
+                        />
+                        {newProduct.imagePreview && (
+                          <div className="mt-3 relative">
+                            <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-blue-500">
+                              <img src={newProduct.imagePreview} alt="Preview" className="w-full h-full object-contain bg-gray-100" />
+                              {newProduct.isRemovingBg && (
+                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                  <div className="text-center text-white">
+                                    <FaSpinner className="animate-spin text-3xl mx-auto mb-2" />
+                                    <p className="text-sm">Removing background...</p>
+                                  </div>
+                                </div>
+                              )}
+                              <button 
+                                onClick={() => setNewProduct(prev => ({ ...prev, imagePreview: null, image: null }))}
+                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors"
+                              >
+                                <FaTimes />
+                              </button>
+                            </div>
+                            {newProduct.imagePreview && !newProduct.isRemovingBg && (
+                              <div className="mt-2 text-xs text-green-600 flex items-center justify-center gap-1">
+                                <FaMagic /> Background removed automatically!
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
                       <div>
                         <input 
                           type="text" 
-                          placeholder="Product Name (e.g. T-Shirt)"
+                          placeholder="Product Name *"
                           value={newProduct.name}
                           onChange={e => setNewProduct({...newProduct, name: e.target.value})}
                           className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                         />
                       </div>
+
                       <div className="flex gap-3">
                         <div className="w-1/2 relative">
                           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                           <input 
                             type="number" 
-                            placeholder="Price"
+                            placeholder="Price *"
                             value={newProduct.price}
                             onChange={e => setNewProduct({...newProduct, price: e.target.value})}
                             className="w-full border border-gray-300 rounded-lg pl-8 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
@@ -568,6 +1189,17 @@ function Templates({ token, businessId }) {
                           className="w-1/2 border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                         />
                       </div>
+
+                      <div>
+                        <textarea 
+                          placeholder="Product Description"
+                          value={newProduct.description}
+                          onChange={e => setNewProduct({...newProduct, description: e.target.value})}
+                          rows="2"
+                          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm resize-none"
+                        />
+                      </div>
+
                       <button 
                         onClick={addProduct}
                         disabled={!newProduct.name || !newProduct.price}
@@ -581,26 +1213,64 @@ function Templates({ token, businessId }) {
                   {/* Product List */}
                   <div className="mt-6">
                     <h4 className="text-sm font-semibold text-gray-700 mb-3 flex justify-between">
-                      Added Products <span>{products.length}/10</span>
+                      Your Products <span>{products.length} items</span>
                     </h4>
                     {products.length === 0 ? (
                       <div className="text-center py-8 text-gray-400 border border-dashed border-gray-200 rounded-xl bg-gray-50">
-                        No products added yet.
+                        No products added yet. Start adding your products above!
                       </div>
                     ) : (
-                      <div className="space-y-3">
-                        {products.map(p => (
-                          <div key={p.id} className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-xl shadow-sm">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xs">IMG</div>
-                              <div>
-                                <p className="font-semibold text-gray-900 text-sm">{p.name}</p>
-                                <p className="text-xs text-gray-500">${p.price} {p.category && `• ${p.category}`}</p>
-                              </div>
+                      <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                        {products.map((p, idx) => (
+                          <div key={p.id} className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                              {p.isRemovingBg ? (
+                                <div className="w-full h-full flex flex-col items-center justify-center bg-black/50">
+                                  <FaSpinner className="text-white animate-spin text-xl" />
+                                </div>
+                              ) : p.imagePreview ? (
+                                <img src={p.imagePreview} alt={p.name} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                  <FaImage className="text-gray-400 text-2xl" />
+                                </div>
+                              )}
                             </div>
-                            <button onClick={() => removeProduct(p.id)} className="text-gray-400 hover:text-red-500 p-2 transition-colors">
-                              <FaTrash className="text-sm" />
-                            </button>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-gray-900 text-sm truncate">{p.name}</p>
+                              <p className="text-xs text-gray-500">${p.price} {p.category && `• ${p.category}`}</p>
+                              {p.description && <p className="text-xs text-gray-400 truncate mt-1">{p.description}</p>}
+                            </div>
+                            <div className="flex gap-1 flex-shrink-0">
+                              <button 
+                                onClick={() => startCamera(idx)}
+                                className="text-blue-500 hover:text-blue-700 p-2 transition-colors"
+                                title="Take new photo"
+                              >
+                                <FaCamera className="text-sm" />
+                              </button>
+                              <button 
+                                onClick={() => document.getElementById(`product-image-edit-${p.id}`).click()}
+                                className="text-green-500 hover:text-green-700 p-2 transition-colors"
+                                title="Upload image"
+                              >
+                                <FaUpload className="text-sm" />
+                              </button>
+                              <input 
+                                id={`product-image-edit-${p.id}`}
+                                type="file" 
+                                accept="image/*"
+                                onChange={(e) => handleImageUpload(e, idx)}
+                                className="hidden"
+                              />
+                              <button 
+                                onClick={() => removeProduct(p.id)} 
+                                className="text-gray-400 hover:text-red-500 p-2 transition-colors"
+                                title="Remove product"
+                              >
+                                <FaTrash className="text-sm" />
+                              </button>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -621,11 +1291,27 @@ function Templates({ token, businessId }) {
                   <p className="text-gray-500 mt-2 text-lg">Your store is fully configured and ready to accept customers.</p>
                   
                   <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 text-left mt-8">
-                    <h4 className="font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Summary</h4>
-                    <div className="space-y-3 text-sm">
+                    <h4 className="font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Store Summary</h4>
+                    <div className="space-y-3 text-sm max-h-96 overflow-y-auto">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Store Name:</span>
                         <span className="font-semibold text-gray-900">{storeDetails.name || 'My Awesome Store'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Phone:</span>
+                        <span className="font-semibold text-gray-900">{storeDetails.phone || 'Not provided'}</span>
+                      </div>
+                      {storeDetails.email && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Email:</span>
+                          <span className="font-semibold text-gray-900">{storeDetails.email}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">WhatsApp:</span>
+                        <span className="font-semibold text-gray-900">
+                          {storeDetails.socialMedia?.whatsapp ? '✓ Enabled' : 'Not configured'}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Template:</span>
@@ -634,6 +1320,10 @@ function Templates({ token, businessId }) {
                       <div className="flex justify-between">
                         <span className="text-gray-500">Products Added:</span>
                         <span className="font-semibold text-gray-900">{products.length} items</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Products with Images:</span>
+                        <span className="font-semibold text-gray-900">{products.filter(p => p.imagePreview).length} items</span>
                       </div>
                     </div>
                   </div>
