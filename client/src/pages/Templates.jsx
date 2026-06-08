@@ -147,13 +147,11 @@ function Templates({ token, businessId }) {
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
-    // Stop camera stream if active
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
       setStream(null);
     }
     setShowCameraModal(false);
-    // Reset states
     setProducts([]);
     setStoreDetails({ 
       name: '', 
@@ -170,14 +168,13 @@ function Templates({ token, businessId }) {
     });
   };
 
-  // Camera functions
   const startCamera = async (productIndex = null) => {
     setCurrentProductIndex(productIndex);
     setShowCameraModal(true);
     
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } // Use back camera on mobile
+        video: { facingMode: 'environment' }
       });
       setStream(mediaStream);
       if (videoRef.current) {
@@ -196,19 +193,14 @@ function Templates({ token, businessId }) {
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
       
-      // Set canvas dimensions to match video
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      
-      // Draw video frame to canvas
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       
-      // Convert canvas to blob
       canvas.toBlob(async (blob) => {
         const file = new File([blob], `product-photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
         
         if (currentProductIndex === null) {
-          // For new product
           const previewUrl = URL.createObjectURL(file);
           setNewProduct(prev => ({ 
             ...prev, 
@@ -216,10 +208,8 @@ function Templates({ token, businessId }) {
             imagePreview: previewUrl,
             originalImage: file
           }));
-          // Auto-remove background
           await removeBackground(file);
         } else {
-          // For existing product
           const updatedProducts = [...products];
           const previewUrl = URL.createObjectURL(file);
           updatedProducts[currentProductIndex] = {
@@ -230,11 +220,9 @@ function Templates({ token, businessId }) {
             isRemovingBg: true
           };
           setProducts(updatedProducts);
-          // Auto-remove background
           await removeBackground(file, currentProductIndex);
         }
         
-        // Stop camera and close modal
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
           setStream(null);
@@ -245,165 +233,146 @@ function Templates({ token, businessId }) {
     }
   };
 
-  const retakePhoto = () => {
-    // Just keep camera open, user can capture again
-    // The video stream continues
-  };
+  const retakePhoto = () => {};
 
-  // Background removal function
-  // Updated removeBackground function with better debugging
-const removeBackground = async (imageFile, productIndex = null) => {
-  console.log('removeBackground called with:', { productIndex, fileName: imageFile.name, fileSize: imageFile.size });
-  
-  // For new product being added
-  if (productIndex === null) {
-    setNewProduct(prev => ({ ...prev, isRemovingBg: true }));
-    
-    try {
-      const formData = new FormData();
-      formData.append('image', imageFile);
-      
-      console.log('Sending request to backend:', `${API_URL}/upload/product-image`);
-      
-      // Call YOUR backend API
-      const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      console.log('Backend response:', response.data);
-      
-      // Get the processed image URL from your backend
-      const imageUrl = response.data.url;
-      console.log('Processed image URL:', imageUrl);
-      
-      // Fetch the image to create a blob URL for preview
-      const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
-        responseType: 'blob'
-      });
-      
-      const processedImageUrl = URL.createObjectURL(imageResponse.data);
-      console.log('Created preview URL:', processedImageUrl);
-      
-      setNewProduct(prev => ({ 
-        ...prev, 
-        image: imageResponse.data,
-        imagePreview: processedImageUrl,
-        isRemovingBg: false 
-      }));
-      
-      return processedImageUrl;
-    } catch (error) {
-      console.error('Background removal failed - Full error:', error);
-      if (error.response) {
-        console.error('Error response data:', error.response.data);
-        console.error('Error response status:', error.response.status);
-        alert(`Background removal failed: ${error.response.data?.error || error.message}`);
-      } else {
-        alert('Background removal failed. Check console for details.');
-      }
-      
-      // Fallback: use original image
-      const fallbackUrl = URL.createObjectURL(imageFile);
-      setNewProduct(prev => ({ 
-        ...prev, 
-        image: imageFile,
-        imagePreview: fallbackUrl,
-        isRemovingBg: false 
-      }));
-      return null;
-    }
-  } 
-  // For existing product update
-  else {
-    const updatedProducts = [...products];
-    updatedProducts[productIndex].isRemovingBg = true;
-    setProducts(updatedProducts);
-    
-    try {
-      const formData = new FormData();
-      formData.append('image', imageFile);
-      
-      console.log('Sending request to backend for existing product:', productIndex);
-      
-      const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      console.log('Backend response for existing product:', response.data);
-      
-      const imageUrl = response.data.url;
-      
-      // Fetch the processed image
-      const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
-        responseType: 'blob'
-      });
-      
-      const processedImageUrl = URL.createObjectURL(imageResponse.data);
-      
-      updatedProducts[productIndex] = {
-        ...updatedProducts[productIndex],
-        image: imageResponse.data,
-        imagePreview: processedImageUrl,
-        isRemovingBg: false
-      };
-      setProducts([...updatedProducts]);
-      
-      return processedImageUrl;
-    } catch (error) {
-      console.error('Background removal failed for existing product:', error);
-      // Fallback: use original image
-      const fallbackUrl = URL.createObjectURL(imageFile);
-      updatedProducts[productIndex] = {
-        ...updatedProducts[productIndex],
-        image: imageFile,
-        imagePreview: fallbackUrl,
-        isRemovingBg: false
-      };
-      setProducts([...updatedProducts]);
-      alert('Background removal failed. Using original image.');
-      return null;
-    }
-  }
-};
-
-
- const handleImageUpload = async (e, productIndex = null) => {
-  const file = e.target.files[0];
-  if (file) {
-    console.log('Image selected:', { name: file.name, size: file.size, type: file.type });
+  const removeBackground = async (imageFile, productIndex = null) => {
+    console.log('removeBackground called with:', { productIndex, fileName: imageFile.name, fileSize: imageFile.size });
     
     if (productIndex === null) {
-      // For new product
-      const previewUrl = URL.createObjectURL(file);
-      setNewProduct(prev => ({ 
-        ...prev, 
-        image: file,
-        imagePreview: previewUrl,
-        originalImage: file
-      }));
-      // Auto-remove background
-      await removeBackground(file);
+      setNewProduct(prev => ({ ...prev, isRemovingBg: true }));
+      
+      try {
+        const formData = new FormData();
+        formData.append('image', imageFile);
+        
+        console.log('Sending request to backend:', `${API_URL}/upload/product-image`);
+        
+        const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        console.log('Backend response:', response.data);
+        
+        const imageUrl = response.data.url;
+        console.log('Processed image URL:', imageUrl);
+        
+        const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
+          responseType: 'blob'
+        });
+        
+        const processedImageUrl = URL.createObjectURL(imageResponse.data);
+        console.log('Created preview URL:', processedImageUrl);
+        
+        setNewProduct(prev => ({ 
+          ...prev, 
+          image: imageResponse.data,
+          imagePreview: processedImageUrl,
+          isRemovingBg: false 
+        }));
+        
+        return processedImageUrl;
+      } catch (error) {
+        console.error('Background removal failed - Full error:', error);
+        if (error.response) {
+          console.error('Error response data:', error.response.data);
+          console.error('Error response status:', error.response.status);
+          alert(`Background removal failed: ${error.response.data?.error || error.message}`);
+        } else {
+          alert('Background removal failed. Check console for details.');
+        }
+        
+        const fallbackUrl = URL.createObjectURL(imageFile);
+        setNewProduct(prev => ({ 
+          ...prev, 
+          image: imageFile,
+          imagePreview: fallbackUrl,
+          isRemovingBg: false 
+        }));
+        return null;
+      }
     } else {
-      // For existing product
       const updatedProducts = [...products];
-      const previewUrl = URL.createObjectURL(file);
-      updatedProducts[productIndex] = {
-        ...updatedProducts[productIndex],
-        image: file,
-        imagePreview: previewUrl,
-        originalImage: file,
-        isRemovingBg: true
-      };
+      updatedProducts[productIndex].isRemovingBg = true;
       setProducts(updatedProducts);
-      // Auto-remove background
-      await removeBackground(file, productIndex);
+      
+      try {
+        const formData = new FormData();
+        formData.append('image', imageFile);
+        
+        console.log('Sending request to backend for existing product:', productIndex);
+        
+        const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        console.log('Backend response for existing product:', response.data);
+        
+        const imageUrl = response.data.url;
+        
+        const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
+          responseType: 'blob'
+        });
+        
+        const processedImageUrl = URL.createObjectURL(imageResponse.data);
+        
+        updatedProducts[productIndex] = {
+          ...updatedProducts[productIndex],
+          image: imageResponse.data,
+          imagePreview: processedImageUrl,
+          isRemovingBg: false
+        };
+        setProducts([...updatedProducts]);
+        
+        return processedImageUrl;
+      } catch (error) {
+        console.error('Background removal failed for existing product:', error);
+        const fallbackUrl = URL.createObjectURL(imageFile);
+        updatedProducts[productIndex] = {
+          ...updatedProducts[productIndex],
+          image: imageFile,
+          imagePreview: fallbackUrl,
+          isRemovingBg: false
+        };
+        setProducts([...updatedProducts]);
+        alert('Background removal failed. Using original image.');
+        return null;
+      }
     }
-  }
-};
+  };
+
+  const handleImageUpload = async (e, productIndex = null) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log('Image selected:', { name: file.name, size: file.size, type: file.type });
+      
+      if (productIndex === null) {
+        const previewUrl = URL.createObjectURL(file);
+        setNewProduct(prev => ({ 
+          ...prev, 
+          image: file,
+          imagePreview: previewUrl,
+          originalImage: file
+        }));
+        await removeBackground(file);
+      } else {
+        const updatedProducts = [...products];
+        const previewUrl = URL.createObjectURL(file);
+        updatedProducts[productIndex] = {
+          ...updatedProducts[productIndex],
+          image: file,
+          imagePreview: previewUrl,
+          originalImage: file,
+          isRemovingBg: true
+        };
+        setProducts(updatedProducts);
+        await removeBackground(file, productIndex);
+      }
+    }
+  };
 
   const addProduct = () => {
     if (!newProduct.name || !newProduct.price) {
@@ -432,7 +401,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
   };
 
   const handleWhatsAppClick = (phoneNumber) => {
-    // Format phone number for WhatsApp
     const formattedNumber = phoneNumber.replace(/\D/g, '');
     const whatsappUrl = `https://wa.me/${formattedNumber}`;
     window.open(whatsappUrl, '_blank');
@@ -460,10 +428,8 @@ const removeBackground = async (imageFile, productIndex = null) => {
           }))
         };
 
-        // Update business info
         await axios.put(`${API_URL}/business/${businessId}`, businessData);
         
-        // Upload product images if any
         const productImages = [];
         for (const product of products) {
           if (product.image) {
@@ -476,7 +442,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
           }
         }
         
-        // Generate AI website
         const response = await axios.post(`${API_URL}/ai/generate-website`, {
           businessData,
           productImages,
@@ -487,7 +452,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
           }
         });
         
-        // Save the generated website
         const saveRes = await axios.post(`${API_URL}/website/${businessId}`, {
           html: response.data.html,
           css: response.data.css,
@@ -507,7 +471,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
         setIsPublishing(false);
       }
     } else {
-      // For non-logged-in users, simulate success but alert them to log in
       setTimeout(() => {
         setIsPublishing(false);
         alert('Website generated! Please log in to save and manage your new store.');
@@ -671,7 +634,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
               key={template.id} 
               className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
             >
-              {/* Image Preview Area */}
               <div className="relative h-64 overflow-hidden bg-gray-100">
                 <img 
                   src={template.image} 
@@ -686,7 +648,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
                     <FaDesktop /> Live Preview
                   </button>
                 </div>
-                {/* Badges */}
                 <div className="absolute top-4 left-4 flex gap-2">
                   <span className="bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
                     {template.category}
@@ -698,7 +659,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
                 </div>
               </div>
               
-              {/* Details Area */}
               <div className="p-6 flex-1 flex flex-col">
                 <h3 className="font-jakarta text-2xl font-bold text-gray-900 mb-2">{template.name}</h3>
                 <p className="text-gray-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
@@ -740,7 +700,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
       {previewTemplate && !isDrawerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/90 backdrop-blur-sm p-4 md:p-8 animate-fade-in">
           <div className="bg-white w-full h-full max-w-7xl rounded-2xl overflow-hidden shadow-2xl flex flex-col relative">
-            {/* Modal Header */}
             <div className="h-16 border-b border-gray-200 flex items-center justify-between px-6 bg-white shrink-0 relative z-20">
               <div className="flex items-center gap-4">
                 <span className="font-bold text-lg">{previewTemplate.name} Preview</span>
@@ -765,9 +724,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
               </div>
             </div>
 
-            {/* MOCK STOREFRONT CONTENT */}
             <div className="flex-1 overflow-y-auto bg-gray-50 pb-20">
-              {/* Mock Navbar */}
               <div className="h-20 flex items-center justify-between px-10 border-b border-gray-200" style={{ backgroundColor: previewTemplate.colors.secondary }}>
                 <div className="font-bold text-2xl tracking-tighter" style={{ color: previewTemplate.colors.primary }}>MockStore.</div>
                 <div className="hidden md:flex gap-8 font-medium text-gray-600">
@@ -779,7 +736,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
                 <div><FaShoppingCart className="text-xl" style={{ color: previewTemplate.colors.primary }} /></div>
               </div>
 
-              {/* Mock Hero */}
               <div className="relative h-[400px] flex items-center justify-center overflow-hidden">
                 <img src={previewTemplate.image} className="absolute inset-0 w-full h-full object-cover" alt="Hero" />
                 <div className="absolute inset-0 bg-gray-900/50"></div>
@@ -792,7 +748,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
                 </div>
               </div>
 
-              {/* Mock Products */}
               <div className="max-w-6xl mx-auto px-6 py-20">
                 <h2 className="text-3xl font-bold text-center mb-12" style={{ color: previewTemplate.colors.primary }}>Featured Products</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -822,7 +777,6 @@ const removeBackground = async (imageFile, productIndex = null) => {
                 </div>
               </div>
               
-              {/* Mock Footer with Contact Info */}
               <div className="py-12" style={{ backgroundColor: previewTemplate.colors.primary, color: 'white' }}>
                 <div className="max-w-6xl mx-auto px-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -1095,186 +1049,240 @@ const removeBackground = async (imageFile, productIndex = null) => {
                 </div>
               )}
 
-              {/* STEP 2: Products - Unlimited Products with Camera */}
+              {/* STEP 2: Products - Professional Grid Layout */}
               {drawerStep === 2 && (
                 <div className="space-y-6 animate-fade-in-up">
                   <div className="mb-6">
                     <h3 className="font-jakarta text-2xl font-bold text-gray-900">Add Products</h3>
-                    <p className="text-gray-500 mt-1 text-sm">Add as many products as you want to your catalog.</p>
+                    <p className="text-gray-500 mt-1 text-sm">Add products to your catalog. Professional layout for better management.</p>
                   </div>
 
-                  {/* Add Product Form */}
-                  <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 sticky top-0">
-                    <div className="space-y-4">
-                      {/* Product Image Upload with Camera Options */}
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
-                        <div className="flex gap-3">
-                          <button 
-                            onClick={() => startCamera(null)}
-                            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
-                          >
-                            <FaCamera className="text-2xl mx-auto mb-2" />
-                            <span className="text-xs font-semibold">Take Photo</span>
-                          </button>
-                          <button 
-                            onClick={() => document.getElementById('product-image-input').click()}
-                            className="flex-1 bg-white border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-blue-400 transition-colors"
-                          >
-                            <FaUpload className="text-2xl text-gray-400 mx-auto mb-2" />
-                            <span className="text-xs text-gray-500">Upload File</span>
-                          </button>
-                        </div>
-                        <input 
-                          id="product-image-input"
-                          type="file" 
-                          accept="image/*"
-                          onChange={(e) => handleImageUpload(e, null)}
-                          className="hidden"
-                        />
-                        {newProduct.imagePreview && (
-                          <div className="mt-3 relative">
-                            <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-blue-500">
-                              <img src={newProduct.imagePreview} alt="Preview" className="w-full h-full object-contain bg-gray-100" />
-                              {newProduct.isRemovingBg && (
-                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                  <div className="text-center text-white">
-                                    <FaSpinner className="animate-spin text-3xl mx-auto mb-2" />
-                                    <p className="text-sm">Removing background...</p>
+                  {/* Two Column Layout for Add Product Form and Product List */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    {/* LEFT COLUMN - Add Product Form */}
+                    <div className="bg-gradient-to-br from-gray-50 to-white p-5 rounded-2xl border border-gray-200 shadow-sm sticky top-0">
+                      <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <FaPlus className="text-blue-600" /> Add New Product
+                      </h4>
+                      
+                      <div className="space-y-4">
+                        {/* Product Image Upload with Camera Options */}
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
+                          <div className="flex gap-3">
+                            <button 
+                              onClick={() => startCamera(null)}
+                              className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-3 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
+                            >
+                              <FaCamera className="text-xl mx-auto mb-1" />
+                              <span className="text-xs font-semibold">Take Photo</span>
+                            </button>
+                            <button 
+                              onClick={() => document.getElementById('product-image-input').click()}
+                              className="flex-1 bg-white border-2 border-dashed border-gray-300 rounded-xl p-3 text-center hover:border-blue-400 transition-colors"
+                            >
+                              <FaUpload className="text-xl text-gray-400 mx-auto mb-1" />
+                              <span className="text-xs text-gray-500">Upload File</span>
+                            </button>
+                          </div>
+                          <input 
+                            id="product-image-input"
+                            type="file" 
+                            accept="image/*"
+                            onChange={(e) => handleImageUpload(e, null)}
+                            className="hidden"
+                          />
+                          {newProduct.imagePreview && (
+                            <div className="mt-3 relative">
+                              <div className="relative w-full h-40 rounded-lg overflow-hidden border-2 border-blue-500 bg-gray-100">
+                                <img src={newProduct.imagePreview} alt="Preview" className="w-full h-full object-contain" />
+                                {newProduct.isRemovingBg && (
+                                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                    <div className="text-center text-white">
+                                      <FaSpinner className="animate-spin text-2xl mx-auto mb-2" />
+                                      <p className="text-xs">Removing background...</p>
+                                    </div>
                                   </div>
+                                )}
+                                <button 
+                                  onClick={() => setNewProduct(prev => ({ ...prev, imagePreview: null, image: null }))}
+                                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors text-xs"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                              {newProduct.imagePreview && !newProduct.isRemovingBg && (
+                                <div className="mt-1 text-xs text-green-600 flex items-center justify-center gap-1">
+                                  <FaMagic /> Background removed!
                                 </div>
                               )}
-                              <button 
-                                onClick={() => setNewProduct(prev => ({ ...prev, imagePreview: null, image: null }))}
-                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors"
-                              >
-                                <FaTimes />
-                              </button>
                             </div>
-                            {newProduct.imagePreview && !newProduct.isRemovingBg && (
-                              <div className="mt-2 text-xs text-green-600 flex items-center justify-center gap-1">
-                                <FaMagic /> Background removed automatically!
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
+                          )}
+                        </div>
 
-                      <div>
-                        <input 
-                          type="text" 
-                          placeholder="Product Name *"
-                          value={newProduct.name}
-                          onChange={e => setNewProduct({...newProduct, name: e.target.value})}
-                          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
-                        />
-                      </div>
-
-                      <div className="flex gap-3">
-                        <div className="w-1/2 relative">
-                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <div>
                           <input 
-                            type="number" 
-                            placeholder="Price *"
-                            value={newProduct.price}
-                            onChange={e => setNewProduct({...newProduct, price: e.target.value})}
-                            className="w-full border border-gray-300 rounded-lg pl-8 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                            type="text" 
+                            placeholder="Product Name *"
+                            value={newProduct.name}
+                            onChange={e => setNewProduct({...newProduct, name: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                           />
                         </div>
-                        <input 
-                          type="text" 
-                          placeholder="Category"
-                          value={newProduct.category}
-                          onChange={e => setNewProduct({...newProduct, category: e.target.value})}
-                          className="w-1/2 border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
-                        />
-                      </div>
 
-                      <div>
-                        <textarea 
-                          placeholder="Product Description"
-                          value={newProduct.description}
-                          onChange={e => setNewProduct({...newProduct, description: e.target.value})}
-                          rows="2"
-                          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm resize-none"
-                        />
-                      </div>
-
-                      <button 
-                        onClick={addProduct}
-                        disabled={!newProduct.name || !newProduct.price}
-                        className="w-full bg-gray-900 text-white py-2.5 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 disabled:opacity-50 transition-colors"
-                      >
-                        <FaPlus className="text-xs" /> Add Product
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Product List */}
-                  <div className="mt-6">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3 flex justify-between">
-                      Your Products <span>{products.length} items</span>
-                    </h4>
-                    {products.length === 0 ? (
-                      <div className="text-center py-8 text-gray-400 border border-dashed border-gray-200 rounded-xl bg-gray-50">
-                        No products added yet. Start adding your products above!
-                      </div>
-                    ) : (
-                      <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                        {products.map((p, idx) => (
-                          <div key={p.id} className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                            <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                              {p.isRemovingBg ? (
-                                <div className="w-full h-full flex flex-col items-center justify-center bg-black/50">
-                                  <FaSpinner className="text-white animate-spin text-xl" />
-                                </div>
-                              ) : p.imagePreview ? (
-                                <img src={p.imagePreview} alt={p.name} className="w-full h-full object-cover" />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                  <FaImage className="text-gray-400 text-2xl" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-semibold text-gray-900 text-sm truncate">{p.name}</p>
-                              <p className="text-xs text-gray-500">₹{p.price} {p.category && `• ${p.category}`}</p>
-                              {p.description && <p className="text-xs text-gray-400 truncate mt-1">{p.description}</p>}
-                            </div>
-                            <div className="flex gap-1 flex-shrink-0">
-                              <button 
-                                onClick={() => startCamera(idx)}
-                                className="text-blue-500 hover:text-blue-700 p-2 transition-colors"
-                                title="Take new photo"
-                              >
-                                <FaCamera className="text-sm" />
-                              </button>
-                              <button 
-                                onClick={() => document.getElementById(`product-image-edit-${p.id}`).click()}
-                                className="text-green-500 hover:text-green-700 p-2 transition-colors"
-                                title="Upload image"
-                              >
-                                <FaUpload className="text-sm" />
-                              </button>
-                              <input 
-                                id={`product-image-edit-${p.id}`}
-                                type="file" 
-                                accept="image/*"
-                                onChange={(e) => handleImageUpload(e, idx)}
-                                className="hidden"
-                              />
-                              <button 
-                                onClick={() => removeProduct(p.id)} 
-                                className="text-gray-400 hover:text-red-500 p-2 transition-colors"
-                                title="Remove product"
-                              >
-                                <FaTrash className="text-sm" />
-                              </button>
-                            </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                            <input 
+                              type="number" 
+                              placeholder="Price *"
+                              value={newProduct.price}
+                              onChange={e => setNewProduct({...newProduct, price: e.target.value})}
+                              className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                            />
                           </div>
-                        ))}
+                          <input 
+                            type="text" 
+                            placeholder="Category"
+                            value={newProduct.category}
+                            onChange={e => setNewProduct({...newProduct, category: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                          />
+                        </div>
+
+                        <div>
+                          <textarea 
+                            placeholder="Product Description"
+                            value={newProduct.description}
+                            onChange={e => setNewProduct({...newProduct, description: e.target.value})}
+                            rows="2"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm resize-none"
+                          />
+                        </div>
+
+                        <button 
+                          onClick={addProduct}
+                          disabled={!newProduct.name || !newProduct.price}
+                          className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 disabled:opacity-50 transition-colors"
+                        >
+                          <FaPlus className="text-xs" /> Add Product
+                        </button>
                       </div>
-                    )}
+                    </div>
+
+                    {/* RIGHT COLUMN - Products Grid */}
+                    <div className="bg-gray-50 rounded-2xl p-5 border border-gray-200">
+                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
+                        <h4 className="font-semibold text-gray-900">Your Products</h4>
+                        <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
+                          {products.length} {products.length === 1 ? 'item' : 'items'}
+                        </span>
+                      </div>
+                      
+                      {products.length === 0 ? (
+                        <div className="text-center py-12 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl bg-white">
+                          <FaImage className="text-4xl mx-auto mb-3 opacity-50" />
+                          <p className="text-sm">No products added yet</p>
+                          <p className="text-xs mt-1">Fill the form and click "Add Product"</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                          {products.map((p, idx) => (
+                            <div 
+                              key={p.id} 
+                              className="bg-white rounded-xl p-3 border border-gray-200 hover:shadow-md transition-all duration-200 group"
+                            >
+                              <div className="flex gap-3">
+                                {/* Product Image */}
+                                <div className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                                  {p.isRemovingBg ? (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                      <FaSpinner className="text-gray-400 animate-spin text-xl" />
+                                    </div>
+                                  ) : p.imagePreview ? (
+                                    <img src={p.imagePreview} alt={p.name} className="w-full h-full object-cover" />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                                      <FaImage className="text-gray-400 text-2xl" />
+                                    </div>
+                                  )}
+                                </div>
+                                
+                                {/* Product Details */}
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-start justify-between gap-2">
+                                    <div className="flex-1">
+                                      <h5 className="font-semibold text-gray-900 text-sm truncate" title={p.name}>
+                                        {p.name}
+                                      </h5>
+                                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                        <span className="text-blue-600 font-bold text-sm">₹{p.price}</span>
+                                        {p.category && (
+                                          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                                            {p.category}
+                                          </span>
+                                        )}
+                                      </div>
+                                      {p.description && (
+                                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">{p.description}</p>
+                                      )}
+                                    </div>
+                                    
+                                    {/* Action Buttons */}
+                                    <div className="flex gap-1 flex-shrink-0">
+                                      <button 
+                                        onClick={() => startCamera(idx)}
+                                        className="text-blue-500 hover:text-blue-700 p-1.5 rounded-lg hover:bg-blue-50 transition-colors"
+                                        title="Take new photo"
+                                      >
+                                        <FaCamera className="text-sm" />
+                                      </button>
+                                      <button 
+                                        onClick={() => document.getElementById(`product-image-edit-${p.id}`).click()}
+                                        className="text-green-500 hover:text-green-700 p-1.5 rounded-lg hover:bg-green-50 transition-colors"
+                                        title="Upload image"
+                                      >
+                                        <FaUpload className="text-sm" />
+                                      </button>
+                                      <input 
+                                        id={`product-image-edit-${p.id}`}
+                                        type="file" 
+                                        accept="image/*"
+                                        capture="environment"
+                                        onChange={(e) => handleImageUpload(e, idx)}
+                                        className="hidden"
+                                      />
+                                      <button 
+                                        onClick={() => removeProduct(p.id)} 
+                                        className="text-gray-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                                        title="Remove product"
+                                      >
+                                        <FaTrash className="text-sm" />
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {/* Product Count Summary */}
+                      {products.length > 0 && (
+                        <div className="mt-4 pt-3 border-t border-gray-200">
+                          <div className="flex justify-between text-xs text-gray-500">
+                            <span>Total Products</span>
+                            <span className="font-semibold text-gray-900">{products.length}</span>
+                          </div>
+                          <div className="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>With Images</span>
+                            <span className="font-semibold text-green-600">{products.filter(p => p.imagePreview).length}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -1429,6 +1437,29 @@ const removeBackground = async (imageFile, productIndex = null) => {
           </button>
         )}
       </div>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
+        }
+        .line-clamp-1 {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 }
