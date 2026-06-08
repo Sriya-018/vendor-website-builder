@@ -519,7 +519,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
 
   const [chatOpen, setChatOpen] = useState(false);
   const [chatMsg, setChatMsg] = useState('');
-  const [chatHistory, setChatHistory] = useState([{ role: 'ai', text: 'Hi! I can help you design your store. Say "change theme to blue" or "add a T-shirt for $20".' }]);
+  const [chatHistory, setChatHistory] = useState([{ role: 'ai', text: 'Hi! I can help you design your store. Say "change theme to blue" or "add a T-shirt for ₹20".' }]);
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   const handleSendChat = async () => {
@@ -537,7 +537,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
       if(action.type === 'CHANGE_THEME') {
         reply = `I will change the theme color to ${action.color} when you launch your store!`;
       } else if(action.type === 'ADD_PRODUCT') {
-        reply = `I've added ${action.productName} for $${action.price} to your catalog.`;
+        reply = `I've added ${action.productName} for ₹${action.price} to your catalog.`;
         setProducts(prev => [...prev, { id: Date.now(), name: action.productName, price: action.price, category: 'AI Added' }]);
       }
       
@@ -812,7 +812,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
                       <div className="p-6">
                         <h4 className="font-bold text-lg mb-2 text-gray-800">{item.name}</h4>
                         {item.description && <p className="text-gray-500 text-sm mb-3">{item.description}</p>}
-                        <p className="text-gray-500 mb-4">${item.price}</p>
+                        <p className="text-gray-500 mb-4">₹{item.price}</p>
                         <button className="w-full py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90" style={{ backgroundColor: previewTemplate.colors.primary }}>
                           Add to Cart
                         </button>
@@ -1172,7 +1172,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
 
                       <div className="flex gap-3">
                         <div className="w-1/2 relative">
-                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
                           <input 
                             type="number" 
                             placeholder="Price *"
@@ -1238,7 +1238,7 @@ const removeBackground = async (imageFile, productIndex = null) => {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-gray-900 text-sm truncate">{p.name}</p>
-                              <p className="text-xs text-gray-500">${p.price} {p.category && `• ${p.category}`}</p>
+                              <p className="text-xs text-gray-500">₹{p.price} {p.category && `• ${p.category}`}</p>
                               {p.description && <p className="text-xs text-gray-400 truncate mt-1">{p.description}</p>}
                             </div>
                             <div className="flex gap-1 flex-shrink-0">
