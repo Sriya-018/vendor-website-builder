@@ -411,39 +411,72 @@ function Templates({ token, businessId }) {
     
     if (token && businessId) {
       try {
-        const businessData = {
+        const validCategories = ['restaurant', 'tailor', 'grocery', 'salon', 'mechanic', 'home_service', 'tea_shop', 'stationery', 'clinic', 'other'];
+        const aiCategory = previewTemplate?.category || 'General';
+        const dbCategory = validCategories.includes(aiCategory.toLowerCase()) ? aiCategory.toLowerCase() : 'other';
+
+        const businessDataForDB = {
+          businessName: storeDetails.name || 'My Awesome Store',
+          description: storeDetails.tagline || '',
+          contact: {
+            phone: storeDetails.phone || '',
+            whatsapp: storeDetails.socialMedia?.whatsapp || '',
+            email: storeDetails.email || ''
+          },
+          location: {
+            address: storeDetails.address || ''
+          },
+          category: dbCategory,
+          services: products.map(p => p.name)
+        };
+
+        await axios.put(`${API_URL}/business/${businessId}`, businessDataForDB);
+        
+        const productImages = [];
+        const createdProducts = [];
+        
+        for (const product of products) {
+          let imageUrl = null;
+          if (product.image) {
+            const imageFormData = new FormData();
+            imageFormData.append('image', product.image, 'product.png');
+            const uploadResponse = await axios.post(`${API_URL}/upload/product-image`, imageFormData);
+            imageUrl = uploadResponse.data.url;
+            productImages.push(imageUrl);
+          } else {
+            productImages.push(null);
+          }
+          
+          await axios.post(`${API_URL}/business/${businessId}/products`, {
+            name: product.name,
+            price: Number(product.price) || 0,
+            category: product.category || 'general',
+            description: product.description || '',
+            imageUrl: imageUrl || ''
+          });
+          
+          createdProducts.push({
+            name: product.name,
+            price: product.price,
+            category: product.category,
+            description: product.description,
+            hasImage: !!product.imagePreview
+          });
+        }
+        
+        const businessDataForAI = {
           businessName: storeDetails.name || 'My Awesome Store',
           description: storeDetails.tagline || '',
           phone: storeDetails.phone || '',
           email: storeDetails.email || '',
           address: storeDetails.address || '',
           socialMedia: storeDetails.socialMedia,
-          category: previewTemplate?.category || 'General',
-          services: products.map(p => ({ 
-            name: p.name, 
-            price: p.price, 
-            category: p.category,
-            description: p.description,
-            hasImage: !!p.imagePreview
-          }))
+          category: aiCategory,
+          services: createdProducts
         };
 
-        await axios.put(`${API_URL}/business/${businessId}`, businessData);
-        
-        const productImages = [];
-        for (const product of products) {
-          if (product.image) {
-            const imageFormData = new FormData();
-            imageFormData.append('image', product.image, 'product.png');
-            const uploadResponse = await axios.post(`${API_URL}/upload/product-image`, imageFormData);
-            productImages.push(uploadResponse.data.url);
-          } else {
-            productImages.push(null);
-          }
-        }
-        
         const response = await axios.post(`${API_URL}/ai/generate-website`, {
-          businessData,
+          businessData: businessDataForAI,
           productImages,
           template: previewTemplate?.category || 'General',
           theme: { 
