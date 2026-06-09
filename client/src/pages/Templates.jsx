@@ -856,7 +856,7 @@ function Templates({ token, businessId }) {
       {isDrawerOpen && (
         <>
           <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 animate-fade-in" onClick={closeDrawer}></div>
-          <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col transform transition-transform duration-300 translate-x-0">
+          <div className={`fixed top-0 right-0 h-full w-full bg-white shadow-2xl z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
             
             {/* Drawer Header */}
             <div className="h-20 border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
@@ -1212,7 +1212,7 @@ function Templates({ token, businessId }) {
                                 {/* Product Details */}
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-start justify-between gap-2">
-                                    <div className="flex-1">
+                                    <div className="flex-1 min-w-0">
                                       <h5 className="font-semibold text-gray-900 text-sm truncate" title={p.name}>
                                         {p.name}
                                       </h5>
