@@ -10,13 +10,13 @@ const DEMO_MODE = true; // Set to false for production
 router.post('/send-otp', async (req, res) => {
   try {
     const { phone } = req.body;
-    
+
     // Use demo OTP or generate random one
     const otp = DEMO_MODE ? DEMO_OTP : Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     let business = await Business.findOne({ vendorPhone: phone });
-    
+
     if (business) {
       business.otp = otp;
       business.otpExpiry = otpExpiry;
@@ -32,9 +32,9 @@ router.post('/send-otp', async (req, res) => {
     // Log OTP for testing
     console.log(`OTP for ${phone}: ${otp}`);
     console.log(`💡 Demo Mode: Use OTP: ${DEMO_OTP} for any phone number`);
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       message: 'OTP sent successfully',
       // Only include demo OTP in response for testing (remove in production)
       ...(DEMO_MODE && { demoOtp: DEMO_OTP })
@@ -48,39 +48,39 @@ router.post('/send-otp', async (req, res) => {
 router.post('/verify-otp', async (req, res) => {
   try {
     const { phone, otp } = req.body;
-    
+
     // For testing, always accept demo OTP
     let isValidOtp = false;
-    
+
     if (DEMO_MODE && otp === DEMO_OTP) {
       isValidOtp = true;
     } else {
       const business = await Business.findOne({ vendorPhone: phone });
-      
+
       if (!business) {
         return res.status(404).json({ success: false, message: 'Business not found' });
       }
-      
+
       if (business.otp !== otp) {
         return res.status(400).json({ success: false, message: 'Invalid OTP' });
       }
-      
+
       if (business.otpExpiry < new Date()) {
         return res.status(400).json({ success: false, message: 'OTP expired' });
       }
-      
+
       isValidOtp = true;
-      
+
       // Clear OTP after verification
       business.otp = null;
       business.otpExpiry = null;
       await business.save();
     }
-    
+
     if (!isValidOtp) {
       return res.status(400).json({ success: false, message: 'Invalid OTP' });
     }
-    
+
     // Get or create business for demo OTP
     let business = await Business.findOne({ vendorPhone: phone });
     if (!business && DEMO_MODE && otp === DEMO_OTP) {
@@ -92,12 +92,12 @@ router.post('/verify-otp', async (req, res) => {
       });
       console.log(`Demo: Auto-created business for ${phone}`);
     }
-    
+
     // Generate simple token (in production use JWT)
     const token = Buffer.from(`${phone}:${Date.now()}`).toString('base64');
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       token,
       business: {
         id: business._id,

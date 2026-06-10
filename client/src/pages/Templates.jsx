@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:5000/api';
-import { 
-  FaStore, FaArrowRight, FaTimes, FaSearch, 
-  FaChevronRight, FaPlus, FaCheck, FaTrash, 
+import {
+  FaStore, FaArrowRight, FaTimes, FaSearch,
+  FaChevronRight, FaPlus, FaCheck, FaTrash,
   FaStar, FaMobileAlt, FaDesktop, FaShoppingCart,
   FaCamera, FaUpload, FaSpinner, FaPhone, FaEnvelope,
   FaMapMarkerAlt, FaImage, FaMagic, FaWhatsapp, FaInstagram,
@@ -102,7 +102,7 @@ function Templates({ token, businessId }) {
   const [drawerStep, setDrawerStep] = useState(1);
   const [isPublishing, setIsPublishing] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
-  
+
   // Camera states
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [currentProductIndex, setCurrentProductIndex] = useState(null);
@@ -111,11 +111,11 @@ function Templates({ token, businessId }) {
   const canvasRef = useRef(null);
 
   // Flow State
-  const [storeDetails, setStoreDetails] = useState({ 
-    name: '', 
-    tagline: '', 
-    phone: '', 
-    email: '', 
+  const [storeDetails, setStoreDetails] = useState({
+    name: '',
+    tagline: '',
+    phone: '',
+    email: '',
     address: '',
     socialMedia: {
       whatsapp: '',
@@ -125,18 +125,18 @@ function Templates({ token, businessId }) {
     }
   });
   const [products, setProducts] = useState([]);
-  const [newProduct, setNewProduct] = useState({ 
-    name: '', 
-    price: '', 
-    category: '', 
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    price: '',
+    category: '',
     description: '',
     image: null,
     imagePreview: null,
-    isRemovingBg: false 
+    isRemovingBg: false
   });
 
-  const filteredTemplates = activeCategory === 'All' 
-    ? MOCK_TEMPLATES 
+  const filteredTemplates = activeCategory === 'All'
+    ? MOCK_TEMPLATES
     : MOCK_TEMPLATES.filter(t => t.category === activeCategory);
 
   const openDrawer = (template) => {
@@ -153,11 +153,11 @@ function Templates({ token, businessId }) {
     }
     setShowCameraModal(false);
     setProducts([]);
-    setStoreDetails({ 
-      name: '', 
-      tagline: '', 
-      phone: '', 
-      email: '', 
+    setStoreDetails({
+      name: '',
+      tagline: '',
+      phone: '',
+      email: '',
       address: '',
       socialMedia: {
         whatsapp: '',
@@ -171,9 +171,9 @@ function Templates({ token, businessId }) {
   const startCamera = async (productIndex = null) => {
     setCurrentProductIndex(productIndex);
     setShowCameraModal(true);
-    
+
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' }
       });
       setStream(mediaStream);
@@ -192,18 +192,18 @@ function Templates({ token, businessId }) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
-      
+
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
+
       canvas.toBlob(async (blob) => {
         const file = new File([blob], `product-photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
-        
+
         if (currentProductIndex === null) {
           const previewUrl = URL.createObjectURL(file);
-          setNewProduct(prev => ({ 
-            ...prev, 
+          setNewProduct(prev => ({
+            ...prev,
             image: file,
             imagePreview: previewUrl,
             originalImage: file
@@ -222,7 +222,7 @@ function Templates({ token, businessId }) {
           setProducts(updatedProducts);
           await removeBackground(file, currentProductIndex);
         }
-        
+
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
           setStream(null);
@@ -233,45 +233,45 @@ function Templates({ token, businessId }) {
     }
   };
 
-  const retakePhoto = () => {};
+  const retakePhoto = () => { };
 
   const removeBackground = async (imageFile, productIndex = null) => {
     console.log('removeBackground called with:', { productIndex, fileName: imageFile.name, fileSize: imageFile.size });
-    
+
     if (productIndex === null) {
       setNewProduct(prev => ({ ...prev, isRemovingBg: true }));
-      
+
       try {
         const formData = new FormData();
         formData.append('image', imageFile);
-        
+
         console.log('Sending request to backend:', `${API_URL}/upload/product-image`);
-        
+
         const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        
+
         console.log('Backend response:', response.data);
-        
+
         const imageUrl = response.data.url;
         console.log('Processed image URL:', imageUrl);
-        
+
         const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
           responseType: 'blob'
         });
-        
+
         const processedImageUrl = URL.createObjectURL(imageResponse.data);
         console.log('Created preview URL:', processedImageUrl);
-        
-        setNewProduct(prev => ({ 
-          ...prev, 
+
+        setNewProduct(prev => ({
+          ...prev,
           image: imageResponse.data,
           imagePreview: processedImageUrl,
-          isRemovingBg: false 
+          isRemovingBg: false
         }));
-        
+
         return processedImageUrl;
       } catch (error) {
         console.error('Background removal failed - Full error:', error);
@@ -282,13 +282,13 @@ function Templates({ token, businessId }) {
         } else {
           alert('Background removal failed. Check console for details.');
         }
-        
+
         const fallbackUrl = URL.createObjectURL(imageFile);
-        setNewProduct(prev => ({ 
-          ...prev, 
+        setNewProduct(prev => ({
+          ...prev,
           image: imageFile,
           imagePreview: fallbackUrl,
-          isRemovingBg: false 
+          isRemovingBg: false
         }));
         return null;
       }
@@ -296,29 +296,29 @@ function Templates({ token, businessId }) {
       const updatedProducts = [...products];
       updatedProducts[productIndex].isRemovingBg = true;
       setProducts(updatedProducts);
-      
+
       try {
         const formData = new FormData();
         formData.append('image', imageFile);
-        
+
         console.log('Sending request to backend for existing product:', productIndex);
-        
+
         const response = await axios.post(`${API_URL}/upload/product-image`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        
+
         console.log('Backend response for existing product:', response.data);
-        
+
         const imageUrl = response.data.url;
-        
+
         const imageResponse = await axios.get(`http://localhost:5000${imageUrl}`, {
           responseType: 'blob'
         });
-        
+
         const processedImageUrl = URL.createObjectURL(imageResponse.data);
-        
+
         updatedProducts[productIndex] = {
           ...updatedProducts[productIndex],
           image: imageResponse.data,
@@ -326,7 +326,7 @@ function Templates({ token, businessId }) {
           isRemovingBg: false
         };
         setProducts([...updatedProducts]);
-        
+
         return processedImageUrl;
       } catch (error) {
         console.error('Background removal failed for existing product:', error);
@@ -348,11 +348,11 @@ function Templates({ token, businessId }) {
     const file = e.target.files[0];
     if (file) {
       console.log('Image selected:', { name: file.name, size: file.size, type: file.type });
-      
+
       if (productIndex === null) {
         const previewUrl = URL.createObjectURL(file);
-        setNewProduct(prev => ({ 
-          ...prev, 
+        setNewProduct(prev => ({
+          ...prev,
           image: file,
           imagePreview: previewUrl,
           originalImage: file
@@ -379,20 +379,20 @@ function Templates({ token, businessId }) {
       alert('Please fill in product name and price');
       return;
     }
-    setProducts([...products, { 
-      ...newProduct, 
+    setProducts([...products, {
+      ...newProduct,
       id: Date.now(),
       imagePreview: newProduct.imagePreview || null,
       image: newProduct.image || null
     }]);
-    setNewProduct({ 
-      name: '', 
-      price: '', 
-      category: '', 
+    setNewProduct({
+      name: '',
+      price: '',
+      category: '',
       description: '',
       image: null,
       imagePreview: null,
-      isRemovingBg: false 
+      isRemovingBg: false
     });
   };
 
@@ -408,7 +408,7 @@ function Templates({ token, businessId }) {
 
   const handleLaunch = async () => {
     setIsPublishing(true);
-    
+
     if (token && businessId) {
       try {
         const validCategories = ['restaurant', 'tailor', 'grocery', 'salon', 'mechanic', 'home_service', 'tea_shop', 'stationery', 'clinic', 'other'];
@@ -431,11 +431,11 @@ function Templates({ token, businessId }) {
         };
 
         await axios.put(`${API_URL}/business/${businessId}`, businessDataForDB);
-        
+
         const productImages = [];
         const createdProducts = [];
         const uploadedImageUrls = [];
-        
+
         for (const product of products) {
           let imageUrl = null;
           if (product.image) {
@@ -447,9 +447,9 @@ function Templates({ token, businessId }) {
           } else {
             productImages.push(null);
           }
-          
+
           uploadedImageUrls.push(imageUrl);
-          
+
           createdProducts.push({
             name: product.name,
             price: product.price,
@@ -458,7 +458,7 @@ function Templates({ token, businessId }) {
             hasImage: !!product.imagePreview
           });
         }
-        
+
         const businessDataForAI = {
           businessName: storeDetails.name || 'My Awesome Store',
           description: storeDetails.tagline || '',
@@ -470,20 +470,23 @@ function Templates({ token, businessId }) {
           services: createdProducts
         };
 
+        // AFTER
         const response = await axios.post(`${API_URL}/ai/generate-website`, {
           businessData: businessDataForAI,
           productImages,
-          template: previewTemplate?.category || 'General',
-          theme: { 
-            primaryColor: previewTemplate?.colors?.primary || '#2563eb', 
-            secondaryColor: previewTemplate?.colors?.secondary || '#4f46e5' 
+          template: previewTemplate?.id || 't1',        // ← id, not category
+          templateName: previewTemplate?.name || 'Aurora',
+          theme: {
+            primaryColor: previewTemplate?.colors?.primary || '#2563eb',
+            secondaryColor: previewTemplate?.colors?.secondary || '#4f46e5',
+            accentColor: previewTemplate?.colors?.accent || '#3B82F6'
           }
         });
-        
+
         const saveRes = await axios.post(`${API_URL}/website/${businessId}/new`, {
           html: response.data.html,
           css: response.data.css,
-          template: previewTemplate?.category || 'General',
+          template: previewTemplate?.id || 't1',
           published: true
         });
 
@@ -493,7 +496,7 @@ function Templates({ token, businessId }) {
         for (let i = 0; i < products.length; i++) {
           const product = products[i];
           const imageUrl = uploadedImageUrls[i];
-          
+
           await axios.post(`${API_URL}/business/${businessId}/products`, {
             websiteId: newWebsiteId,
             name: product.name,
@@ -503,7 +506,7 @@ function Templates({ token, businessId }) {
             imageUrl: imageUrl || ''
           });
         }
-        
+
         setIsPublishing(false);
         setShowSuccessToast(true);
         closeDrawer();
@@ -531,26 +534,26 @@ function Templates({ token, businessId }) {
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   const handleSendChat = async () => {
-    if(!chatMsg.trim()) return;
+    if (!chatMsg.trim()) return;
     const newHistory = [...chatHistory, { role: 'user', text: chatMsg }];
     setChatHistory(newHistory);
     setChatMsg('');
     setIsChatLoading(true);
-    
+
     try {
       const res = await axios.post(`${API_URL}/ai/assistant`, { message: chatMsg });
       const action = res.data.action;
       let reply = "I'm not sure how to do that yet.";
-      
-      if(action.type === 'CHANGE_THEME') {
+
+      if (action.type === 'CHANGE_THEME') {
         reply = `I will change the theme color to ${action.color} when you launch your store!`;
-      } else if(action.type === 'ADD_PRODUCT') {
+      } else if (action.type === 'ADD_PRODUCT') {
         reply = `I've added ${action.productName} for ₹${action.price} to your catalog.`;
         setProducts(prev => [...prev, { id: Date.now(), name: action.productName, price: action.price, category: 'AI Added' }]);
       }
-      
+
       setChatHistory([...newHistory, { role: 'ai', text: reply }]);
-    } catch(e) {
+    } catch (e) {
       setChatHistory([...newHistory, { role: 'ai', text: 'Sorry, I encountered an error connecting to the AI.' }]);
     } finally {
       setIsChatLoading(false);
@@ -564,7 +567,7 @@ function Templates({ token, businessId }) {
         <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
           <div className="relative w-full h-full max-w-lg mx-auto bg-black">
             <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center">
-              <button 
+              <button
                 onClick={() => {
                   if (stream) {
                     stream.getTracks().forEach(track => track.stop());
@@ -579,25 +582,25 @@ function Templates({ token, businessId }) {
               <div className="bg-black/50 text-white px-4 py-2 rounded-full text-sm font-semibold">
                 Take Product Photo
               </div>
-              <button 
+              <button
                 onClick={retakePhoto}
                 className="bg-black/50 text-white p-3 rounded-full"
               >
                 <FaRedo className="text-xl" />
               </button>
             </div>
-            
-            <video 
-              ref={videoRef} 
-              autoPlay 
-              playsInline 
+
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
               className="w-full h-full object-cover"
             />
-            
+
             <canvas ref={canvasRef} className="hidden" />
-            
+
             <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-              <button 
+              <button
                 onClick={capturePhoto}
                 className="bg-white rounded-full p-6 shadow-2xl hover:scale-105 transition-transform"
               >
@@ -619,7 +622,7 @@ function Templates({ token, businessId }) {
           <style>{`@keyframes progress { 0% { width: 0%; margin-left: 0%; } 50% { width: 100%; margin-left: 0%; } 100% { width: 0%; margin-left: 100%; } }`}</style>
         </div>
       )}
-      
+
       {/* SUCCESS TOAST */}
       {showSuccessToast && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-fade-in-up">
@@ -661,11 +664,10 @@ function Templates({ token, businessId }) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
-                activeCategory === category
-                  ? 'bg-blue-600 text-white shadow-md transform scale-105'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:bg-blue-50'
-              }`}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${activeCategory === category
+                ? 'bg-blue-600 text-white shadow-md transform scale-105'
+                : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                }`}
             >
               {category}
             </button>
@@ -675,18 +677,18 @@ function Templates({ token, businessId }) {
         {/* TEMPLATE GALLERY GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredTemplates.map(template => (
-            <div 
-              key={template.id} 
+            <div
+              key={template.id}
               className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
             >
               <div className="relative h-64 overflow-hidden bg-gray-100">
-                <img 
-                  src={template.image} 
-                  alt={template.name} 
+                <img
+                  src={template.image}
+                  alt={template.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                  <button 
+                  <button
                     onClick={() => setPreviewTemplate(template)}
                     className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-gray-50 flex items-center gap-2"
                   >
@@ -703,12 +705,12 @@ function Templates({ token, businessId }) {
                   {template.isPopular && <span className="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">Popular</span>}
                 </div>
               </div>
-              
+
               <div className="p-6 flex-1 flex flex-col">
                 <h3 className="font-jakarta text-2xl font-bold text-gray-900 mb-2">{template.name}</h3>
                 <p className="text-gray-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
                 <div className="flex gap-3">
-                  <button 
+                  <button
                     onClick={() => openDrawer(template)}
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-colors shadow-sm"
                   >
@@ -719,7 +721,7 @@ function Templates({ token, businessId }) {
             </div>
           ))}
         </div>
-        
+
         {filteredTemplates.length === 0 && (
           <div className="text-center py-20">
             <p className="text-gray-500 text-lg">No templates found for this category.</p>
@@ -754,13 +756,13 @@ function Templates({ token, businessId }) {
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <button 
+                <button
                   onClick={() => openDrawer(previewTemplate)}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-sm transition-colors"
                 >
                   Use This Template
                 </button>
-                <button 
+                <button
                   onClick={() => setPreviewTemplate(null)}
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
                 >
@@ -821,7 +823,7 @@ function Templates({ token, businessId }) {
                   ))}
                 </div>
               </div>
-              
+
               <div className="py-12" style={{ backgroundColor: previewTemplate.colors.primary, color: 'white' }}>
                 <div className="max-w-6xl mx-auto px-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -850,7 +852,7 @@ function Templates({ token, businessId }) {
                       <h3 className="font-bold text-lg mb-4">Follow Us</h3>
                       <div className="flex gap-4">
                         {storeDetails.socialMedia?.whatsapp && (
-                          <button 
+                          <button
                             onClick={() => handleWhatsAppClick(storeDetails.socialMedia.whatsapp)}
                             className="bg-green-500 hover:bg-green-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
                           >
@@ -858,20 +860,20 @@ function Templates({ token, businessId }) {
                           </button>
                         )}
                         {storeDetails.socialMedia?.instagram && (
-                          <a href={storeDetails.socialMedia.instagram} target="_blank" rel="noopener noreferrer" 
-                             className="bg-pink-500 hover:bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                          <a href={storeDetails.socialMedia.instagram} target="_blank" rel="noopener noreferrer"
+                            className="bg-pink-500 hover:bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
                             <FaInstagram className="text-xl" />
                           </a>
                         )}
                         {storeDetails.socialMedia?.facebook && (
                           <a href={storeDetails.socialMedia.facebook} target="_blank" rel="noopener noreferrer"
-                             className="bg-blue-700 hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                            className="bg-blue-700 hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
                             <FaFacebook className="text-xl" />
                           </a>
                         )}
                         {storeDetails.socialMedia?.twitter && (
                           <a href={storeDetails.socialMedia.twitter} target="_blank" rel="noopener noreferrer"
-                             className="bg-gray-700 hover:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                            className="bg-gray-700 hover:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
                             <FaTwitter className="text-xl" />
                           </a>
                         )}
@@ -902,7 +904,7 @@ function Templates({ token, businessId }) {
         <>
           <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 animate-fade-in" onClick={closeDrawer}></div>
           <div className={`fixed top-0 right-0 h-full w-full bg-white shadow-2xl z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
-            
+
             {/* Drawer Header */}
             <div className="h-20 border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
               <h2 className="font-jakarta text-xl font-bold text-gray-900">Setup Your Store</h2>
@@ -916,11 +918,10 @@ function Templates({ token, businessId }) {
               <div className="flex items-center justify-between relative">
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 z-0 rounded-full"></div>
                 <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-blue-600 z-0 rounded-full transition-all duration-300`} style={{ width: drawerStep === 1 ? '0%' : drawerStep === 2 ? '50%' : '100%' }}></div>
-                
+
                 {[1, 2, 3].map(step => (
-                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors border-2 ${
-                    drawerStep >= step ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-400'
-                  }`}>
+                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors border-2 ${drawerStep >= step ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-400'
+                    }`}>
                     {drawerStep > step ? <FaCheck className="text-xs" /> : step}
                   </div>
                 ))}
@@ -934,7 +935,7 @@ function Templates({ token, businessId }) {
 
             {/* Drawer Content */}
             <div className="flex-1 overflow-y-auto p-6">
-              
+
               {/* STEP 1: Details */}
               {drawerStep === 1 && (
                 <div className="space-y-6 animate-fade-in-up">
@@ -948,21 +949,21 @@ function Templates({ token, businessId }) {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Store Name *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={storeDetails.name}
-                      onChange={(e) => setStoreDetails({...storeDetails, name: e.target.value})}
+                      onChange={(e) => setStoreDetails({ ...storeDetails, name: e.target.value })}
                       placeholder="e.g. Acme SuperMart"
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Tagline</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={storeDetails.tagline}
-                      onChange={(e) => setStoreDetails({...storeDetails, tagline: e.target.value})}
+                      onChange={(e) => setStoreDetails({ ...storeDetails, tagline: e.target.value })}
                       placeholder="e.g. Best quality goods for you"
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
@@ -972,10 +973,10 @@ function Templates({ token, businessId }) {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaPhone className="inline mr-2 text-gray-400" /> Phone Number *
                     </label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       value={storeDetails.phone}
-                      onChange={(e) => setStoreDetails({...storeDetails, phone: e.target.value})}
+                      onChange={(e) => setStoreDetails({ ...storeDetails, phone: e.target.value })}
                       placeholder="+1 234 567 8900"
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
@@ -986,10 +987,10 @@ function Templates({ token, businessId }) {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaEnvelope className="inline mr-2 text-gray-400" /> Email Address <span className="text-gray-400 font-normal">(Optional)</span>
                     </label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       value={storeDetails.email}
-                      onChange={(e) => setStoreDetails({...storeDetails, email: e.target.value})}
+                      onChange={(e) => setStoreDetails({ ...storeDetails, email: e.target.value })}
                       placeholder="contact@yourstore.com"
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
                     />
@@ -999,9 +1000,9 @@ function Templates({ token, businessId }) {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       <FaMapMarkerAlt className="inline mr-2 text-gray-400" /> Store Address
                     </label>
-                    <textarea 
+                    <textarea
                       value={storeDetails.address}
-                      onChange={(e) => setStoreDetails({...storeDetails, address: e.target.value})}
+                      onChange={(e) => setStoreDetails({ ...storeDetails, address: e.target.value })}
                       placeholder="123 Business St., Suite 100, City, Country"
                       rows="3"
                       className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white resize-none"
@@ -1011,18 +1012,18 @@ function Templates({ token, businessId }) {
                   {/* Social Media Section */}
                   <div className="border-t border-gray-200 pt-6 mt-4">
                     <h4 className="font-semibold text-gray-900 mb-4">Social Media Links (Optional)</h4>
-                    
+
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
                           <FaWhatsapp className="text-green-600" /> WhatsApp Number
                         </label>
-                        <input 
-                          type="tel" 
+                        <input
+                          type="tel"
                           value={storeDetails.socialMedia.whatsapp}
                           onChange={(e) => setStoreDetails({
-                            ...storeDetails, 
-                            socialMedia: {...storeDetails.socialMedia, whatsapp: e.target.value}
+                            ...storeDetails,
+                            socialMedia: { ...storeDetails.socialMedia, whatsapp: e.target.value }
                           })}
                           placeholder="+1 234 567 8900"
                           className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
@@ -1034,12 +1035,12 @@ function Templates({ token, businessId }) {
                         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
                           <FaInstagram className="text-pink-600" /> Instagram URL
                         </label>
-                        <input 
-                          type="url" 
+                        <input
+                          type="url"
                           value={storeDetails.socialMedia.instagram}
                           onChange={(e) => setStoreDetails({
-                            ...storeDetails, 
-                            socialMedia: {...storeDetails.socialMedia, instagram: e.target.value}
+                            ...storeDetails,
+                            socialMedia: { ...storeDetails.socialMedia, instagram: e.target.value }
                           })}
                           placeholder="https://instagram.com/yourstore"
                           className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
@@ -1050,12 +1051,12 @@ function Templates({ token, businessId }) {
                         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
                           <FaFacebook className="text-blue-700" /> Facebook URL
                         </label>
-                        <input 
-                          type="url" 
+                        <input
+                          type="url"
                           value={storeDetails.socialMedia.facebook}
                           onChange={(e) => setStoreDetails({
-                            ...storeDetails, 
-                            socialMedia: {...storeDetails.socialMedia, facebook: e.target.value}
+                            ...storeDetails,
+                            socialMedia: { ...storeDetails.socialMedia, facebook: e.target.value }
                           })}
                           placeholder="https://facebook.com/yourstore"
                           className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
@@ -1066,12 +1067,12 @@ function Templates({ token, businessId }) {
                         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
                           <FaTwitter className="text-blue-400" /> Twitter URL
                         </label>
-                        <input 
-                          type="url" 
+                        <input
+                          type="url"
                           value={storeDetails.socialMedia.twitter}
                           onChange={(e) => setStoreDetails({
-                            ...storeDetails, 
-                            socialMedia: {...storeDetails.socialMedia, twitter: e.target.value}
+                            ...storeDetails,
+                            socialMedia: { ...storeDetails.socialMedia, twitter: e.target.value }
                           })}
                           placeholder="https://twitter.com/yourstore"
                           className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
@@ -1104,26 +1105,26 @@ function Templates({ token, businessId }) {
 
                   {/* Two Column Layout for Add Product Form and Product List */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
+
                     {/* LEFT COLUMN - Add Product Form */}
                     <div className="bg-gradient-to-br from-gray-50 to-white p-5 rounded-2xl border border-gray-200 shadow-sm sticky top-0">
                       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <FaPlus className="text-blue-600" /> Add New Product
                       </h4>
-                      
+
                       <div className="space-y-4">
                         {/* Product Image Upload with Camera Options */}
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
                           <div className="flex gap-3">
-                            <button 
+                            <button
                               onClick={() => startCamera(null)}
                               className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-3 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
                             >
                               <FaCamera className="text-xl mx-auto mb-1" />
                               <span className="text-xs font-semibold">Take Photo</span>
                             </button>
-                            <button 
+                            <button
                               onClick={() => document.getElementById('product-image-input').click()}
                               className="flex-1 bg-white border-2 border-dashed border-gray-300 rounded-xl p-3 text-center hover:border-blue-400 transition-colors"
                             >
@@ -1131,9 +1132,9 @@ function Templates({ token, businessId }) {
                               <span className="text-xs text-gray-500">Upload File</span>
                             </button>
                           </div>
-                          <input 
+                          <input
                             id="product-image-input"
-                            type="file" 
+                            type="file"
                             accept="image/*"
                             onChange={(e) => handleImageUpload(e, null)}
                             className="hidden"
@@ -1150,7 +1151,7 @@ function Templates({ token, businessId }) {
                                     </div>
                                   </div>
                                 )}
-                                <button 
+                                <button
                                   onClick={() => setNewProduct(prev => ({ ...prev, imagePreview: null, image: null }))}
                                   className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors text-xs"
                                 >
@@ -1167,11 +1168,11 @@ function Templates({ token, businessId }) {
                         </div>
 
                         <div>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             placeholder="Product Name *"
                             value={newProduct.name}
-                            onChange={e => setNewProduct({...newProduct, name: e.target.value})}
+                            onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                           />
                         </div>
@@ -1179,34 +1180,34 @@ function Templates({ token, businessId }) {
                         <div className="grid grid-cols-2 gap-3">
                           <div className="relative">
                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
-                            <input 
-                              type="number" 
+                            <input
+                              type="number"
                               placeholder="Price *"
                               value={newProduct.price}
-                              onChange={e => setNewProduct({...newProduct, price: e.target.value})}
+                              onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
                               className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                             />
                           </div>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             placeholder="Category"
                             value={newProduct.category}
-                            onChange={e => setNewProduct({...newProduct, category: e.target.value})}
+                            onChange={e => setNewProduct({ ...newProduct, category: e.target.value })}
                             className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
                           />
                         </div>
 
                         <div>
-                          <textarea 
+                          <textarea
                             placeholder="Product Description"
                             value={newProduct.description}
-                            onChange={e => setNewProduct({...newProduct, description: e.target.value})}
+                            onChange={e => setNewProduct({ ...newProduct, description: e.target.value })}
                             rows="2"
                             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm resize-none"
                           />
                         </div>
 
-                        <button 
+                        <button
                           onClick={addProduct}
                           disabled={!newProduct.name || !newProduct.price}
                           className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 disabled:opacity-50 transition-colors"
@@ -1224,7 +1225,7 @@ function Templates({ token, businessId }) {
                           {products.length} {products.length === 1 ? 'item' : 'items'}
                         </span>
                       </div>
-                      
+
                       {products.length === 0 ? (
                         <div className="text-center py-12 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl bg-white">
                           <FaImage className="text-4xl mx-auto mb-3 opacity-50" />
@@ -1234,8 +1235,8 @@ function Templates({ token, businessId }) {
                       ) : (
                         <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                           {products.map((p, idx) => (
-                            <div 
-                              key={p.id} 
+                            <div
+                              key={p.id}
                               className="bg-white rounded-xl p-3 border border-gray-200 hover:shadow-md transition-all duration-200 group"
                             >
                               <div className="flex gap-3">
@@ -1253,7 +1254,7 @@ function Templates({ token, businessId }) {
                                     </div>
                                   )}
                                 </div>
-                                
+
                                 {/* Product Details */}
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-start justify-between gap-2">
@@ -1273,33 +1274,33 @@ function Templates({ token, businessId }) {
                                         <p className="text-xs text-gray-500 mt-1 line-clamp-1">{p.description}</p>
                                       )}
                                     </div>
-                                    
+
                                     {/* Action Buttons */}
                                     <div className="flex gap-1 flex-shrink-0">
-                                      <button 
+                                      <button
                                         onClick={() => startCamera(idx)}
                                         className="text-blue-500 hover:text-blue-700 p-1.5 rounded-lg hover:bg-blue-50 transition-colors"
                                         title="Take new photo"
                                       >
                                         <FaCamera className="text-sm" />
                                       </button>
-                                      <button 
+                                      <button
                                         onClick={() => document.getElementById(`product-image-edit-${p.id}`).click()}
                                         className="text-green-500 hover:text-green-700 p-1.5 rounded-lg hover:bg-green-50 transition-colors"
                                         title="Upload image"
                                       >
                                         <FaUpload className="text-sm" />
                                       </button>
-                                      <input 
+                                      <input
                                         id={`product-image-edit-${p.id}`}
-                                        type="file" 
+                                        type="file"
                                         accept="image/*"
                                         capture="environment"
                                         onChange={(e) => handleImageUpload(e, idx)}
                                         className="hidden"
                                       />
-                                      <button 
-                                        onClick={() => removeProduct(p.id)} 
+                                      <button
+                                        onClick={() => removeProduct(p.id)}
                                         className="text-gray-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
                                         title="Remove product"
                                       >
@@ -1313,7 +1314,7 @@ function Templates({ token, businessId }) {
                           ))}
                         </div>
                       )}
-                      
+
                       {/* Product Count Summary */}
                       {products.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-gray-200">
@@ -1339,10 +1340,10 @@ function Templates({ token, businessId }) {
                     <FaCheck className="text-green-600 text-4xl relative z-10" />
                     <div className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-20"></div>
                   </div>
-                  
+
                   <h3 className="font-jakarta text-3xl font-bold text-gray-900">Ready to Launch!</h3>
                   <p className="text-gray-500 mt-2 text-lg">Your store is fully configured and ready to accept customers.</p>
-                  
+
                   <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 text-left mt-8">
                     <h4 className="font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Store Summary</h4>
                     <div className="space-y-3 text-sm max-h-96 overflow-y-auto">
@@ -1388,7 +1389,7 @@ function Templates({ token, businessId }) {
             <div className="p-6 border-t border-gray-200 bg-white shrink-0">
               <div className="flex gap-4">
                 {drawerStep > 1 && (
-                  <button 
+                  <button
                     onClick={() => setDrawerStep(drawerStep - 1)}
                     disabled={isPublishing}
                     className="flex-1 py-3.5 bg-white border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
@@ -1396,16 +1397,16 @@ function Templates({ token, businessId }) {
                     Back
                   </button>
                 )}
-                
+
                 {drawerStep < 3 ? (
-                  <button 
+                  <button
                     onClick={() => setDrawerStep(drawerStep + 1)}
                     className="flex-1 py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                   >
                     Continue <FaChevronRight className="text-sm" />
                   </button>
                 ) : (
-                  <button 
+                  <button
                     onClick={handleLaunch}
                     disabled={isPublishing}
                     className="flex-1 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg shadow-lg hover:bg-blue-700 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:transform-none"
@@ -1447,22 +1448,22 @@ function Templates({ token, businessId }) {
                 <div className="flex justify-start">
                   <div className="bg-white border border-gray-200 rounded-xl p-3 shadow-sm flex gap-1 rounded-bl-none">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay:'0.2s'}}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay:'0.4s'}}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                   </div>
                 </div>
               )}
             </div>
             <div className="p-3 bg-white border-t border-gray-200 flex gap-2">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={chatMsg}
                 onChange={e => setChatMsg(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && handleSendChat()}
-                placeholder="Ask me anything..." 
+                placeholder="Ask me anything..."
                 className="flex-1 bg-gray-100 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-600"
               />
-              <button 
+              <button
                 onClick={handleSendChat}
                 disabled={!chatMsg.trim() || isChatLoading}
                 className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
@@ -1473,7 +1474,7 @@ function Templates({ token, businessId }) {
           </div>
         )}
         {!chatOpen && (
-          <button 
+          <button
             onClick={() => setChatOpen(true)}
             className="w-14 h-14 bg-gray-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform group relative"
           >

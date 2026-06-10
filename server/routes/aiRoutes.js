@@ -28,7 +28,6 @@ const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
-  
   if (mimetype && extname) {
     return cb(null, true);
   } else {
@@ -36,9 +35,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({ 
+const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: fileFilter
 });
 
@@ -46,8 +45,6 @@ const upload = multer({
 router.post('/extract-business', async (req, res) => {
   try {
     const { text } = req.body;
-
-    // For demo without API key, return mock data
     if (!process.env.GEMINI_API_KEY) {
       return res.json({
         businessName: extractNameFromText(text),
@@ -59,15 +56,12 @@ router.post('/extract-business', async (req, res) => {
         email: extractEmail(text)
       });
     }
-
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
     const prompt = `Extract business information from: "${text}"
     Return ONLY JSON: {"businessName": "", "category": "restaurant/tailor/grocery/salon/mechanic/home_service", "location": "", "services": [], "description": "", "phone": "", "email": ""}`;
-
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const businessData = JSON.parse(response.text());
-
     res.json(businessData);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -80,10 +74,7 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
     if (!req.file) {
       return res.status(400).json({ error: 'No image file uploaded' });
     }
-
     let finalImageUrl = `/uploads/${req.file.filename}`;
-    
-    // Try to remove background if API key is available
     if (process.env.REMOVE_BG_API_KEY) {
       try {
         const removedBgPath = await removeBackground(req.file.path);
@@ -92,11 +83,9 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
         }
       } catch (bgError) {
         console.error('Background removal failed:', bgError);
-        // Continue with original image
       }
     }
-
-    res.json({ 
+    res.json({
       url: finalImageUrl,
       filename: req.file.filename,
       originalName: req.file.originalname
@@ -107,24 +96,17 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
   }
 });
 
-// Remove background from image
 async function removeBackground(imagePath) {
   try {
     const formData = new FormData();
     formData.append('image_file', fs.createReadStream(imagePath));
     formData.append('size', 'auto');
-    
     const response = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
-      headers: {
-        ...formData.getHeaders(),
-        'X-Api-Key': process.env.REMOVE_BG_API_KEY
-      },
+      headers: { ...formData.getHeaders(), 'X-Api-Key': process.env.REMOVE_BG_API_KEY },
       responseType: 'arraybuffer'
     });
-    
     const outputPath = imagePath.replace(/\.\w+$/, '-nobg.png');
     fs.writeFileSync(outputPath, response.data);
-    
     return outputPath;
   } catch (error) {
     console.error('Remove.bg API error:', error.message);
@@ -135,16 +117,12 @@ async function removeBackground(imagePath) {
 // Generate website with all features
 router.post('/generate-website', async (req, res) => {
   try {
-    const { businessData, productImages, template, theme, heroImage, products } = req.body;
-
+    const { businessData, productImages, template, templateName, theme, heroImage, products } = req.body;
     if (!businessData) {
       return res.status(400).json({ error: 'businessData is required' });
     }
-
-    // Generate HTML/CSS for the website
-    const html = generateWebsiteHTML(businessData, productImages, template, theme, heroImage, products);
+    const html = generateWebsiteHTML(businessData, productImages, template, templateName, theme, heroImage, products);
     const css = generateWebsiteCSS(theme);
-
     res.json({ html, css });
   } catch (error) {
     console.error('Generate website error:', error);
@@ -152,44 +130,18 @@ router.post('/generate-website', async (req, res) => {
   }
 });
 
-// AI Assistant - process natural language commands
+// AI Assistant
 router.post('/assistant', async (req, res) => {
   try {
     const { message, businessData } = req.body;
-
     const command = parseCommand(message);
-
-    // Process based on command type
     let response = {};
-    
     switch (command.action) {
       case 'ADD_PRODUCT':
-        response = {
-          action: command.action,
-          data: command.data,
-          message: command.message
-        };
-        break;
       case 'CHANGE_THEME':
-        response = {
-          action: command.action,
-          data: command.data,
-          message: command.message
-        };
-        break;
       case 'UPDATE_PHONE':
-        response = {
-          action: command.action,
-          data: command.data,
-          message: command.message
-        };
-        break;
       case 'ADD_SOCIAL_MEDIA':
-        response = {
-          action: command.action,
-          data: command.data,
-          message: command.message
-        };
+        response = { action: command.action, data: command.data, message: command.message };
         break;
       default:
         response = {
@@ -198,584 +150,1172 @@ router.post('/assistant', async (req, res) => {
           message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for $25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links"
         };
     }
-
     res.json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Helper functions
-function extractNameFromText(text) {
-  const patterns = [
-    /(?:shop|store|business) name (?:is|called) ([^.]+)/i,
-    /my (?:shop|store) (?:is|called) ([^.]+)/i,
-    /^([^.]+) (?:shop|store)/i
+// ─────────────────────────────────────────────
+//  SHARED HELPERS
+// ─────────────────────────────────────────────
+
+function resolveProducts(products, businessData) {
+  if (products && products.length > 0) return products;
+  if (businessData.services && businessData.services.length > 0) return businessData.services;
+  return [
+    { name: 'Premium Collection', price: '49.99', description: 'High quality premium product' },
+    { name: 'Exclusive Deals', price: '89.99', description: 'Limited edition exclusive items' },
+    { name: 'New Arrivals', price: '129.99', description: 'Latest collection just arrived' }
   ];
-
-  for (const pattern of patterns) {
-    const match = text.match(pattern);
-    if (match) return match[1].trim();
-  }
-
-  return text.split('.')[0].split(' ').slice(0, 3).join(' ');
 }
 
-function detectCategory(text) {
-  const lowerText = text.toLowerCase();
-  if (lowerText.includes('restaurant') || lowerText.includes('food') || lowerText.includes('hotel')) return 'restaurant';
-  if (lowerText.includes('tailor') || lowerText.includes('stitch')) return 'tailor';
-  if (lowerText.includes('grocery') || lowerText.includes('vegetable') || lowerText.includes('fruit')) return 'grocery';
-  if (lowerText.includes('salon') || lowerText.includes('hair') || lowerText.includes('beauty')) return 'salon';
-  if (lowerText.includes('mechanic') || lowerText.includes('repair')) return 'mechanic';
-  if (lowerText.includes('tea') || lowerText.includes('chai')) return 'tea_shop';
-  return 'other';
+function buildSocialLinks(socialMedia, phoneNumber, whatsappUrl) {
+  const links = [];
+  if (socialMedia.whatsapp || phoneNumber) {
+    links.push(`<a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:9999px;background:#22c55e;color:white;text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-whatsapp" style="font-size:1.25rem;"></i></a>`);
+  }
+  if (socialMedia.instagram) {
+    links.push(`<a href="${socialMedia.instagram}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:9999px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-instagram" style="font-size:1.25rem;"></i></a>`);
+  }
+  if (socialMedia.facebook) {
+    links.push(`<a href="${socialMedia.facebook}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:9999px;background:#1d4ed8;color:white;text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-facebook-f" style="font-size:1.25rem;"></i></a>`);
+  }
+  if (socialMedia.twitter) {
+    links.push(`<a href="${socialMedia.twitter}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:9999px;background:#374151;color:white;text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-twitter" style="font-size:1.25rem;"></i></a>`);
+  }
+  return links.join('');
 }
 
-function extractLocation(text) {
-  const patterns = [
-    /(?:in|at|near) ([^.]+?)(?:\.|$)/i,
-    /located (?:in|at) ([^.]+?)(?:\.|$)/i
-  ];
-
-  for (const pattern of patterns) {
-    const match = text.match(pattern);
-    if (match) return match[1].trim();
-  }
-
-  return '';
+function buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, primaryColor) {
+  let html = '';
+  if (phoneNumber) html += `<p style="margin:0.5rem 0;"><i class="fas fa-phone" style="margin-right:0.5rem;color:${primaryColor};"></i>${phoneNumber}</p>`;
+  if (email) html += `<p style="margin:0.5rem 0;"><i class="fas fa-envelope" style="margin-right:0.5rem;color:${primaryColor};"></i><a href="mailto:${email}" style="color:inherit;text-decoration:none;">${email}</a></p>`;
+  if (address) html += `<p style="margin:0.5rem 0;"><i class="fas fa-map-marker-alt" style="margin-right:0.5rem;color:${primaryColor};"></i><a href="https://maps.google.com/?q=${encodedLocation}" target="_blank" style="color:inherit;text-decoration:none;">${address}</a></p>`;
+  return html;
 }
 
-function extractPhoneNumber(text) {
-  const phoneRegex = /(\+?\d{1,3}[-.]?)?\(?\d{3}\)?[-.]?\d{3}[-.]?\d{4}/g;
-  const match = text.match(phoneRegex);
-  return match ? match[0] : '';
+// ─────────────────────────────────────────────
+//  MAIN ROUTER  — picks the right template
+// ─────────────────────────────────────────────
+
+function generateWebsiteHTML(businessData, productImages, templateId, templateName, theme, heroImage, products) {
+  switch (templateId) {
+    case 't2': return generateSlateTemplate(businessData, productImages, theme, heroImage, products);
+    case 't3': return generateBloomTemplate(businessData, productImages, theme, heroImage, products);
+    case 't4': return generateCraveTemplate(businessData, productImages, theme, heroImage, products);
+    case 't5': return generateHavenTemplate(businessData, productImages, theme, heroImage, products);
+    case 't6': return generateNexusTemplate(businessData, productImages, theme, heroImage, products);
+    case 't7': return generateVogueTemplate(businessData, productImages, theme, heroImage, products);
+    case 't8': return generatePixelTemplate(businessData, productImages, theme, heroImage, products);
+    case 't9': return generateGlowTemplate(businessData, productImages, theme, heroImage, products);
+    case 't1':
+    default: return generateAuroraTemplate(businessData, productImages, theme, heroImage, products);
+  }
 }
 
-function extractEmail(text) {
-  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-  const match = text.match(emailRegex);
-  return match ? match[0] : '';
-}
-
-function extractServices(text) {
-  const services = [];
-  const serviceIndicators = ['sell', 'provide', 'offer', 'service', 'make', 'stitch', 'repair'];
-
-  const sentences = text.split(/[.,;]/);
-  for (const sentence of sentences) {
-    for (const indicator of serviceIndicators) {
-      if (sentence.toLowerCase().includes(indicator)) {
-        services.push(sentence.trim());
-        break;
-      }
-    }
-  }
-
-  return services.slice(0, 10); // Unlimited products now
-}
-
-function parseCommand(text) {
-  const lowerText = text.toLowerCase();
-
-  // Add product command
-  if (lowerText.includes('add') && (lowerText.includes('product') || lowerText.includes('item'))) {
-    // Extract product name
-    let productName = text.replace(/add|product|item/gi, '').trim();
-    // Extract price if exists
-    const priceMatch = productName.match(/\$?(\d+(?:\.\d{2})?)/);
-    let price = null;
-    if (priceMatch) {
-      price = priceMatch[1];
-      productName = productName.replace(priceMatch[0], '').trim();
-    }
-    
-    return {
-      action: 'ADD_PRODUCT',
-      data: { productName: productName || 'New Product', price: price || '49.99' },
-      message: price ? `✅ Added "${productName}" for $${price}!` : `✅ Added "${productName}" to your catalog!`
-    };
-  }
-
-  // Change theme command
-  if (lowerText.includes('change') && (lowerText.includes('theme') || lowerText.includes('color'))) {
-    const colors = {
-      'red': '#FF4444', 'blue': '#3B82F6', 'green': '#10B981',
-      'orange': '#F97316', 'purple': '#8B5CF6', 'pink': '#EC4899',
-      'yellow': '#F59E0B', 'indigo': '#6366F1', 'teal': '#14B8A6'
-    };
-
-    for (const [colorName, colorCode] of Object.entries(colors)) {
-      if (lowerText.includes(colorName)) {
-        return {
-          action: 'CHANGE_THEME',
-          data: { color: colorCode, colorName: colorName },
-          message: `✅ Theme color changed to ${colorName}!`
-        };
-      }
-    }
-  }
-
-  // Update phone command
-  if (lowerText.includes('phone') || lowerText.includes('whatsapp')) {
-    const phoneMatch = text.match(/\d{10,12}/);
-    if (phoneMatch) {
-      return {
-        action: 'UPDATE_PHONE',
-        data: { phone: phoneMatch[0] },
-        message: `✅ Phone number updated to ${phoneMatch[0]}!`
-      };
-    }
-  }
-
-  // Add social media command
-  if (lowerText.includes('instagram') || lowerText.includes('facebook') || lowerText.includes('twitter')) {
-    let platform = '';
-    if (lowerText.includes('instagram')) platform = 'instagram';
-    if (lowerText.includes('facebook')) platform = 'facebook';
-    if (lowerText.includes('twitter')) platform = 'twitter';
-    
-    return {
-      action: 'ADD_SOCIAL_MEDIA',
-      data: { platform: platform },
-      message: `✅ You can add your ${platform} link in the store details section!`
-    };
-  }
-
-  return {
-    action: 'UNKNOWN',
-    data: {},
-    message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for $25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links"
-  };
-}
-
-function generateWebsiteHTML(businessData, productImages, template, theme, heroImage, products) {
+// ─────────────────────────────────────────────
+//  T1 — AURORA  (clean fashion, light, minimal)
+// ─────────────────────────────────────────────
+function generateAuroraTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
   const description = businessData.description || 'Welcome to our store';
-  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '+1234567890';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
   const address = businessData.address || '';
   const socialMedia = businessData.socialMedia || {};
-  
-  let services = businessData.services || [];
-  
-  // Use products from frontend if provided
-  if (products && products.length > 0) {
-    services = products;
-  } else if (services.length === 0) {
-    services = [
-      { name: 'Premium Collection', price: '49.99', description: 'High quality premium product', image: null },
-      { name: 'Exclusive Deals', price: '89.99', description: 'Limited edition exclusive items', image: null },
-      { name: 'New Arrivals', price: '129.99', description: 'Latest collection just arrived', image: null }
-    ];
-  }
-
-  const location = address || businessData.location || 'Online Store';
-  const encodedLocation = encodeURIComponent(location);
-  const formattedPhone = phoneNumber.replace(/\D/g, '');
-  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const services = resolveProducts(products, businessData);
 
   const primaryColor = theme?.primaryColor || '#111827';
   const secondaryColor = theme?.secondaryColor || '#F3F4F6';
   const accentColor = theme?.accentColor || '#3B82F6';
   const heroBg = heroImage || 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&q=80';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address || businessData.location || '');
 
-  // Generate product cards HTML with images
   const productsHtml = services.map((service, i) => {
-    const productName = typeof service === 'object' ? service.name : service;
-    const productPrice = typeof service === 'object' ? service.price : (Math.random() * 50 + 20).toFixed(2);
-    const productDescription = typeof service === 'object' && service.description ? service.description : 'Premium quality product';
-    let productImage = `https://picsum.photos/seed/${encodeURIComponent(productName)}${i}/600/600`;
-    if (productImages && productImages[i]) {
-      productImage = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
-    }
-    
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 50 + 20).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
     return `
-            <div class="bg-white rounded-2xl overflow-hidden hover-lift border border-gray-100 group shadow-sm">
-                <div class="relative h-64 sm:h-72 bg-gray-100 overflow-hidden">
-                    <img src="${productImage}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="${productName}" onerror="this.src='https://picsum.photos/seed/fallback/600/600'">
-                    <div class="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/20 transition-colors duration-300"></div>
-                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all cursor-pointer shadow-sm z-10">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <div class="absolute bottom-0 left-0 w-full p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10">
-                        <button class="w-full bg-white/95 backdrop-blur-md text-gray-900 py-3 rounded-xl font-bold shadow-lg hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-                <div class="p-6 md:p-8 text-center bg-white relative z-20 border-t border-gray-50">
-                    <div class="text-accent text-xs font-bold uppercase tracking-wider mb-2">Product</div>
-                    <h4 class="font-extrabold text-xl md:text-2xl mb-3 text-gray-900 font-heading truncate" title="${productName}">${productName}</h4>
-                    ${productDescription ? `<p class="text-gray-500 text-sm mb-4 line-clamp-2">${productDescription}</p>` : ''}
-                    <p class="text-xl md:text-2xl font-bold text-gray-900">$${productPrice}</p>
-                </div>
-            </div>`;
+    <div style="background:#fff;border-radius:1rem;overflow:hidden;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,0.07);transition:transform 0.3s,box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 40px rgba(0,0,0,0.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 1px 3px rgba(0,0,0,0.07)'">
+      <div style="position:relative;height:260px;overflow:hidden;background:#f8fafc;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/fallback${i}/600/600'">
+      </div>
+      <div style="padding:1.5rem;text-align:center;">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${accentColor};margin-bottom:0.4rem;">Product</div>
+        <h4 style="font-size:1.1rem;font-weight:800;color:#111827;margin:0 0 0.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</h4>
+        ${desc ? `<p style="font-size:0.85rem;color:#6b7280;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
+        <p style="font-size:1.25rem;font-weight:800;color:${primaryColor};margin:0 0 1rem;">$${price}</p>
+        <button style="width:100%;padding:0.75rem;background:${primaryColor};color:#fff;border:none;border-radius:0.5rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          <i class="fas fa-shopping-cart" style="margin-right:0.4rem;"></i> Add to Cart
+        </button>
+      </div>
+    </div>`;
   }).join('');
 
-  // Social media links HTML
-  const socialLinksHtml = [];
-  if (socialMedia.whatsapp || phoneNumber) {
-    socialLinksHtml.push(`
-      <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-14 h-14 rounded-full bg-green-500 text-white hover:scale-110 transition-transform shadow-lg">
-        <i class="fab fa-whatsapp text-2xl"></i>
-      </a>
-    `);
-  }
-  if (socialMedia.instagram) {
-    socialLinksHtml.push(`
-      <a href="${socialMedia.instagram}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white hover:scale-110 transition-transform shadow-lg">
-        <i class="fab fa-instagram text-2xl"></i>
-      </a>
-    `);
-  }
-  if (socialMedia.facebook) {
-    socialLinksHtml.push(`
-      <a href="${socialMedia.facebook}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-14 h-14 rounded-full bg-blue-700 text-white hover:scale-110 transition-transform shadow-lg">
-        <i class="fab fa-facebook-f text-2xl"></i>
-      </a>
-    `);
-  }
-  if (socialMedia.twitter) {
-    socialLinksHtml.push(`
-      <a href="${socialMedia.twitter}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-700 text-white hover:scale-110 transition-transform shadow-lg">
-        <i class="fab fa-twitter text-2xl"></i>
-      </a>
-    `);
-  }
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
 
-  // Advanced, ultra-premium template
   return `<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>${businessName}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '${primaryColor}',
-              secondary: '${secondaryColor}',
-              accent: '${accentColor}'
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              heading: ['"Poppins"', 'sans-serif'],
-            },
-            animation: {
-              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-              'pulse-slow': 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            },
-            keyframes: {
-              fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      .glass-nav {
-        background: transparent;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      }
-      .glass-nav.scrolled {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      }
-      .glass-nav.scrolled .nav-text {
-        color: #111827;
-      }
-      .hover-lift {
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .hover-lift:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-      #mobile-menu {
-        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-      }
-      #mobile-menu.open {
-        max-height: 300px;
-        opacity: 1;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:#f9fafb;color:#111827;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    #navbar{position:fixed;top:0;width:100%;z-index:1000;background:transparent;transition:background 0.3s,box-shadow 0.3s;border-bottom:1px solid rgba(255,255,255,0.1);}
+    #navbar.scrolled{background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+    #navbar.scrolled .nav-link{color:#111827!important;}
+    #navbar.scrolled .nav-brand{color:#111827!important;}
+    #mobile-menu{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+    #mobile-menu.open{max-height:300px;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;}
+    @media(max-width:640px){.products-grid{grid-template-columns:1fr;}}
+    .contact-flex{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:flex-start;}
+    .contact-item{display:flex;flex-direction:column;align-items:center;gap:0.75rem;min-width:140px;}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;}
+    @media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:2rem;}}
+  </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900 antialiased overflow-x-hidden">
-    <!-- Sticky Navbar -->
-    <nav id="navbar" class="fixed w-full z-[100] glass-nav border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300">
-                        <i class="fas fa-store text-xl"></i>
-                    </div>
-                    <span class="font-extrabold text-2xl tracking-tighter text-white nav-text font-heading group-hover:text-primary transition-colors">${businessName}</span>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex gap-8 font-semibold text-white nav-text">
-                    <a href="#" class="hover:text-primary transition-colors py-2">Home</a>
-                    <a href="#products" class="hover:text-primary transition-colors py-2">Shop</a>
-                    <a href="#visit" class="hover:text-primary transition-colors py-2">Contact</a>
-                </div>
-                
-                <div class="hidden md:flex items-center gap-4">
-                    <button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white shadow-md hover:shadow-lg hover:scale-105 transition-all">
-                        <i class="fas fa-shopping-bag"></i>
-                    </button>
-                </div>
-
-                <!-- Mobile Hamburger -->
-                <div class="md:hidden flex items-center gap-4">
-                    <button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white shadow-md">
-                        <i class="fas fa-shopping-bag"></i>
-                    </button>
-                    <button id="mobile-menu-btn" class="text-white nav-text text-2xl focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div style="max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;">
+          <i class="fas fa-store"></i>
         </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden bg-white shadow-xl absolute w-full">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#" class="block px-3 py-3 rounded-md text-base font-bold text-gray-900 hover:bg-gray-50 hover:text-primary">Home</a>
-                <a href="#products" class="block px-3 py-3 rounded-md text-base font-bold text-gray-900 hover:bg-gray-50 hover:text-primary">Shop</a>
-                <a href="#visit" class="block px-3 py-3 rounded-md text-base font-bold text-gray-900 hover:bg-gray-50 hover:text-primary">Contact</a>
-            </div>
-        </div>
-    </nav>
+        <span class="nav-brand" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;">${businessName}</span>
+      </div>
+      <div class="desktop-menu" style="display:flex;gap:2rem;">
+        <a href="#" class="nav-link" style="color:#fff;text-decoration:none;font-weight:600;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Home</a>
+        <a href="#products" class="nav-link" style="color:#fff;text-decoration:none;font-weight:600;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Shop</a>
+        <a href="#contact" class="nav-link" style="color:#fff;text-decoration:none;font-weight:600;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Contact</a>
+      </div>
+      <button id="mob-btn" style="display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;" class="nav-link"><i class="fas fa-bars"></i></button>
+    </div>
+    <div id="mobile-menu" style="background:#fff;border-top:1px solid #e5e7eb;">
+      <div style="padding:1rem 2rem;display:flex;flex-direction:column;gap:0.5rem;">
+        <a href="#" style="padding:0.75rem;color:#111827;text-decoration:none;font-weight:700;border-radius:0.5rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">Home</a>
+        <a href="#products" style="padding:0.75rem;color:#111827;text-decoration:none;font-weight:700;border-radius:0.5rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">Shop</a>
+        <a href="#contact" style="padding:0.75rem;color:#111827;text-decoration:none;font-weight:700;border-radius:0.5rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='none'">Contact</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Full-screen Hero Section -->
-    <header class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 w-full h-full">
-            <img src="${heroBg}" class="w-full h-full object-cover scale-105 animate-pulse-slow" alt="Hero Background" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(businessName)}/1200/800'">
-            <div class="absolute inset-0 bg-black/60 sm:bg-gradient-to-b sm:from-black/70 sm:via-black/50 sm:to-black/80 w-full h-full"></div>
-        </div>
-        
-        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 lg:px-8 flex items-center pt-20">
-            <div class="max-w-3xl mx-auto md:mx-0 animate-fade-in-up text-center md:text-left">
-                <span class="inline-block py-1 px-4 rounded-full bg-accent/20 text-accent border border-accent/30 text-xs md:text-sm font-bold tracking-wider uppercase mb-6 backdrop-blur-sm">
-                    <i class="fas fa-star mr-1"></i> Welcome
-                </span>
-                <h1 class="text-4xl md:text-7xl font-extrabold text-white mb-6 leading-tight font-heading tracking-tight drop-shadow-2xl">
-                    ${description ? description : 'Discover the Extraordinary'}
-                </h1>
-                <p class="text-lg md:text-xl text-gray-100 mb-10 font-medium leading-relaxed max-w-xl mx-auto md:mx-0 drop-shadow-md">
-                    Experience unparalleled quality and style. We bring the best directly to you.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="#products" class="px-8 py-4 rounded-xl font-bold text-gray-900 bg-white transition-all hover:bg-gray-100 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center gap-2">
-                        Shop Collection <i class="fas fa-arrow-right"></i>
-                    </a>
-                    ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" class="px-8 py-4 rounded-xl font-bold bg-green-600 text-white transition-all hover:bg-green-700 hover:scale-105 shadow-lg flex items-center justify-center gap-2">
-                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-                    </a>` : ''}
-                </div>
-            </div>
-        </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70">
-            <span class="text-white text-xs font-bold uppercase tracking-widest mb-2">Scroll</span>
-            <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1">
-                <div class="w-1 h-2 bg-white rounded-full transition-transform duration-1000 ease-in-out"></div>
-            </div>
-        </div>
-    </header>
+  <!-- HERO -->
+  <header style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;">
+    <div style="position:absolute;inset:0;">
+      <img src="${heroBg}" style="width:100%;height:100%;object-fit:cover;" alt="Hero" onerror="this.style.display='none'">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.45) 100%);"></div>
+    </div>
+    <div style="position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:6rem 2rem 4rem;">
+      <span style="display:inline-block;padding:0.25rem 1rem;border-radius:9999px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;backdrop-filter:blur(4px);">
+        <i class="fas fa-star" style="margin-right:0.3rem;color:${accentColor};"></i> Welcome
+      </span>
+      <h1 style="font-family:'Poppins',sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:1.5rem;letter-spacing:-0.02em;">${description}</h1>
+      <p style="font-size:1.15rem;color:rgba(255,255,255,0.85);margin-bottom:2.5rem;max-width:500px;line-height:1.7;">Experience unparalleled quality and style. We bring the best directly to you.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+        <a href="#products" style="padding:1rem 2rem;background:#fff;color:#111827;border-radius:0.75rem;font-weight:800;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 0 20px rgba(255,255,255,0.2);" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Shop Collection <i class="fas fa-arrow-right" style="margin-left:0.3rem;"></i></a>
+        ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:1rem 2rem;background:#16a34a;color:#fff;border-radius:0.75rem;font-weight:800;text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>Chat on WhatsApp</a>` : ''}
+      </div>
+    </div>
+  </header>
 
-    <!-- Premium Products Grid -->
-    <section id="products" class="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24">
-        <div class="text-center mb-16 animate-fade-in-up" style="animation-delay: 0.2s;">
-            <h2 class="text-3xl md:text-5xl font-extrabold mb-4 text-gray-900 font-heading tracking-tight">Featured Offerings</h2>
-            <div class="w-24 h-1.5 bg-accent mx-auto rounded-full mb-6"></div>
-            <p class="text-lg text-gray-500 max-w-2xl mx-auto">Handpicked selections guaranteed to elevate your lifestyle.</p>
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#111827;margin-bottom:0.75rem;">Featured Offerings</h2>
+      <div style="width:5rem;height:0.35rem;background:${accentColor};border-radius:9999px;margin:0 auto 1rem;"></div>
+      <p style="color:#6b7280;font-size:1.1rem;max-width:500px;margin:0 auto;">Handpicked selections guaranteed to elevate your lifestyle.</p>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:${secondaryColor};padding:5rem 2rem;">
+    <div style="max-width:56rem;margin:0 auto;text-align:center;">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:#111827;margin-bottom:0.5rem;">Get in Touch</h3>
+      <p style="color:#6b7280;font-size:1.1rem;margin-bottom:2.5rem;">We'd love to hear from you. Reach out anytime!</p>
+      <div style="background:#fff;border-radius:1.5rem;padding:2.5rem;box-shadow:0 4px 24px rgba(0,0,0,0.07);border:1px solid #f1f5f9;">
+        <div class="contact-flex">
+          ${phoneNumber ? `<div class="contact-item"><div style="width:3.5rem;height:3.5rem;background:#f0fdf4;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:1.3rem;"><i class="fas fa-phone-alt"></i></div><div><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;">Call Us</div><a href="tel:${formattedPhone}" style="font-weight:700;color:#111827;text-decoration:none;font-size:1rem;">${phoneNumber}</a></div></div>` : ''}
+          ${email ? `<div class="contact-item"><div style="width:3.5rem;height:3.5rem;background:#eff6ff;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#2563eb;font-size:1.3rem;"><i class="fas fa-envelope"></i></div><div><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;">Email Us</div><a href="mailto:${email}" style="font-weight:700;color:#111827;text-decoration:none;font-size:1rem;">${email}</a></div></div>` : ''}
+          ${address ? `<div class="contact-item"><div style="width:3.5rem;height:3.5rem;background:#fff7ed;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#ea580c;font-size:1.3rem;"><i class="fas fa-map-marker-alt"></i></div><div><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;">Visit Us</div><a href="https://maps.google.com/?q=${encodedLocation}" target="_blank" style="font-weight:700;color:#111827;text-decoration:none;font-size:1rem;">${address}</a></div></div>` : ''}
         </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            ${productsHtml || '<div class="text-center col-span-full">No products added yet.</div>'}
+        ${socialLinksHtml ? `<div style="margin-top:2rem;padding-top:2rem;border-top:1px solid #f1f5f9;text-align:center;"><div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;margin-bottom:1rem;">Follow Us</div><div style="display:flex;gap:1rem;justify-content:center;">${socialLinksHtml}</div></div>` : ''}
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#111827;padding:4rem 2rem 2rem;color:#9ca3af;">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div class="footer-grid" style="margin-bottom:3rem;">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;"><i class="fas fa-store"></i></div>
+            <span style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;font-size:1.2rem;">${businessName}</span>
+          </div>
+          <p style="font-size:0.9rem;line-height:1.7;max-width:300px;">Providing top-tier products and exceptional service to customers worldwide.</p>
+          ${phoneNumber ? `<p style="margin-top:1rem;font-size:0.9rem;"><i class="fas fa-phone" style="margin-right:0.5rem;color:${accentColor};"></i>${phoneNumber}</p>` : ''}
         </div>
-    </section>
-
-    <!-- Contact & Location Section -->
-    <section id="visit" class="bg-secondary py-24 relative overflow-hidden w-full">
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h3 class="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 font-heading">Get in Touch</h3>
-            <p class="text-lg md:text-xl text-gray-600 mb-10">We'd love to hear from you. Reach out anytime!</p>
-            
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
-                <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                    ${phoneNumber ? `
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div>
-                            <div class="text-sm font-bold text-gray-400 uppercase tracking-wider">Call Us</div>
-                            <a href="tel:${formattedPhone}" class="font-semibold text-gray-900 text-lg hover:text-primary transition-colors">${phoneNumber}</a>
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    ${email ? `
-                    <div class="hidden md:block w-px h-16 bg-gray-200"></div>
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <div class="text-sm font-bold text-gray-400 uppercase tracking-wider">Email Us</div>
-                            <a href="mailto:${email}" class="font-semibold text-gray-900 text-lg hover:text-primary transition-colors">${email}</a>
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    ${address ? `
-                    <div class="hidden md:block w-px h-16 bg-gray-200"></div>
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center text-2xl">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <div class="text-sm font-bold text-gray-400 uppercase tracking-wider">Visit Us</div>
-                            <a href="https://maps.google.com/?q=${encodedLocation}" target="_blank" class="font-semibold text-gray-900 text-lg hover:text-primary transition-colors">${address}</a>
-                        </div>
-                    </div>
-                    ` : ''}
-                </div>
-                
-                ${socialLinksHtml.length > 0 ? `
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <div class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Follow Us</div>
-                    <div class="flex gap-4 justify-center">
-                        ${socialLinksHtml.join('')}
-                    </div>
-                </div>
-                ` : ''}
-            </div>
+        <div>
+          <h4 style="color:#fff;font-weight:700;margin-bottom:1.5rem;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">Quick Links</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.9rem;">
+            <li><a href="#" style="color:#9ca3af;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#9ca3af'">Home</a></li>
+            <li><a href="#products" style="color:#9ca3af;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#9ca3af'">Shop</a></li>
+            <li><a href="#contact" style="color:#9ca3af;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#9ca3af'">Contact</a></li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Rich Footer -->
-    <footer class="bg-gray-900 pt-16 pb-8 text-gray-400 w-full">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12">
-                <div class="col-span-1 sm:col-span-2">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <span class="font-extrabold text-2xl tracking-tighter text-white font-heading">${businessName}</span>
-                    </div>
-                    <p class="mb-6 max-w-sm leading-relaxed text-sm">Providing top-tier products and exceptional service to customers worldwide.</p>
-                    ${phoneNumber ? `<div class="flex items-center gap-2 text-sm"><i class="fas fa-phone"></i> <span>${phoneNumber}</span></div>` : ''}
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-6 font-heading uppercase tracking-wider text-sm">Quick Links</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="#products" class="hover:text-white transition-colors">Shop</a></li>
-                        <li><a href="#visit" class="hover:text-white transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-6 font-heading uppercase tracking-wider text-sm">Newsletter</h4>
-                    <div class="flex">
-                        <input type="email" placeholder="Your email" class="bg-gray-800 border-none text-white px-3 py-2 rounded-l-lg w-full focus:outline-none focus:ring-1 focus:ring-primary text-sm">
-                        <button class="bg-primary text-white px-3 py-2 rounded-r-lg hover:bg-opacity-90 transition-opacity">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm">
-                <p class="mb-4 md:mb-0">© 2026 ${businessName}. All rights reserved.</p>
-                <div class="flex items-center gap-2">
-                    <span>Powered by</span>
-                    <span class="font-bold text-white tracking-tight">VendorBuild</span>
-                </div>
-            </div>
+        <div>
+          <h4 style="color:#fff;font-weight:700;margin-bottom:1.5rem;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">Newsletter</h4>
+          <div style="display:flex;">
+            <input type="email" placeholder="Your email" style="background:#1f2937;border:none;color:#fff;padding:0.6rem 0.75rem;border-radius:0.5rem 0 0 0.5rem;flex:1;outline:none;font-size:0.85rem;">
+            <button style="background:${accentColor};color:#fff;border:none;padding:0.6rem 0.9rem;border-radius:0 0.5rem 0.5rem 0;cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+          </div>
         </div>
-    </footer>
+      </div>
+      <div style="border-top:1px solid #1f2937;padding-top:2rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:0.85rem;">
+        <p>© 2026 ${businessName}. All rights reserved.</p>
+        <p>Powered by <span style="color:#fff;font-weight:700;">VendorBuild</span></p>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Scroll & Mobile Menu JS -->
-    <script>
-        // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile Menu Toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const icon = btn.querySelector('i');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('open');
-            if(menu.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-                navbar.classList.add('scrolled');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-                if (window.scrollY <= 50) navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu if open
-                    if (menu.classList.contains('open')) {
-                        menu.classList.remove('open');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                        if (window.scrollY <= 50) navbar.classList.remove('scrolled');
-                    }
-                }
-            });
-        });
-    </script>
+  <script>
+    const navbar=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>{ navbar.classList.toggle('scrolled',window.scrollY>50); });
+    const mobBtn=document.getElementById('mob-btn');
+    const mobMenu=document.getElementById('mobile-menu');
+    if(mobBtn){ mobBtn.addEventListener('click',()=>mobMenu.classList.toggle('open')); }
+    // show hamburger on mobile
+    const dMenu=document.querySelector('.desktop-menu');
+    function checkWidth(){ if(window.innerWidth<768){ dMenu.style.display='none'; mobBtn.style.display='block'; } else { dMenu.style.display='flex'; mobBtn.style.display='none'; } }
+    checkWidth(); window.addEventListener('resize',checkWidth);
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); const t=document.querySelector(a.getAttribute('href')); if(t){ t.scrollIntoView({behavior:'smooth'}); mobMenu.classList.remove('open'); } }));
+  </script>
 </body>
 </html>`;
 }
+
+// ─────────────────────────────────────────────
+//  T2 — SLATE  (dark, tech/electronics)
+// ─────────────────────────────────────────────
+function generateSlateTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'Next-gen products for a modern world.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#0F172A';
+  const accentColor = theme?.accentColor || '#38BDF8';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 80 + 20).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:0.75rem;overflow:hidden;transition:transform 0.25s,border-color 0.25s;" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='${accentColor}'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='#334155'">
+      <div style="height:220px;overflow:hidden;background:#0f172a;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;opacity:0.9;transition:opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'" alt="${name}" onerror="this.src='https://picsum.photos/seed/tech${i}/600/600'">
+      </div>
+      <div style="padding:1.25rem;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${accentColor};margin-bottom:0.4rem;">Product</div>
+        <h4 style="font-weight:800;color:#f1f5f9;font-size:1rem;margin:0 0 0.4rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</h4>
+        ${desc ? `<p style="font-size:0.8rem;color:#94a3b8;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:800;color:${accentColor};font-size:1.15rem;">$${price}</span>
+          <button style="background:${accentColor};color:#0f172a;border:none;padding:0.5rem 1rem;border-radius:0.4rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Buy Now</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Space Grotesk',sans-serif;background:#0f172a;color:#e2e8f0;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#0f172a;border-bottom:1px solid #1e293b;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <span style="font-weight:800;font-size:1.3rem;color:${accentColor};letter-spacing:-0.02em;">${businessName}</span>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#94a3b8;">
+        <a href="#" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Home</a>
+        <a href="#products" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Catalog</a>
+        <a href="#contact" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="min-height:90vh;display:flex;align-items:center;padding:4rem 2rem;background:linear-gradient(135deg,#0f172a 50%,#1e293b);">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;width:100%;">
+      <div>
+        <div style="display:inline-block;padding:0.3rem 0.8rem;border-radius:0.3rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:${accentColor};font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;">Next-Gen Store</div>
+        <h1 style="font-size:clamp(2rem,5vw,3.75rem);font-weight:800;line-height:1.1;color:#f1f5f9;margin-bottom:1.25rem;letter-spacing:-0.03em;">${businessName}</h1>
+        <p style="color:#94a3b8;font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;max-width:480px;">${description}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+          <a href="#products" style="padding:0.85rem 1.75rem;background:${accentColor};color:#0f172a;border-radius:0.5rem;font-weight:800;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Catalog</a>
+          ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.85rem 1.75rem;background:#1e293b;border:1px solid #334155;color:#f1f5f9;border-radius:0.5rem;font-weight:700;text-decoration:none;transition:border-color 0.2s;" onmouseover="this.style.borderColor='${accentColor}'" onmouseout="this.style.borderColor='#334155'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;color:#22c55e;"></i>WhatsApp</a>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        <div style="width:380px;height:380px;border-radius:1rem;overflow:hidden;border:2px solid #1e293b;box-shadow:0 0 60px rgba(56,189,248,0.15);">
+          <img src="${heroImage || `https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80`}" style="width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.src='https://picsum.photos/seed/slate/600/600'">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;">
+      <div>
+        <h2 style="font-size:2rem;font-weight:800;color:#f1f5f9;margin-bottom:0.3rem;">Product Catalog</h2>
+        <div style="width:3rem;height:3px;background:${accentColor};border-radius:9999px;"></div>
+      </div>
+      <span style="font-size:0.85rem;color:#64748b;">${services.length} items</span>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#020617;padding:4rem 2rem;margin-top:4rem;">
+    <div style="max-width:48rem;margin:0 auto;text-align:center;">
+      <h3 style="font-size:1.75rem;font-weight:800;color:#f1f5f9;margin-bottom:0.5rem;">Get in Touch</h3>
+      <p style="color:#64748b;margin-bottom:2rem;">Questions? We're always online.</p>
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:1rem;padding:2rem;text-align:left;line-height:2;">
+        ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+        ${socialLinksHtml ? `<div style="margin-top:1.5rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#020617;border-top:1px solid #1e293b;padding:2rem;text-align:center;color:#475569;font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T3 — BLOOM  (soft pink, beauty/cosmetics)
+// ─────────────────────────────────────────────
+function generateBloomTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'Radiant beauty, naturally curated.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#831843';
+  const accentColor = theme?.accentColor || '#EC4899';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 60 + 15).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fff;border-radius:1.5rem;overflow:hidden;box-shadow:0 2px 12px rgba(236,72,153,0.08);transition:box-shadow 0.3s,transform 0.3s;" onmouseover="this.style.boxShadow='0 20px 40px rgba(236,72,153,0.18)';this.style.transform='translateY(-6px)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(236,72,153,0.08)';this.style.transform='translateY(0)'">
+      <div style="height:240px;overflow:hidden;background:#fce7f3;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/beauty${i}/600/600'">
+      </div>
+      <div style="padding:1.5rem;text-align:center;">
+        <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
+        ${desc ? `<p style="font-size:0.82rem;color:#9d8189;margin:0 0 0.75rem;">${desc}</p>` : ''}
+        <p style="font-weight:700;color:${accentColor};font-size:1.1rem;margin:0 0 1rem;">$${price}</p>
+        <button style="padding:0.65rem 1.5rem;background:${accentColor};color:#fff;border:none;border-radius:9999px;font-weight:700;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Add to Bag</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Lato',sans-serif;background:#fff0f6;color:#3d1a27;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:rgba(255,240,246,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #fbcfe8;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.5rem;color:${primaryColor};">${businessName}</span>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:${primaryColor};">
+        <a href="#" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Home</a>
+        <a href="#products" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Shop</a>
+        <a href="#contact" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="padding:5rem 2rem;text-align:center;background:linear-gradient(180deg,#fff0f6,#fce7f3);">
+    <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:${accentColor};margin-bottom:1rem;">✦ Beauty & Wellness ✦</p>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:${primaryColor};line-height:1.1;margin-bottom:1.25rem;">${businessName}</h1>
+    <p style="color:#9d8189;font-size:1.1rem;max-width:480px;margin:0 auto 2.5rem;line-height:1.7;">${description}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+      <a href="#products" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:9999px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(236,72,153,0.35);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Explore Collection</a>
+      ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.9rem 2rem;background:#fff;color:${primaryColor};border:2px solid ${accentColor};border-radius:9999px;font-weight:700;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='${primaryColor}'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>Chat with Us</a>` : ''}
+    </div>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:800;color:${primaryColor};margin-bottom:0.5rem;">Our Collection</h2>
+      <p style="color:#9d8189;">Handpicked with love, just for you</p>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#fce7f3;padding:4rem 2rem;text-align:center;">
+    <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:${primaryColor};margin-bottom:1.5rem;">Say Hello 👋</h3>
+    <div style="display:inline-block;background:#fff;border-radius:1.25rem;padding:2rem;box-shadow:0 4px 20px rgba(236,72,153,0.1);text-align:left;min-width:280px;line-height:2.2;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.7);font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:#fbcfe8;font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T4 — CRAVE  (warm, food/restaurant)
+// ─────────────────────────────────────────────
+function generateCraveTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Restaurant';
+  const description = businessData.description || 'Fresh flavors, unforgettable taste.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#7C2D12';
+  const accentColor = theme?.accentColor || '#F97316';
+  const heroBg = heroImage || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 30 + 8).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fff;border-radius:1rem;overflow:hidden;border:1px solid #fed7aa;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 12px 30px rgba(249,115,22,0.15)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'">
+      <div style="height:200px;overflow:hidden;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/food${i}/600/600'">
+      </div>
+      <div style="padding:1.25rem;">
+        <h4 style="font-family:'Lobster',cursive;font-size:1.2rem;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
+        ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:0.4rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Order Now</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Open Sans',sans-serif;background:#fffbf5;color:#3d1c0a;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.75rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:${primaryColor};padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <span style="font-family:'Lobster',cursive;font-size:1.8rem;color:${accentColor};">${businessName}</span>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.8);">
+        <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Home</a>
+        <a href="#menu" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Menu</a>
+        <a href="#contact" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Find Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;">
+    <img src="${heroBg}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.style.display='none'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(124,45,18,0.72),rgba(0,0,0,0.85));"></div>
+    <div style="position:relative;z-index:10;padding:2rem;">
+      <span style="font-family:'Lobster',cursive;font-size:clamp(3rem,8vw,6rem);color:${accentColor};display:block;margin-bottom:0.5rem;">${businessName}</span>
+      <p style="color:rgba(255,255,255,0.88);font-size:1.2rem;margin-bottom:2rem;">${description}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+        <a href="#menu" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:9999px;font-weight:700;text-decoration:none;font-size:1rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">View Menu</a>
+        ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.9rem 2rem;background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.4);border-radius:9999px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px);transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>Order via WhatsApp</a>` : ''}
+      </div>
+    </div>
+  </header>
+
+  <!-- MENU -->
+  <section id="menu" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-family:'Lobster',cursive;font-size:2.75rem;color:${primaryColor};margin-bottom:0.5rem;">Our Menu</h2>
+      <div style="width:5rem;height:3px;background:${accentColor};border-radius:9999px;margin:0 auto;"></div>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#ffedd5;padding:4rem 2rem;text-align:center;">
+    <h3 style="font-family:'Lobster',cursive;font-size:2rem;color:${primaryColor};margin-bottom:1.5rem;">Find Us 📍</h3>
+    <div style="display:inline-block;background:#fff;border-radius:1rem;padding:2rem;box-shadow:0 4px 16px rgba(249,115,22,0.12);text-align:left;min-width:280px;line-height:2.2;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.65);font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T5 — HAVEN  (warm earthy, home decor)
+// ─────────────────────────────────────────────
+function generateHavenTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'Warm, inviting spaces for the modern home.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#451A03';
+  const accentColor = theme?.accentColor || '#D97706';
+  const heroBg = heroImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 150 + 50).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fefce8;border-radius:0.5rem;overflow:hidden;border:1px solid #fef08a;transition:box-shadow 0.3s;" onmouseover="this.style.boxShadow='0 16px 40px rgba(217,119,6,0.2)'" onmouseout="this.style.boxShadow='none'">
+      <div style="height:240px;overflow:hidden;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/home${i}/600/600'">
+      </div>
+      <div style="padding:1.25rem;">
+        <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
+        ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:700;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <button style="background:${primaryColor};color:#fef3c7;border:none;padding:0.5rem 1.1rem;border-radius:0.3rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Shop Now</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Jost',sans-serif;background:#fefce8;color:#451a03;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:2rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#fef3c7;border-bottom:2px solid #fde68a;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
+      <span style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.6rem;color:${primaryColor};">${businessName}</span>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:500;color:#92400e;">
+        <a href="#" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Home</a>
+        <a href="#products" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Shop</a>
+        <a href="#contact" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="position:relative;min-height:80vh;display:flex;align-items:center;overflow:hidden;">
+    <img src="${heroBg}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.style.display='none'">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(69,26,3,0.85) 40%,rgba(69,26,3,0.3));"></div>
+    <div style="position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:4rem 2rem;">
+      <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:${accentColor};margin-bottom:1rem;">Home & Living</p>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;color:#fef3c7;line-height:1.15;margin-bottom:1.25rem;">${businessName}</h1>
+      <p style="color:rgba(254,243,199,0.85);font-size:1.1rem;max-width:440px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+        <a href="#products" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:0.4rem;font-weight:600;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Collection</a>
+        ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.9rem 2rem;background:rgba(254,243,199,0.15);color:#fef3c7;border:1px solid rgba(254,243,199,0.4);border-radius:0.4rem;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(254,243,199,0.25)'" onmouseout="this.style.background='rgba(254,243,199,0.15)'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>WhatsApp Us</a>` : ''}
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:${primaryColor};margin-bottom:0.5rem;text-align:center;">Our Collection</h2>
+    <div style="width:4rem;height:2px;background:${accentColor};margin:0 auto 3rem;"></div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#fef3c7;padding:4rem 2rem;text-align:center;">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:${primaryColor};margin-bottom:1.5rem;">Get in Touch</h3>
+    <div style="display:inline-block;background:#fffbf0;border:1px solid #fde68a;border-radius:0.75rem;padding:2rem;text-align:left;min-width:280px;line-height:2.2;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(254,243,199,0.65);font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T6 — NEXUS  (professional, corporate, blue)
+// ─────────────────────────────────────────────
+function generateNexusTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Business';
+  const description = businessData.description || 'Professional services you can trust.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#1E3A8A';
+  const accentColor = theme?.accentColor || '#2563EB';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 200 + 50).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fff;border-radius:0.75rem;overflow:hidden;border:1px solid #dbeafe;box-shadow:0 1px 4px rgba(37,99,235,0.06);transition:box-shadow 0.3s,transform 0.3s;" onmouseover="this.style.boxShadow='0 12px 30px rgba(37,99,235,0.15)';this.style.transform='translateY(-4px)'" onmouseout="this.style.boxShadow='0 1px 4px rgba(37,99,235,0.06)';this.style.transform='translateY(0)'">
+      <div style="height:200px;overflow:hidden;background:#eff6ff;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;" alt="${name}" onerror="this.src='https://picsum.photos/seed/service${i}/600/600'">
+      </div>
+      <div style="padding:1.25rem;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${accentColor};margin-bottom:0.35rem;">Service</div>
+        <h4 style="font-weight:800;color:#1e3a8a;font-size:1rem;margin:0 0 0.4rem;">${name}</h4>
+        ${desc ? `<p style="font-size:0.82rem;color:#64748b;margin:0 0 0.75rem;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;">$${price}</span>
+          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.35rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Get Quote</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Manrope',sans-serif;background:#f8fafc;color:#1e3a8a;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.75rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #dbeafe;padding:0 2rem;box-shadow:0 1px 4px rgba(37,99,235,0.06);">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div style="width:2rem;height:2rem;background:${accentColor};border-radius:0.4rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <span style="font-weight:800;font-size:1.2rem;color:${primaryColor};">${businessName}</span>
+      </div>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#64748b;">
+        <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
+        <a href="#services" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Services</a>
+        <a href="#contact" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Contact</a>
+      </div>
+      ${phoneNumber ? `<a href="tel:${formattedPhone}" style="padding:0.6rem 1.25rem;background:${accentColor};color:#fff;border-radius:0.4rem;font-weight:700;font-size:0.85rem;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'"><i class="fas fa-phone" style="margin-right:0.4rem;"></i>${phoneNumber}</a>` : ''}
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="background:linear-gradient(135deg,${primaryColor} 0%,${accentColor} 100%);padding:6rem 2rem;color:#fff;">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.3rem 0.9rem;background:rgba(255,255,255,0.15);border-radius:9999px;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.25);">
+          <i class="fas fa-shield-alt"></i> Trusted Business
+        </div>
+        <h1 style="font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:1.25rem;">${businessName}</h1>
+        <p style="color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.7;margin-bottom:2.5rem;max-width:460px;">${description}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+          <a href="#services" style="padding:0.9rem 1.75rem;background:#fff;color:${primaryColor};border-radius:0.5rem;font-weight:800;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Our Services</a>
+          <a href="#contact" style="padding:0.9rem 1.75rem;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:0.5rem;font-weight:700;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">Get in Touch</a>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        <div style="width:360px;height:320px;border-radius:1rem;overflow:hidden;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
+          <img src="${heroImage || `https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80`}" style="width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES -->
+  <section id="services" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-size:2rem;font-weight:800;color:${primaryColor};margin-bottom:0.5rem;">Our Services</h2>
+      <div style="width:4rem;height:3px;background:${accentColor};border-radius:9999px;margin:0 auto;"></div>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#eff6ff;padding:4rem 2rem;text-align:center;">
+    <h3 style="font-size:1.75rem;font-weight:800;color:${primaryColor};margin-bottom:1.5rem;">Contact Us</h3>
+    <div style="display:inline-block;background:#fff;border:1px solid #dbeafe;border-radius:0.75rem;padding:2rem;box-shadow:0 4px 16px rgba(37,99,235,0.07);text-align:left;min-width:280px;line-height:2.2;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:#93c5fd;font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T7 — VOGUE  (editorial fashion, black & white)
+// ─────────────────────────────────────────────
+function generateVogueTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'Curated fashion for the bold.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#000000';
+  const accentColor = theme?.accentColor || '#6B7280';
+  const heroBg = heroImage || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 200 + 50).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/800`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fff;overflow:hidden;border-bottom:2px solid #000;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="height:300px;overflow:hidden;background:#f5f5f5;position:relative;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:filter 0.4s,transform 0.5s;" onmouseover="this.style.filter='grayscale(0%)';this.style.transform='scale(1.05)'" onmouseout="this.style.filter='grayscale(20%)';this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/fashion${i}/600/800'">
+        <div style="position:absolute;top:1rem;left:1rem;background:#000;color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.25rem 0.6rem;">New</div>
+      </div>
+      <div style="padding:1.25rem 1rem;">
+        <h4 style="font-family:'Bodoni Moda',serif;font-size:1.05rem;font-weight:600;color:#000;margin:0 0 0.3rem;letter-spacing:0.02em;">${name}</h4>
+        ${desc ? `<p style="font-size:0.78rem;color:#6b7280;margin:0 0 0.6rem;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:700;color:#000;font-size:1rem;">$${price}</span>
+          <button style="background:#000;color:#fff;border:none;padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#000'">ADD TO BAG</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:#fff;color:#000;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.1rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- TOP BAR -->
+  <div style="background:#000;color:#fff;text-align:center;padding:0.5rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;">Free shipping on orders over $100</div>
+
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid #000;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
+      <span style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:700;color:#000;letter-spacing:-0.02em;">${businessName}</span>
+      <div style="display:flex;gap:2.5rem;font-size:0.8rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#000;">
+        <a href="#" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Home</a>
+        <a href="#collection" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Collection</a>
+        <a href="#contact" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Contact</a>
+      </div>
+      <i class="fas fa-shopping-bag" style="font-size:1.25rem;cursor:pointer;"></i>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="position:relative;height:90vh;display:flex;align-items:flex-end;overflow:hidden;">
+    <img src="${heroBg}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(30%);" alt="hero" onerror="this.style.display='none'">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 30%,rgba(0,0,0,0.1));"></div>
+    <div style="position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:4rem 2rem;width:100%;">
+      <p style="font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:0.75rem;">New Season</p>
+      <h1 style="font-family:'Bodoni Moda',serif;font-size:clamp(3rem,7vw,6rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:1.5rem;letter-spacing:-0.02em;">${description}</h1>
+      <a href="#collection" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;background:#fff;color:#000;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='#fff'">Shop Collection <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </header>
+
+  <!-- COLLECTION -->
+  <section id="collection" style="padding:4rem 0;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 2rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;border-bottom:1px solid #e5e7eb;padding-bottom:1rem;">
+        <h2 style="font-family:'Bodoni Moda',serif;font-size:1.75rem;font-weight:600;">The Collection</h2>
+        <span style="font-size:0.8rem;color:#6b7280;">${services.length} pieces</span>
+      </div>
+    </div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 2rem;">
+      <div class="products-grid">${productsHtml}</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#f9fafb;padding:4rem 2rem;text-align:center;border-top:1px solid #e5e7eb;">
+    <h3 style="font-family:'Bodoni Moda',serif;font-size:2rem;margin-bottom:1.5rem;">Contact & Stockists</h3>
+    <div style="display:inline-block;text-align:left;min-width:280px;line-height:2.2;color:#374151;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, '#000')}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:#000;padding:2rem;text-align:center;color:rgba(255,255,255,0.5);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:#fff;font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T8 — PIXEL  (dark green tech, grid-heavy)
+// ─────────────────────────────────────────────
+function generatePixelTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'High-performance gear for every setup.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#020617';
+  const accentColor = theme?.accentColor || '#10B981';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 300 + 50).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#0f172a;border:1px solid #1e293b;border-radius:0.5rem;overflow:hidden;transition:border-color 0.25s,box-shadow 0.25s;" onmouseover="this.style.borderColor='${accentColor}';this.style.boxShadow='0 0 20px rgba(16,185,129,0.15)'" onmouseout="this.style.borderColor='#1e293b';this.style.boxShadow='none'">
+      <div style="height:200px;overflow:hidden;background:#020617;position:relative;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;" alt="${name}" onerror="this.src='https://picsum.photos/seed/pixel${i}/600/600'">
+        <div style="position:absolute;top:0.6rem;right:0.6rem;background:rgba(16,185,129,0.2);border:1px solid ${accentColor};border-radius:0.25rem;padding:0.15rem 0.5rem;font-size:0.65rem;font-weight:700;color:${accentColor};letter-spacing:0.08em;">IN STOCK</div>
+      </div>
+      <div style="padding:1rem;">
+        <h4 style="font-weight:700;color:#e2e8f0;font-size:0.95rem;margin:0 0 0.35rem;font-family:'Share Tech Mono',monospace;">${name}</h4>
+        ${desc ? `<p style="font-size:0.78rem;color:#64748b;margin:0 0 0.75rem;font-family:monospace;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;">
+          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;font-family:'Share Tech Mono',monospace;">$${price}</span>
+          <button style="background:transparent;color:${accentColor};border:1px solid ${accentColor};padding:0.4rem 0.85rem;border-radius:0.3rem;font-size:0.78rem;font-weight:700;cursor:pointer;transition:background 0.2s,color 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#020617'" onmouseout="this.style.background='transparent';this.style.color='${accentColor}'">Add to Cart</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Sora',sans-serif;background:#020617;color:#e2e8f0;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#020617;border-bottom:1px solid #0f172a;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:3.75rem;">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:${accentColor};">&gt; ${businessName}_</span>
+      <div style="display:flex;gap:2rem;font-size:0.82rem;font-weight:600;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;">
+        <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
+        <a href="#products" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Store</a>
+        <a href="#contact" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="padding:5rem 2rem;background:linear-gradient(180deg,#020617,#0f172a);border-bottom:1px solid #1e293b;">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:${accentColor};margin-bottom:1rem;letter-spacing:0.1em;">// WELCOME TO ${businessName.toUpperCase()}</div>
+      <h1 style="font-size:clamp(2.5rem,5vw,4rem);font-weight:800;color:#f8fafc;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.03em;">${businessName}<span style="color:${accentColor};">.</span></h1>
+      <p style="color:#94a3b8;font-size:1rem;max-width:500px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+        <a href="#products" style="padding:0.8rem 1.75rem;background:${accentColor};color:#020617;border-radius:0.35rem;font-weight:800;text-decoration:none;font-size:0.9rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Store</a>
+        ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.8rem 1.75rem;background:transparent;border:1px solid ${accentColor};color:${accentColor};border-radius:0.35rem;font-weight:700;text-decoration:none;font-size:0.9rem;transition:background 0.2s,color 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#020617'" onmouseout="this.style.background='transparent';this.style.color='${accentColor}'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>WhatsApp</a>` : ''}
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:4rem 2rem;">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:${accentColor};letter-spacing:0.1em;">// PRODUCT_CATALOG</div>
+      <div style="flex:1;height:1px;background:#1e293b;"></div>
+      <span style="font-size:0.78rem;color:#475569;">${services.length} items</span>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#0f172a;border-top:1px solid #1e293b;padding:4rem 2rem;">
+    <div style="max-width:48rem;margin:0 auto;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:${accentColor};margin-bottom:1rem;">// CONTACT_INFO</div>
+      <div style="background:#020617;border:1px solid #1e293b;border-radius:0.5rem;padding:2rem;line-height:2.2;color:#94a3b8;">
+        ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+        ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#020617;border-top:1px solid #0f172a;padding:1.5rem;text-align:center;color:#334155;font-size:0.78rem;font-family:'Share Tech Mono',monospace;">
+    <p>// © 2026 ${businessName}. Powered by VendorBuild</p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  T9 — GLOW  (fresh green, organic/natural)
+// ─────────────────────────────────────────────
+function generateGlowTemplate(businessData, productImages, theme, heroImage, products) {
+  const businessName = businessData.businessName || 'My Store';
+  const description = businessData.description || 'Pure. Natural. Sustainable.';
+  const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
+  const email = businessData.email || '';
+  const address = businessData.address || '';
+  const socialMedia = businessData.socialMedia || {};
+  const services = resolveProducts(products, businessData);
+  const primaryColor = theme?.primaryColor || '#064E3B';
+  const accentColor = theme?.accentColor || '#10B981';
+  const heroBg = heroImage || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=1200&q=80';
+  const formattedPhone = phoneNumber.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${formattedPhone}`;
+  const encodedLocation = encodeURIComponent(address);
+
+  const productsHtml = services.map((service, i) => {
+    const name = typeof service === 'object' ? service.name : service;
+    const price = typeof service === 'object' ? service.price : (Math.random() * 60 + 15).toFixed(2);
+    const desc = typeof service === 'object' ? (service.description || '') : '';
+    let img = `https://picsum.photos/seed/${encodeURIComponent(name)}${i}/600/600`;
+    if (productImages && productImages[i]) img = productImages[i].startsWith('http') ? productImages[i] : `http://localhost:5000${productImages[i]}`;
+    return `
+    <div style="background:#fff;border-radius:1rem;overflow:hidden;border:1px solid #d1fae5;transition:box-shadow 0.3s,transform 0.3s;" onmouseover="this.style.boxShadow='0 16px 36px rgba(16,185,129,0.15)';this.style.transform='translateY(-5px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
+      <div style="height:230px;overflow:hidden;background:#ecfdf5;">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" alt="${name}" onerror="this.src='https://picsum.photos/seed/organic${i}/600/600'">
+      </div>
+      <div style="padding:1.25rem;">
+        <div style="display:inline-block;background:#d1fae5;color:${primaryColor};font-size:0.65rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:9999px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;">🌿 Natural</div>
+        <h4 style="font-weight:700;color:${primaryColor};font-size:1rem;margin:0 0 0.4rem;">${name}</h4>
+        ${desc ? `<p style="font-size:0.82rem;color:#6b7280;margin:0 0 0.75rem;">${desc}</p>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:9999px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Add to Cart</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const socialLinksHtml = buildSocialLinks(socialMedia, phoneNumber, whatsappUrl);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${businessName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Nunito',sans-serif;background:#f0fdf4;color:#064e3b;overflow-x:hidden;}
+    html{scroll-behavior:smooth;}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.75rem;}
+    @media(max-width:600px){.products-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid #d1fae5;padding:0 2rem;">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <span style="font-size:1.4rem;">🌿</span>
+        <span style="font-weight:900;font-size:1.3rem;color:${primaryColor};">${businessName}</span>
+      </div>
+      <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:#065f46;">
+        <a href="#" style="color:#065f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#065f46'">Home</a>
+        <a href="#products" style="color:#065f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#065f46'">Shop</a>
+        <a href="#contact" style="color:#065f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#065f46'">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header style="position:relative;min-height:80vh;display:flex;align-items:center;overflow:hidden;">
+    <img src="${heroBg}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.style.display='none'">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(6,78,59,0.88) 40%,rgba(16,185,129,0.4));"></div>
+    <div style="position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:4rem 2rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.35rem 0.9rem;background:rgba(255,255,255,0.15);border-radius:9999px;font-size:0.75rem;font-weight:700;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);margin-bottom:1.5rem;backdrop-filter:blur(4px);">
+        🌱 100% Natural & Organic
+      </div>
+      <h1 style="font-size:clamp(2.5rem,5.5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.02em;">${businessName}</h1>
+      <p style="color:rgba(255,255,255,0.85);font-size:1.1rem;max-width:480px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+        <a href="#products" style="padding:0.9rem 2rem;background:#fff;color:${primaryColor};border-radius:9999px;font-weight:800;text-decoration:none;box-shadow:0 4px 14px rgba(255,255,255,0.3);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Shop Natural 🌿</a>
+        ${phoneNumber ? `<a href="${whatsappUrl}" target="_blank" style="padding:0.9rem 2rem;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:9999px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px);transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'"><i class="fab fa-whatsapp" style="margin-right:0.4rem;"></i>Chat with Us</a>` : ''}
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="max-width:1280px;margin:0 auto;padding:5rem 2rem;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-size:2.25rem;font-weight:900;color:${primaryColor};margin-bottom:0.5rem;">Natural Collection</h2>
+      <p style="color:#6b7280;">Ethically sourced. Sustainably packaged.</p>
+    </div>
+    <div class="products-grid">${productsHtml}</div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:#ecfdf5;padding:4rem 2rem;text-align:center;">
+    <h3 style="font-size:2rem;font-weight:900;color:${primaryColor};margin-bottom:1.5rem;">🌿 Get in Touch</h3>
+    <div style="display:inline-block;background:#fff;border:1px solid #d1fae5;border-radius:1rem;padding:2rem;box-shadow:0 4px 20px rgba(16,185,129,0.08);text-align:left;min-width:280px;line-height:2.2;">
+      ${buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, accentColor)}
+      ${socialLinksHtml ? `<div style="margin-top:1rem;display:flex;gap:0.75rem;">${socialLinksHtml}</div>` : ''}
+    </div>
+  </section>
+
+  <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(167,243,208,0.7);font-size:0.85rem;">
+    <p>© 2026 ${businessName}. Powered by <span style="color:#a7f3d0;font-weight:700;">VendorBuild</span></p>
+  </footer>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+//  REMAINING HELPERS
+// ─────────────────────────────────────────────
 
 function generateWebsiteCSS(theme) {
   return `
@@ -785,7 +1325,86 @@ function generateWebsiteCSS(theme) {
   `;
 }
 
-// Serve static files for uploads
+function extractNameFromText(text) {
+  const patterns = [
+    /(?:shop|store|business) name (?:is|called) ([^.]+)/i,
+    /my (?:shop|store) (?:is|called) ([^.]+)/i,
+    /^([^.]+) (?:shop|store)/i
+  ];
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match) return match[1].trim();
+  }
+  return text.split('.')[0].split(' ').slice(0, 3).join(' ');
+}
+
+function detectCategory(text) {
+  const t = text.toLowerCase();
+  if (t.includes('restaurant') || t.includes('food') || t.includes('hotel')) return 'restaurant';
+  if (t.includes('tailor') || t.includes('stitch')) return 'tailor';
+  if (t.includes('grocery') || t.includes('vegetable') || t.includes('fruit')) return 'grocery';
+  if (t.includes('salon') || t.includes('hair') || t.includes('beauty')) return 'salon';
+  if (t.includes('mechanic') || t.includes('repair')) return 'mechanic';
+  if (t.includes('tea') || t.includes('chai')) return 'tea_shop';
+  return 'other';
+}
+
+function extractLocation(text) {
+  const patterns = [/(?:in|at|near) ([^.]+?)(?:\.|$)/i, /located (?:in|at) ([^.]+?)(?:\.|$)/i];
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match) return match[1].trim();
+  }
+  return '';
+}
+
+function extractPhoneNumber(text) {
+  const match = text.match(/(\+?\d{1,3}[-.]?)?\(?\d{3}\)?[-.]?\d{3}[-.]?\d{4}/g);
+  return match ? match[0] : '';
+}
+
+function extractEmail(text) {
+  const match = text.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g);
+  return match ? match[0] : '';
+}
+
+function extractServices(text) {
+  const services = [];
+  const indicators = ['sell', 'provide', 'offer', 'service', 'make', 'stitch', 'repair'];
+  for (const sentence of text.split(/[.,;]/)) {
+    for (const indicator of indicators) {
+      if (sentence.toLowerCase().includes(indicator)) { services.push(sentence.trim()); break; }
+    }
+  }
+  return services.slice(0, 10);
+}
+
+function parseCommand(text) {
+  const lowerText = text.toLowerCase();
+  if (lowerText.includes('add') && (lowerText.includes('product') || lowerText.includes('item'))) {
+    let productName = text.replace(/add|product|item/gi, '').trim();
+    const priceMatch = productName.match(/\$?(\d+(?:\.\d{2})?)/);
+    let price = null;
+    if (priceMatch) { price = priceMatch[1]; productName = productName.replace(priceMatch[0], '').trim(); }
+    return { action: 'ADD_PRODUCT', data: { productName: productName || 'New Product', price: price || '49.99' }, message: price ? `✅ Added "${productName}" for $${price}!` : `✅ Added "${productName}" to your catalog!` };
+  }
+  if (lowerText.includes('change') && (lowerText.includes('theme') || lowerText.includes('color'))) {
+    const colors = { 'red': '#FF4444', 'blue': '#3B82F6', 'green': '#10B981', 'orange': '#F97316', 'purple': '#8B5CF6', 'pink': '#EC4899', 'yellow': '#F59E0B', 'indigo': '#6366F1', 'teal': '#14B8A6' };
+    for (const [colorName, colorCode] of Object.entries(colors)) {
+      if (lowerText.includes(colorName)) return { action: 'CHANGE_THEME', data: { color: colorCode, colorName }, message: `✅ Theme color changed to ${colorName}!` };
+    }
+  }
+  if (lowerText.includes('phone') || lowerText.includes('whatsapp')) {
+    const phoneMatch = text.match(/\d{10,12}/);
+    if (phoneMatch) return { action: 'UPDATE_PHONE', data: { phone: phoneMatch[0] }, message: `✅ Phone number updated to ${phoneMatch[0]}!` };
+  }
+  if (lowerText.includes('instagram') || lowerText.includes('facebook') || lowerText.includes('twitter')) {
+    let platform = lowerText.includes('instagram') ? 'instagram' : lowerText.includes('facebook') ? 'facebook' : 'twitter';
+    return { action: 'ADD_SOCIAL_MEDIA', data: { platform }, message: `✅ You can add your ${platform} link in the store details section!` };
+  }
+  return { action: 'UNKNOWN', data: {}, message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for $25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links" };
+}
+
 router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 module.exports = router;
