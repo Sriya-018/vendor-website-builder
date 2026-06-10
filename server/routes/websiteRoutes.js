@@ -35,8 +35,18 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
-// Create or update website
-router.post('/:businessId', async (req, res) => {
+// Get all websites for a business
+router.get('/business/:businessId/all', async (req, res) => {
+  try {
+    const websites = await Website.find({ businessId: req.params.businessId }).sort({ createdAt: -1 });
+    res.json(websites);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create new website
+router.post('/:businessId/new', async (req, res) => {
   try {
     const { businessId } = req.params;
     const { template, theme, sections, html, css } = req.body;
@@ -44,32 +54,45 @@ router.post('/:businessId', async (req, res) => {
     const business = await Business.findById(businessId);
     if (!business) return res.status(404).json({ error: 'Business not found' });
     
-    // Generate slug from business name
-    const slug = business.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    // Generate slug from business name, append part of businessId and random string
+    const baseSlug = (business.businessName || 'store').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const randomStr = Math.random().toString(36).substring(2, 6);
+    const slug = `${baseSlug}-${businessId.toString().slice(-4)}-${randomStr}`;
     
-    let website = await Website.findOne({ businessId });
+    const website = await Website.create({
+      businessId,
+      template,
+      theme,
+      sections,
+      html,
+      css,
+      slug,
+      published: true
+    });
     
-    if (website) {
-      website.template = template || website.template;
-      website.theme = theme || website.theme;
-      website.sections = sections || website.sections;
-      website.html = html || website.html;
-      website.css = css || website.css;
-      website.slug = slug;
-      website.updatedAt = new Date();
-      await website.save();
-    } else {
-      website = await Website.create({
-        businessId,
-        template,
-        theme,
-        sections,
-        html,
-        css,
-        slug,
-        published: true
-      });
-    }
+    res.json(website);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update specific website
+router.put('/update/:websiteId', async (req, res) => {
+  try {
+    const { websiteId } = req.params;
+    const { template, theme, sections, html, css } = req.body;
+    
+    const website = await Website.findById(websiteId);
+    if (!website) return res.status(404).json({ error: 'Website not found' });
+    
+    if (template) website.template = template;
+    if (theme) website.theme = theme;
+    if (sections) website.sections = sections;
+    if (html) website.html = html;
+    if (css) website.css = css;
+    website.updatedAt = new Date();
+    
+    await website.save();
     
     res.json(website);
   } catch (error) {

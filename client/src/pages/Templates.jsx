@@ -434,6 +434,7 @@ function Templates({ token, businessId }) {
         
         const productImages = [];
         const createdProducts = [];
+        const uploadedImageUrls = [];
         
         for (const product of products) {
           let imageUrl = null;
@@ -447,13 +448,7 @@ function Templates({ token, businessId }) {
             productImages.push(null);
           }
           
-          await axios.post(`${API_URL}/business/${businessId}/products`, {
-            name: product.name,
-            price: Number(product.price) || 0,
-            category: product.category || 'general',
-            description: product.description || '',
-            imageUrl: imageUrl || ''
-          });
+          uploadedImageUrls.push(imageUrl);
           
           createdProducts.push({
             name: product.name,
@@ -485,12 +480,29 @@ function Templates({ token, businessId }) {
           }
         });
         
-        const saveRes = await axios.post(`${API_URL}/website/${businessId}`, {
+        const saveRes = await axios.post(`${API_URL}/website/${businessId}/new`, {
           html: response.data.html,
           css: response.data.css,
           template: previewTemplate?.category || 'General',
           published: true
         });
+
+        const newWebsiteId = saveRes.data._id;
+
+        // Now save products to DB with the new websiteId
+        for (let i = 0; i < products.length; i++) {
+          const product = products[i];
+          const imageUrl = uploadedImageUrls[i];
+          
+          await axios.post(`${API_URL}/business/${businessId}/products`, {
+            websiteId: newWebsiteId,
+            name: product.name,
+            price: Number(product.price) || 0,
+            category: product.category || 'general',
+            description: product.description || '',
+            imageUrl: imageUrl || ''
+          });
+        }
         
         setIsPublishing(false);
         setShowSuccessToast(true);

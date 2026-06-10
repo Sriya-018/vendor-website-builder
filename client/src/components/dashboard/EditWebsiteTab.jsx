@@ -19,9 +19,11 @@ const TEMPLATES = [
   { id: 'playful', name: 'Playful & Vibrant', description: 'Colorful and energetic layout for creative stores.' }
 ];
 
-function EditWebsiteTab({ businessId, businessData }) {
-  const [activeTheme, setActiveTheme] = useState(THEMES[0]);
-  const [activeTemplate, setActiveTemplate] = useState('modern');
+function EditWebsiteTab({ businessId, businessData, selectedWebsite }) {
+  const [activeTheme, setActiveTheme] = useState(
+    selectedWebsite?.theme ? THEMES.find(t => t.primary === selectedWebsite.theme.primaryColor) || THEMES[0] : THEMES[0]
+  );
+  const [activeTemplate, setActiveTemplate] = useState(selectedWebsite?.template || 'modern');
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishStatus, setPublishStatus] = useState(null);
 
@@ -64,7 +66,7 @@ function EditWebsiteTab({ businessId, businessData }) {
       setPublishStatus('saving');
       
       // 3. Save website
-      await axios.post(`${API_URL}/website/${businessId}`, {
+      await axios.put(`${API_URL}/website/update/${selectedWebsite._id}`, {
         html: genRes.data.html,
         css: genRes.data.css,
         template: activeTemplate,
@@ -83,14 +85,24 @@ function EditWebsiteTab({ businessId, businessData }) {
     }
   };
 
-  const websiteUrl = `/website/${businessData?.businessName?.toLowerCase().replace(/\s/g, '-')}`;
+  const websiteUrl = selectedWebsite ? `/website/${selectedWebsite.slug}` : '';
+
+  if (!selectedWebsite) {
+    return (
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl p-12 text-center">
+        <FaDesktop className="text-5xl text-gray-300 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-gray-900 mb-2">No Storefront Selected</h2>
+        <p className="text-gray-500 mb-6">Please select a storefront from the Overview tab to edit its design.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl">
       <div className="p-6 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Website Design</h2>
-          <p className="text-sm text-gray-500">Customize the look and feel of your online store</p>
+          <p className="text-sm text-gray-500">Editing storefront: <strong>{selectedWebsite.slug}</strong></p>
         </div>
         <button 
           onClick={() => window.open(websiteUrl, '_blank')}

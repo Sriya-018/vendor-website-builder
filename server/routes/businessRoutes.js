@@ -29,10 +29,14 @@ router.put('/:businessId', async (req, res) => {
   }
 });
 
-// Get all products for a business
+// Get all products for a business (optionally filtered by websiteId)
 router.get('/:businessId/products', async (req, res) => {
   try {
-    const products = await Product.find({ businessId: req.params.businessId });
+    const query = { businessId: req.params.businessId };
+    if (req.query.websiteId) {
+      query.websiteId = req.query.websiteId;
+    }
+    const products = await Product.find(query);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -42,8 +46,12 @@ router.get('/:businessId/products', async (req, res) => {
 // Add product
 router.post('/:businessId/products', async (req, res) => {
   try {
+    if (!req.body.websiteId) {
+      return res.status(400).json({ error: 'websiteId is required to add a product' });
+    }
     const product = await Product.create({
       businessId: req.params.businessId,
+      websiteId: req.body.websiteId,
       ...req.body
     });
     res.json(product);

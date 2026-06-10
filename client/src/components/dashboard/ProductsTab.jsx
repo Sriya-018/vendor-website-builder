@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaPlus, FaEdit, FaTrash, FaImage } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaImage, FaGlobe } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
-function ProductsTab({ businessId }) {
+function ProductsTab({ businessId, websites }) {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [activeWebsiteId, setActiveWebsiteId] = useState(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ function ProductsTab({ businessId }) {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
+      // Fetch ALL products for the business
       const res = await axios.get(`${API_URL}/business/${businessId}/products`);
       setProducts(res.data);
     } catch (error) {
@@ -55,11 +57,18 @@ function ProductsTab({ businessId }) {
   const resetForm = () => {
     setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null });
     setEditingProduct(null);
+    setActiveWebsiteId(null);
     setShowAddModal(false);
+  };
+
+  const handleAddClick = (websiteId) => {
+    setActiveWebsiteId(websiteId);
+    setShowAddModal(true);
   };
 
   const handleEdit = (product) => {
     setEditingProduct(product);
+    setActiveWebsiteId(product.websiteId);
     setFormData({
       name: product.name,
       price: product.price,
@@ -100,7 +109,8 @@ function ProductsTab({ businessId }) {
         price: Number(formData.price),
         category: formData.category,
         description: formData.description,
-        imageUrl: finalImageUrl
+        imageUrl: finalImageUrl,
+        websiteId: activeWebsiteId
       };
 
       if (editingProduct) {
@@ -119,88 +129,175 @@ function ProductsTab({ businessId }) {
     }
   };
 
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900">Products</h2>
-          <p className="text-sm text-gray-500">Manage your store's inventory</p>
-        </div>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-        >
-          <FaPlus /> Add Product
-        </button>
+  if (!websites || websites.length === 0) {
+    return (
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-12 text-center">
+        <FaGlobe className="text-5xl text-gray-300 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-gray-900 mb-2">No Storefronts Found</h2>
+        <p className="text-gray-500 mb-6">Create a store from the Overview tab before managing products.</p>
       </div>
+    );
+  }
 
-      {isLoading ? (
-        <div className="p-8 text-center text-gray-500">Loading products...</div>
-      ) : products.length === 0 ? (
-        <div className="p-12 text-center text-gray-500 flex flex-col items-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4 text-2xl">
-            <FaImage />
+  if (isLoading) {
+    return <div className="p-8 text-center text-gray-500">Loading products...</div>;
+  }
+
+  return (
+    <div className="space-y-8">
+      {websites.map((website) => {
+        const websiteProducts = products.filter(p => p.websiteId === website._id);
+        
+        return (
+          <div key={website._id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <FaGlobe className="text-blue-500" />
+                  Storefront: <span className="font-medium text-gray-700">{website.slug}</span>
+                </h2>
+                <p className="text-sm text-gray-500">Manage products for this specific website</p>
+              </div>
+              <button
+                onClick={() => handleAddClick(website._id)}
+                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
+              >
+                <FaPlus /> Add Product
+              </button>
+            </div>
+
+            {websiteProducts.length === 0 ? (
+              <div className="p-12 text-center text-gray-500 flex flex-col items-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4 text-2xl">
+                  <FaImage />
+                </div>
+                <p className="text-lg font-medium text-gray-900">No products yet</p>
+                <p className="mt-1 mb-6">Add products to display them on {website.slug}.</p>
+                <button
+                  onClick={() => handleAddClick(website._id)}
+                  className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 shadow-sm"
+                >
+                  <FaPlus /> Add Product
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
+                      <th className="px-6 py-4 font-medium">Product</th>
+                      <th className="px-6 py-4 font-medium">Price</th>
+                      <th className="px-6 py-4 font-medium">Category</th>
+                      <th className="px-6 py-4 font-medium text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 text-sm">
+                    {websiteProducts.map(product => (
+                      <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-4">
+                            {product.imageUrl ? (
+                              <img 
+                                src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
+                                alt={product.name} 
+                                className="w-12 h-12 rounded object-cover border border-gray-200"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400">
+                                <FaImage />
+                              </div>
+                            )}
+                            <div>
+                              <div className="font-medium text-gray-900">{product.name}</div>
+                              <div className="text-xs text-gray-500 truncate max-w-[200px]">{product.description}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 font-medium">₹{product.price.toLocaleString()}</td>
+                        <td className="px-6 py-4">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800 capitalize">
+                            {product.category || 'General'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button onClick={() => handleEdit(product)} className="text-blue-600 hover:text-blue-900 p-2 mr-2">
+                            <FaEdit />
+                          </button>
+                          <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 p-2">
+                            <FaTrash />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-          <p className="text-lg font-medium text-gray-900">No products yet</p>
-          <p className="mt-1 mb-6">Add your first product to start selling.</p>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50"
-          >
-            <FaPlus /> Add Product
-          </button>
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
-                <th className="px-6 py-4 font-medium">Product</th>
-                <th className="px-6 py-4 font-medium">Price</th>
-                <th className="px-6 py-4 font-medium">Category</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 text-sm">
-              {products.map(product => (
-                <tr key={product._id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-4">
-                      {product.imageUrl ? (
-                        <img 
-                          src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
-                          alt={product.name} 
-                          className="w-12 h-12 rounded object-cover border border-gray-200"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400">
-                          <FaImage />
-                        </div>
-                      )}
-                      <div>
-                        <div className="font-medium text-gray-900">{product.name}</div>
-                        <div className="text-xs text-gray-500 truncate max-w-[200px]">{product.description}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 font-medium">₹{product.price.toLocaleString()}</td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800 capitalize">
-                      {product.category || 'General'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleEdit(product)} className="text-blue-600 hover:text-blue-900 p-2 mr-2">
-                      <FaEdit />
-                    </button>
-                    <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 p-2">
-                      <FaTrash />
-                    </button>
-                  </td>
+        );
+      })}
+
+      {/* Unassigned / Legacy Products */}
+      {products.filter(p => !p.websiteId).length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mt-8">
+          <div className="p-6 border-b border-gray-200 bg-gray-50">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <FaImage className="text-gray-500" />
+              Unassigned Products
+            </h2>
+            <p className="text-sm text-gray-500">Older products that are not assigned to a specific storefront.</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
+                  <th className="px-6 py-4 font-medium">Product</th>
+                  <th className="px-6 py-4 font-medium">Price</th>
+                  <th className="px-6 py-4 font-medium">Category</th>
+                  <th className="px-6 py-4 font-medium text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-200 text-sm">
+                {products.filter(p => !p.websiteId).map(product => (
+                  <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        {product.imageUrl ? (
+                          <img 
+                            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
+                            alt={product.name} 
+                            className="w-12 h-12 rounded object-cover border border-gray-200"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400">
+                            <FaImage />
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-medium text-gray-900">{product.name}</div>
+                          <div className="text-xs text-gray-500 truncate max-w-[200px]">{product.description}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 font-medium">₹{product.price.toLocaleString()}</td>
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800 capitalize">
+                        {product.category || 'General'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button onClick={() => handleEdit(product)} className="text-blue-600 hover:text-blue-900 p-2 mr-2">
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 p-2">
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaEye, FaBoxOpen, FaMoneyBillWave, FaArrowRight } from 'react-icons/fa';
 
-function OverviewTab({ stats, recentOrders, websiteUrl, navigate }) {
+function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsite }) {
   return (
     <>
       {/* Stats Grid */}
@@ -40,11 +40,53 @@ function OverviewTab({ stats, recentOrders, websiteUrl, navigate }) {
         </div>
       </div>
 
-      {/* Quick Actions & Recent Orders Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* My Storefronts */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-gray-900">My Storefronts</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {websites && websites.length > 0 ? websites.map((website, index) => (
+            <div key={website._id} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col">
+              <div className="flex justify-between items-start mb-3">
+                <div className="font-bold text-gray-900 truncate">Storefront {index + 1}</div>
+                <span className="text-xs font-semibold bg-green-50 text-green-700 px-2 py-1 rounded-full">{website.views || 0} views</span>
+              </div>
+              <div className="text-sm text-gray-500 mb-4 line-clamp-2">
+                Template: <span className="font-medium capitalize">{website.template}</span><br/>
+                Slug: <span className="font-medium text-gray-700">{website.slug}</span>
+              </div>
+              <div className="mt-auto flex gap-2">
+                <button 
+                  onClick={() => window.open(`/website/${website.slug}`, '_blank')}
+                  className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center gap-2 border border-gray-200"
+                >
+                  <FaEye /> View
+                </button>
+                <button 
+                  onClick={() => {
+                    setSelectedWebsite(website);
+                    navigate('edit-website');
+                  }}
+                  className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center gap-2 border border-blue-200"
+                >
+                  Edit Design
+                </button>
+              </div>
+            </div>
+          )) : (
+            <div className="col-span-full p-8 text-center text-gray-500 bg-white rounded-xl border border-gray-200 shadow-sm">
+              <p>No storefronts created yet. Start by creating a new store from the Templates section!</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Recent Orders Container */}
+      <div className="grid grid-cols-1 gap-8">
         
-        {/* Recent Orders - Takes up 2 columns on lg */}
-        <div className="lg:col-span-2">
+        {/* Recent Orders */}
+        <div className="col-span-1">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">Recent Orders</h2>
             <button onClick={() => navigate('orders')} className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
@@ -98,57 +140,6 @@ function OverviewTab({ stats, recentOrders, websiteUrl, navigate }) {
                 </table>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Quick Setup / Help Section */}
-        <div className="lg:col-span-1">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Setup</h2>
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                  1
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">Add your first product</h3>
-                  <p className="text-sm text-gray-500 mt-1">Start by adding items to your store.</p>
-                  <button onClick={() => navigate('products')} className="mt-2 text-sm text-blue-600 font-medium hover:underline">
-                    Add product &rarr;
-                  </button>
-                </div>
-              </div>
-              
-              <div className="w-full h-px bg-gray-100"></div>
-              
-              <div className="flex gap-4">
-                <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center font-bold text-sm">
-                  2
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">Customize design</h3>
-                  <p className="text-sm text-gray-500 mt-1">Change colors, fonts, and layout.</p>
-                  <button onClick={() => navigate('edit-website')} className="mt-2 text-sm text-blue-600 font-medium hover:underline">
-                    Edit website &rarr;
-                  </button>
-                </div>
-              </div>
-              
-              <div className="w-full h-px bg-gray-100"></div>
-              
-              <div className="flex gap-4">
-                <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center font-bold text-sm">
-                  3
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">Share your store</h3>
-                  <p className="text-sm text-gray-500 mt-1">Get your first visitors by sharing.</p>
-                  <button onClick={() => window.open(websiteUrl, '_blank')} className="mt-2 text-sm text-blue-600 font-medium hover:underline">
-                    View website &rarr;
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 

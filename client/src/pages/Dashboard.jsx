@@ -20,6 +20,8 @@ function Dashboard({ token, businessId }) {
   const [business, setBusiness] = useState(null);
   const [stats, setStats] = useState({ views: 0, orders: 0, revenue: 0 });
   const [recentOrders, setRecentOrders] = useState([]);
+  const [websites, setWebsites] = useState([]);
+  const [selectedWebsite, setSelectedWebsite] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   
   // Dashboard Tabs: 'overview', 'products', 'orders', 'settings', 'edit-website'
@@ -31,14 +33,15 @@ function Dashboard({ token, businessId }) {
 
   const fetchData = async () => {
     try {
-      const [businessRes, statsRes, ordersRes] = await Promise.all([
+      const [businessRes, websitesRes, ordersRes] = await Promise.all([
         axios.get(`${API_URL}/business/${businessId}`),
-        axios.get(`${API_URL}/website/${businessId}/stats`),
+        axios.get(`${API_URL}/website/business/${businessId}/all`),
         axios.get(`${API_URL}/business/${businessId}/orders`)
       ]);
       setBusiness(businessRes.data);
+      setWebsites(websitesRes.data);
       setStats({
-        views: statsRes.data.views,
+        views: websitesRes.data.reduce((sum, w) => sum + (w.views || 0), 0),
         orders: ordersRes.data.length,
         revenue: ordersRes.data.reduce((sum, o) => sum + o.totalAmount, 0)
       });
@@ -60,22 +63,20 @@ function Dashboard({ token, businessId }) {
     </div>
   );
 
-  const websiteUrl = `/website/${business.businessName?.toLowerCase().replace(/\s/g, '-')}`;
-
   const renderActiveTab = () => {
     switch(activeTab) {
       case 'overview':
-        return <OverviewTab stats={stats} recentOrders={recentOrders} websiteUrl={websiteUrl} navigate={setActiveTab} />;
+        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} />;
       case 'products':
-        return <ProductsTab businessId={businessId} />;
+        return <ProductsTab businessId={businessId} websites={websites} />;
       case 'orders':
         return <OrdersTab businessId={businessId} />;
       case 'settings':
         return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} />;
       case 'edit-website':
-        return <EditWebsiteTab businessId={businessId} businessData={business} />;
+        return <EditWebsiteTab businessId={businessId} businessData={business} selectedWebsite={selectedWebsite} />;
       default:
-        return <OverviewTab stats={stats} recentOrders={recentOrders} websiteUrl={websiteUrl} navigate={setActiveTab} />;
+        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} />;
     }
   };
 
@@ -174,18 +175,11 @@ function Dashboard({ token, businessId }) {
               </div>
               <div className="flex gap-3">
                  <button 
-                  onClick={() => window.open(websiteUrl, '_blank')}
-                  className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors shadow-sm text-sm"
-                >
-                  <FaGlobe className="text-gray-400" />
-                  View Website
-                </button>
-                <button 
-                  onClick={() => setActiveTab('edit-website')}
+                  onClick={() => navigate('/templates')}
                   className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm text-sm"
                 >
-                  <FaEdit />
-                  Edit Site
+                  <FaPlus />
+                  Create New Store
                 </button>
               </div>
             </div>
