@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { 
-  FaEye, FaPlus, FaEdit, FaStore, FaChartLine, 
+import {
+  FaEye, FaPlus, FaEdit, FaStore, FaChartLine,
   FaBoxOpen, FaMoneyBillWave, FaCog, FaSignOutAlt,
   FaBars, FaTimes, FaGlobe, FaArrowRight, FaBox
 } from 'react-icons/fa';
@@ -23,7 +23,7 @@ function Dashboard({ token, businessId }) {
   const [websites, setWebsites] = useState([]);
   const [selectedWebsite, setSelectedWebsite] = useState(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  
+
   // Dashboard Tabs: 'overview', 'products', 'orders', 'settings', 'edit-website'
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -57,6 +57,18 @@ function Dashboard({ token, businessId }) {
     navigate('/');
   };
 
+  const handleDeleteWebsite = async (websiteId) => {
+    if (window.confirm('Are you sure you want to delete this storefront? This action cannot be undone.')) {
+      try {
+        await axios.delete(`${API_URL}/website/${websiteId}`);
+        fetchData();
+      } catch (error) {
+        console.error('Failed to delete website:', error);
+        alert('Failed to delete storefront');
+      }
+    }
+  };
+
   if (!business) return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -64,13 +76,13 @@ function Dashboard({ token, businessId }) {
   );
 
   const renderActiveTab = () => {
-    switch(activeTab) {
+    switch (activeTab) {
       case 'overview':
-        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} />;
+        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} onDeleteWebsite={handleDeleteWebsite} />;
       case 'products':
         return <ProductsTab businessId={businessId} websites={websites} />;
       case 'orders':
-        return <OrdersTab businessId={businessId} />;
+        return <OrdersTab businessId={businessId} websites={websites} />;
       case 'settings':
         return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} />;
       case 'edit-website':
@@ -83,11 +95,10 @@ function Dashboard({ token, businessId }) {
   const NavItem = ({ id, icon: Icon, label }) => (
     <button
       onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
-      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg font-medium transition-colors ${
-        activeTab === id 
-          ? 'bg-blue-50 text-blue-700' 
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg font-medium transition-colors ${activeTab === id
+          ? 'bg-blue-50 text-blue-700'
           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-      }`}
+        }`}
     >
       <Icon className={activeTab === id ? 'text-blue-600' : 'text-gray-400'} />
       {label}
@@ -106,7 +117,7 @@ function Dashboard({ token, businessId }) {
             {business.businessName || 'My Workspace'}
           </span>
         </div>
-        
+
         <div className="p-4 flex-1 overflow-y-auto">
           <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-3">Overview</div>
           <nav className="space-y-1">
@@ -121,9 +132,9 @@ function Dashboard({ token, businessId }) {
             <NavItem id="settings" icon={FaCog} label="Store Settings" />
           </nav>
         </div>
-        
+
         <div className="p-4 border-t border-gray-200">
-          <button 
+          <button
             onClick={handleSignOut}
             className="flex items-center gap-3 px-3 py-2 w-full text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-colors"
           >
@@ -138,7 +149,7 @@ function Dashboard({ token, businessId }) {
         {/* Top Navbar Mobile */}
         <div className="md:hidden flex items-center justify-between bg-white px-4 py-4 border-b border-gray-200 sticky top-0 z-20">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-             <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-md font-bold">
+            <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-md font-bold">
               {business.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
             <span className="font-bold text-lg text-gray-900 truncate max-w-[150px]">{business.businessName}</span>
@@ -174,7 +185,7 @@ function Dashboard({ token, businessId }) {
                 <p className="text-gray-500 text-sm">Welcome back! Here is what's happening with your store today.</p>
               </div>
               <div className="flex gap-3">
-                 <button 
+                <button
                   onClick={() => navigate('/templates')}
                   className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm text-sm"
                 >

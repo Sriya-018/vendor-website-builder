@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaEye, FaBoxOpen, FaMoneyBillWave, FaArrowRight } from 'react-icons/fa';
+import { FaEye, FaBoxOpen, FaMoneyBillWave, FaArrowRight, FaTrash } from 'react-icons/fa';
 
-function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsite }) {
+function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsite, onDeleteWebsite }) {
   return (
     <>
       {/* Stats Grid */}
@@ -71,6 +71,13 @@ function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsi
                   className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center gap-2 border border-blue-200"
                 >
                   Edit Design
+                </button>
+                <button
+                  onClick={() => onDeleteWebsite(website._id)}
+                  className="w-10 flex-shrink-0 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center border border-red-200"
+                  title="Delete Storefront"
+                >
+                  <FaTrash />
                 </button>
               </div>
             </div>

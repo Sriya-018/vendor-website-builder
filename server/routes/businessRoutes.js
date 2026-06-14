@@ -96,6 +96,29 @@ router.get('/:businessId/orders', async (req, res) => {
   }
 });
 
+// Create new order
+router.post('/:businessId/orders', async (req, res) => {
+  try {
+    const { items, totalAmount, customerPhone, customerName, notes, websiteId, storeName } = req.body;
+
+    const newOrder = await Order.create({
+      businessId: req.params.businessId,
+      websiteId: websiteId || null,
+      storeName: storeName || '',
+      customerPhone: customerPhone || 'Unknown',
+      customerName: customerName || 'WhatsApp Customer',
+      items: items || [],
+      totalAmount: totalAmount || 0,
+      notes: notes || '',
+      status: 'pending'
+    });
+
+    res.status(201).json(newOrder);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Update order status
 router.put('/orders/:orderId', async (req, res) => {
   try {

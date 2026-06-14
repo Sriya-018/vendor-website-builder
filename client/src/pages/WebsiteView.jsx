@@ -4,10 +4,140 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
 
+const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, checkout }) => {
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  return (
+    <>
+      {/* Floating Cart Button */}
+      {items.length > 0 && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:bg-blue-700 transition-all z-50 flex items-center justify-center group"
+          style={{ width: '64px', height: '64px' }}
+        >
+          <div className="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-white group-hover:scale-110 transition-transform">
+              {items.reduce((sum, i) => sum + i.quantity, 0)}
+            </span>
+          </div>
+        </button>
+      )}
+
+      {/* Sidebar Overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm transition-opacity" onClick={() => setIsOpen(false)}></div>
+      )}
+
+      {/* Cart Sidebar */}
+      <div className={`fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-[101] transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+          <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            Your Cart
+          </h2>
+          <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50">
+          {items.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <p className="text-lg font-medium">Your cart is empty</p>
+            </div>
+          ) : (
+            items.map((item, index) => (
+              <div key={index} className="flex gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg bg-gray-100" />
+                <div className="flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-bold text-gray-800 line-clamp-1" title={item.name}>{item.name}</h3>
+                    <p className="text-blue-600 font-bold mt-1">${parseFloat(item.price).toFixed(2)}</p>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-1 border border-gray-100">
+                      <button
+                        onClick={() => updateQuantity(index, -1)}
+                        className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-white hover:text-blue-600 rounded-md shadow-sm transition-colors"
+                      >-</button>
+                      <span className="w-8 text-center font-medium text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(index, 1)}
+                        className="w-7 h-7 flex items-center justify-center text-gray-600 hover:bg-white hover:text-blue-600 rounded-md shadow-sm transition-colors"
+                      >+</button>
+                    </div>
+                    <button
+                      onClick={() => removeItem(index)}
+                      className="text-gray-400 hover:text-red-500 p-2 rounded-full hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
+                      title="Remove item"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {items.length > 0 && (
+          <div className="p-6 bg-white border-t border-gray-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <div className="flex justify-between items-end mb-6">
+              <span className="text-gray-500 font-medium">Total Amount</span>
+              <span className="text-3xl font-black text-gray-900">${total.toFixed(2)}</span>
+            </div>
+            <button
+              onClick={checkout}
+              className="w-full py-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all shadow-lg hover:shadow-green-500/30"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+              </svg>
+              Checkout on WhatsApp
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
 function WebsiteView() {
   const { slug } = useParams();
   const [website, setWebsite] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Load cart from local storage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(`cart_${slug}`);
+    if (saved) {
+      try {
+        setCartItems(JSON.parse(saved));
+      } catch (e) { }
+    }
+  }, [slug]);
+
+  // Save cart to local storage on change
+  useEffect(() => {
+    if (website) {
+      localStorage.setItem(`cart_${slug}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, slug, website]);
 
   useEffect(() => {
     fetchWebsite();
@@ -21,6 +151,148 @@ function WebsiteView() {
       console.error('Failed to load website:', error);
     }
     setLoading(false);
+  };
+
+  const handleTemplateClick = (e) => {
+    // Find the closest button or anchor
+    const btn = e.target.closest('button, a');
+    if (!btn) return;
+
+    // Check if it's explicitly marked or looks like a cart button
+    const text = (btn.innerText || '').toLowerCase();
+    const isCartBtn = text.includes('add to cart') ||
+      text.includes('add to bag') ||
+      text.includes('buy now') ||
+      text.includes('order now') ||
+      text.includes('shop now') ||
+      text.includes('add to basket');
+
+    const hasDataAttr = btn.hasAttribute('data-cart-add');
+
+    // If it's not a cart button, let it behave normally (e.g., links)
+    if (!hasDataAttr && !isCartBtn) return;
+
+    // Prevent default navigation/submit
+    if (e.target.closest('a') || e.target.closest('button')) {
+      e.preventDefault();
+    }
+
+    let name = btn.getAttribute('data-product-name');
+    let priceText = btn.getAttribute('data-product-price');
+    let image = btn.getAttribute('data-product-image');
+
+    // Fallback: If data attributes are missing (legacy websites), traverse the DOM
+    if (!name || !priceText) {
+      let container = btn.parentElement;
+      // Go up until we find a container that has an image (usually the product card wrapper)
+      while (container && container !== document.body) {
+        if (container.querySelector('img')) break;
+        container = container.parentElement;
+      }
+
+      if (container && container !== document.body) {
+        // Extract Image
+        const imgEl = container.querySelector('img');
+        if (imgEl && !image) image = imgEl.src;
+
+        // Extract Price (find the first $ followed by numbers)
+        if (!priceText) {
+          const priceMatch = container.innerText.match(/\$(\d+(?:,\d{3})*(?:\.\d+)?)/);
+          if (priceMatch) {
+            priceText = priceMatch[1].replace(/,/g, '');
+          }
+        }
+
+        // Extract Name (look for headers)
+        if (!name) {
+          const headings = container.querySelectorAll('h3, h4, h5, h2');
+          if (headings.length > 0) {
+            name = headings[0].innerText.trim();
+          } else {
+            // Ultimate fallback, find the first significant text line that isn't 'Product' or the price
+            const lines = container.innerText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const candidate = lines.find(l => l.toLowerCase() !== 'product' && !l.includes('$') && !l.toLowerCase().includes('buy now'));
+            if (candidate) name = candidate;
+          }
+        }
+      }
+    }
+
+    const price = parseFloat(priceText) || 0;
+    name = name || 'Unknown Product';
+    image = image || 'https://via.placeholder.com/150';
+
+    setCartItems(prev => {
+      const existing = prev.findIndex(i => i.name === name);
+      if (existing > -1) {
+        const next = [...prev];
+        next[existing].quantity += 1;
+        return next;
+      }
+      return [...prev, { name, price, image, quantity: 1 }];
+    });
+    setIsCartOpen(true);
+  };
+
+  const updateQuantity = (index, delta) => {
+    setCartItems(prev => {
+      const next = [...prev];
+      next[index].quantity += delta;
+      if (next[index].quantity <= 0) {
+        next.splice(index, 1);
+      }
+      return next;
+    });
+  };
+
+  const removeItem = (index) => {
+    setCartItems(prev => {
+      const next = [...prev];
+      next.splice(index, 1);
+      return next;
+    });
+  };
+
+  const handleCheckout = async () => {
+    const bId = website?.businessId;
+    const targetNumber = bId?.contact?.whatsapp || bId?.contact?.phone || bId?.vendorPhone;
+
+    if (!targetNumber) {
+      alert("This business doesn't have a WhatsApp or Phone number configured. Please ask the store owner to add their contact details.");
+      return;
+    }
+
+    const businessName = bId?.businessName || 'Store';
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    let message = `*New Order from ${businessName}*\n\n`;
+    cartItems.forEach(item => {
+      message += `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}\n`;
+    });
+    message += `\n*Total: $${total.toFixed(2)}*\n\nPlease process my order.`;
+
+    try {
+      await axios.post(`${API_URL}/business/${bId._id}/orders`, {
+        websiteId: website._id,
+        storeName: website.slug || businessName,
+        items: cartItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })),
+        totalAmount: total,
+        customerName: 'WhatsApp Customer',
+        customerPhone: 'N/A' // WhatsApp checkout handles real identity
+      });
+    } catch (error) {
+      console.error('Failed to register order in database:', error);
+    }
+
+    // Format phone number (remove +, spaces, etc.)
+    const phone = targetNumber.replace(/\D/g, '');
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
+
+    // Clear cart and close sidebar
+    setCartItems([]);
+    setIsCartOpen(false);
   };
 
   if (loading) {
@@ -47,7 +319,20 @@ function WebsiteView() {
   }
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: website.html }} />
+    <div className="relative min-h-screen">
+      <div
+        dangerouslySetInnerHTML={{ __html: website.html }}
+        onClick={handleTemplateClick}
+      />
+      <ShoppingCart
+        items={cartItems}
+        isOpen={isCartOpen}
+        setIsOpen={setIsCartOpen}
+        updateQuantity={updateQuantity}
+        removeItem={removeItem}
+        checkout={handleCheckout}
+      />
+    </div>
   );
 }
 

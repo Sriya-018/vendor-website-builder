@@ -100,6 +100,24 @@ router.put('/update/:websiteId', async (req, res) => {
   }
 });
 
+// Delete specific website
+router.delete('/:websiteId', async (req, res) => {
+  try {
+    const { websiteId } = req.params;
+    const website = await Website.findByIdAndDelete(websiteId);
+    if (!website) return res.status(404).json({ error: 'Website not found' });
+    
+    // Remove from cache if exists
+    if (cache.has(website.slug)) {
+      cache.delete(website.slug);
+    }
+    
+    res.json({ message: 'Website deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get website stats
 router.get('/:businessId/stats', async (req, res) => {
   try {

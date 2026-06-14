@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
+  websiteId: { type: mongoose.Schema.Types.ObjectId, ref: 'Website' },
+  storeName: { type: String, default: '' },
   customerPhone: { type: String, required: true },
   customerName: { type: String, default: '' },
   items: [{
@@ -11,8 +13,8 @@ const OrderSchema = new mongoose.Schema({
     price: Number
   }],
   totalAmount: { type: Number, required: true },
-  status: { 
-    type: String, 
+  status: {
+    type: String,
     enum: ['pending', 'confirmed', 'ready', 'completed', 'cancelled'],
     default: 'pending'
   },

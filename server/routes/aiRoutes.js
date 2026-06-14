@@ -250,7 +250,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
         <h4 style="font-size:1.1rem;font-weight:800;color:#111827;margin:0 0 0.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</h4>
         ${desc ? `<p style="font-size:0.85rem;color:#6b7280;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
         <p style="font-size:1.25rem;font-weight:800;color:${primaryColor};margin:0 0 1rem;">$${price}</p>
-        <button style="width:100%;padding:0.75rem;background:${primaryColor};color:#fff;border:none;border-radius:0.5rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="width:100%;padding:0.75rem;background:${primaryColor};color:#fff;border:none;border-radius:0.5rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
           <i class="fas fa-shopping-cart" style="margin-right:0.4rem;"></i> Add to Cart
         </button>
       </div>
@@ -441,7 +441,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.8rem;color:#94a3b8;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:800;color:${accentColor};font-size:1.15rem;">$${price}</span>
-          <button style="background:${accentColor};color:#0f172a;border:none;padding:0.5rem 1rem;border-radius:0.4rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Buy Now</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#0f172a;border:none;padding:0.5rem 1rem;border-radius:0.4rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Buy Now</button>
         </div>
       </div>
     </div>`;
@@ -560,7 +560,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#9d8189;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <p style="font-weight:700;color:${accentColor};font-size:1.1rem;margin:0 0 1rem;">$${price}</p>
-        <button style="padding:0.65rem 1.5rem;background:${accentColor};color:#fff;border:none;border-radius:9999px;font-weight:700;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Add to Bag</button>
+        <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="padding:0.65rem 1.5rem;background:${accentColor};color:#fff;border:none;border-radius:9999px;font-weight:700;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Add to Bag</button>
       </div>
     </div>`;
   }).join('');
@@ -665,7 +665,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
-          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:0.4rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Order Now</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:0.4rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Order Now</button>
         </div>
       </div>
     </div>`;
@@ -774,7 +774,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:700;color:${accentColor};font-size:1.1rem;">$${price}</span>
-          <button style="background:${primaryColor};color:#fef3c7;border:none;padding:0.5rem 1.1rem;border-radius:0.3rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Shop Now</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${primaryColor};color:#fef3c7;border:none;padding:0.5rem 1.1rem;border-radius:0.3rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Shop Now</button>
         </div>
       </div>
     </div>`;
@@ -882,7 +882,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.82rem;color:#64748b;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:800;color:${accentColor};font-size:1.05rem;">$${price}</span>
-          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.35rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Get Quote</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.35rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Get Quote</button>
         </div>
       </div>
     </div>`;
@@ -1006,7 +1006,7 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.78rem;color:#6b7280;margin:0 0 0.6rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:700;color:#000;font-size:1rem;">$${price}</span>
-          <button style="background:#000;color:#fff;border:none;padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#000'">ADD TO BAG</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:#000;color:#fff;border:none;padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#000'">ADD TO BAG</button>
         </div>
       </div>
     </div>`;
@@ -1120,7 +1120,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
         ${desc ? `<p style="font-size:0.78rem;color:#64748b;margin:0 0 0.75rem;font-family:monospace;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;">
           <span style="font-weight:800;color:${accentColor};font-size:1.05rem;font-family:'Share Tech Mono',monospace;">$${price}</span>
-          <button style="background:transparent;color:${accentColor};border:1px solid ${accentColor};padding:0.4rem 0.85rem;border-radius:0.3rem;font-size:0.78rem;font-weight:700;cursor:pointer;transition:background 0.2s,color 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#020617'" onmouseout="this.style.background='transparent';this.style.color='${accentColor}'">Add to Cart</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:transparent;color:${accentColor};border:1px solid ${accentColor};padding:0.4rem 0.85rem;border-radius:0.3rem;font-size:0.78rem;font-weight:700;cursor:pointer;transition:background 0.2s,color 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#020617'" onmouseout="this.style.background='transparent';this.style.color='${accentColor}'">Add to Cart</button>
         </div>
       </div>
     </div>`;
@@ -1232,7 +1232,7 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
         ${desc ? `<p style="font-size:0.82rem;color:#6b7280;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
-          <button style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:9999px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Add to Cart</button>
+          <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:9999px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Add to Cart</button>
         </div>
       </div>
     </div>`;
