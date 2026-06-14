@@ -140,8 +140,8 @@ function TemplateGlow({ config, business, products, devicePreview }) {
                     data-product-name={product.name}
                     data-product-price={product.price}
                     data-product-image={product.img || `https://picsum.photos/seed/organic${i}/600/600`}
-                    className="text-white px-4 py-2 rounded-full font-bold text-[0.82rem] hover:opacity-90 transition-opacity"
-                    style={{ backgroundColor: accentColor }}
+                    className="text-white px-5 py-2.5 rounded-full font-bold text-[0.85rem] hover:opacity-90 transition-opacity whitespace-nowrap ml-4 flex-shrink-0"
+                    style={{ backgroundColor: accentColor || '#10B981', color: '#ffffff' }}
                   >
                     Add to Cart
                   </button>

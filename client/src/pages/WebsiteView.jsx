@@ -469,10 +469,18 @@ function WebsiteView() {
     }
     config.media = { ...DEFAULT_CONFIG.media, ...(siteConfig.media || {}) };
     
+    const displayProducts = products && products.length > 0 ? products.map((p, i) => ({
+      id: p._id || i,
+      name: p.name,
+      price: p.price,
+      img: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : `https://picsum.photos/seed/${encodeURIComponent(p.name || 'product')}${i}/600/600`,
+      badge: p.category ? 'new' : null
+    })) : [];
+
     const props = {
       config,
       business: website.businessId,
-      products,
+      products: displayProducts,
       devicePreview
     };
 
