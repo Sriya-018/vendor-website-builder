@@ -35,6 +35,17 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
+// Get website by ID
+router.get('/id/:websiteId', async (req, res) => {
+  try {
+    const website = await Website.findById(req.params.websiteId).populate('businessId');
+    if (!website) return res.status(404).json({ error: 'Website not found' });
+    res.json(website);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all websites for a business
 router.get('/business/:businessId/all', async (req, res) => {
   try {
@@ -80,7 +91,7 @@ router.post('/:businessId/new', async (req, res) => {
 router.put('/update/:websiteId', async (req, res) => {
   try {
     const { websiteId } = req.params;
-    const { template, theme, sections, html, css } = req.body;
+    const { template, theme, sections, html, css, designConfig, designHistory, published } = req.body;
     
     const website = await Website.findById(websiteId);
     if (!website) return res.status(404).json({ error: 'Website not found' });
@@ -88,11 +99,19 @@ router.put('/update/:websiteId', async (req, res) => {
     if (template) website.template = template;
     if (theme) website.theme = theme;
     if (sections) website.sections = sections;
-    if (html) website.html = html;
-    if (css) website.css = css;
+    if (html !== undefined) website.html = html;
+    if (css !== undefined) website.css = css;
+    if (designConfig !== undefined) website.designConfig = designConfig;
+    if (designHistory !== undefined) website.designHistory = designHistory;
+    if (published !== undefined) website.published = published;
     website.updatedAt = new Date();
     
     await website.save();
+    
+    // Invalidate cache so changes reflect on the live site immediately
+    if (cache.has(website.slug)) {
+      cache.delete(website.slug);
+    }
     
     res.json(website);
   } catch (error) {

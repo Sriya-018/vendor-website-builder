@@ -32,8 +32,10 @@ function EditWebsiteTab({ businessId, businessData, selectedWebsite }) {
       setIsPublishing(true);
       setPublishStatus('fetching_products');
       
-      // 1. Fetch current products
-      const productsRes = await axios.get(`${API_URL}/business/${businessId}/products`);
+      // 1. Fetch current products for the selected website
+      const productsRes = await axios.get(`${API_URL}/business/${businessId}/products`, {
+        params: { websiteId: selectedWebsite._id }
+      });
       const products = productsRes.data;
       
       const services = products.map(p => ({

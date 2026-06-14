@@ -11,6 +11,99 @@ import {
   FaMapMarkerAlt, FaImage, FaMagic, FaWhatsapp, FaInstagram,
   FaFacebook, FaTwitter, FaGlobe, FaRedo, FaVideo
 } from 'react-icons/fa';
+import LivePreview from '../components/editor/LivePreview';
+
+const DEFAULT_CONFIG = {
+  template: 't1',
+  themeColor: '#2563eb', // Blue
+  typography: {
+    headingFont: 'sans',
+    bodyFont: 'sans',
+    baseSize: 16,
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+  },
+  navbar: {
+    position: 'top',
+    backgroundColor: '#ffffff',
+    textColor: '#1f2937',
+    logoText: 'My Store',
+    showSearch: true,
+    searchPosition: 'right',
+    links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
+  },
+  header: {
+    announcement: { show: false, text: 'Free shipping on orders over $50!', color: '#2563eb', dismissible: true },
+    heroImage: '',
+    heroAlign: 'center',
+    heroHeading: 'Welcome to our store',
+    heroSubheading: 'Discover our amazing products',
+    ctaLabel: 'Shop Now',
+    bgColor: '#f3f4f6',
+    parallax: false,
+    slider: false,
+  },
+  spacing: {
+    borderRadius: 'rounded',
+    maxWidth: 'normal',
+    padding: 'comfortable',
+  },
+  products: {
+    sectionTitle: 'Featured Products',
+    columnsDesktop: 4,
+    columnsMobile: 2,
+    showPrices: true,
+    showAddToCart: true,
+    showStars: true,
+    starColor: '#fbbf24',
+    showWishlist: false,
+    wishlistPosition: 'top-right',
+    badgeStyle: 'sale', // sale, new, none
+    hoverEffect: 'zoom', // none, zoom, second-image
+  },
+  buttons: {
+    primaryStyle: 'filled',
+    secondaryStyle: 'outlined',
+    size: 'medium',
+    fullWidthMobile: false,
+    addToCartLabel: 'Add to Cart',
+  },
+  media: {
+    aspectRatio: 'square', // square, portrait, landscape
+    fitMode: 'cover',
+  },
+  mobile: {
+    navStyle: 'hamburger', // hamburger, bottom-tab
+  },
+  footer: {
+    tagline: 'Your one-stop shop for everything.',
+    bgColor: '#1f2937',
+    textColor: '#f9fafb',
+    social: { instagram: true, facebook: true, twitter: false, tiktok: false },
+    showSocialFeed: false,
+  },
+  trust: {
+    badges: { secure: true, returns: true, support: false },
+    testimonials: { show: false, layout: 'grid', showStars: true },
+    liveCounter: false,
+  },
+  popups: {
+    emailCapture: { show: false, delaySeconds: 5, heading: 'Get 10% Off', ctaLabel: 'Subscribe', bgColor: '#ffffff' },
+    countdown: { show: false, endDate: '', style: 'bar' },
+    floatingChat: { show: false, position: 'bottom-right' },
+  },
+  seo: {
+    title: '',
+    description: '',
+    ogImage: '',
+    favicon: '',
+  },
+  accessibility: {
+    darkMode: 'off', // off, auto, always
+    focusRingColor: '#3b82f6',
+    focusRingThickness: 2,
+  }
+};
 
 // --- MOCK DATA ---
 const CATEGORIES = ['All', 'Fashion', 'Electronics', 'Food & Beverage', 'Beauty', 'Home Decor', 'Services'];
@@ -98,6 +191,7 @@ function Templates({ token, businessId }) {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
   const [previewTemplate, setPreviewTemplate] = useState(null);
+  const [previewDevice, setPreviewDevice] = useState('desktop');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerStep, setDrawerStep] = useState(1);
   const [isPublishing, setIsPublishing] = useState(false);
@@ -751,8 +845,8 @@ function Templates({ token, businessId }) {
               <div className="flex items-center gap-4">
                 <span className="font-bold text-lg">{previewTemplate.name} Preview</span>
                 <div className="hidden md:flex gap-2 bg-gray-100 p-1 rounded-lg">
-                  <button className="p-1.5 bg-white shadow-sm rounded-md text-gray-700"><FaDesktop /></button>
-                  <button className="p-1.5 text-gray-500 hover:text-gray-700"><FaMobileAlt /></button>
+                  <button onClick={() => setPreviewDevice('desktop')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'desktop' ? 'bg-white text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}><FaDesktop /></button>
+                  <button onClick={() => setPreviewDevice('mobile')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'mobile' ? 'bg-white text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}><FaMobileAlt /></button>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -771,130 +865,25 @@ function Templates({ token, businessId }) {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto bg-gray-50 pb-20">
-              <div className="h-20 flex items-center justify-between px-10 border-b border-gray-200" style={{ backgroundColor: previewTemplate.colors.secondary }}>
-                <div className="font-bold text-2xl tracking-tighter" style={{ color: previewTemplate.colors.primary }}>MockStore.</div>
-                <div className="hidden md:flex gap-8 font-medium text-gray-600">
-                  <span>Home</span>
-                  <span>Shop</span>
-                  <span>About</span>
-                  <span>Contact</span>
-                </div>
-                <div><FaShoppingCart className="text-xl" style={{ color: previewTemplate.colors.primary }} /></div>
-              </div>
-
-              <div className="relative h-[400px] flex items-center justify-center overflow-hidden">
-                <img src={previewTemplate.image} className="absolute inset-0 w-full h-full object-cover" alt="Hero" />
-                <div className="absolute inset-0 bg-gray-900/50"></div>
-                <div className="relative z-10 text-center px-4 max-w-3xl">
-                  <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">Elevate Your Lifestyle</h1>
-                  <p className="text-xl text-gray-200 mb-8">Discover our latest collection curated just for you.</p>
-                  <button className="px-8 py-4 rounded-xl font-bold text-white transition-opacity hover:opacity-90" style={{ backgroundColor: previewTemplate.colors.accent }}>
-                    Shop Now
-                  </button>
-                </div>
-              </div>
-
-              <div className="max-w-6xl mx-auto px-6 py-20">
-                <h2 className="text-3xl font-bold text-center mb-12" style={{ color: previewTemplate.colors.primary }}>Featured Products</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {(products.length > 0 ? products : [
-                    { id: 1, name: 'Sample Product 1', price: '49.99', description: 'Sample description' },
-                    { id: 2, name: 'Sample Product 2', price: '89.99', description: 'Sample description' },
-                    { id: 3, name: 'Sample Product 3', price: '129.99', description: 'Sample description' }
-                  ]).map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 transition-transform hover:-translate-y-1">
-                      <div className="h-64 bg-gray-200 relative">
-                        {item.imagePreview ? (
-                          <img src={item.imagePreview} className="w-full h-full object-contain bg-white" alt={item.name} />
-                        ) : (
-                          <img src={`https://picsum.photos/seed/${item.name}/600/600`} className="w-full h-full object-cover" alt={item.name} />
-                        )}
-                      </div>
-                      <div className="p-6">
-                        <h4 className="font-bold text-lg mb-2 text-gray-800">{item.name}</h4>
-                        {item.description && <p className="text-gray-500 text-sm mb-3">{item.description}</p>}
-                        <p className="text-gray-500 mb-4">₹{item.price}</p>
-                        <button className="w-full py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90" style={{ backgroundColor: previewTemplate.colors.primary }}>
-                          Add to Cart
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="py-12" style={{ backgroundColor: previewTemplate.colors.primary, color: 'white' }}>
-                <div className="max-w-6xl mx-auto px-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                    <div>
-                      <h3 className="font-bold text-lg mb-4">Contact Us</h3>
-                      {storeDetails.phone && (
-                        <div className="flex items-center gap-3 mb-3">
-                          <FaPhone />
-                          <span>{storeDetails.phone}</span>
-                        </div>
-                      )}
-                      {storeDetails.email && (
-                        <div className="flex items-center gap-3 mb-3">
-                          <FaEnvelope />
-                          <span>{storeDetails.email}</span>
-                        </div>
-                      )}
-                      {storeDetails.address && (
-                        <div className="flex items-center gap-3">
-                          <FaMapMarkerAlt />
-                          <span>{storeDetails.address}</span>
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg mb-4">Follow Us</h3>
-                      <div className="flex gap-4">
-                        {storeDetails.socialMedia?.whatsapp && (
-                          <button
-                            onClick={() => handleWhatsAppClick(storeDetails.socialMedia.whatsapp)}
-                            className="bg-green-500 hover:bg-green-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-                          >
-                            <FaWhatsapp className="text-xl" />
-                          </button>
-                        )}
-                        {storeDetails.socialMedia?.instagram && (
-                          <a href={storeDetails.socialMedia.instagram} target="_blank" rel="noopener noreferrer"
-                            className="bg-pink-500 hover:bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <FaInstagram className="text-xl" />
-                          </a>
-                        )}
-                        {storeDetails.socialMedia?.facebook && (
-                          <a href={storeDetails.socialMedia.facebook} target="_blank" rel="noopener noreferrer"
-                            className="bg-blue-700 hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <FaFacebook className="text-xl" />
-                          </a>
-                        )}
-                        {storeDetails.socialMedia?.twitter && (
-                          <a href={storeDetails.socialMedia.twitter} target="_blank" rel="noopener noreferrer"
-                            className="bg-gray-700 hover:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <FaTwitter className="text-xl" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-                      <ul className="space-y-2">
-                        <li><a href="#" className="hover:underline">About Us</a></li>
-                        <li><a href="#" className="hover:underline">Shipping Policy</a></li>
-                        <li><a href="#" className="hover:underline">Returns & Refunds</a></li>
-                        <li><a href="#" className="hover:underline">Privacy Policy</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="text-center pt-8 border-t border-white/20">
-                    <p className="opacity-70">© 2026 {storeDetails.name || 'MockStore'}. Powered by VendorBuild.</p>
-                  </div>
-                </div>
+            <div className="flex-1 overflow-hidden bg-gray-50 flex items-center justify-center p-4">
+              <div className="w-full h-full max-h-[800px] flex items-center justify-center">
+                <LivePreview 
+                  config={{
+                    ...DEFAULT_CONFIG,
+                    template: previewTemplate.id,
+                    themeColor: previewTemplate.colors.primary,
+                    header: {
+                      ...DEFAULT_CONFIG.header,
+                      heroImage: previewTemplate.image
+                    }
+                  }}
+                  devicePreview={previewDevice}
+                  business={{ businessName: 'MockStore', description: previewTemplate.description }}
+                  products={[]} 
+                />
               </div>
             </div>
+
           </div>
         </div>
       )}

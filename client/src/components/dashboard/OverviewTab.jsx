@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaEye, FaBoxOpen, FaMoneyBillWave, FaArrowRight, FaTrash } from 'react-icons/fa';
 
-function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsite, onDeleteWebsite }) {
+function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, setSelectedWebsite, onDeleteWebsite }) {
   return (
     <>
       {/* Stats Grid */}
@@ -65,8 +65,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, setSelectedWebsi
                 </button>
                 <button 
                   onClick={() => {
-                    setSelectedWebsite(website);
-                    navigate('edit-website');
+                    routerNavigate(`/editor/${website._id}`);
                   }}
                   className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center gap-2 border border-blue-200"
                 >

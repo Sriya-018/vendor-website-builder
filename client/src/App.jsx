@@ -5,6 +5,7 @@ import Setup from './pages/Setup';
 import Dashboard from './pages/Dashboard';
 import WebsiteView from './pages/WebsiteView';
 import EditWebsite from './pages/EditWebsite';
+import WebsiteEditor from './pages/WebsiteEditor';
 import Templates from './pages/Templates';
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
         } />
         <Route path="/edit" element={
           token ? <EditWebsite token={token} businessId={businessId} /> : <Navigate to="/" />
+        } />
+        <Route path="/editor/:websiteId" element={
+          token ? <WebsiteEditor token={token} businessId={businessId} /> : <Navigate to="/" />
         } />
         <Route path="/website/:slug" element={<WebsiteView />} />
       </Routes>

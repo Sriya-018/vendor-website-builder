@@ -2,7 +2,109 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import TemplateAurora from '../components/editor/templates/TemplateAurora';
+import TemplateSlate from '../components/editor/templates/TemplateSlate';
+import TemplateBloom from '../components/editor/templates/TemplateBloom';
+import TemplateCrave from '../components/editor/templates/TemplateCrave';
+import TemplateHaven from '../components/editor/templates/TemplateHaven';
+import TemplateNexus from '../components/editor/templates/TemplateNexus';
+import TemplateVogue from '../components/editor/templates/TemplateVogue';
+import TemplatePixel from '../components/editor/templates/TemplatePixel';
+import TemplateGlow from '../components/editor/templates/TemplateGlow';
+
 const API_URL = 'http://localhost:5000/api';
+
+const DEFAULT_CONFIG = {
+  template: 't1',
+  themeColor: '#2563eb', // Blue
+  typography: {
+    headingFont: 'sans',
+    bodyFont: 'sans',
+    baseSize: 16,
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+  },
+  navbar: {
+    position: 'top',
+    backgroundColor: '#ffffff',
+    textColor: '#1f2937',
+    logoText: 'My Store',
+    showSearch: true,
+    searchPosition: 'right',
+    links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
+  },
+  header: {
+    announcement: { show: false, text: 'Free shipping on orders over $50!', color: '#2563eb', dismissible: true },
+    heroImage: '',
+    heroAlign: 'center',
+    heroHeading: 'Welcome to our store',
+    heroSubheading: 'Discover our amazing products',
+    ctaLabel: 'Shop Now',
+    bgColor: '#f3f4f6',
+    parallax: false,
+    slider: false,
+  },
+  spacing: {
+    borderRadius: 'rounded',
+    maxWidth: 'normal',
+    padding: 'comfortable',
+  },
+  products: {
+    sectionTitle: 'Featured Products',
+    columnsDesktop: 4,
+    columnsMobile: 2,
+    showPrices: true,
+    showAddToCart: true,
+    showStars: true,
+    starColor: '#fbbf24',
+    showWishlist: false,
+    wishlistPosition: 'top-right',
+    badgeStyle: 'sale', // sale, new, none
+    hoverEffect: 'zoom', // none, zoom, second-image
+  },
+  buttons: {
+    primaryStyle: 'filled',
+    secondaryStyle: 'outlined',
+    size: 'medium',
+    fullWidthMobile: false,
+    addToCartLabel: 'Add to Cart',
+  },
+  media: {
+    aspectRatio: 'square', // square, portrait, landscape
+    fitMode: 'cover',
+  },
+  mobile: {
+    navStyle: 'hamburger', // hamburger, bottom-tab
+  },
+  footer: {
+    tagline: 'Your one-stop shop for everything.',
+    bgColor: '#1f2937',
+    textColor: '#f9fafb',
+    social: { instagram: true, facebook: true, twitter: false, tiktok: false },
+    showSocialFeed: false,
+  },
+  trust: {
+    badges: { secure: true, returns: true, support: false },
+    testimonials: { show: false, layout: 'grid', showStars: true },
+    liveCounter: false,
+  },
+  popups: {
+    emailCapture: { show: false, delaySeconds: 5, heading: 'Get 10% Off', ctaLabel: 'Subscribe', bgColor: '#ffffff' },
+    countdown: { show: false, endDate: '', style: 'bar' },
+    floatingChat: { show: false, position: 'bottom-right' },
+  },
+  seo: {
+    title: '',
+    description: '',
+    ogImage: '',
+    favicon: '',
+  },
+  accessibility: {
+    darkMode: 'off', // off, auto, always
+    focusRingColor: '#3b82f6',
+    focusRingThickness: 2,
+  }
+};
 
 const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, checkout }) => {
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -118,9 +220,11 @@ const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, ch
 function WebsiteView() {
   const { slug } = useParams();
   const [website, setWebsite] = useState(null);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [devicePreview, setDevicePreview] = useState('desktop');
 
   // Load cart from local storage on mount
   useEffect(() => {
@@ -139,6 +243,18 @@ function WebsiteView() {
     }
   }, [cartItems, slug, website]);
 
+  // Handle window resize for dynamic device preview matching
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setDevicePreview('mobile');
+      else if (window.innerWidth < 1024) setDevicePreview('tablet');
+      else setDevicePreview('desktop');
+    };
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     fetchWebsite();
   }, [slug]);
@@ -146,7 +262,17 @@ function WebsiteView() {
   const fetchWebsite = async () => {
     try {
       const response = await axios.get(`${API_URL}/website/${slug}`);
-      setWebsite(response.data);
+      const websiteData = response.data;
+      setWebsite(websiteData);
+      
+      // Fetch products
+      if (websiteData && websiteData.businessId) {
+        const businessIdStr = websiteData.businessId._id || websiteData.businessId;
+        const prodRes = await axios.get(`${API_URL}/business/${businessIdStr}/products`, {
+          params: { websiteId: websiteData._id }
+        });
+        setProducts(prodRes.data);
+      }
     } catch (error) {
       console.error('Failed to load website:', error);
     }
@@ -306,7 +432,7 @@ function WebsiteView() {
     );
   }
 
-  if (!website || !website.html) {
+  if (!website || (!website.html && !website.designConfig)) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -318,12 +444,57 @@ function WebsiteView() {
     );
   }
 
+  const renderTemplate = () => {
+    if (!website) return null;
+    
+    let baseConfig = { ...DEFAULT_CONFIG };
+    if (website.template) baseConfig.template = website.template;
+    if (website.theme) baseConfig.themeColor = website.theme;
+
+    const siteConfig = website.designConfig || {};
+    const config = { ...baseConfig, ...siteConfig };
+    
+    // Deep merge to guarantee all nested properties exist
+    config.navbar = { ...DEFAULT_CONFIG.navbar, ...(siteConfig.navbar || {}) };
+    config.header = { ...DEFAULT_CONFIG.header, ...(siteConfig.header || {}) };
+    if (siteConfig.header && siteConfig.header.announcement) {
+      config.header.announcement = { ...DEFAULT_CONFIG.header.announcement, ...siteConfig.header.announcement };
+    }
+    config.products = { ...DEFAULT_CONFIG.products, ...(siteConfig.products || {}) };
+    config.typography = { ...DEFAULT_CONFIG.typography, ...(siteConfig.typography || {}) };
+    config.footer = { ...DEFAULT_CONFIG.footer, ...(siteConfig.footer || {}) };
+    config.trust = { ...DEFAULT_CONFIG.trust, ...(siteConfig.trust || {}) };
+    if (siteConfig.trust && siteConfig.trust.badges) {
+      config.trust.badges = { ...DEFAULT_CONFIG.trust.badges, ...siteConfig.trust.badges };
+    }
+    config.media = { ...DEFAULT_CONFIG.media, ...(siteConfig.media || {}) };
+    
+    const props = {
+      config,
+      business: website.businessId,
+      products,
+      devicePreview
+    };
+
+    switch (config.template) {
+      case 't9': return <TemplateGlow {...props} />;
+      case 't8': return <TemplatePixel {...props} />;
+      case 't7': return <TemplateVogue {...props} />;
+      case 't6': return <TemplateNexus {...props} />;
+      case 't5': return <TemplateHaven {...props} />;
+      case 't4': return <TemplateCrave {...props} />;
+      case 't3': return <TemplateBloom {...props} />;
+      case 't2': return <TemplateSlate {...props} />;
+      case 't1':
+      default: return <TemplateAurora {...props} />;
+    }
+  };
+
   return (
     <div className="relative min-h-screen">
-      <div
-        dangerouslySetInnerHTML={{ __html: website.html }}
-        onClick={handleTemplateClick}
-      />
+      <div onClick={handleTemplateClick}>
+        {renderTemplate()}
+      </div>
       <ShoppingCart
         items={cartItems}
         isOpen={isCartOpen}

@@ -21,6 +21,11 @@ const WebsiteSchema = new mongoose.Schema({
   slug: { type: String, unique: true },
   published: { type: Boolean, default: false },
   views: { type: Number, default: 0 },
+  designConfig: { type: mongoose.Schema.Types.Mixed, default: {} },
+  designHistory: [{
+    config: { type: mongoose.Schema.Types.Mixed },
+    timestamp: { type: Date, default: Date.now }
+  }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

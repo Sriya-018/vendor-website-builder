@@ -78,7 +78,7 @@ function Dashboard({ token, businessId }) {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'overview':
-        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} onDeleteWebsite={handleDeleteWebsite} />;
+        return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} routerNavigate={navigate} setSelectedWebsite={setSelectedWebsite} onDeleteWebsite={handleDeleteWebsite} />;
       case 'products':
         return <ProductsTab businessId={businessId} websites={websites} />;
       case 'orders':
