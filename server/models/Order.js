@@ -18,6 +18,16 @@ const OrderSchema = new mongoose.Schema({
     enum: ['pending', 'confirmed', 'ready', 'completed', 'cancelled'],
     default: 'pending'
   },
+  paymentStatus: {
+    type: String,
+    enum: ['unpaid', 'paid', 'failed'],
+    default: 'unpaid'
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['pay_on_delivery', 'razorpay', 'manual'],
+    default: 'manual'
+  },
   notes: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

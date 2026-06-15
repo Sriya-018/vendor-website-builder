@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaMoneyBillWave } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -17,6 +17,11 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
       facebook: '',
       twitter: '',
       whatsapp: ''
+    },
+    paymentInfo: {
+      upiId: '',
+      bankDetails: '',
+      instructions: ''
     }
   });
   const [isSaving, setIsSaving] = useState(false);
@@ -36,6 +41,11 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
           facebook: businessData.socialMedia?.facebook || '',
           twitter: businessData.socialMedia?.twitter || '',
           whatsapp: businessData.socialMedia?.whatsapp || ''
+        },
+        paymentInfo: {
+          upiId: businessData.paymentInfo?.upiId || '',
+          bankDetails: businessData.paymentInfo?.bankDetails || '',
+          instructions: businessData.paymentInfo?.instructions || ''
         }
       });
     }
@@ -50,6 +60,15 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
         socialMedia: {
           ...prev.socialMedia,
           [socialPlatform]: value
+        }
+      }));
+    } else if (name.startsWith('payment_')) {
+      const paymentField = name.replace('payment_', '');
+      setFormData(prev => ({
+        ...prev,
+        paymentInfo: {
+          ...prev.paymentInfo,
+          [paymentField]: value
         }
       }));
     } else {
@@ -75,7 +94,8 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
         address: formData.address,
         contact: { phone: formData.phone },
         location: { address: formData.address },
-        socialMedia: formData.socialMedia
+        socialMedia: formData.socialMedia,
+        paymentInfo: formData.paymentInfo
       };
 
       const res = await axios.put(`${API_URL}/business/${businessId}`, updateData);
@@ -230,6 +250,42 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
                   type="url" name="social_whatsapp" value={formData.socialMedia.whatsapp} onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
                   placeholder="https://wa.me/yournumber"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Payment Information */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
+              <FaMoneyBillWave className="text-gray-400" /> Payment Information
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+                <input 
+                  type="text" name="payment_upiId" value={formData.paymentInfo.upiId} onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  placeholder="e.g. yourname@upi"
+                />
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Bank Details / Other Info</label>
+                <textarea 
+                  name="payment_bankDetails" value={formData.paymentInfo.bankDetails} onChange={handleChange} rows="2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  placeholder="Account Number, IFSC code, etc."
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Instructions for Customers</label>
+                <textarea 
+                  name="payment_instructions" value={formData.paymentInfo.instructions} onChange={handleChange} rows="2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  placeholder="e.g. Please send a screenshot of the payment on WhatsApp after placing the order."
                 />
               </div>
             </div>

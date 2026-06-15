@@ -38,6 +38,19 @@ function OrdersTab({ businessId, websites }) {
     }
   };
 
+  const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
+    try {
+      setUpdatingId(orderId + '_payment');
+      const res = await axios.put(`${API_URL}/business/orders/${orderId}`, { paymentStatus: newPaymentStatus });
+      setOrders(orders.map(o => o._id === orderId ? res.data : o));
+    } catch (error) {
+      console.error('Failed to update payment status', error);
+      alert('Error updating payment status. Please try again.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -103,7 +116,7 @@ function OrdersTab({ businessId, websites }) {
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
                         <th className="px-6 py-4 font-medium">Order Details</th>
                         <th className="px-6 py-4 font-medium">Customer</th>
-                        <th className="px-6 py-4 font-medium">Status</th>
+                        <th className="px-6 py-4 font-medium">Status & Payment</th>
                         <th className="px-6 py-4 font-medium text-right">Amount</th>
                       </tr>
                     </thead>
@@ -125,21 +138,41 @@ function OrdersTab({ businessId, websites }) {
                             <div>{order.customerPhone}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <select
-                              value={order.status}
-                              onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                              disabled={updatingId === order._id}
-                              className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${getStatusColor(order.status)} ${updatingId === order._id ? 'opacity-50' : ''}`}
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="confirmed">Confirmed</option>
-                              <option value="ready">Ready</option>
-                              <option value="completed">Completed</option>
-                              <option value="cancelled">Cancelled</option>
-                            </select>
+                            <div className="flex flex-col gap-2">
+                              <select
+                                value={order.status}
+                                onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                                disabled={updatingId === order._id}
+                                className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${getStatusColor(order.status)} ${updatingId === order._id ? 'opacity-50' : ''}`}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="ready">Ready</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                              </select>
+
+                              <select
+                                value={order.paymentStatus || 'unpaid'}
+                                onChange={(e) => handlePaymentStatusChange(order._id, e.target.value)}
+                                disabled={updatingId === order._id + '_payment'}
+                                className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                  order.paymentStatus === 'paid' ? 'bg-green-100 text-green-800 border-green-200' : 'bg-orange-100 text-orange-800 border-orange-200'
+                                } ${updatingId === order._id + '_payment' ? 'opacity-50' : ''}`}
+                              >
+                                <option value="unpaid">Unpaid</option>
+                                <option value="paid">Paid</option>
+                                <option value="failed">Failed</option>
+                              </select>
+                            </div>
                           </td>
-                          <td className="px-6 py-4 text-right font-medium text-gray-900">
-                            ₹{order.totalAmount.toLocaleString()}
+                          <td className="px-6 py-4 text-right">
+                            <div className="font-medium text-gray-900 mb-1">
+                              ₹{order.totalAmount.toLocaleString()}
+                            </div>
+                            <div className="text-xs text-gray-500 uppercase font-medium">
+                              {order.paymentMethod === 'razorpay' ? 'Online (Razorpay)' : order.paymentMethod === 'pay_on_delivery' ? 'COD' : 'Manual'}
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -174,7 +207,7 @@ function OrdersTab({ businessId, websites }) {
                   <th className="px-6 py-4 font-medium">Order Details</th>
                   <th className="px-6 py-4 font-medium">Store Name</th>
                   <th className="px-6 py-4 font-medium">Customer</th>
-                  <th className="px-6 py-4 font-medium">Status</th>
+                  <th className="px-6 py-4 font-medium">Status & Payment</th>
                   <th className="px-6 py-4 font-medium text-right">Amount</th>
                 </tr>
               </thead>
@@ -201,21 +234,41 @@ function OrdersTab({ businessId, websites }) {
                       <div>{order.customerPhone}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <select
-                        value={order.status}
-                        onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                        disabled={updatingId === order._id}
-                        className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${getStatusColor(order.status)} ${updatingId === order._id ? 'opacity-50' : ''}`}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="ready">Ready</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
+                      <div className="flex flex-col gap-2">
+                        <select
+                          value={order.status}
+                          onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                          disabled={updatingId === order._id}
+                          className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${getStatusColor(order.status)} ${updatingId === order._id ? 'opacity-50' : ''}`}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="ready">Ready</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+
+                        <select
+                          value={order.paymentStatus || 'unpaid'}
+                          onChange={(e) => handlePaymentStatusChange(order._id, e.target.value)}
+                          disabled={updatingId === order._id + '_payment'}
+                          className={`text-xs font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 border appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                            order.paymentStatus === 'paid' ? 'bg-green-100 text-green-800 border-green-200' : 'bg-orange-100 text-orange-800 border-orange-200'
+                          } ${updatingId === order._id + '_payment' ? 'opacity-50' : ''}`}
+                        >
+                          <option value="unpaid">Unpaid</option>
+                          <option value="paid">Paid</option>
+                          <option value="failed">Failed</option>
+                        </select>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 text-right font-medium text-gray-900">
-                      ₹{order.totalAmount.toLocaleString()}
+                    <td className="px-6 py-4 text-right">
+                      <div className="font-medium text-gray-900 mb-1">
+                        ₹{order.totalAmount.toLocaleString()}
+                      </div>
+                      <div className="text-xs text-gray-500 uppercase font-medium">
+                        {order.paymentMethod === 'razorpay' ? 'Online (Razorpay)' : order.paymentMethod === 'pay_on_delivery' ? 'COD' : 'Manual'}
+                      </div>
                     </td>
                   </tr>
                 ))}

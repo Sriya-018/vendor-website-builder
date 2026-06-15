@@ -106,7 +106,9 @@ const DEFAULT_CONFIG = {
   }
 };
 
-const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, checkout }) => {
+const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, checkout, onShowHistory, pastOrdersCount, hasUpi }) => {
+  const [paymentMethod, setPaymentMethod] = useState('pay_on_delivery');
+  const [isProcessing, setIsProcessing] = useState(false);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -143,11 +145,18 @@ const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, ch
             </svg>
             Your Cart
           </h2>
-          <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            {pastOrdersCount > 0 && (
+              <button onClick={onShowHistory} className="text-sm text-blue-600 font-medium hover:text-blue-800 px-3 py-1 bg-blue-50 hover:bg-blue-100 rounded-full transition-colors mr-2">
+                My Orders ({pastOrdersCount})
+              </button>
+            )}
+            <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50">
@@ -201,19 +210,186 @@ const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, ch
               <span className="text-gray-500 font-medium">Total Amount</span>
               <span className="text-3xl font-black text-gray-900">${total.toFixed(2)}</span>
             </div>
+            <div className="mb-6">
+              <h3 className="text-sm font-bold text-gray-800 mb-3">Select Payment Method</h3>
+              <div className="space-y-2">
+                <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'pay_on_delivery' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                  <input type="radio" name="payment_method" value="pay_on_delivery" checked={paymentMethod === 'pay_on_delivery'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                  <span className="ml-3 font-medium text-gray-700">Pay on Delivery</span>
+                </label>
+                {hasUpi && (
+                  <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'upi' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                    <input type="radio" name="payment_method" value="upi" checked={paymentMethod === 'upi'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                    <span className="ml-3 font-medium text-gray-700">Pay via UPI</span>
+                  </label>
+                )}
+              </div>
+            </div>
+            
             <button
-              onClick={checkout}
-              className="w-full py-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all shadow-lg hover:shadow-green-500/30"
+              onClick={() => {
+                setIsProcessing(true);
+                checkout(paymentMethod).finally(() => setIsProcessing(false));
+              }}
+              disabled={isProcessing}
+              className={`w-full py-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all shadow-lg hover:shadow-green-500/30`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-              </svg>
-              Checkout on WhatsApp
+              {isProcessing ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                  Checkout on WhatsApp
+                </>
+              )}
             </button>
           </div>
         )}
       </div>
     </>
+  );
+};
+
+const OrderSuccessModal = ({ order, paymentInfo, onClose }) => {
+  if (!order) return null;
+
+  const showUpi = order.paymentMethod === 'upi' && paymentInfo?.upiId;
+  const upiString = showUpi ? `upi://pay?pa=${paymentInfo.upiId}&pn=${encodeURIComponent('Store Order')}&am=${order.totalAmount}&cu=INR&tn=${encodeURIComponent('Order_' + order._id)}` : '';
+  const qrUrl = upiString ? `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}` : '';
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-[200] backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">Order Placed!</h2>
+          <p className="text-gray-500 mt-2">Your order details have been populated on WhatsApp. Please send the message to complete the order.</p>
+        </div>
+
+        {paymentInfo && (order.paymentMethod === 'upi' || paymentInfo.bankDetails) && (
+          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-6">
+            <h3 className="font-bold text-blue-800 mb-2">Payment Instructions</h3>
+            {paymentInfo.instructions && <p className="text-sm text-blue-600 mb-4">{paymentInfo.instructions}</p>}
+            
+            {showUpi && qrUrl && (
+              <div className="mb-4 flex flex-col items-center bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
+                <img src={qrUrl} alt="UPI QR Code" className="w-48 h-48 mb-3 rounded-lg" />
+                <div className="text-sm text-gray-500 mb-1">Scan to pay exactly ${order.totalAmount.toFixed(2)}</div>
+                <div className="font-bold text-gray-800 mb-3">{paymentInfo.upiId}</div>
+                <a 
+                  href={upiString} 
+                  className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                  </svg>
+                  Tap to Pay (Mobile)
+                </a>
+              </div>
+            )}
+
+            {!qrUrl && showUpi && (
+              <div className="mb-3 bg-white p-3 rounded-lg border border-blue-100">
+                <div className="text-xs text-gray-500">UPI ID</div>
+                <div className="font-bold text-gray-800 break-all">{paymentInfo.upiId}</div>
+              </div>
+            )}
+
+            {paymentInfo.bankDetails && (
+              <div className="bg-white p-3 rounded-lg border border-blue-100">
+                <div className="text-xs text-gray-500 mb-1">Bank Details</div>
+                <div className="text-sm text-gray-800 whitespace-pre-wrap">{paymentInfo.bankDetails}</div>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="border-t border-gray-100 pt-4">
+          <h3 className="font-bold text-gray-800 mb-3">Order Summary</h3>
+          {order?.paymentMethod && (
+            <div className="mb-4 bg-gray-50 p-3 rounded-lg flex justify-between items-center text-sm">
+              <span className="text-gray-600">Payment Method</span>
+              <span className="font-bold text-gray-900">{order.paymentMethod === 'upi' ? 'Manual UPI' : 'Pay on Delivery'}</span>
+            </div>
+          )}
+          <div className="space-y-2 mb-4">
+            {order.items.map((item, idx) => (
+              <div key={idx} className="flex justify-between text-sm">
+                <span>{item.quantity}x {item.name}</span>
+                <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-100">
+            <span>Total</span>
+            <span>${order.totalAmount.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <button onClick={onClose} className="w-full mt-6 bg-gray-100 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const OrdersHistoryModal = ({ orders, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black/60 z-[200] backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">My Orders</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {orders.length === 0 ? (
+          <div className="text-center text-gray-500 py-8">You have no past orders.</div>
+        ) : (
+          <div className="space-y-4">
+            {orders.map((order, i) => (
+              <div key={order._id || i} className="border border-gray-100 rounded-xl p-4 bg-gray-50">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</span>
+                  <span className="font-bold text-gray-900">${order.totalAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center mb-3 text-xs">
+                  <span className={`px-2 py-1 rounded font-medium ${order.paymentMethod === 'upi' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-800'}`}>
+                    {order.paymentMethod === 'upi' ? 'UPI' : 'COD'}
+                  </span>
+                  <span className={`px-2 py-1 rounded font-medium ${order.paymentStatus === 'paid' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
+                    {order.paymentStatus === 'paid' ? 'Paid' : 'Unpaid'}
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  {order.items.map((item, idx) => (
+                    <div key={idx} className="flex justify-between text-sm">
+                      <span className="text-gray-600">{item.quantity}x {item.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -226,12 +402,23 @@ function WebsiteView() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [devicePreview, setDevicePreview] = useState('desktop');
 
-  // Load cart from local storage on mount
+  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
+  const [placedOrder, setPlacedOrder] = useState(null);
+  const [pastOrders, setPastOrders] = useState([]);
+  const [showOrderHistory, setShowOrderHistory] = useState(false);
+
+  // Load cart and orders from local storage on mount
   useEffect(() => {
-    const saved = localStorage.getItem(`cart_${slug}`);
-    if (saved) {
+    const savedCart = localStorage.getItem(`cart_${slug}`);
+    if (savedCart) {
       try {
-        setCartItems(JSON.parse(saved));
+        setCartItems(JSON.parse(savedCart));
+      } catch (e) { }
+    }
+    const savedOrders = localStorage.getItem(`orders_${slug}`);
+    if (savedOrders) {
+      try {
+        setPastOrders(JSON.parse(savedOrders));
       } catch (e) { }
     }
   }, [slug]);
@@ -379,7 +566,7 @@ function WebsiteView() {
     });
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (paymentMethod = 'pay_on_delivery') => {
     const bId = website?.businessId;
     const targetNumber = bId?.contact?.whatsapp || bId?.contact?.phone || bId?.vendorPhone;
 
@@ -391,24 +578,50 @@ function WebsiteView() {
     const businessName = bId?.businessName || 'Store';
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    let message = `*New Order from ${businessName}*\n\n`;
-    cartItems.forEach(item => {
-      message += `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}\n`;
-    });
-    message += `\n*Total: $${total.toFixed(2)}*\n\nPlease process my order.`;
-
+    let localOrder = { _id: Date.now().toString(), paymentStatus: 'unpaid', paymentMethod };
     try {
-      await axios.post(`${API_URL}/business/${bId._id}/orders`, {
+      const orderRes = await axios.post(`${API_URL}/business/${bId._id}/orders`, {
         websiteId: website._id,
         storeName: website.slug || businessName,
         items: cartItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })),
         totalAmount: total,
         customerName: 'WhatsApp Customer',
-        customerPhone: 'N/A' // WhatsApp checkout handles real identity
+        customerPhone: 'N/A', // WhatsApp checkout handles real identity
+        paymentMethod,
+        paymentStatus: 'unpaid'
       });
+      if (orderRes.data && orderRes.data._id) {
+        localOrder = orderRes.data;
+      }
     } catch (error) {
       console.error('Failed to register order in database:', error);
     }
+
+    finalizeCheckout(localOrder, targetNumber, businessName, paymentMethod === 'upi' ? 'UPI' : 'Pay on Delivery');
+  };
+
+  const finalizeCheckout = (localOrder, targetNumber, businessName, paymentText) => {
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    let message = `*New Order from ${businessName}*\n\n`;
+    cartItems.forEach(item => {
+      message += `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}\n`;
+    });
+    message += `\n*Total: $${total.toFixed(2)}*\n*Payment Method:* ${paymentText}\n\nPlease process my order.`;
+
+    const newOrder = {
+      _id: localOrder._id,
+      items: cartItems,
+      totalAmount: total,
+      date: new Date().toISOString(),
+      paymentMethod: localOrder.paymentMethod,
+      paymentStatus: localOrder.paymentStatus
+    };
+    
+    const updatedOrders = [newOrder, ...pastOrders];
+    setPastOrders(updatedOrders);
+    localStorage.setItem(`orders_${slug}`, JSON.stringify(updatedOrders));
+    setPlacedOrder(newOrder);
 
     // Format phone number (remove +, spaces, etc.)
     const phone = targetNumber.replace(/\D/g, '');
@@ -416,9 +629,10 @@ function WebsiteView() {
 
     window.open(url, '_blank');
 
-    // Clear cart and close sidebar
+    // Clear cart and close sidebar, open success modal
     setCartItems([]);
     setIsCartOpen(false);
+    setShowOrderSuccess(true);
   };
 
   if (loading) {
@@ -510,7 +724,23 @@ function WebsiteView() {
         updateQuantity={updateQuantity}
         removeItem={removeItem}
         checkout={handleCheckout}
+        onShowHistory={() => { setIsCartOpen(false); setShowOrderHistory(true); }}
+        pastOrdersCount={pastOrders.length}
+        hasUpi={!!website?.businessId?.paymentInfo?.upiId}
       />
+      {showOrderSuccess && (
+        <OrderSuccessModal 
+          order={placedOrder} 
+          paymentInfo={website?.businessId?.paymentInfo} 
+          onClose={() => setShowOrderSuccess(false)} 
+        />
+      )}
+      {showOrderHistory && (
+        <OrdersHistoryModal 
+          orders={pastOrders} 
+          onClose={() => setShowOrderHistory(false)} 
+        />
+      )}
     </div>
   );
 }

@@ -21,6 +21,11 @@ const BusinessSchema = new mongoose.Schema({
     whatsapp: { type: String, default: '' },
     email: { type: String, default: '' }
   },
+  paymentInfo: {
+    upiId: { type: String, default: '' },
+    bankDetails: { type: String, default: '' },
+    instructions: { type: String, default: '' }
+  },
   services: [{ type: String }],
   description: { type: String, default: '' },
   isActive: { type: Boolean, default: true },

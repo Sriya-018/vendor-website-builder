@@ -99,7 +99,7 @@ router.get('/:businessId/orders', async (req, res) => {
 // Create new order
 router.post('/:businessId/orders', async (req, res) => {
   try {
-    const { items, totalAmount, customerPhone, customerName, notes, websiteId, storeName } = req.body;
+    const { items, totalAmount, customerPhone, customerName, notes, websiteId, storeName, paymentMethod, paymentStatus } = req.body;
 
     const newOrder = await Order.create({
       businessId: req.params.businessId,
@@ -110,7 +110,9 @@ router.post('/:businessId/orders', async (req, res) => {
       items: items || [],
       totalAmount: totalAmount || 0,
       notes: notes || '',
-      status: 'pending'
+      status: 'pending',
+      paymentMethod: paymentMethod || 'manual',
+      paymentStatus: paymentStatus || 'unpaid'
     });
 
     res.status(201).json(newOrder);
@@ -122,10 +124,15 @@ router.post('/:businessId/orders', async (req, res) => {
 // Update order status
 router.put('/orders/:orderId', async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, paymentStatus } = req.body;
+    
+    let updateFields = { updatedAt: new Date() };
+    if (status) updateFields.status = status;
+    if (paymentStatus) updateFields.paymentStatus = paymentStatus;
+
     const order = await Order.findByIdAndUpdate(
       req.params.orderId,
-      { status, updatedAt: new Date() },
+      updateFields,
       { new: true }
     );
     res.json(order);
