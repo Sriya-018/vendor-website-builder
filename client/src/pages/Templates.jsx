@@ -12,6 +12,7 @@ import {
   FaFacebook, FaTwitter, FaGlobe, FaRedo, FaVideo, FaMicrophone
 } from 'react-icons/fa';
 import LivePreview from '../components/editor/LivePreview';
+import AIChatModal from '../components/chatbot/AIChatModal';
 
 const DEFAULT_CONFIG = {
   template: 't1',
@@ -197,6 +198,7 @@ function Templates({ token, businessId }) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [isVoiceRecording, setIsVoiceRecording] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const startVoice = () => {
     if (!('webkitSpeechRecognition' in window)) {
@@ -289,6 +291,24 @@ function Templates({ token, businessId }) {
     setPreviewTemplate(template);
     setIsDrawerOpen(true);
     setDrawerStep(1);
+  };
+
+  const handleAIBuild = (buildData) => {
+    // buildData = { template: 't1', businessName: '...', description: '...' }
+    setStoreDetails(prev => ({
+      ...prev,
+      name: buildData.businessName || prev.name,
+      tagline: buildData.description || prev.tagline
+    }));
+    
+    const chosenTemplate = MOCK_TEMPLATES.find(t => t.id === buildData.template);
+    if (chosenTemplate) {
+      setPreviewTemplate(chosenTemplate);
+    }
+    
+    setIsDrawerOpen(true);
+    setDrawerStep(1); // Open to step 1 so they can review their details
+    setIsChatOpen(false); // Close the chat
   };
 
   const closeDrawer = () => {
@@ -883,7 +903,10 @@ function Templates({ token, businessId }) {
           </div>
           <h2 className="font-jakarta text-3xl font-bold text-gray-900 mb-4">Not sure which template to pick?</h2>
           <p className="text-gray-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect storefront for you.</p>
-          <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg">
+          <button 
+            onClick={() => setIsChatOpen(true)}
+            className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg"
+          >
             Ask AI for a Recommendation
           </button>
         </div>
@@ -1530,15 +1553,23 @@ function Templates({ token, businessId }) {
             <span className="absolute -top-10 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded shadow-lg whitespace-nowrap">Need Help?</span>
           </button>
         )}
+        <AIChatModal isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} onBuildTriggered={handleAIBuild} />
       </div>
 
+      {/* Global styles for hide scrollbar but keep functionality */}
       <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 10px;
+          background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: #c1c1c1;

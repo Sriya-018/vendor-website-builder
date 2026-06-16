@@ -97,6 +97,61 @@ router.post('/extract-product', async (req, res) => {
   }
 });
 
+// General AI Chatbot for Website Building Assistant
+router.post('/chat', async (req, res) => {
+  try {
+    const { messages } = req.body;
+    
+    if (!process.env.GEMINI_API_KEY) {
+      return res.json({
+        reply: "I am currently running in offline demo mode. Please add a valid Gemini API key to your .env file to enable the AI assistant!"
+      });
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    
+    const systemPrompt = `You are an expert website building assistant for "VendorBuild", a platform that helps vendors create modern, beautiful storefronts easily without coding. 
+Your goal is to help users choose templates (like Aurora, Slate, Bloom, Crave, Haven, Nexus, Vogue, Pixel, Glow), explain website features, and provide general advice on setting up an online business.
+CRITICAL: If the user explicitly asks you to build a website or choose a template for them, ask them for their business name and what they sell (if they haven't provided it yet).
+Once you have their business details and know which template fits best, reply normally with a helpful message, but append this EXACT string to the very end of your response:
+___BUILD___ {"template": "template_id_here", "businessName": "their_business_name", "description": "a_short_tagline"} ___BUILD___
+
+Template IDs: Aurora (t1), Slate (t2), Bloom (t3), Crave (t4), Haven (t5), Nexus (t6), Vogue (t7), Pixel (t8), Glow (t9).
+
+Keep your answers very concise, friendly, and formatted nicely with markdown.`;
+
+    let history = messages.slice(0, -1).map(msg => ({
+      role: msg.role === 'ai' ? 'model' : 'user',
+      parts: [{ text: msg.text }]
+    }));
+    
+    // Gemini API requires the first message in history to be from the 'user'.
+    // Since our chat UI starts with a greeting from the 'ai', we must strip it.
+    while (history.length > 0 && history[0].role === 'model') {
+      history.shift();
+    }
+    
+    const latestMessage = messages[messages.length - 1].text;
+
+    const chat = model.startChat({
+      history: history,
+      systemInstruction: {
+        role: "system",
+        parts: [{ text: systemPrompt }]
+      }
+    });
+
+    const result = await chat.sendMessage(latestMessage);
+    const response = await result.response;
+    
+    res.json({ reply: response.text() });
+
+  } catch (error) {
+    console.error('AI Chat Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Upload product image with background removal
 router.post('/upload/product-image', upload.single('image'), async (req, res) => {
   try {
