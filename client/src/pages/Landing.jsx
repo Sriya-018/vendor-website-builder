@@ -80,6 +80,7 @@ function Landing({ token, setToken, setBusinessId }) {
                   <a href="#features" className="text-muted hover:text-accent font-medium transition-colors">Features</a>
                   <a href="#how-it-works" className="text-muted hover:text-accent font-medium transition-colors">How it Works</a>
                   <a href="#pricing" className="text-muted hover:text-accent font-medium transition-colors">Pricing</a>
+                  <button onClick={() => navigate('/admin')} className="text-muted hover:text-accent font-medium transition-colors">Admin Panel</button>
                 </>
               )}
             </div>
@@ -131,6 +132,7 @@ function Landing({ token, setToken, setBusinessId }) {
               <>
                 <a href="#features" className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-sidebar rounded-md">Features</a>
                 <a href="#how-it-works" className="block px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-sidebar rounded-md">How it Works</a>
+                <button onClick={() => { setIsMobileMenuOpen(false); navigate('/admin'); }} className="w-full text-left px-3 py-2 text-base font-medium text-primary hover:text-accent hover:bg-sidebar rounded-md">Admin Panel</button>
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);

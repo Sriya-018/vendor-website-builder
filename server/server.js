@@ -22,6 +22,7 @@ app.use('/api/business', require('./routes/businessRoutes'));
 app.use('/api/website', require('./routes/websiteRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vendor-website')

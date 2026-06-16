@@ -7,6 +7,7 @@ import WebsiteView from './pages/WebsiteView';
 import EditWebsite from './pages/EditWebsite';
 import WebsiteEditor from './pages/WebsiteEditor';
 import Templates from './pages/Templates';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -46,6 +47,7 @@ function App() {
           token ? <WebsiteEditor token={token} businessId={businessId} /> : <Navigate to="/" />
         } />
         <Route path="/website/:slug" element={<WebsiteView />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
