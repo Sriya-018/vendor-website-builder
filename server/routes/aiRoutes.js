@@ -56,13 +56,42 @@ router.post('/extract-business', async (req, res) => {
         email: extractEmail(text)
       });
     }
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
     const prompt = `Extract business information from: "${text}"
     Return ONLY JSON: {"businessName": "", "category": "restaurant/tailor/grocery/salon/mechanic/home_service", "location": "", "services": [], "description": "", "phone": "", "email": ""}`;
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const businessData = JSON.parse(response.text());
+    let responseText = response.text();
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    const cleanJson = jsonMatch ? jsonMatch[0] : responseText;
+    const businessData = JSON.parse(cleanJson);
     res.json(businessData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Extract product info from voice/text
+router.post('/extract-product', async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!process.env.GEMINI_API_KEY) {
+      return res.json({
+        name: "Voice Product",
+        price: "99",
+        category: "General",
+        description: text
+      });
+    }
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    const prompt = `Extract product information from the following text: "${text}"
+    Return ONLY valid JSON with this exact structure: {"name": "", "price": "", "category": "", "description": ""}. Ensure price is just a number string without currency symbols.`;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    let responseText = response.text();
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    const cleanJson = jsonMatch ? jsonMatch[0] : responseText;
+    const productData = JSON.parse(cleanJson);
+    res.json(productData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

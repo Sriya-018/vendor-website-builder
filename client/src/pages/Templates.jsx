@@ -9,7 +9,7 @@ import {
   FaStar, FaMobileAlt, FaDesktop, FaShoppingCart,
   FaCamera, FaUpload, FaSpinner, FaPhone, FaEnvelope,
   FaMapMarkerAlt, FaImage, FaMagic, FaWhatsapp, FaInstagram,
-  FaFacebook, FaTwitter, FaGlobe, FaRedo, FaVideo
+  FaFacebook, FaTwitter, FaGlobe, FaRedo, FaVideo, FaMicrophone
 } from 'react-icons/fa';
 import LivePreview from '../components/editor/LivePreview';
 
@@ -196,6 +196,58 @@ function Templates({ token, businessId }) {
   const [drawerStep, setDrawerStep] = useState(1);
   const [isPublishing, setIsPublishing] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [isVoiceRecording, setIsVoiceRecording] = useState(false);
+
+  const startVoice = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Voice recognition not supported in this browser');
+      return;
+    }
+    
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => setIsVoiceRecording(true);
+    recognition.onend = () => setIsVoiceRecording(false);
+    
+    recognition.onresult = async (event) => {
+      const text = event.results[0][0].transcript;
+      alert('Recognized speech: "' + text + '"\nProcessing with AI...');
+      try {
+        const response = await axios.post(`${API_URL}/ai/extract-product`, { text });
+        
+        // Show the raw response data for debugging
+        console.log("Raw AI Response STR:", JSON.stringify(response.data));
+        
+        const data = response.data;
+        if (!data || typeof data !== 'object') {
+          throw new Error('Invalid data format received from AI');
+        }
+
+        setNewProduct(prev => {
+          const updated = {
+            ...prev,
+            name: data.name || prev.name,
+            price: data.price || prev.price,
+            category: data.category || prev.category,
+            description: data.description || prev.description
+          };
+          console.log("Updated Product State STR:", JSON.stringify(updated));
+          return updated;
+        });
+        
+        alert(`Success! Extracted: \nName: ${data.name}\nPrice: ${data.price}`);
+      } catch (error) {
+        console.error('Failed to process voice input', error);
+        const errorMsg = error.response?.data?.error || error.message;
+        alert('Failed to process voice input: ' + errorMsg);
+      }
+    };
+    
+    recognition.start();
+  };
 
   // Camera states
   const [showCameraModal, setShowCameraModal] = useState(false);
@@ -1104,8 +1156,15 @@ function Templates({ token, businessId }) {
                       <div className="space-y-4">
                         {/* Product Image Upload with Camera Options */}
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image & Details</label>
                           <div className="flex gap-3">
+                            <button
+                              onClick={startVoice}
+                              className={`flex-1 ${isVoiceRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700'} text-white rounded-xl p-3 text-center transition-all shadow-md`}
+                            >
+                              <FaMicrophone className={`text-xl mx-auto mb-1 ${isVoiceRecording ? 'animate-pulse' : ''}`} />
+                              <span className="text-xs font-semibold">{isVoiceRecording ? 'Listening...' : 'Voice Input'}</span>
+                            </button>
                             <button
                               onClick={() => startCamera(null)}
                               className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-3 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
