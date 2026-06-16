@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const BusinessSchema = new mongoose.Schema({
-  vendorPhone: { type: String, required: true, unique: true },
+  vendorPhone: { type: String, sparse: true, unique: true },
+  vendorEmail: { type: String, sparse: true, unique: true },
   otp: { type: String },
   otpExpiry: { type: Date },
   businessName: { type: String, default: '' },

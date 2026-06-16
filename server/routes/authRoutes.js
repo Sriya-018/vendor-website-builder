@@ -1,21 +1,62 @@
 const express = require('express');
 const router = express.Router();
 const Business = require('../models/Business');
+const nodemailer = require('nodemailer');
 
-// DEMO MODE - Always use 123456 as OTP for testing
+// DEMO MODE - Always use 123456 as OTP for testing (only applies to phone numbers)
 const DEMO_OTP = '123456';
 const DEMO_MODE = true; // Set to false for production
+
+// Email Transporter Configuration
+let transporter;
+
+async function initEmail() {
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+    console.log('✅ Real Gmail SMTP configured.');
+  } else {
+    console.log('⚠️ No Gmail credentials found. Generating a free Ethereal Test Email account automatically...');
+    const testAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+      host: testAccount.smtp.host,
+      port: testAccount.smtp.port,
+      secure: testAccount.smtp.secure,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass,
+      },
+    });
+    console.log('✅ Ethereal Test Email configured successfully!');
+  }
+}
+
+initEmail();
 
 // Generate and send OTP
 router.post('/send-otp', async (req, res) => {
   try {
-    const { phone } = req.body;
+    const { phone, email } = req.body;
 
-    // Use demo OTP or generate random one
-    const otp = DEMO_MODE ? DEMO_OTP : Math.floor(100000 + Math.random() * 900000).toString();
+    if (!phone && !email) {
+      return res.status(400).json({ success: false, message: 'Phone or email is required' });
+    }
+
+    // Use demo OTP for phone/email if DEMO_MODE is true (and no email credentials for email)
+    const isPhoneDemo = phone && DEMO_MODE;
+    const isEmailDemo = email && DEMO_MODE && !process.env.EMAIL_USER;
+    const isDemo = isPhoneDemo || isEmailDemo;
+
+    const otp = isDemo ? DEMO_OTP : Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    let business = await Business.findOne({ vendorPhone: phone });
+    let query = phone ? { vendorPhone: phone } : { vendorEmail: email };
+    let business = await Business.findOne(query);
 
     if (business) {
       business.otp = otp;
@@ -23,21 +64,57 @@ router.post('/send-otp', async (req, res) => {
       await business.save();
     } else {
       business = await Business.create({
-        vendorPhone: phone,
+        ...(phone && { vendorPhone: phone }),
+        ...(email && { vendorEmail: email }),
         otp: otp,
         otpExpiry: otpExpiry
       });
     }
 
-    // Log OTP for testing
-    console.log(`OTP for ${phone}: ${otp}`);
-    console.log(`💡 Demo Mode: Use OTP: ${DEMO_OTP} for any phone number`);
+    if (email && !isEmailDemo) {
+      if (!transporter) {
+        return res.status(500).json({ success: false, message: 'Email service is still initializing. Please try again in a moment.' });
+      }
+
+      // Send real email OTP (or Ethereal mock)
+      try {
+        const info = await transporter.sendMail({
+          from: `"VendorBuild" <noreply@vendorbuild.com>`,
+          to: email,
+          subject: "Your VendorBuild Login OTP",
+          text: `Your OTP is: ${otp}. It will expire in 10 minutes.`,
+          html: `
+            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+              <h2>Welcome to VendorBuild!</h2>
+              <p>Your login verification code is:</p>
+              <h1 style="color: #2563eb; letter-spacing: 5px;">${otp}</h1>
+              <p>This code will expire in 10 minutes.</p>
+            </div>
+          `
+        });
+        
+        if (!process.env.EMAIL_USER) {
+          console.log(`\n📧 ETHEREAL EMAIL SENT!`);
+          console.log(`View your email here: ${nodemailer.getTestMessageUrl(info)}\n`);
+        } else {
+          console.log(`Real email OTP sent to ${email}`);
+        }
+        
+      } catch (mailErr) {
+        console.error('Failed to send email:', mailErr);
+        return res.status(500).json({ success: false, message: 'Failed to send email OTP. Check SMTP settings.' });
+      }
+    } else {
+      // Phone/Email mock logic
+      console.log(`Demo OTP generated for ${phone || email}: ${otp}`);
+      console.log(`💡 Demo Mode: Use OTP: ${DEMO_OTP}`);
+    }
 
     res.json({
       success: true,
       message: 'OTP sent successfully',
-      // Only include demo OTP in response for testing (remove in production)
-      ...(DEMO_MODE && { demoOtp: DEMO_OTP })
+      // Only include demo OTP in response for testing
+      ...(isDemo && { demoOtp: DEMO_OTP })
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -47,18 +124,27 @@ router.post('/send-otp', async (req, res) => {
 // Verify OTP
 router.post('/verify-otp', async (req, res) => {
   try {
-    const { phone, otp } = req.body;
+    const { phone, email, otp } = req.body;
 
-    // For testing, always accept demo OTP
+    if (!phone && !email) {
+      return res.status(400).json({ success: false, message: 'Phone or email is required' });
+    }
+
+    let query = phone ? { vendorPhone: phone } : { vendorEmail: email };
     let isValidOtp = false;
 
-    if (DEMO_MODE && otp === DEMO_OTP) {
+    const isPhoneDemo = phone && DEMO_MODE;
+    const isEmailDemo = email && DEMO_MODE && !process.env.EMAIL_USER;
+    const isDemo = isPhoneDemo || isEmailDemo;
+
+    // For testing, always accept demo OTP
+    if (isDemo && otp === DEMO_OTP) {
       isValidOtp = true;
     } else {
-      const business = await Business.findOne({ vendorPhone: phone });
+      const business = await Business.findOne(query);
 
       if (!business) {
-        return res.status(404).json({ success: false, message: 'Business not found' });
+        return res.status(404).json({ success: false, message: 'Account not found' });
       }
 
       if (business.otp !== otp) {
@@ -82,19 +168,20 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     // Get or create business for demo OTP
-    let business = await Business.findOne({ vendorPhone: phone });
-    if (!business && DEMO_MODE && otp === DEMO_OTP) {
-      // Auto-create business for demo OTP testing
+    let business = await Business.findOne(query);
+    if (!business && isDemo && otp === DEMO_OTP) {
       business = await Business.create({
-        vendorPhone: phone,
+        ...(phone && { vendorPhone: phone }),
+        ...(email && { vendorEmail: email }),
         otp: null,
         otpExpiry: null
       });
-      console.log(`Demo: Auto-created business for ${phone}`);
+      console.log(`Demo: Auto-created business for ${phone || email}`);
     }
 
+    const tokenPayload = phone ? phone : email;
     // Generate simple token (in production use JWT)
-    const token = Buffer.from(`${phone}:${Date.now()}`).toString('base64');
+    const token = Buffer.from(`${tokenPayload}:${Date.now()}`).toString('base64');
 
     res.json({
       success: true,
@@ -102,22 +189,14 @@ router.post('/verify-otp', async (req, res) => {
       business: {
         id: business._id,
         phone: business.vendorPhone,
+        email: business.vendorEmail,
         hasBusiness: !!business.businessName
       },
-      ...(DEMO_MODE && { demoMode: true, message: 'Demo mode: OTP 123456 works for any number' })
+      ...(isDemo && { demoMode: true, message: 'Demo mode: OTP 123456 works for any input' })
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-});
-
-// Additional test endpoint to check demo status
-router.get('/demo-status', (req, res) => {
-  res.json({
-    demoMode: DEMO_MODE,
-    demoOtp: DEMO_MODE ? DEMO_OTP : null,
-    message: DEMO_MODE ? `Test with any phone number using OTP: ${DEMO_OTP}` : 'Production mode'
-  });
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
   FaStore, FaPaintBrush, FaRobot, FaMobileAlt,
-  FaArrowRight, FaTimes, FaBars, FaSignOutAlt
+  FaArrowRight, FaTimes, FaBars, FaSignOutAlt, FaEnvelope, FaPhone
 } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
@@ -11,23 +11,31 @@ const API_URL = 'http://localhost:5000/api';
 function Landing({ token, setToken, setBusinessId }) {
   const navigate = useNavigate();
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [loginMethod, setLoginMethod] = useState('phone');
   const [otp, setOtp] = useState('');
   const [showOtp, setShowOtp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const sendOTP = async () => {
-    if (phone.length !== 10) {
+    if (loginMethod === 'phone' && phone.length !== 10) {
       alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    if (loginMethod === 'email' && !email.includes('@')) {
+      alert('Please enter a valid email address');
       return;
     }
     setLoading(true);
     try {
-      await axios.post(`${API_URL}/auth/send-otp`, { phone });
+      await axios.post(`${API_URL}/auth/send-otp`, { 
+        ...(loginMethod === 'phone' ? { phone } : { email }) 
+      });
       setShowOtp(true);
     } catch (error) {
-      alert('Failed to send OTP. For demo, it might still proceed.');
-      setShowOtp(true);
+      alert(error.response?.data?.message || 'Failed to send OTP.');
+      if (loginMethod === 'phone') setShowOtp(true);
     }
     setLoading(false);
   };
@@ -39,11 +47,14 @@ function Landing({ token, setToken, setBusinessId }) {
     }
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/auth/verify-otp`, { phone, otp });
+      const response = await axios.post(`${API_URL}/auth/verify-otp`, { 
+        ...(loginMethod === 'phone' ? { phone } : { email }),
+        otp 
+      });
       setToken(response.data.token);
       setBusinessId(response.data.business.id);
     } catch (error) {
-      alert('Invalid OTP. Use 123456 for demo.');
+      alert(error.response?.data?.message || 'Invalid OTP.');
     }
     setLoading(false);
   };
@@ -202,27 +213,62 @@ function Landing({ token, setToken, setBusinessId }) {
           <div id="login" className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 border border-gray-100 z-10">
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Create your account</h3>
-              <p className="text-gray-500">Enter your phone number to get started instantly.</p>
+              <p className="text-gray-500">Log in with your phone or email instantly.</p>
             </div>
 
             {!showOtp ? (
               <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                  <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent transition-all">
-                    <span className="bg-gray-50 text-gray-500 px-4 py-3 border-r border-gray-300 font-medium">+91</span>
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      placeholder="98765 43210"
-                      className="flex-1 px-4 py-3 outline-none text-gray-900 w-full"
-                    />
-                  </div>
+                
+                <div className="flex bg-gray-100 p-1 rounded-xl">
+                  <button 
+                    onClick={() => setLoginMethod('phone')}
+                    className={`flex-1 flex justify-center items-center gap-2 py-2 text-sm font-medium rounded-lg transition-all ${loginMethod === 'phone' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    <FaPhone className="text-xs" /> Phone
+                  </button>
+                  <button 
+                    onClick={() => setLoginMethod('email')}
+                    className={`flex-1 flex justify-center items-center gap-2 py-2 text-sm font-medium rounded-lg transition-all ${loginMethod === 'email' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                  >
+                    <FaEnvelope className="text-xs" /> Email
+                  </button>
                 </div>
+
+                {loginMethod === 'phone' ? (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent transition-all">
+                      <span className="bg-gray-50 text-gray-500 px-4 py-3 border-r border-gray-300 font-medium">+91</span>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        placeholder="98765 43210"
+                        className="flex-1 px-4 py-3 outline-none text-gray-900 w-full"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent transition-all">
+                      <div className="bg-gray-50 text-gray-500 px-4 py-3 border-r border-gray-300">
+                        <FaEnvelope />
+                      </div>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="flex-1 px-4 py-3 outline-none text-gray-900 w-full"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <button
                   onClick={sendOTP}
-                  disabled={loading || phone.length !== 10}
+                  disabled={loading || (loginMethod === 'phone' ? phone.length !== 10 : !email.includes('@'))}
                   className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-md flex justify-center items-center gap-2"
                 >
                   {loading ? (
@@ -244,8 +290,14 @@ function Landing({ token, setToken, setBusinessId }) {
                     className="w-full border border-gray-300 rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-mono"
                   />
                   <div className="flex justify-between items-center mt-3">
-                    <p className="text-xs text-blue-600 font-medium">Demo OTP: 123456</p>
-                    <button onClick={() => setShowOtp(false)} className="text-xs text-gray-500 hover:text-gray-900 underline">Change Number</button>
+                    {loginMethod === 'phone' ? (
+                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 123456</p>
+                    ) : (
+                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 123456 (Email mock)</p>
+                    )}
+                    <button onClick={() => setShowOtp(false)} className="text-xs text-gray-500 hover:text-gray-900 underline">
+                      Change {loginMethod === 'phone' ? 'Number' : 'Email'}
+                    </button>
                   </div>
                 </div>
                 <button
