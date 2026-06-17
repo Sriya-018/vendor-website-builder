@@ -5,6 +5,7 @@ const BusinessSchema = new mongoose.Schema({
   vendorEmail: { type: String, sparse: true, unique: true },
   otp: { type: String },
   otpExpiry: { type: Date },
+  messageCentralVerificationId: { type: String },
   businessName: { type: String, default: '' },
   category: { 
     type: String, 

@@ -29,32 +29,44 @@ function Landing({ token, setToken, setBusinessId }) {
     }
     setLoading(true);
     try {
-      await axios.post(`${API_URL}/auth/send-otp`, { 
-        ...(loginMethod === 'phone' ? { phone } : { email }) 
-      });
+      if (loginMethod === 'phone') {
+        await axios.post(`${API_URL}/auth/send-otp`, { phone });
+      } else {
+        await axios.post(`${API_URL}/auth/send-otp`, { email });
+      }
       setShowOtp(true);
     } catch (error) {
-      alert(error.response?.data?.message || 'Failed to send OTP.');
-      if (loginMethod === 'phone') setShowOtp(true);
+      console.error(error);
+      alert(error.response?.data?.message || error.message || 'Failed to send OTP.');
     }
     setLoading(false);
   };
 
   const verifyOTP = async () => {
-    if (otp.length !== 6) {
-      alert('Please enter 6-digit OTP');
+    if (otp.length !== 4) {
+      alert('Please enter 4-digit OTP');
       return;
     }
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/auth/verify-otp`, { 
-        ...(loginMethod === 'phone' ? { phone } : { email }),
-        otp 
-      });
+      let response;
+      if (loginMethod === 'phone') {
+        response = await axios.post(`${API_URL}/auth/verify-otp`, { 
+          phone,
+          otp 
+        });
+      } else {
+        response = await axios.post(`${API_URL}/auth/verify-otp`, { 
+          email,
+          otp 
+        });
+      }
+      
       setToken(response.data.token);
       setBusinessId(response.data.business.id);
     } catch (error) {
-      alert(error.response?.data?.message || 'Invalid OTP.');
+      console.error(error);
+      alert(error.response?.data?.message || error.message || 'Invalid OTP.');
     }
     setLoading(false);
   };
@@ -285,15 +297,15 @@ function Landing({ token, setToken, setBusinessId }) {
                   <input
                     type="text"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="Enter 6-digit OTP"
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                    placeholder="Enter 4-digit OTP"
                     className="w-full border border-gray-300 rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-mono"
                   />
                   <div className="flex justify-between items-center mt-3">
                     {loginMethod === 'phone' ? (
-                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 123456</p>
+                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 1234</p>
                     ) : (
-                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 123456 (Email mock)</p>
+                      <p className="text-xs text-blue-600 font-medium">Demo OTP: 1234 (Email mock)</p>
                     )}
                     <button onClick={() => setShowOtp(false)} className="text-xs text-gray-500 hover:text-gray-900 underline">
                       Change {loginMethod === 'phone' ? 'Number' : 'Email'}
@@ -302,7 +314,7 @@ function Landing({ token, setToken, setBusinessId }) {
                 </div>
                 <button
                   onClick={verifyOTP}
-                  disabled={loading || otp.length !== 6}
+                  disabled={loading || otp.length !== 4}
                   className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-md flex justify-center items-center"
                 >
                   {loading ? (
