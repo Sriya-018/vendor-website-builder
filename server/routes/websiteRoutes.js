@@ -51,7 +51,7 @@ router.get('/business/:businessId/all', async (req, res) => {
 router.post('/:businessId/new', async (req, res) => {
   try {
     const { businessId } = req.params;
-    const { template, theme, sections, html, css } = req.body;
+    const { template, theme, sections, html, css, storeName } = req.body;
     
     const business = await Business.findById(businessId);
     if (!business) return res.status(404).json({ error: 'Business not found' });
@@ -69,7 +69,8 @@ router.post('/:businessId/new', async (req, res) => {
       html,
       css,
       slug,
-      published: true
+      published: true,
+      storeName
     });
     
     res.json(website);

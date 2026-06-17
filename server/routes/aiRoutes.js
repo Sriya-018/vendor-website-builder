@@ -110,7 +110,7 @@ router.post('/chat', async (req, res) => {
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
     
-    const systemPrompt = `You are an expert website building assistant for "VendorBuild", a platform that helps vendors create modern, beautiful storefronts easily without coding. 
+    const systemPrompt = `You are an expert website building assistant for "VendorBuild", a platform that helps vendors create modern, beautiful stores easily without coding. 
 Your goal is to help users choose templates (like Aurora, Slate, Bloom, Crave, Haven, Nexus, Vogue, Pixel, Glow), explain website features, and provide general advice on setting up an online business.
 CRITICAL: If the user explicitly asks you to build a website or choose a template for them, ask them for their business name and what they sell (if they haven't provided it yet).
 Once you have their business details and know which template fits best, reply normally with a helpful message, but append this EXACT string to the very end of your response:

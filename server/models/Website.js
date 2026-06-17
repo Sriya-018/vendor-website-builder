@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const WebsiteSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
+  storeName: { type: String },
   template: { type: String, default: 'default' },
   theme: {
     primaryColor: { type: String, default: '#4CAF50' },
