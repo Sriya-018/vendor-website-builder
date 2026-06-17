@@ -66,7 +66,7 @@ function OrdersTab({ businessId, websites }) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-12 text-center">
         <FaGlobe className="text-5xl text-gray-300 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">No Storefronts Found</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">No Stores Found</h2>
         <p className="text-gray-500 mb-6">Create a store from the Overview tab before viewing orders.</p>
       </div>
     );
@@ -92,7 +92,7 @@ function OrdersTab({ businessId, websites }) {
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                     <FaGlobe className="text-blue-500" />
-                    Storefront: <span className="font-medium text-gray-700">{website.slug}</span>
+                    Store: <span className="font-medium text-gray-700">{website.storeName || website.slug}</span>
                   </h2>
                   <p className="text-sm text-gray-500">Manage customer orders placed on this specific website</p>
                 </div>
@@ -194,7 +194,7 @@ function OrdersTab({ businessId, websites }) {
                 <FaBoxOpen className="text-gray-500" />
                 Unassigned Orders
               </h2>
-              <p className="text-sm text-gray-500">Older orders or orders not associated with a specific active storefront.</p>
+              <p className="text-sm text-gray-500">Older orders or orders not associated with a specific active store.</p>
             </div>
             <div className="bg-gray-200 text-gray-800 py-1 px-3 rounded-full text-sm font-bold">
               {orders.filter(o => !websites.some(w => w._id === o.websiteId || w.slug === o.storeName)).length} Order(s)

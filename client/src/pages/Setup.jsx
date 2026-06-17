@@ -275,7 +275,7 @@ function Setup({ token, businessId, setBusinessId }) {
              
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
-                { type: 'shop_front', label: 'Storefront or Banner', icon: <FaImage className="text-3xl text-gray-400 mb-3" /> },
+                { type: 'shop_front', label: 'Store or Banner', icon: <FaImage className="text-3xl text-gray-400 mb-3" /> },
                 { type: 'product', label: 'Product Highlights', icon: <FaCamera className="text-3xl text-gray-400 mb-3" /> },
                 { type: 'owner', label: 'Team or Owner', icon: <FaIdBadge className="text-3xl text-gray-400 mb-3" /> },
                 { type: 'price_list', label: 'Menus or Pricing', icon: <FaListAlt className="text-3xl text-gray-400 mb-3" /> }

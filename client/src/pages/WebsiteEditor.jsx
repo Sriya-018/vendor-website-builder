@@ -21,7 +21,7 @@ const DEFAULT_CONFIG = {
     position: 'top',
     backgroundColor: '#ffffff',
     textColor: '#1f2937',
-    logoText: 'My Store',
+    logoText: '',
     showSearch: true,
     searchPosition: 'right',
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
@@ -133,7 +133,7 @@ function WebsiteEditor() {
       setWebsite(siteData);
       setBusiness(siteData.businessId);
       
-      // Fetch products for this specific storefront
+      // Fetch products for this specific store
       if (siteData && siteData.businessId) {
         const businessIdStr = siteData.businessId._id || siteData.businessId;
         try {
@@ -156,10 +156,15 @@ function WebsiteEditor() {
       // Merge saved designConfig if it exists
       if (siteData.designConfig && Object.keys(siteData.designConfig).length > 0) {
         const dbConfig = siteData.designConfig;
+        const isGeneric = dbConfig.navbar && (dbConfig.navbar.logoText === 'My Store' || dbConfig.navbar.logoText === 'My Awesome Store');
         mergedConfig = {
           ...mergedConfig,
           ...dbConfig,
-          navbar: { ...DEFAULT_CONFIG.navbar, ...(dbConfig.navbar || {}) },
+          navbar: { 
+            ...DEFAULT_CONFIG.navbar, 
+            ...(dbConfig.navbar || {}),
+            logoText: (!isGeneric && dbConfig.navbar && dbConfig.navbar.logoText) || siteData.storeName || ''
+          },
           header: { 
             ...DEFAULT_CONFIG.header, 
             ...(dbConfig.header || {}),
@@ -239,7 +244,7 @@ function WebsiteEditor() {
               {business?.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
             <div>
-              <div className="text-xs text-gray-500 font-medium">Editing storefront:</div>
+              <div className="text-xs text-gray-500 font-medium">Editing store:</div>
               <div className="font-bold text-gray-900 leading-tight">{website.slug}</div>
             </div>
           </div>

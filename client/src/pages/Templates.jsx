@@ -28,7 +28,7 @@ const DEFAULT_CONFIG = {
     position: 'top',
     backgroundColor: '#ffffff',
     textColor: '#1f2937',
-    logoText: 'My Store',
+    logoText: '',
     showSearch: true,
     searchPosition: 'right',
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
@@ -653,7 +653,8 @@ function Templates({ token, businessId }) {
           html: response.data.html,
           css: response.data.css,
           template: previewTemplate?.id || 't1',
-          published: true
+          published: true,
+          storeName: storeDetails.name || 'My Awesome Store'
         });
 
         const newWebsiteId = saveRes.data._id;
@@ -902,7 +903,7 @@ function Templates({ token, businessId }) {
             <FaStar className="text-2xl" />
           </div>
           <h2 className="font-jakarta text-3xl font-bold text-gray-900 mb-4">Not sure which template to pick?</h2>
-          <p className="text-gray-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect storefront for you.</p>
+          <p className="text-gray-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect store for you.</p>
           <button 
             onClick={() => setIsChatOpen(true)}
             className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg"

@@ -40,16 +40,16 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
         </div>
       </div>
 
-      {/* My Storefronts */}
+      {/* My Stores */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-900">My Storefronts</h2>
+          <h2 className="text-lg font-bold text-gray-900">My Stores</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {websites && websites.length > 0 ? websites.map((website, index) => (
             <div key={website._id} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col">
               <div className="flex justify-between items-start mb-3">
-                <div className="font-bold text-gray-900 truncate">Storefront {index + 1}</div>
+                <div className="font-bold text-gray-900 truncate">{website.storeName || `Store ${index + 1}`}</div>
                 <span className="text-xs font-semibold bg-green-50 text-green-700 px-2 py-1 rounded-full">{website.views || 0} views</span>
               </div>
               <div className="text-sm text-gray-500 mb-4 line-clamp-2">
@@ -74,7 +74,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
                 <button
                   onClick={() => onDeleteWebsite(website._id)}
                   className="w-10 flex-shrink-0 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center border border-red-200"
-                  title="Delete Storefront"
+                  title="Delete Store"
                 >
                   <FaTrash />
                 </button>
@@ -82,7 +82,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
             </div>
           )) : (
             <div className="col-span-full p-8 text-center text-gray-500 bg-white rounded-xl border border-gray-200 shadow-sm">
-              <p>No storefronts created yet. Start by creating a new store from the Templates section!</p>
+              <p>No stores created yet. Start by creating a new store from the Templates section!</p>
             </div>
           )}
         </div>

@@ -28,7 +28,7 @@ const DEFAULT_CONFIG = {
     position: 'top',
     backgroundColor: '#ffffff',
     textColor: '#1f2937',
-    logoText: 'My Store',
+    logoText: '',
     showSearch: true,
     searchPosition: 'right',
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
@@ -670,6 +670,12 @@ function WebsiteView() {
     
     // Deep merge to guarantee all nested properties exist
     config.navbar = { ...DEFAULT_CONFIG.navbar, ...(siteConfig.navbar || {}) };
+    
+    // Fallback to storeName if logoText is not set or is generic
+    const isGenericLogo = config.navbar.logoText === 'My Store' || config.navbar.logoText === 'My Awesome Store';
+    if ((!config.navbar.logoText || isGenericLogo) && website.storeName) {
+      config.navbar.logoText = website.storeName;
+    }
     config.header = { ...DEFAULT_CONFIG.header, ...(siteConfig.header || {}) };
     if (siteConfig.header && siteConfig.header.announcement) {
       config.header.announcement = { ...DEFAULT_CONFIG.header.announcement, ...siteConfig.header.announcement };

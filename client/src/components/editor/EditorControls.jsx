@@ -72,7 +72,7 @@ function EditorControls({ config, setConfig, website }) {
     <div className="flex flex-col h-full bg-white text-sm">
       <div className="p-5 border-b border-gray-200 bg-gray-50 sticky top-0 z-10 shadow-sm">
         <h2 className="font-black text-gray-900 text-lg">Design Controls</h2>
-        <p className="text-gray-500 text-xs mt-1">Configure your storefront appearance</p>
+        <p className="text-gray-500 text-xs mt-1">Configure your store appearance</p>
       </div>
 
       <div className="flex-1 overflow-y-auto">

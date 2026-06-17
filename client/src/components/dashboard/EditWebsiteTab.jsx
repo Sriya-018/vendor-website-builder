@@ -93,8 +93,8 @@ function EditWebsiteTab({ businessId, businessData, selectedWebsite }) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl p-12 text-center">
         <FaDesktop className="text-5xl text-gray-300 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">No Storefront Selected</h2>
-        <p className="text-gray-500 mb-6">Please select a storefront from the Overview tab to edit its design.</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">No Store Selected</h2>
+        <p className="text-gray-500 mb-6">Please select a store from the Overview tab to edit its design.</p>
       </div>
     );
   }
@@ -104,7 +104,7 @@ function EditWebsiteTab({ businessId, businessData, selectedWebsite }) {
       <div className="p-6 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Website Design</h2>
-          <p className="text-sm text-gray-500">Editing storefront: <strong>{selectedWebsite.slug}</strong></p>
+          <p className="text-sm text-gray-500">Editing store: <strong>{selectedWebsite.slug}</strong></p>
         </div>
         <button 
           onClick={() => window.open(websiteUrl, '_blank')}

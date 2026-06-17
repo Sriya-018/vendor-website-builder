@@ -58,13 +58,13 @@ function Dashboard({ token, businessId }) {
   };
 
   const handleDeleteWebsite = async (websiteId) => {
-    if (window.confirm('Are you sure you want to delete this storefront? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete this store? This action cannot be undone.')) {
       try {
         await axios.delete(`${API_URL}/website/${websiteId}`);
         fetchData();
       } catch (error) {
         console.error('Failed to delete website:', error);
-        alert('Failed to delete storefront');
+        alert('Failed to delete store');
       }
     }
   };
