@@ -7,6 +7,8 @@ function TemplateAurora({ config, business, products, devicePreview, website }) 
 
   const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
   const storeName = website?.storeName || business?.businessName || 'My Store';
+  const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
+  const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
   const description = config.header.heroHeading || business?.description || 'Welcome to our store';
   const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -52,12 +54,16 @@ function TemplateAurora({ config, business, products, devicePreview, website }) 
       <nav className={`sticky top-0 z-40 w-full transition-all duration-300 border-b border-transparent ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-gray-200' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div 
+            {fullLogoUrl ? (
+              <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-md" style={{background:'transparent'}} />
+            ) : (
+              <div 
               className="w-10 h-10 rounded-lg flex items-center justify-center text-white"
               style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}
             >
               <FaStore />
             </div>
+            )}
             <span 
               className={`font-extrabold text-xl tracking-tight transition-colors ${scrolled ? 'text-gray-900' : 'text-white'}`}
               style={{ fontFamily: 'var(--heading-font)' }}
@@ -279,12 +285,16 @@ function TemplateAurora({ config, business, products, devicePreview, website }) 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div 
+                {fullLogoUrl ? (
+              <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-md" style={{background:'transparent'}} />
+            ) : (
+              <div 
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-white"
                   style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}
                 >
                   <FaStore />
                 </div>
+            )}
                 <span 
                   className="font-extrabold text-xl text-white tracking-tight"
                   style={{ fontFamily: 'var(--heading-font)' }}

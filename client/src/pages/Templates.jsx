@@ -271,6 +271,8 @@ function Templates({ token, businessId }) {
   const [storeDetails, setStoreDetails] = useState({
     name: '',
     tagline: '',
+    logo: null,
+    logoFile: null,
     phone: '',
     email: '',
     address: '',
@@ -519,6 +521,22 @@ function Templates({ token, businessId }) {
     }
   };
 
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Logo size must be less than 2MB");
+        return;
+      }
+      const previewUrl = URL.createObjectURL(file);
+      setStoreDetails(prev => ({
+        ...prev,
+        logo: previewUrl,
+        logoFile: file
+      }));
+    }
+  };
+
   const handleImageUpload = async (e, productIndex = null) => {
     const file = e.target.files[0];
     if (file) {
@@ -620,9 +638,19 @@ function Templates({ token, businessId }) {
           });
         }
 
+        let uploadedLogoUrl = null;
+        if (storeDetails.logoFile) {
+          const logoFormData = new FormData();
+          logoFormData.append('image', storeDetails.logoFile, 'logo.png');
+          const uploadResponse = await axios.post(`${API_URL}/upload/product-image`, logoFormData);
+          uploadedLogoUrl = uploadResponse.data.url;
+        }
+
         const businessDataForAI = {
           businessName: businessData?.businessName || 'My Business',
           storeName: storeDetails.name || 'My Awesome Store',
+        logo: storeDetails.logoPreview || storeDetails.logo || businessData?.logo || '',
+          logo: uploadedLogoUrl,
           description: storeDetails.tagline || '',
           phone: storeDetails.phone || '',
           email: storeDetails.email || '',
@@ -654,6 +682,7 @@ function Templates({ token, businessId }) {
           storeInfo: {
             description: storeDetails.tagline || '',
             category: dbCategory,
+            logo: uploadedLogoUrl,
             contact: {
               phone: storeDetails.phone || '',
               email: storeDetails.email || ''
@@ -1157,13 +1186,20 @@ function Templates({ token, businessId }) {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Store Logo</label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-                      <input type="file" accept="image/*" className="hidden" id="logo-upload" />
-                      <label htmlFor="logo-upload" className="cursor-pointer">
-                        <FaImage className="text-3xl text-gray-400 mx-auto mb-2" />
-                        <p className="text-blue-600 font-medium text-sm">Click to upload logo</p>
-                        <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
-                      </label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer relative overflow-hidden">
+                      <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="logo-upload" onChange={handleLogoUpload} />
+                      {storeDetails.logo ? (
+                        <div className="flex flex-col items-center">
+                          <img src={storeDetails.logo} alt="Store Logo Preview" className="h-20 object-contain mb-2" />
+                          <p className="text-blue-600 font-medium text-sm">Change logo</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <FaImage className="text-3xl text-gray-400 mx-auto mb-2" />
+                          <p className="text-blue-600 font-medium text-sm">Click to upload logo</p>
+                          <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

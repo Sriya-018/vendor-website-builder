@@ -58,8 +58,12 @@ router.post('/:businessId/new', async (req, res) => {
     const business = await Business.findById(businessId);
     if (!business) return res.status(404).json({ error: 'Business not found' });
     
-    // Generate slug from business name, append part of businessId and random string
-    const baseSlug = (business.businessName || 'store').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    // Generate slug from business name and store name, append part of businessId and random string
+    const bName = business.businessName ? business.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-') : '';
+    const sName = storeName ? storeName.toLowerCase().replace(/[^a-z0-9]+/g, '-') : '';
+    let baseSlug = [bName, sName].filter(Boolean).join('-');
+    if (!baseSlug) baseSlug = 'store';
+    
     const randomStr = Math.random().toString(36).substring(2, 6);
     const slug = `${baseSlug}-${businessId.toString().slice(-4)}-${randomStr}`;
     
@@ -75,6 +79,7 @@ router.post('/:businessId/new', async (req, res) => {
       storeName,
       storeInfo: {
         businessName: storeInfo?.businessName || business.businessName,
+        logo: storeInfo?.logo || business.logo,
         description: storeInfo?.description || business.description,
         category: storeInfo?.category || business.category,
         contact: {

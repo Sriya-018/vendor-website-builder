@@ -25,6 +25,7 @@ const WebsiteSchema = new mongoose.Schema({
   designConfig: { type: mongoose.Schema.Types.Mixed, default: {} },
   storeInfo: {
     businessName: { type: String },
+    logo: { type: String },
     description: { type: String },
     category: { type: String },
     contact: {

@@ -23,6 +23,16 @@ router.put('/:businessId', async (req, res) => {
       { ...req.body, updatedAt: new Date() },
       { new: true }
     );
+    
+    // If businessName was updated, cascade to all related websites
+    if (req.body.businessName) {
+      const Website = require('../models/Website');
+      await Website.updateMany(
+        { businessId: req.params.businessId },
+        { $set: { 'storeInfo.businessName': req.body.businessName } }
+      );
+    }
+    
     res.json(business);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -270,6 +270,7 @@ function buildSocialLinks(socialMedia, phoneNumber, whatsappUrl) {
   }
   return links.join('');
 }
+// ─────────────────────────────────────────────
 
 function buildContactBlock(phoneNumber, email, address, formattedPhone, encodedLocation, primaryColor) {
   let html = '';
@@ -279,9 +280,13 @@ function buildContactBlock(phoneNumber, email, address, formattedPhone, encodedL
   return html;
 }
 
-// ─────────────────────────────────────────────
-//  MAIN ROUTER  — picks the right template
-// ─────────────────────────────────────────────
+function buildLogoBlock(businessData, primaryColor, accentColor) {
+  if (businessData && businessData.logo) {
+    const fullLogoUrl = businessData.logo.startsWith('http') ? businessData.logo : `http://localhost:5000${businessData.logo}`;
+    return `<img src="${fullLogoUrl}" alt="Store Logo" style="width:2.5rem;height:2.5rem;object-fit:contain;border-radius:0.4rem;background:transparent;">`;
+  }
+  return `<div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;"><i class="fas fa-store"></i></div>`;
+}
 
 function generateWebsiteHTML(businessData, productImages, templateId, templateName, theme, heroImage, products) {
   switch (templateId) {
@@ -375,9 +380,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
   <nav id="navbar">
     <div style="max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
       <div style="display:flex;align-items:center;gap:0.75rem;">
-        <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;">
-          <i class="fas fa-store"></i>
-        </div>
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
         <span class="nav-brand" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;">${storeName}</span>
       </div>
       <div class="desktop-menu" style="display:flex;gap:2rem;">
@@ -447,7 +450,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
       <div class="footer-grid" style="margin-bottom:3rem;">
         <div>
           <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
-            <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;"><i class="fas fa-store"></i></div>
+            ${buildLogoBlock(businessData, primaryColor, accentColor)}
             <span style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;font-size:1.2rem;">${storeName}</span>
           </div>
           <p style="font-size:0.9rem;line-height:1.7;max-width:300px;">Providing top-tier products and exceptional service to customers worldwide.</p>
@@ -554,7 +557,10 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#0f172a;border-bottom:1px solid #1e293b;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-weight:800;font-size:1.3rem;color:${accentColor};letter-spacing:-0.02em;">${storeName}</span>
+      </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#94a3b8;">
         <a href="#" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Home</a>
         <a href="#products" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Catalog</a>
@@ -673,7 +679,10 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:rgba(255,240,246,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #fbcfe8;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.5rem;color:${primaryColor};">${storeName}</span>
+      </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:${primaryColor};">
         <a href="#" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Home</a>
         <a href="#products" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Shop</a>
@@ -780,7 +789,10 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:${primaryColor};padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-family:'Lobster',cursive;font-size:1.8rem;color:${accentColor};">${storeName}</span>
+      </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.8);">
         <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Home</a>
         <a href="#menu" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Menu</a>
@@ -890,7 +902,10 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#fef3c7;border-bottom:2px solid #fde68a;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.6rem;color:${primaryColor};">${storeName}</span>
+      </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:500;color:#92400e;">
         <a href="#" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Home</a>
         <a href="#products" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Shop</a>
@@ -1003,7 +1018,10 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
         <div style="width:2rem;height:2rem;background:${accentColor};border-radius:0.4rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;">
           <i class="fas fa-briefcase"></i>
         </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          ${buildLogoBlock(businessData, primaryColor, accentColor)}
         <span style="font-weight:800;font-size:1.2rem;color:${primaryColor};">${storeName}</span>
+        </div>
       </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#64748b;">
         <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
@@ -1127,7 +1145,10 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid #000;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:700;color:#000;letter-spacing:-0.02em;">${storeName}</span>
+      </div>
       <div style="display:flex;gap:2.5rem;font-size:0.8rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#000;">
         <a href="#" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Home</a>
         <a href="#collection" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Collection</a>
@@ -1239,7 +1260,10 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#020617;border-bottom:1px solid #0f172a;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:3.75rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${buildLogoBlock(businessData, primaryColor, accentColor)}
       <span style="font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:${accentColor};">&gt; ${storeName}_</span>
+      </div>
       <div style="display:flex;gap:2rem;font-size:0.82rem;font-weight:600;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;">
         <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
         <a href="#products" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Store</a>
@@ -1354,7 +1378,10 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
       <div style="display:flex;align-items:center;gap:0.5rem;">
         <span style="font-size:1.4rem;">🌿</span>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          ${buildLogoBlock(businessData, primaryColor, accentColor)}
         <span style="font-weight:900;font-size:1.3rem;color:${primaryColor};">${storeName}</span>
+        </div>
       </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:#065f46;">
         <a href="#" style="color:#065f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#065f46'">Home</a>

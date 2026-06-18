@@ -4,10 +4,11 @@ import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInst
 
 const API_URL = 'http://localhost:5000/api';
 
-function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWebsite, setSelectedWebsite }) {
+function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites, selectedWebsite, setSelectedWebsite }) {
   const [formData, setFormData] = useState({
     businessName: '',
     storeName: '',
+    logo: '',
     description: '',
     category: '',
     email: '',
@@ -36,6 +37,7 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
       setFormData({
         businessName: storeInfo.businessName ?? businessData?.businessName ?? '',
         storeName: selectedWebsite.storeName ?? '',
+        logo: storeInfo.logo ?? businessData?.logo ?? '',
         description: storeInfo.description ?? businessData?.description ?? '',
         category: storeInfo.category ?? businessData?.category ?? '',
         email: storeInfo.contact?.email ?? businessData?.contact?.email ?? '',
@@ -58,6 +60,7 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
       setFormData({
         businessName: businessData.businessName || '',
         storeName: '',
+        logo: businessData.logo || '',
         description: businessData.description || '',
         category: businessData.category || '',
         email: businessData.contact?.email || '',
@@ -106,6 +109,31 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
     }
   };
 
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Logo size must be less than 2MB");
+        return;
+      }
+      try {
+        setIsSaving(true);
+        const logoFormData = new FormData();
+        logoFormData.append('image', file, 'logo.png');
+        const uploadResponse = await axios.post(`${API_URL}/upload/product-image`, logoFormData);
+        const uploadedLogoUrl = uploadResponse.data.url;
+        setFormData(prev => ({ ...prev, logo: uploadedLogoUrl }));
+        setMessage('Logo uploaded! Click Save to apply changes.');
+        setTimeout(() => setMessage(''), 5000);
+      } catch (error) {
+        console.error('Logo upload failed', error);
+        alert('Failed to upload logo');
+      } finally {
+        setIsSaving(false);
+      }
+    }
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -118,6 +146,7 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
           storeName: formData.storeName,
           storeInfo: {
             businessName: formData.businessName,
+            logo: formData.logo,
             description: formData.description,
             category: formData.category,
             contact: {
@@ -143,6 +172,7 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
         // Save to global business object
         const updateData = {
           businessName: formData.businessName,
+          logo: formData.logo,
           description: formData.description,
           category: formData.category,
           email: formData.email,
@@ -156,6 +186,7 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
 
         const res = await axios.put(`${API_URL}/business/${businessId}`, updateData);
         if (onUpdate) onUpdate(res.data);
+        if (refreshData) await refreshData();
         setMessage('Global settings saved successfully!');
       }
 
@@ -219,9 +250,34 @@ function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWeb
                 </label>
                 <input 
                   type="text" required name="businessName" value={formData.businessName} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  disabled={!!selectedWebsite}
+                  className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 ${selectedWebsite ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                 />
               </div>
+
+              {selectedWebsite && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Store Logo
+                  </label>
+                  <div className="flex items-center gap-4">
+                    {formData.logo ? (
+                      <div className="relative w-16 h-16 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center">
+                        <img src={formData.logo.startsWith('http') ? formData.logo : `http://localhost:5000${formData.logo}`} alt="Logo" className="w-full h-full object-contain rounded-lg" />
+                        <button type="button" onClick={() => setFormData(prev => ({ ...prev, logo: '' }))} style={{ width: '18px', height: '18px', minWidth: '18px', minHeight: '18px', padding: 0, margin: 0, lineHeight: '18px' }} className="absolute -top-1.5 -right-1.5 bg-red-500 text-white flex items-center justify-center rounded-full text-[12px] shadow hover:bg-red-600 border border-white z-10">&times;</button>
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 bg-gray-100 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-gray-400">
+                        <FaStore />
+                      </div>
+                    )}
+                    <label className="cursor-pointer bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                      Upload New Logo
+                      <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+                    </label>
+                  </div>
+                </div>
+              )}
               
               {selectedWebsite && (
                 <div>

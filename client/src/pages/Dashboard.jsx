@@ -84,9 +84,9 @@ function Dashboard({ token, businessId }) {
       case 'orders':
         return <OrdersTab businessId={businessId} websites={websites} />;
       case 'settings':
-        return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} websites={websites} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} />;
+        return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} refreshData={fetchData} websites={websites} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} />;
       case 'edit-website':
-        return <EditWebsiteTab businessId={businessId} businessData={business} selectedWebsite={selectedWebsite} />;
+        return <EditWebsiteTab businessId={businessId} businessData={business} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} websites={websites} routerNavigate={navigate} />;
       default:
         return <OverviewTab stats={stats} recentOrders={recentOrders} websites={websites} navigate={setActiveTab} setSelectedWebsite={setSelectedWebsite} />;
     }

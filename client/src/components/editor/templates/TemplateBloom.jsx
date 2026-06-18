@@ -6,6 +6,8 @@ function TemplateBloom({ config, business, products, devicePreview, website }) {
 
   const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
   const storeName = website?.storeName || business?.businessName || 'My Store';
+  const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
+  const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
   const description = config.header.heroHeading || business?.description || 'Radiant beauty, naturally curated.';
   const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
