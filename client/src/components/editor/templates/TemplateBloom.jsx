@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp, FaStore } from 'react-icons/fa';
 
-function TemplateBloom({ config, business, products, devicePreview }) {
+function TemplateBloom({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Radiant beauty, naturally curated.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#831843'; // Rose 900
   const accentColor = config.themeColor || '#EC4899'; // Pink 500
@@ -80,7 +81,7 @@ function TemplateBloom({ config, business, products, devicePreview }) {
             className="text-5xl md:text-6xl font-extrabold leading-tight mb-5"
             style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}
           >
-            {businessName}
+            {storeName}
           </h1>
           <p className="text-lg mb-10 max-w-lg mx-auto" style={{ color: '#9d8189' }}>
             {description}
@@ -181,7 +182,7 @@ function TemplateBloom({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="py-8 text-center text-sm" style={{ backgroundColor: primaryColor, color: 'rgba(255,255,255,0.7)' }}>
-        <p>© 2026 {businessName}. Powered by <span style={{ color: '#fbcfe8', fontWeight: 'bold' }}>VendorBuild</span></p>
+        <p>© 2026 {storeName}. Powered by <span style={{ color: '#fbcfe8', fontWeight: 'bold' }}>VendorBuild</span></p>
       </footer>
     </div>
   );

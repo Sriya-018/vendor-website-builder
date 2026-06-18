@@ -23,6 +23,29 @@ const WebsiteSchema = new mongoose.Schema({
   published: { type: Boolean, default: false },
   views: { type: Number, default: 0 },
   designConfig: { type: mongoose.Schema.Types.Mixed, default: {} },
+  storeInfo: {
+    businessName: { type: String },
+    description: { type: String },
+    category: { type: String },
+    contact: {
+      phone: { type: String },
+      email: { type: String }
+    },
+    location: {
+      address: { type: String }
+    },
+    socialMedia: {
+      instagram: { type: String },
+      facebook: { type: String },
+      twitter: { type: String },
+      whatsapp: { type: String }
+    },
+    paymentInfo: {
+      upiId: { type: String },
+      bankDetails: { type: String },
+      instructions: { type: String }
+    }
+  },
   designHistory: [{
     config: { type: mongoose.Schema.Types.Mixed },
     timestamp: { type: Date, default: Date.now }

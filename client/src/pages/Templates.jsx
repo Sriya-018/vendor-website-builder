@@ -34,7 +34,7 @@ const DEFAULT_CONFIG = {
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
   },
   header: {
-    announcement: { show: false, text: 'Free shipping on orders over $50!', color: '#2563eb', dismissible: true },
+    announcement: { show: false, text: 'Free shipping on orders over ₹50!', color: '#2563eb', dismissible: true },
     heroImage: '',
     heroAlign: 'center',
     heroHeading: 'Welcome to our store',
@@ -199,6 +199,15 @@ function Templates({ token, businessId }) {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [isVoiceRecording, setIsVoiceRecording] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [businessData, setBusinessData] = useState(null);
+
+  useEffect(() => {
+    if (token && businessId) {
+      axios.get(`${API_URL}/business/${businessId}`, { headers: { Authorization: token } })
+        .then(res => setBusinessData(res.data))
+        .catch(err => console.error("Failed to fetch business data", err));
+    }
+  }, [token, businessId]);
 
   const startVoice = () => {
     if (!('webkitSpeechRecognition' in window)) {
@@ -581,23 +590,9 @@ function Templates({ token, businessId }) {
         const aiCategory = previewTemplate?.category || 'General';
         const dbCategory = validCategories.includes(aiCategory.toLowerCase()) ? aiCategory.toLowerCase() : 'other';
 
-        const businessDataForDB = {
-          businessName: storeDetails.name || 'My Awesome Store',
-          description: storeDetails.tagline || '',
-          contact: {
-            phone: storeDetails.phone || '',
-            whatsapp: storeDetails.socialMedia?.whatsapp || '',
-            email: storeDetails.email || ''
-          },
-          location: {
-            address: storeDetails.address || ''
-          },
-          category: dbCategory,
-          services: products.map(p => p.name)
-        };
-
-        await axios.put(`${API_URL}/business/${businessId}`, businessDataForDB);
-
+        // We no longer update the global business here to keep it isolated
+        // We will pass these specific details as storeInfo when creating the new website
+        
         const productImages = [];
         const createdProducts = [];
         const uploadedImageUrls = [];
@@ -626,7 +621,8 @@ function Templates({ token, businessId }) {
         }
 
         const businessDataForAI = {
-          businessName: storeDetails.name || 'My Awesome Store',
+          businessName: businessData?.businessName || 'My Business',
+          storeName: storeDetails.name || 'My Awesome Store',
           description: storeDetails.tagline || '',
           phone: storeDetails.phone || '',
           email: storeDetails.email || '',
@@ -654,7 +650,19 @@ function Templates({ token, businessId }) {
           css: response.data.css,
           template: previewTemplate?.id || 't1',
           published: true,
-          storeName: storeDetails.name || 'My Awesome Store'
+          storeName: storeDetails.name || 'My Awesome Store',
+          storeInfo: {
+            description: storeDetails.tagline || '',
+            category: dbCategory,
+            contact: {
+              phone: storeDetails.phone || '',
+              email: storeDetails.email || ''
+            },
+            location: {
+              address: storeDetails.address || ''
+            },
+            socialMedia: storeDetails.socialMedia || {}
+          }
         });
 
         const newWebsiteId = saveRes.data._id;
@@ -954,7 +962,8 @@ function Templates({ token, businessId }) {
                     }
                   }}
                   devicePreview={previewDevice}
-                  business={{ businessName: 'MockStore', description: previewTemplate.description }}
+                  business={businessData || { businessName: 'MockStore', description: previewTemplate.description }}
+                  website={{ storeName: storeDetails?.name || 'MockStore' }}
                   products={[]} 
                 />
               </div>

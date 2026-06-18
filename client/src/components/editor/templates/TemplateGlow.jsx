@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-function TemplateGlow({ config, business, products, devicePreview }) {
+function TemplateGlow({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Pure. Natural. Sustainable.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#064E3B'; // Emerald 900
   const accentColor = config.themeColor || '#10B981'; // Emerald 500
@@ -70,7 +71,7 @@ function TemplateGlow({ config, business, products, devicePreview }) {
             🌱 100% Natural & Organic
           </div>
           <h1 className="text-4xl md:text-6xl font-black leading-[1.1] mb-5 tracking-[-0.02em] text-white">
-            {businessName}
+            {storeName}
           </h1>
           <p className="text-white/85 text-[1.1rem] max-w-lg leading-[1.7] mb-10">
             {description}
@@ -165,7 +166,7 @@ function TemplateGlow({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="py-8 text-center text-[0.85rem]" style={{ backgroundColor: primaryColor, color: 'rgba(167,243,208,0.7)' }}>
-        <p>© 2026 {businessName}. Powered by <span className="text-emerald-200 font-bold">VendorBuild</span></p>
+        <p>© 2026 {storeName}. Powered by <span className="text-emerald-200 font-bold">VendorBuild</span></p>
       </footer>
     </div>
   );

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-function TemplatePixel({ config, business, products, devicePreview }) {
+function TemplatePixel({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'High-performance gear for every setup.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#020617'; 
   const accentColor = config.themeColor || '#10B981'; // Emerald 500
@@ -70,7 +71,7 @@ function TemplatePixel({ config, business, products, devicePreview }) {
             // WELCOME TO {businessName.toUpperCase()}
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-5 tracking-[-0.03em] text-[#f8fafc]">
-            {businessName}<span style={{ color: accentColor }}>.</span>
+            {storeName}<span style={{ color: accentColor }}>.</span>
           </h1>
           <p className="text-[#94a3b8] text-[1rem] max-w-[500px] leading-[1.7] mb-10">
             {description}
@@ -184,7 +185,7 @@ function TemplatePixel({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="bg-[#020617] border-t border-[#0f172a] py-6 text-center text-[#334155] text-[0.78rem]" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-        <p>// © 2026 {businessName}. Powered by VendorBuild</p>
+        <p>// © 2026 {storeName}. Powered by VendorBuild</p>
       </footer>
     </div>
   );

@@ -28,6 +28,12 @@ const BusinessSchema = new mongoose.Schema({
     bankDetails: { type: String, default: '' },
     instructions: { type: String, default: '' }
   },
+  socialMedia: {
+    instagram: { type: String, default: '' },
+    facebook: { type: String, default: '' },
+    twitter: { type: String, default: '' },
+    whatsapp: { type: String, default: '' }
+  },
   services: [{ type: String }],
   description: { type: String, default: '' },
   isActive: { type: Boolean, default: true },

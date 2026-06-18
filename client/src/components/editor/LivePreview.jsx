@@ -59,25 +59,25 @@ function LivePreview({ config, devicePreview, website, business, products }) {
   const renderTemplate = () => {
     switch (config.template) {
       case 't9':
-        return <TemplateGlow config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateGlow config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't8':
-        return <TemplatePixel config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplatePixel config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't7':
-        return <TemplateVogue config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateVogue config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't6':
-        return <TemplateNexus config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateNexus config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't5':
-        return <TemplateHaven config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateHaven config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't4':
-        return <TemplateCrave config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateCrave config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't3':
-        return <TemplateBloom config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateBloom config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't2':
-        return <TemplateSlate config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateSlate config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
       case 't1':
       default:
         // Fallback to Aurora for templates not yet implemented in React
-        return <TemplateAurora config={config} business={business} products={displayProducts} devicePreview={devicePreview} />;
+        return <TemplateAurora config={config} business={business} products={displayProducts} devicePreview={devicePreview} website={website} />;
     }
   };
 

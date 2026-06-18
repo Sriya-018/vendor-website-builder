@@ -231,7 +231,7 @@ router.post('/assistant', async (req, res) => {
         response = {
           action: 'UNKNOWN',
           data: {},
-          message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for $25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links"
+          message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for ₹25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links"
         };
     }
     res.json(response);
@@ -303,6 +303,7 @@ function generateWebsiteHTML(businessData, productImages, templateId, templateNa
 // ─────────────────────────────────────────────
 function generateAuroraTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Welcome to our store';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -333,7 +334,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
         <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${accentColor};margin-bottom:0.4rem;">Product</div>
         <h4 style="font-size:1.1rem;font-weight:800;color:#111827;margin:0 0 0.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</h4>
         ${desc ? `<p style="font-size:0.85rem;color:#6b7280;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
-        <p style="font-size:1.25rem;font-weight:800;color:${primaryColor};margin:0 0 1rem;">$${price}</p>
+        <p style="font-size:1.25rem;font-weight:800;color:${primaryColor};margin:0 0 1rem;">₹${price}</p>
         <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="width:100%;padding:0.75rem;background:${primaryColor};color:#fff;border:none;border-radius:0.5rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
           <i class="fas fa-shopping-cart" style="margin-right:0.4rem;"></i> Add to Cart
         </button>
@@ -377,7 +378,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
         <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;">
           <i class="fas fa-store"></i>
         </div>
-        <span class="nav-brand" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;">${businessName}</span>
+        <span class="nav-brand" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:-0.03em;">${storeName}</span>
       </div>
       <div class="desktop-menu" style="display:flex;gap:2rem;">
         <a href="#" class="nav-link" style="color:#fff;text-decoration:none;font-weight:600;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Home</a>
@@ -447,7 +448,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
         <div>
           <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
             <div style="width:2.5rem;height:2.5rem;border-radius:0.6rem;background:linear-gradient(135deg,${primaryColor},${accentColor});display:flex;align-items:center;justify-content:center;color:#fff;"><i class="fas fa-store"></i></div>
-            <span style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;font-size:1.2rem;">${businessName}</span>
+            <span style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;font-size:1.2rem;">${storeName}</span>
           </div>
           <p style="font-size:0.9rem;line-height:1.7;max-width:300px;">Providing top-tier products and exceptional service to customers worldwide.</p>
           ${phoneNumber ? `<p style="margin-top:1rem;font-size:0.9rem;"><i class="fas fa-phone" style="margin-right:0.5rem;color:${accentColor};"></i>${phoneNumber}</p>` : ''}
@@ -469,7 +470,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
         </div>
       </div>
       <div style="border-top:1px solid #1f2937;padding-top:2rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:0.85rem;">
-        <p>© 2026 ${businessName}. All rights reserved.</p>
+        <p>© 2026 ${storeName}. All rights reserved.</p>
         <p>Powered by <span style="color:#fff;font-weight:700;">VendorBuild</span></p>
       </div>
     </div>
@@ -496,6 +497,7 @@ function generateAuroraTemplate(businessData, productImages, theme, heroImage, p
 // ─────────────────────────────────────────────
 function generateSlateTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Next-gen products for a modern world.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -524,7 +526,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-weight:800;color:#f1f5f9;font-size:1rem;margin:0 0 0.4rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</h4>
         ${desc ? `<p style="font-size:0.8rem;color:#94a3b8;margin:0 0 0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:800;color:${accentColor};font-size:1.15rem;">$${price}</span>
+          <span style="font-weight:800;color:${accentColor};font-size:1.15rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#0f172a;border:none;padding:0.5rem 1rem;border-radius:0.4rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Buy Now</button>
         </div>
       </div>
@@ -552,7 +554,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#0f172a;border-bottom:1px solid #1e293b;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
-      <span style="font-weight:800;font-size:1.3rem;color:${accentColor};letter-spacing:-0.02em;">${businessName}</span>
+      <span style="font-weight:800;font-size:1.3rem;color:${accentColor};letter-spacing:-0.02em;">${storeName}</span>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#94a3b8;">
         <a href="#" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Home</a>
         <a href="#products" style="color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">Catalog</a>
@@ -566,7 +568,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
     <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;width:100%;">
       <div>
         <div style="display:inline-block;padding:0.3rem 0.8rem;border-radius:0.3rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:${accentColor};font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;">Next-Gen Store</div>
-        <h1 style="font-size:clamp(2rem,5vw,3.75rem);font-weight:800;line-height:1.1;color:#f1f5f9;margin-bottom:1.25rem;letter-spacing:-0.03em;">${businessName}</h1>
+        <h1 style="font-size:clamp(2rem,5vw,3.75rem);font-weight:800;line-height:1.1;color:#f1f5f9;margin-bottom:1.25rem;letter-spacing:-0.03em;">${storeName}</h1>
         <p style="color:#94a3b8;font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;max-width:480px;">${description}</p>
         <div style="display:flex;flex-wrap:wrap;gap:1rem;">
           <a href="#products" style="padding:0.85rem 1.75rem;background:${accentColor};color:#0f172a;border-radius:0.5rem;font-weight:800;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Catalog</a>
@@ -606,7 +608,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:#020617;border-top:1px solid #1e293b;padding:2rem;text-align:center;color:#475569;font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -617,6 +619,7 @@ function generateSlateTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateBloomTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Radiant beauty, naturally curated.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -643,7 +646,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
       <div style="padding:1.5rem;text-align:center;">
         <h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#9d8189;margin:0 0 0.75rem;">${desc}</p>` : ''}
-        <p style="font-weight:700;color:${accentColor};font-size:1.1rem;margin:0 0 1rem;">$${price}</p>
+        <p style="font-weight:700;color:${accentColor};font-size:1.1rem;margin:0 0 1rem;">₹${price}</p>
         <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="padding:0.65rem 1.5rem;background:${accentColor};color:#fff;border:none;border-radius:9999px;font-weight:700;cursor:pointer;font-size:0.85rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Add to Bag</button>
       </div>
     </div>`;
@@ -670,7 +673,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:rgba(255,240,246,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #fbcfe8;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
-      <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.5rem;color:${primaryColor};">${businessName}</span>
+      <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.5rem;color:${primaryColor};">${storeName}</span>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:${primaryColor};">
         <a href="#" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Home</a>
         <a href="#products" style="color:${primaryColor};text-decoration:none;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Shop</a>
@@ -682,7 +685,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
   <!-- HERO -->
   <header style="padding:5rem 2rem;text-align:center;background:linear-gradient(180deg,#fff0f6,#fce7f3);">
     <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:${accentColor};margin-bottom:1rem;">✦ Beauty & Wellness ✦</p>
-    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:${primaryColor};line-height:1.1;margin-bottom:1.25rem;">${businessName}</h1>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:${primaryColor};line-height:1.1;margin-bottom:1.25rem;">${storeName}</h1>
     <p style="color:#9d8189;font-size:1.1rem;max-width:480px;margin:0 auto 2.5rem;line-height:1.7;">${description}</p>
     <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
       <a href="#products" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:9999px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(236,72,153,0.35);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Explore Collection</a>
@@ -709,7 +712,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.7);font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:#fbcfe8;font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:#fbcfe8;font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -720,6 +723,7 @@ function generateBloomTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateCraveTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Restaurant';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Fresh flavors, unforgettable taste.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -748,7 +752,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-family:'Lobster',cursive;font-size:1.2rem;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:0.4rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Order Now</button>
         </div>
       </div>
@@ -776,7 +780,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:${primaryColor};padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
-      <span style="font-family:'Lobster',cursive;font-size:1.8rem;color:${accentColor};">${businessName}</span>
+      <span style="font-family:'Lobster',cursive;font-size:1.8rem;color:${accentColor};">${storeName}</span>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.8);">
         <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Home</a>
         <a href="#menu" style="color:rgba(255,255,255,0.8);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Menu</a>
@@ -790,7 +794,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
     <img src="${heroBg}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="hero" onerror="this.style.display='none'">
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(124,45,18,0.72),rgba(0,0,0,0.85));"></div>
     <div style="position:relative;z-index:10;padding:2rem;">
-      <span style="font-family:'Lobster',cursive;font-size:clamp(3rem,8vw,6rem);color:${accentColor};display:block;margin-bottom:0.5rem;">${businessName}</span>
+      <span style="font-family:'Lobster',cursive;font-size:clamp(3rem,8vw,6rem);color:${accentColor};display:block;margin-bottom:0.5rem;">${storeName}</span>
       <p style="color:rgba(255,255,255,0.88);font-size:1.2rem;margin-bottom:2rem;">${description}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
         <a href="#menu" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:9999px;font-weight:700;text-decoration:none;font-size:1rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">View Menu</a>
@@ -818,7 +822,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.65);font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -829,6 +833,7 @@ function generateCraveTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateHavenTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Warm, inviting spaces for the modern home.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -857,7 +862,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:${primaryColor};margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#92400e;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:700;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <span style="font-weight:700;color:${accentColor};font-size:1.1rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${primaryColor};color:#fef3c7;border:none;padding:0.5rem 1.1rem;border-radius:0.3rem;font-weight:700;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Shop Now</button>
         </div>
       </div>
@@ -885,7 +890,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#fef3c7;border-bottom:2px solid #fde68a;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
-      <span style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.6rem;color:${primaryColor};">${businessName}</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.6rem;color:${primaryColor};">${storeName}</span>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:500;color:#92400e;">
         <a href="#" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Home</a>
         <a href="#products" style="color:#92400e;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${primaryColor}'" onmouseout="this.style.color='#92400e'">Shop</a>
@@ -900,7 +905,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
     <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(69,26,3,0.85) 40%,rgba(69,26,3,0.3));"></div>
     <div style="position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:4rem 2rem;">
       <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:${accentColor};margin-bottom:1rem;">Home & Living</p>
-      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;color:#fef3c7;line-height:1.15;margin-bottom:1.25rem;">${businessName}</h1>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;color:#fef3c7;line-height:1.15;margin-bottom:1.25rem;">${storeName}</h1>
       <p style="color:rgba(254,243,199,0.85);font-size:1.1rem;max-width:440px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;">
         <a href="#products" style="padding:0.9rem 2rem;background:${accentColor};color:#fff;border-radius:0.4rem;font-weight:600;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Collection</a>
@@ -926,7 +931,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(254,243,199,0.65);font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:${accentColor};font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -937,6 +942,7 @@ function generateHavenTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateNexusTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Business';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Professional services you can trust.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -965,7 +971,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-weight:800;color:#1e3a8a;font-size:1rem;margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#64748b;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;">$${price}</span>
+          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.35rem;font-weight:700;font-size:0.8rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Get Quote</button>
         </div>
       </div>
@@ -997,7 +1003,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
         <div style="width:2rem;height:2rem;background:${accentColor};border-radius:0.4rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;">
           <i class="fas fa-briefcase"></i>
         </div>
-        <span style="font-weight:800;font-size:1.2rem;color:${primaryColor};">${businessName}</span>
+        <span style="font-weight:800;font-size:1.2rem;color:${primaryColor};">${storeName}</span>
       </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:600;color:#64748b;">
         <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
@@ -1015,7 +1021,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
         <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.3rem 0.9rem;background:rgba(255,255,255,0.15);border-radius:9999px;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.25);">
           <i class="fas fa-shield-alt"></i> Trusted Business
         </div>
-        <h1 style="font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:1.25rem;">${businessName}</h1>
+        <h1 style="font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:1.25rem;">${storeName}</h1>
         <p style="color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.7;margin-bottom:2.5rem;max-width:460px;">${description}</p>
         <div style="display:flex;flex-wrap:wrap;gap:1rem;">
           <a href="#services" style="padding:0.9rem 1.75rem;background:#fff;color:${primaryColor};border-radius:0.5rem;font-weight:800;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Our Services</a>
@@ -1049,7 +1055,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:#93c5fd;font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:#93c5fd;font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -1060,6 +1066,7 @@ function generateNexusTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateVogueTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Curated fashion for the bold.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -1089,7 +1096,7 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-family:'Bodoni Moda',serif;font-size:1.05rem;font-weight:600;color:#000;margin:0 0 0.3rem;letter-spacing:0.02em;">${name}</h4>
         ${desc ? `<p style="font-size:0.78rem;color:#6b7280;margin:0 0 0.6rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:700;color:#000;font-size:1rem;">$${price}</span>
+          <span style="font-weight:700;color:#000;font-size:1rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:#000;color:#fff;border:none;padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#000'">ADD TO BAG</button>
         </div>
       </div>
@@ -1115,12 +1122,12 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
 </head>
 <body>
   <!-- TOP BAR -->
-  <div style="background:#000;color:#fff;text-align:center;padding:0.5rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;">Free shipping on orders over $100</div>
+  <div style="background:#000;color:#fff;text-align:center;padding:0.5rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;">Free shipping on orders over ₹100</div>
 
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid #000;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.5rem;">
-      <span style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:700;color:#000;letter-spacing:-0.02em;">${businessName}</span>
+      <span style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:700;color:#000;letter-spacing:-0.02em;">${storeName}</span>
       <div style="display:flex;gap:2.5rem;font-size:0.8rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#000;">
         <a href="#" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Home</a>
         <a href="#collection" style="color:#000;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#000'" onmouseout="this.style.borderColor='transparent'">Collection</a>
@@ -1164,7 +1171,7 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:#000;padding:2rem;text-align:center;color:rgba(255,255,255,0.5);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:#fff;font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:#fff;font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -1175,6 +1182,7 @@ function generateVogueTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generatePixelTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'High-performance gear for every setup.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -1203,7 +1211,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
         <h4 style="font-weight:700;color:#e2e8f0;font-size:0.95rem;margin:0 0 0.35rem;font-family:'Share Tech Mono',monospace;">${name}</h4>
         ${desc ? `<p style="font-size:0.78rem;color:#64748b;margin:0 0 0.75rem;font-family:monospace;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;">
-          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;font-family:'Share Tech Mono',monospace;">$${price}</span>
+          <span style="font-weight:800;color:${accentColor};font-size:1.05rem;font-family:'Share Tech Mono',monospace;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:transparent;color:${accentColor};border:1px solid ${accentColor};padding:0.4rem 0.85rem;border-radius:0.3rem;font-size:0.78rem;font-weight:700;cursor:pointer;transition:background 0.2s,color 0.2s;" onmouseover="this.style.background='${accentColor}';this.style.color='#020617'" onmouseout="this.style.background='transparent';this.style.color='${accentColor}'">Add to Cart</button>
         </div>
       </div>
@@ -1231,7 +1239,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
   <!-- NAV -->
   <nav style="position:sticky;top:0;z-index:100;background:#020617;border-bottom:1px solid #0f172a;padding:0 2rem;">
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:3.75rem;">
-      <span style="font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:${accentColor};">&gt; ${businessName}_</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:${accentColor};">&gt; ${storeName}_</span>
       <div style="display:flex;gap:2rem;font-size:0.82rem;font-weight:600;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;">
         <a href="#" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Home</a>
         <a href="#products" style="color:#64748b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#64748b'">Store</a>
@@ -1244,7 +1252,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
   <header style="padding:5rem 2rem;background:linear-gradient(180deg,#020617,#0f172a);border-bottom:1px solid #1e293b;">
     <div style="max-width:1280px;margin:0 auto;">
       <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:${accentColor};margin-bottom:1rem;letter-spacing:0.1em;">// WELCOME TO ${businessName.toUpperCase()}</div>
-      <h1 style="font-size:clamp(2.5rem,5vw,4rem);font-weight:800;color:#f8fafc;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.03em;">${businessName}<span style="color:${accentColor};">.</span></h1>
+      <h1 style="font-size:clamp(2.5rem,5vw,4rem);font-weight:800;color:#f8fafc;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.03em;">${storeName}<span style="color:${accentColor};">.</span></h1>
       <p style="color:#94a3b8;font-size:1rem;max-width:500px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;">
         <a href="#products" style="padding:0.8rem 1.75rem;background:${accentColor};color:#020617;border-radius:0.35rem;font-weight:800;text-decoration:none;font-size:0.9rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Browse Store</a>
@@ -1275,7 +1283,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
   </section>
 
   <footer style="background:#020617;border-top:1px solid #0f172a;padding:1.5rem;text-align:center;color:#334155;font-size:0.78rem;font-family:'Share Tech Mono',monospace;">
-    <p>// © 2026 ${businessName}. Powered by VendorBuild</p>
+    <p>// © 2026 ${storeName}. Powered by VendorBuild</p>
   </footer>
 </body>
 </html>`;
@@ -1286,6 +1294,7 @@ function generatePixelTemplate(businessData, productImages, theme, heroImage, pr
 // ─────────────────────────────────────────────
 function generateGlowTemplate(businessData, productImages, theme, heroImage, products) {
   const businessName = businessData.businessName || 'My Store';
+  const storeName = businessData.storeName || businessName;
   const description = businessData.description || 'Pure. Natural. Sustainable.';
   const phoneNumber = businessData.phone || businessData.socialMedia?.whatsapp || '';
   const email = businessData.email || '';
@@ -1315,7 +1324,7 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
         <h4 style="font-weight:700;color:${primaryColor};font-size:1rem;margin:0 0 0.4rem;">${name}</h4>
         ${desc ? `<p style="font-size:0.82rem;color:#6b7280;margin:0 0 0.75rem;">${desc}</p>` : ''}
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">$${price}</span>
+          <span style="font-weight:800;color:${accentColor};font-size:1.1rem;">₹${price}</span>
           <button data-cart-add="true" data-product-name="${name}" data-product-price="${price}" data-product-image="${img}" style="background:${accentColor};color:#fff;border:none;padding:0.5rem 1.1rem;border-radius:9999px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='${primaryColor}'" onmouseout="this.style.background='${accentColor}'">Add to Cart</button>
         </div>
       </div>
@@ -1345,7 +1354,7 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
     <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4rem;">
       <div style="display:flex;align-items:center;gap:0.5rem;">
         <span style="font-size:1.4rem;">🌿</span>
-        <span style="font-weight:900;font-size:1.3rem;color:${primaryColor};">${businessName}</span>
+        <span style="font-weight:900;font-size:1.3rem;color:${primaryColor};">${storeName}</span>
       </div>
       <div style="display:flex;gap:2rem;font-size:0.9rem;font-weight:700;color:#065f46;">
         <a href="#" style="color:#065f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='${accentColor}'" onmouseout="this.style.color='#065f46'">Home</a>
@@ -1363,7 +1372,7 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
       <div style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.35rem 0.9rem;background:rgba(255,255,255,0.15);border-radius:9999px;font-size:0.75rem;font-weight:700;color:#a7f3d0;border:1px solid rgba(167,243,208,0.3);margin-bottom:1.5rem;backdrop-filter:blur(4px);">
         🌱 100% Natural & Organic
       </div>
-      <h1 style="font-size:clamp(2.5rem,5.5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.02em;">${businessName}</h1>
+      <h1 style="font-size:clamp(2.5rem,5.5vw,4.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.25rem;letter-spacing:-0.02em;">${storeName}</h1>
       <p style="color:rgba(255,255,255,0.85);font-size:1.1rem;max-width:480px;line-height:1.7;margin-bottom:2.5rem;">${description}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;">
         <a href="#products" style="padding:0.9rem 2rem;background:#fff;color:${primaryColor};border-radius:9999px;font-weight:800;text-decoration:none;box-shadow:0 4px 14px rgba(255,255,255,0.3);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Shop Natural 🌿</a>
@@ -1391,7 +1400,7 @@ function generateGlowTemplate(businessData, productImages, theme, heroImage, pro
   </section>
 
   <footer style="background:${primaryColor};padding:2rem;text-align:center;color:rgba(167,243,208,0.7);font-size:0.85rem;">
-    <p>© 2026 ${businessName}. Powered by <span style="color:#a7f3d0;font-weight:700;">VendorBuild</span></p>
+    <p>© 2026 ${storeName}. Powered by <span style="color:#a7f3d0;font-weight:700;">VendorBuild</span></p>
   </footer>
 </body>
 </html>`;
@@ -1470,7 +1479,7 @@ function parseCommand(text) {
     const priceMatch = productName.match(/\$?(\d+(?:\.\d{2})?)/);
     let price = null;
     if (priceMatch) { price = priceMatch[1]; productName = productName.replace(priceMatch[0], '').trim(); }
-    return { action: 'ADD_PRODUCT', data: { productName: productName || 'New Product', price: price || '49.99' }, message: price ? `✅ Added "${productName}" for $${price}!` : `✅ Added "${productName}" to your catalog!` };
+    return { action: 'ADD_PRODUCT', data: { productName: productName || 'New Product', price: price || '49.99' }, message: price ? `✅ Added "${productName}" for ₹${price}!` : `✅ Added "${productName}" to your catalog!` };
   }
   if (lowerText.includes('change') && (lowerText.includes('theme') || lowerText.includes('color'))) {
     const colors = { 'red': '#FF4444', 'blue': '#3B82F6', 'green': '#10B981', 'orange': '#F97316', 'purple': '#8B5CF6', 'pink': '#EC4899', 'yellow': '#F59E0B', 'indigo': '#6366F1', 'teal': '#14B8A6' };
@@ -1486,7 +1495,7 @@ function parseCommand(text) {
     let platform = lowerText.includes('instagram') ? 'instagram' : lowerText.includes('facebook') ? 'facebook' : 'twitter';
     return { action: 'ADD_SOCIAL_MEDIA', data: { platform }, message: `✅ You can add your ${platform} link in the store details section!` };
   }
-  return { action: 'UNKNOWN', data: {}, message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for $25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links" };
+  return { action: 'UNKNOWN', data: {}, message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for ₹25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links" };
 }
 
 router.use('/uploads', express.static(path.join(__dirname, '../uploads')));

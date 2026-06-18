@@ -84,7 +84,7 @@ function Dashboard({ token, businessId }) {
       case 'orders':
         return <OrdersTab businessId={businessId} websites={websites} />;
       case 'settings':
-        return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} />;
+        return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} websites={websites} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} />;
       case 'edit-website':
         return <EditWebsiteTab businessId={businessId} businessData={business} selectedWebsite={selectedWebsite} />;
       default:
@@ -129,7 +129,7 @@ function Dashboard({ token, businessId }) {
 
           <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-8 mb-4 px-3">Settings</div>
           <nav className="space-y-1">
-            <NavItem id="settings" icon={FaCog} label="Store Settings" />
+            <NavItem id="settings" icon={FaCog} label="Business Settings" />
           </nav>
         </div>
 
@@ -167,7 +167,7 @@ function Dashboard({ token, businessId }) {
               <NavItem id="edit-website" icon={FaEdit} label="Design & Theme" />
               <NavItem id="products" icon={FaBox} label="Products" />
               <NavItem id="orders" icon={FaBoxOpen} label="Orders" />
-              <NavItem id="settings" icon={FaCog} label="Store Settings" />
+              <NavItem id="settings" icon={FaCog} label="Business Settings" />
               <div className="h-px bg-gray-200 my-2"></div>
               <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium">
                 <FaSignOutAlt /> Sign Out

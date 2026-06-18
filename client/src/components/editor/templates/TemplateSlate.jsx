@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp, FaShoppingCart } from 'react-icons/fa';
 
-function TemplateSlate({ config, business, products, devicePreview }) {
+function TemplateSlate({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Next-gen products for a modern world.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const accentColor = config.themeColor || '#38BDF8';
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80';
@@ -69,7 +70,7 @@ function TemplateSlate({ config, business, products, devicePreview }) {
               Next-Gen Store
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-100 leading-tight mb-5 tracking-tight">
-              {businessName}
+              {storeName}
             </h1>
             <p className={`text-slate-400 text-lg leading-relaxed mb-10 ${devicePreview === 'desktop' ? 'max-w-md' : 'mx-auto'}`}>
               {description}
@@ -179,7 +180,7 @@ function TemplateSlate({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="bg-[#020617] border-t border-slate-800 p-8 text-center text-slate-500 text-sm">
-        <p>© 2026 {businessName}. Powered by <span style={{ color: accentColor, fontWeight: 'bold' }}>VendorBuild</span></p>
+        <p>© 2026 {storeName}. Powered by <span style={{ color: accentColor, fontWeight: 'bold' }}>VendorBuild</span></p>
       </footer>
     </div>
   );

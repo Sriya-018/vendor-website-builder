@@ -90,6 +90,25 @@ router.post('/send-otp', async (req, res) => {
     let query = phone ? { vendorPhone: phone } : { vendorEmail: email };
     let business = await Business.findOne(query);
 
+    // If business exists and has a businessName, treat as existing user and login directly
+    if (business && business.businessName) {
+      const tokenPayload = phone ? phone : email;
+      const token = Buffer.from(`${tokenPayload}:${Date.now()}`).toString('base64');
+      
+      return res.json({
+        success: true,
+        isNewUser: false,
+        token,
+        business: {
+          id: business._id,
+          phone: business.vendorPhone,
+          email: business.vendorEmail,
+          hasBusiness: true,
+          businessName: business.businessName
+        }
+      });
+    }
+
     // REAL SMS FLOW via MessageCentral
     if (phone && !isPhoneDemo) {
       try {
@@ -178,6 +197,7 @@ router.post('/send-otp', async (req, res) => {
 
     res.json({
       success: true,
+      isNewUser: true,
       message: 'OTP sent successfully',
       ...(isDemo && { demoOtp: DEMO_OTP })
     });
@@ -189,7 +209,7 @@ router.post('/send-otp', async (req, res) => {
 // Verify OTP
 router.post('/verify-otp', async (req, res) => {
   try {
-    const { phone, email, otp } = req.body;
+    const { phone, email, otp, businessName } = req.body;
 
     if (!phone && !email) {
       return res.status(400).json({ success: false, message: 'Phone or email is required' });
@@ -270,6 +290,11 @@ router.post('/verify-otp', async (req, res) => {
         otpExpiry: null
       });
       console.log(`Demo: Auto-created business for ${phone || email}`);
+    }
+
+    if (businessName) {
+      business.businessName = businessName;
+      await business.save();
     }
 
     const tokenPayload = phone ? phone : email;

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-function TemplateCrave({ config, business, products, devicePreview }) {
+function TemplateCrave({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Restaurant';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Restaurant');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Fresh flavors, unforgettable taste.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#7C2D12'; // Orange 900
   const accentColor = config.themeColor || '#F97316'; // Orange 500
@@ -74,7 +75,7 @@ function TemplateCrave({ config, business, products, devicePreview }) {
             className="text-5xl md:text-7xl text-white mb-6"
             style={{ fontFamily: "'Lobster', cursive" }}
           >
-            {businessName}
+            {storeName}
           </h1>
           <p className="text-xl text-amber-50 mb-10 font-medium">
             {description}
@@ -166,7 +167,7 @@ function TemplateCrave({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="py-10 text-center" style={{ backgroundColor: primaryColor, color: '#fde68a' }}>
-        <p className="font-medium text-sm">© 2026 {businessName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
+        <p className="font-medium text-sm">© 2026 {storeName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
       </footer>
     </div>
   );

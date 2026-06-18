@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FaShoppingCart, FaBars, FaStar, FaArrowRight, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaStore, FaWhatsapp, FaInstagram, FaFacebookF, FaTwitter, FaPaperPlane, FaShieldAlt, FaClock } from 'react-icons/fa';
 
-function TemplateAurora({ config, business, products, devicePreview }) {
+function TemplateAurora({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Welcome to our store';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#111827';
   const accentColor = config.themeColor || '#3B82F6';
@@ -288,7 +289,7 @@ function TemplateAurora({ config, business, products, devicePreview }) {
                   className="font-extrabold text-xl text-white tracking-tight"
                   style={{ fontFamily: 'var(--heading-font)' }}
                 >
-                  {businessName}
+                  {storeName}
                 </span>
               </div>
               <p className="leading-relaxed max-w-sm mb-6">
@@ -329,7 +330,7 @@ function TemplateAurora({ config, business, products, devicePreview }) {
           </div>
           
           <div className="border-t border-gray-800 pt-8 flex flex-wrap justify-between items-center gap-4 text-sm">
-            <p>© 2026 {businessName}. All rights reserved.</p>
+            <p>© 2026 {storeName}. All rights reserved.</p>
             
             {/* Trust Badges */}
             <div className="flex gap-6 opacity-60">

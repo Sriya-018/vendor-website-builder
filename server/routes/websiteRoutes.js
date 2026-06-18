@@ -40,7 +40,9 @@ router.get('/id/:websiteId', async (req, res) => {
 // Get all websites for a business
 router.get('/business/:businessId/all', async (req, res) => {
   try {
-    const websites = await Website.find({ businessId: req.params.businessId }).sort({ createdAt: -1 });
+    const websites = await Website.find({ businessId: req.params.businessId })
+      .populate('businessId')
+      .sort({ createdAt: -1 });
     res.json(websites);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,7 +53,7 @@ router.get('/business/:businessId/all', async (req, res) => {
 router.post('/:businessId/new', async (req, res) => {
   try {
     const { businessId } = req.params;
-    const { template, theme, sections, html, css, storeName } = req.body;
+    const { template, theme, sections, html, css, storeName, storeInfo } = req.body;
     
     const business = await Business.findById(businessId);
     if (!business) return res.status(404).json({ error: 'Business not found' });
@@ -70,7 +72,21 @@ router.post('/:businessId/new', async (req, res) => {
       css,
       slug,
       published: true,
-      storeName
+      storeName,
+      storeInfo: {
+        businessName: storeInfo?.businessName || business.businessName,
+        description: storeInfo?.description || business.description,
+        category: storeInfo?.category || business.category,
+        contact: {
+          phone: storeInfo?.contact?.phone || business.contact?.phone,
+          email: storeInfo?.contact?.email || business.contact?.email
+        },
+        location: {
+          address: storeInfo?.location?.address || business.location?.address
+        },
+        socialMedia: storeInfo?.socialMedia || business.socialMedia,
+        paymentInfo: storeInfo?.paymentInfo || business.paymentInfo
+      }
     });
     
     res.json(website);
@@ -83,7 +99,7 @@ router.post('/:businessId/new', async (req, res) => {
 router.put('/update/:websiteId', async (req, res) => {
   try {
     const { websiteId } = req.params;
-    const { template, theme, sections, html, css, designConfig, designHistory, published } = req.body;
+    const { template, theme, sections, html, css, designConfig, designHistory, published, storeInfo, storeName } = req.body;
     
     const website = await Website.findById(websiteId);
     if (!website) return res.status(404).json({ error: 'Website not found' });
@@ -96,6 +112,11 @@ router.put('/update/:websiteId', async (req, res) => {
     if (designConfig !== undefined) website.designConfig = designConfig;
     if (designHistory !== undefined) website.designHistory = designHistory;
     if (published !== undefined) website.published = published;
+    if (storeInfo !== undefined) {
+      website.storeInfo = storeInfo;
+      website.markModified('storeInfo');
+    }
+    if (storeName !== undefined) website.storeName = storeName;
     website.updatedAt = new Date();
     
     await website.save();

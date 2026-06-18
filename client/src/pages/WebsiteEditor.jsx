@@ -27,7 +27,7 @@ const DEFAULT_CONFIG = {
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
   },
   header: {
-    announcement: { show: false, text: 'Free shipping on orders over $50!', color: '#2563eb', dismissible: true },
+    announcement: { show: false, text: 'Free shipping on orders over ₹50!', color: '#2563eb', dismissible: true },
     heroImage: '',
     heroAlign: 'center',
     heroHeading: 'Welcome to our store',
@@ -163,7 +163,7 @@ function WebsiteEditor() {
           navbar: { 
             ...DEFAULT_CONFIG.navbar, 
             ...(dbConfig.navbar || {}),
-            logoText: (!isGeneric && dbConfig.navbar && dbConfig.navbar.logoText) || siteData.storeName || ''
+            logoText: (!isGeneric && dbConfig.navbar && dbConfig.navbar.logoText) || siteData.storeInfo?.businessName || siteData.businessId?.businessName || siteData.storeName || ''
           },
           header: { 
             ...DEFAULT_CONFIG.header, 

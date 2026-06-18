@@ -14,6 +14,7 @@ function Landing({ token, setToken, setBusinessId }) {
   const [email, setEmail] = useState('');
   const [loginMethod, setLoginMethod] = useState('phone');
   const [otp, setOtp] = useState('');
+  const [businessName, setBusinessName] = useState('');
   const [showOtp, setShowOtp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,12 +30,19 @@ function Landing({ token, setToken, setBusinessId }) {
     }
     setLoading(true);
     try {
+      let response;
       if (loginMethod === 'phone') {
-        await axios.post(`${API_URL}/auth/send-otp`, { phone });
+        response = await axios.post(`${API_URL}/auth/send-otp`, { phone });
       } else {
-        await axios.post(`${API_URL}/auth/send-otp`, { email });
+        response = await axios.post(`${API_URL}/auth/send-otp`, { email });
       }
-      setShowOtp(true);
+      
+      if (response.data.isNewUser === false) {
+        setToken(response.data.token);
+        setBusinessId(response.data.business.id);
+      } else {
+        setShowOtp(true);
+      }
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || error.message || 'Failed to send OTP.');
@@ -47,18 +55,24 @@ function Landing({ token, setToken, setBusinessId }) {
       alert('Please enter 4-digit OTP');
       return;
     }
+    if (!businessName.trim()) {
+      alert('Please enter your Business Name');
+      return;
+    }
     setLoading(true);
     try {
       let response;
       if (loginMethod === 'phone') {
         response = await axios.post(`${API_URL}/auth/verify-otp`, { 
           phone,
-          otp 
+          otp,
+          businessName 
         });
       } else {
         response = await axios.post(`${API_URL}/auth/verify-otp`, { 
           email,
-          otp 
+          otp,
+          businessName 
         });
       }
       
@@ -293,6 +307,14 @@ function Landing({ token, setToken, setBusinessId }) {
             ) : (
               <div className="space-y-6">
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+                  <input
+                    type="text"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    placeholder="Enter your business name"
+                    className="w-full border border-gray-300 rounded-xl p-4 text-center text-xl outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all mb-4"
+                  />
                   <label className="block text-sm font-medium text-gray-700 mb-2">Verification Code</label>
                   <input
                     type="text"
@@ -314,7 +336,7 @@ function Landing({ token, setToken, setBusinessId }) {
                 </div>
                 <button
                   onClick={verifyOTP}
-                  disabled={loading || otp.length !== 4}
+                  disabled={loading || otp.length !== 4 || !businessName.trim()}
                   className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-md flex justify-center items-center"
                 >
                   {loading ? (

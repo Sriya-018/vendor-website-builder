@@ -4,9 +4,10 @@ import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInst
 
 const API_URL = 'http://localhost:5000/api';
 
-function SettingsTab({ businessId, businessData, onUpdate }) {
+function SettingsTab({ businessId, businessData, onUpdate, websites, selectedWebsite, setSelectedWebsite }) {
   const [formData, setFormData] = useState({
     businessName: '',
+    storeName: '',
     description: '',
     category: '',
     email: '',
@@ -27,15 +28,41 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Handle store selection changes
   useEffect(() => {
-    if (businessData) {
+    if (selectedWebsite) {
+      // Load specific store's info, fallback to businessData if storeInfo is empty
+      const storeInfo = selectedWebsite.storeInfo || {};
+      setFormData({
+        businessName: storeInfo.businessName ?? businessData?.businessName ?? '',
+        storeName: selectedWebsite.storeName ?? '',
+        description: storeInfo.description ?? businessData?.description ?? '',
+        category: storeInfo.category ?? businessData?.category ?? '',
+        email: storeInfo.contact?.email ?? businessData?.contact?.email ?? '',
+        phone: storeInfo.contact?.phone ?? businessData?.contact?.phone ?? '',
+        address: storeInfo.location?.address ?? businessData?.location?.address ?? '',
+        socialMedia: {
+          instagram: storeInfo.socialMedia?.instagram ?? businessData?.socialMedia?.instagram ?? '',
+          facebook: storeInfo.socialMedia?.facebook ?? businessData?.socialMedia?.facebook ?? '',
+          twitter: storeInfo.socialMedia?.twitter ?? businessData?.socialMedia?.twitter ?? '',
+          whatsapp: storeInfo.socialMedia?.whatsapp ?? businessData?.socialMedia?.whatsapp ?? ''
+        },
+        paymentInfo: {
+          upiId: storeInfo.paymentInfo?.upiId ?? businessData?.paymentInfo?.upiId ?? '',
+          bankDetails: storeInfo.paymentInfo?.bankDetails ?? businessData?.paymentInfo?.bankDetails ?? '',
+          instructions: storeInfo.paymentInfo?.instructions ?? businessData?.paymentInfo?.instructions ?? ''
+        }
+      });
+    } else if (businessData) {
+      // Load global business defaults
       setFormData({
         businessName: businessData.businessName || '',
+        storeName: '',
         description: businessData.description || '',
         category: businessData.category || '',
-        email: businessData.email || '',
-        phone: businessData.contact?.phone || businessData.phone || '',
-        address: businessData.location?.address || businessData.address || '',
+        email: businessData.contact?.email || '',
+        phone: businessData.contact?.phone || '',
+        address: businessData.location?.address || '',
         socialMedia: {
           instagram: businessData.socialMedia?.instagram || '',
           facebook: businessData.socialMedia?.facebook || '',
@@ -49,7 +76,7 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
         }
       });
     }
-  }, [businessData]);
+  }, [businessData, selectedWebsite]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,25 +112,53 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
       setIsSaving(true);
       setMessage('');
       
-      const updateData = {
-        businessName: formData.businessName,
-        description: formData.description,
-        category: formData.category,
-        email: formData.email,
-        phone: formData.phone,
-        address: formData.address,
-        contact: { phone: formData.phone },
-        location: { address: formData.address },
-        socialMedia: formData.socialMedia,
-        paymentInfo: formData.paymentInfo
-      };
+      if (selectedWebsite) {
+        // Save to specific website's storeInfo and storeName
+        const updateData = {
+          storeName: formData.storeName,
+          storeInfo: {
+            businessName: formData.businessName,
+            description: formData.description,
+            category: formData.category,
+            contact: {
+              phone: formData.phone,
+              email: formData.email
+            },
+            location: {
+              address: formData.address
+            },
+            socialMedia: formData.socialMedia,
+            paymentInfo: formData.paymentInfo
+          }
+        };
 
-      const res = await axios.put(`${API_URL}/business/${businessId}`, updateData);
-      
-      // Update parent component's business state if callback provided
-      if (onUpdate) onUpdate(res.data);
-      
-      setMessage('Settings saved successfully! You may need to regenerate your website for changes to appear live.');
+        const res = await axios.put(`${API_URL}/website/update/${selectedWebsite._id}`, updateData);
+        setMessage('Store-specific settings saved successfully!');
+        
+        // Update local selectedWebsite reference so the UI doesn't jump
+        if (setSelectedWebsite) {
+          setSelectedWebsite(res.data);
+        }
+      } else {
+        // Save to global business object
+        const updateData = {
+          businessName: formData.businessName,
+          description: formData.description,
+          category: formData.category,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          contact: { phone: formData.phone, email: formData.email, whatsapp: formData.socialMedia.whatsapp },
+          location: { address: formData.address },
+          socialMedia: formData.socialMedia,
+          paymentInfo: formData.paymentInfo
+        };
+
+        const res = await axios.put(`${API_URL}/business/${businessId}`, updateData);
+        if (onUpdate) onUpdate(res.data);
+        setMessage('Global settings saved successfully!');
+      }
+
       setTimeout(() => setMessage(''), 5000);
     } catch (error) {
       console.error('Failed to update settings', error);
@@ -115,9 +170,32 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl">
-      <div className="p-6 border-b border-gray-200 bg-gray-50">
-        <h2 className="text-xl font-bold text-gray-900">Store Settings</h2>
-        <p className="text-sm text-gray-500">Update your business information and contact details</p>
+      <div className="p-6 border-b border-gray-200 bg-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Settings</h2>
+          <p className="text-sm text-gray-500">Update information and contact details</p>
+        </div>
+        
+        <div className="w-full md:w-64">
+          <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider">Editing Settings For:</label>
+          <select 
+            value={selectedWebsite ? selectedWebsite._id : 'global'} 
+            onChange={(e) => {
+              if (e.target.value === 'global') {
+                if (setSelectedWebsite) setSelectedWebsite(null);
+              } else {
+                const site = websites.find(w => w._id === e.target.value);
+                if (setSelectedWebsite) setSelectedWebsite(site);
+              }
+            }}
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-900 focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="global">🏢 Global Business Defaults</option>
+            {websites && websites.map(site => (
+              <option key={site._id} value={site._id}>🏪 Store: {site.storeName || site.slug}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="p-6 md:p-8">
@@ -136,12 +214,26 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Business Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Business Name *
+                </label>
                 <input 
                   type="text" required name="businessName" value={formData.businessName} onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
                 />
               </div>
+              
+              {selectedWebsite && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Store Name
+                  </label>
+                  <input 
+                    type="text" name="storeName" value={formData.storeName} onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              )}
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
@@ -192,7 +284,7 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
 
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-gray-400" /> Store Address
+                  <FaMapMarkerAlt className="text-gray-400" /> Address
                 </label>
                 <textarea 
                   name="address" value={formData.address} onChange={handleChange} rows="2"
@@ -304,7 +396,7 @@ function SettingsTab({ businessId, businessData, onUpdate }) {
                 </>
               ) : (
                 <>
-                  <FaSave /> Save Changes
+                  <FaSave /> Save {selectedWebsite ? 'Store Settings' : 'Global Settings'}
                 </>
               )}
             </button>

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaPhoneAlt, FaBriefcase } from 'react-icons/fa';
 
-function TemplateNexus({ config, business, products, devicePreview }) {
+function TemplateNexus({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Business';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Business');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Professional services you can trust.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#1E3A8A'; // Blue 900
   const accentColor = config.themeColor || '#2563EB'; // Blue 600
@@ -85,7 +86,7 @@ function TemplateNexus({ config, business, products, devicePreview }) {
               Trusted Business
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] mb-5">
-              {businessName}
+              {storeName}
             </h1>
             <p className="text-white/85 text-lg leading-relaxed mb-10 max-w-md">
               {description}
@@ -184,7 +185,7 @@ function TemplateNexus({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="py-8 text-center" style={{ backgroundColor: primaryColor, color: 'rgba(255,255,255,0.6)' }}>
-        <p className="font-medium text-sm">© 2026 {businessName}. Powered by <span className="text-blue-300 font-bold">VendorBuild</span></p>
+        <p className="font-medium text-sm">© 2026 {storeName}. Powered by <span className="text-blue-300 font-bold">VendorBuild</span></p>
       </footer>
     </div>
   );

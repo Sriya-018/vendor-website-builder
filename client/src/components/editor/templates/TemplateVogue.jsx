@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaShoppingBag, FaArrowRight } from 'react-icons/fa';
 
-function TemplateVogue({ config, business, products, devicePreview }) {
+function TemplateVogue({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Curated fashion for the bold.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#000000'; 
   const accentColor = config.themeColor || '#6B7280'; // Gray 500
@@ -166,7 +167,7 @@ function TemplateVogue({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="bg-black py-8 text-center text-white/50 text-[0.8rem] tracking-[0.06em] uppercase">
-        <p>© 2026 {businessName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
+        <p>© 2026 {storeName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
       </footer>
     </div>
   );

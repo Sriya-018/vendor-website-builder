@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-function TemplateHaven({ config, business, products, devicePreview }) {
+function TemplateHaven({ config, business, products, devicePreview, website }) {
   const [scrolled, setScrolled] = useState(false);
 
-  const businessName = config.navbar.logoText || business?.businessName || 'My Store';
+  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
+  const storeName = website?.storeName || business?.businessName || 'My Store';
   const description = config.header.heroHeading || business?.description || 'Warm, inviting spaces for the modern home.';
-  const phoneNumber = business?.contact?.phone || '';
-  const email = business?.contact?.email || '';
-  const address = business?.location?.address || '';
+  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
+  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
+  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
   const primaryColor = '#451A03'; // Amber 900
   const accentColor = config.themeColor || '#D97706'; // Amber 600
@@ -82,7 +83,7 @@ function TemplateHaven({ config, business, products, devicePreview }) {
               className="text-5xl md:text-7xl font-bold leading-[1.15] mb-5 text-[#fef3c7]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              {businessName}
+              {storeName}
             </h1>
             <p className="text-lg text-[#fef3c7]/85 mb-10 leading-relaxed">
               {description}
@@ -183,7 +184,7 @@ function TemplateHaven({ config, business, products, devicePreview }) {
       </section>
 
       <footer className="py-8 text-center text-[0.85rem]" style={{ backgroundColor: primaryColor, color: 'rgba(254,243,199,0.65)' }}>
-        <p>© 2026 {businessName}. Powered by <span style={{ color: accentColor, fontWeight: 'bold' }}>VendorBuild</span></p>
+        <p>© 2026 {storeName}. Powered by <span style={{ color: accentColor, fontWeight: 'bold' }}>VendorBuild</span></p>
       </footer>
     </div>
   );

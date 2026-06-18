@@ -34,7 +34,7 @@ const DEFAULT_CONFIG = {
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
   },
   header: {
-    announcement: { show: false, text: 'Free shipping on orders over $50!', color: '#2563eb', dismissible: true },
+    announcement: { show: false, text: 'Free shipping on orders over ₹50!', color: '#2563eb', dismissible: true },
     heroImage: '',
     heroAlign: 'center',
     heroHeading: 'Welcome to our store',
@@ -174,7 +174,7 @@ const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, ch
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="font-bold text-gray-800 line-clamp-1" title={item.name}>{item.name}</h3>
-                    <p className="text-blue-600 font-bold mt-1">${parseFloat(item.price).toFixed(2)}</p>
+                    <p className="text-blue-600 font-bold mt-1">₹{parseFloat(item.price).toFixed(2)}</p>
                   </div>
                   <div className="flex justify-between items-center mt-2">
                     <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-1 border border-gray-100">
@@ -208,7 +208,7 @@ const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, ch
           <div className="p-6 bg-white border-t border-gray-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
             <div className="flex justify-between items-end mb-6">
               <span className="text-gray-500 font-medium">Total Amount</span>
-              <span className="text-3xl font-black text-gray-900">${total.toFixed(2)}</span>
+              <span className="text-3xl font-black text-gray-900">₹{total.toFixed(2)}</span>
             </div>
             <div className="mb-6">
               <h3 className="text-sm font-bold text-gray-800 mb-3">Select Payment Method</h3>
@@ -285,7 +285,7 @@ const OrderSuccessModal = ({ order, paymentInfo, onClose }) => {
             {showUpi && qrUrl && (
               <div className="mb-4 flex flex-col items-center bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
                 <img src={qrUrl} alt="UPI QR Code" className="w-48 h-48 mb-3 rounded-lg" />
-                <div className="text-sm text-gray-500 mb-1">Scan to pay exactly ${order.totalAmount.toFixed(2)}</div>
+                <div className="text-sm text-gray-500 mb-1">Scan to pay exactly ₹{order.totalAmount.toFixed(2)}</div>
                 <div className="font-bold text-gray-800 mb-3">{paymentInfo.upiId}</div>
                 <a 
                   href={upiString} 
@@ -328,13 +328,13 @@ const OrderSuccessModal = ({ order, paymentInfo, onClose }) => {
             {order.items.map((item, idx) => (
               <div key={idx} className="flex justify-between text-sm">
                 <span>{item.quantity}x {item.name}</span>
-                <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>
           <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-100">
             <span>Total</span>
-            <span>${order.totalAmount.toFixed(2)}</span>
+            <span>₹{order.totalAmount.toFixed(2)}</span>
           </div>
         </div>
 
@@ -367,7 +367,7 @@ const OrdersHistoryModal = ({ orders, onClose }) => {
               <div key={order._id || i} className="border border-gray-100 rounded-xl p-4 bg-gray-50">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</span>
-                  <span className="font-bold text-gray-900">${order.totalAmount.toFixed(2)}</span>
+                  <span className="font-bold text-gray-900">₹{order.totalAmount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center mb-3 text-xs">
                   <span className={`px-2 py-1 rounded font-medium ${order.paymentMethod === 'upi' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-800'}`}>
@@ -508,9 +508,9 @@ function WebsiteView() {
         const imgEl = container.querySelector('img');
         if (imgEl && !image) image = imgEl.src;
 
-        // Extract Price (find the first $ followed by numbers)
+        // Extract Price (find the first ₹ followed by numbers)
         if (!priceText) {
-          const priceMatch = container.innerText.match(/\$(\d+(?:,\d{3})*(?:\.\d+)?)/);
+          const priceMatch = container.innerText.match(/₹(\d+(?:,\d{3})*(?:\.\d+)?)/);
           if (priceMatch) {
             priceText = priceMatch[1].replace(/,/g, '');
           }
@@ -524,7 +524,7 @@ function WebsiteView() {
           } else {
             // Ultimate fallback, find the first significant text line that isn't 'Product' or the price
             const lines = container.innerText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            const candidate = lines.find(l => l.toLowerCase() !== 'product' && !l.includes('$') && !l.toLowerCase().includes('buy now'));
+            const candidate = lines.find(l => l.toLowerCase() !== 'product' && !l.includes('₹') && !l.toLowerCase().includes('buy now'));
             if (candidate) name = candidate;
           }
         }
@@ -539,7 +539,9 @@ function WebsiteView() {
       const existing = prev.findIndex(i => i.name === name);
       if (existing > -1) {
         const next = [...prev];
-        next[existing].quantity += 1;
+        const nextItem = { ...next[existing] };
+        nextItem.quantity += 1;
+        next[existing] = nextItem;
         return next;
       }
       return [...prev, { name, price, image, quantity: 1 }];
@@ -550,9 +552,13 @@ function WebsiteView() {
   const updateQuantity = (index, delta) => {
     setCartItems(prev => {
       const next = [...prev];
-      next[index].quantity += delta;
-      if (next[index].quantity <= 0) {
+      const nextItem = { ...next[index] };
+      nextItem.quantity += delta;
+      
+      if (nextItem.quantity <= 0) {
         next.splice(index, 1);
+      } else {
+        next[index] = nextItem;
       }
       return next;
     });
@@ -605,9 +611,9 @@ function WebsiteView() {
 
     let message = `*New Order from ${businessName}*\n\n`;
     cartItems.forEach(item => {
-      message += `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}\n`;
+      message += `• ${item.quantity}x ${item.name} - ₹${(item.price * item.quantity).toFixed(2)}\n`;
     });
-    message += `\n*Total: $${total.toFixed(2)}*\n*Payment Method:* ${paymentText}\n\nPlease process my order.`;
+    message += `\n*Total: ₹₹{total.toFixed(2)}*\n*Payment Method:* ${paymentText}\n\nPlease process my order.`;
 
     const newOrder = {
       _id: localOrder._id,
@@ -671,10 +677,10 @@ function WebsiteView() {
     // Deep merge to guarantee all nested properties exist
     config.navbar = { ...DEFAULT_CONFIG.navbar, ...(siteConfig.navbar || {}) };
     
-    // Fallback to storeName if logoText is not set or is generic
+    // Fallback to businessName if logoText is not set or is generic
     const isGenericLogo = config.navbar.logoText === 'My Store' || config.navbar.logoText === 'My Awesome Store';
-    if ((!config.navbar.logoText || isGenericLogo) && website.storeName) {
-      config.navbar.logoText = website.storeName;
+    if (!config.navbar.logoText || isGenericLogo) {
+      config.navbar.logoText = website.businessId?.businessName || website.storeName;
     }
     config.header = { ...DEFAULT_CONFIG.header, ...(siteConfig.header || {}) };
     if (siteConfig.header && siteConfig.header.announcement) {
@@ -701,7 +707,8 @@ function WebsiteView() {
       config,
       business: website.businessId,
       products: displayProducts,
-      devicePreview
+      devicePreview,
+      website
     };
 
     switch (config.template) {
