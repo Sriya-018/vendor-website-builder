@@ -244,3 +244,16 @@ button, a, [role="button"] {
 .theme-light .bg-pink-500\/5 {
   background-color: rgba(236, 72, 153, 0.04) !important;
 }
+
+/* Preserve text color in dark cards during light mode */
+.theme-light .dark-card h1,
+.theme-light .dark-card h2,
+.theme-light .dark-card h3,
+.theme-light .dark-card h4 {
+  color: #FFFFFF !important;
+}
+
+.theme-light .dark-card p,
+.theme-light .dark-card span {
+  color: #94A3B8 !important; /* slate-400 */
+}

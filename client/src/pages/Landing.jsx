@@ -400,7 +400,7 @@ function Landing({ token, setToken, setBusinessId }) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             {/* Feature 1 */}
-            <div className="bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
+            <div className="dark-card bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
               <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                 <FaRobot className="text-lg" />
               </div>
@@ -411,7 +411,7 @@ function Landing({ token, setToken, setBusinessId }) {
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
+            <div className="dark-card bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
               <div className="w-12 h-12 bg-gradient-to-tr from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
                 <FaPaintBrush className="text-lg" />
               </div>
@@ -422,7 +422,7 @@ function Landing({ token, setToken, setBusinessId }) {
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
+            <div className="dark-card bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/5 hover:-translate-y-1.5 transition-all duration-300 group backdrop-blur-md">
               <div className="w-12 h-12 bg-gradient-to-tr from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform">
                 <FaMobileAlt className="text-lg" />
               </div>
@@ -453,7 +453,7 @@ function Landing({ token, setToken, setBusinessId }) {
             <div className="hidden lg:block absolute top-14 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-20 pointer-events-none z-0"></div>
 
             {/* Step 1 */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
+            <div className="dark-card flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-indigo-600 text-white flex items-center justify-center mb-6 font-extrabold text-lg shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-all duration-300">
                 1
               </div>
@@ -464,7 +464,7 @@ function Landing({ token, setToken, setBusinessId }) {
             </div>
 
             {/* Step 2 */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
+            <div className="dark-card flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-500 to-purple-600 text-white flex items-center justify-center mb-6 font-extrabold text-lg shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-all duration-300">
                 2
               </div>
@@ -475,7 +475,7 @@ function Landing({ token, setToken, setBusinessId }) {
             </div>
 
             {/* Step 3 */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
+            <div className="dark-card flex flex-col items-center lg:items-start text-center lg:text-left bg-gradient-to-b from-[#161424]/90 to-[#0D0C14]/90 p-8 rounded-3xl border border-slate-800/80 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/5 transition-all duration-300 relative group backdrop-blur-md z-10 hover:-translate-y-1.5">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-pink-500 to-pink-600 text-white flex items-center justify-center mb-6 font-extrabold text-lg shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-all duration-300">
                 3
               </div>
@@ -487,7 +487,7 @@ function Landing({ token, setToken, setBusinessId }) {
           </div>
 
           {/* Detailed Feature Breakdown */}
-          <div className="mt-20 bg-gradient-to-b from-[#13121A] to-[#09080E] border border-slate-800/80 rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden backdrop-blur-md">
+          <div className="dark-card mt-20 bg-gradient-to-b from-[#13121A] to-[#09080E] border border-slate-800/80 rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden backdrop-blur-md">
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-650/5 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
             <h3 className="text-xl font-bold text-white mb-8 tracking-wide">Inside the Technology: How It Works</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
