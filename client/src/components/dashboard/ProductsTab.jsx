@@ -15,6 +15,7 @@ function ProductsTab({ businessId, websites }) {
   const [isListening, setIsListening] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [stream, setStream] = useState(null);
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -25,6 +26,7 @@ function ProductsTab({ businessId, websites }) {
     description: '',
     image: null,
     imagePreview: null,
+    processedImageUrl: null,
     stockQuantity: 10,
     inStock: true
   });
@@ -51,14 +53,35 @@ function ProductsTab({ businessId, websites }) {
     setFormData({ ...formData, [name]: value });
   };
 
+  const processImageBackground = async (file) => {
+    setIsProcessingImage(true);
+    try {
+      const imageForm = new FormData();
+      imageForm.append('image', file);
+      const uploadRes = await axios.post(`${API_URL}/upload/product-image`, imageForm);
+      setFormData(prev => ({
+        ...prev,
+        imagePreview: `http://localhost:5000${uploadRes.data.url}`,
+        processedImageUrl: uploadRes.data.url
+      }));
+    } catch (error) {
+      console.error('Background removal failed', error);
+      // Fails silently, original image is kept
+    } finally {
+      setIsProcessingImage(false);
+    }
+  };
+
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         image: file,
-        imagePreview: URL.createObjectURL(file)
-      });
+        imagePreview: URL.createObjectURL(file),
+        processedImageUrl: null
+      }));
+      processImageBackground(file);
     }
   };
 
@@ -71,7 +94,7 @@ function ProductsTab({ businessId, websites }) {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, stockQuantity: 10, inStock: true });
+    setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, processedImageUrl: null, stockQuantity: 10, inStock: true });
     setEditingProduct(null);
     setActiveWebsiteId(null);
     setShowAddModal(false);
@@ -140,9 +163,11 @@ function ProductsTab({ businessId, websites }) {
         setFormData(prev => ({
           ...prev,
           image: file,
-          imagePreview: URL.createObjectURL(file)
+          imagePreview: URL.createObjectURL(file),
+          processedImageUrl: null
         }));
         stopCamera();
+        processImageBackground(file);
       }, "image/jpeg");
     }
   };
@@ -185,7 +210,9 @@ function ProductsTab({ businessId, websites }) {
       let finalImageUrl = editingProduct ? editingProduct.imageUrl : '';
       
       // Upload image if a new one was selected
-      if (formData.image) {
+      if (formData.processedImageUrl) {
+        finalImageUrl = formData.processedImageUrl;
+      } else if (formData.image) {
         const imageForm = new FormData();
         imageForm.append('image', formData.image);
         const uploadRes = await axios.post(`${API_URL}/upload/product-image`, imageForm);
@@ -214,7 +241,7 @@ function ProductsTab({ businessId, websites }) {
         setProducts([...products, res.data]);
         
         // Clear form but keep modal open for multiple additions
-        setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, stockQuantity: 10, inStock: true });
+        setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, processedImageUrl: null, stockQuantity: 10, inStock: true });
         if (fileInputRef.current) fileInputRef.current.value = '';
         stopCamera();
       }
@@ -370,11 +397,9 @@ function ProductsTab({ businessId, websites }) {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         {product.imageUrl ? (
-                          <img 
-                            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
-                            alt={product.name} 
-                            className="w-12 h-12 rounded object-cover border border-slate-800/60"
-                          />
+                          <div className="w-12 h-12 rounded bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-800/60" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
+                            <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} alt={product.name} className="w-full h-full object-contain" />
+                          </div>
                         ) : (
                           <div className="w-12 h-12 bg-purple-600/10 rounded flex items-center justify-center text-purple-400 border border-purple-500/20">
                             <FaImage />
@@ -467,7 +492,7 @@ function ProductsTab({ businessId, websites }) {
 
                   {/* Camera / Image Preview Area */}
                   {(isCameraActive || formData.imagePreview) && (
-                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-800/60 bg-[#09080E] relative flex items-center justify-center min-h-[150px]">
+                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-800/60 bg-white relative flex items-center justify-center min-h-[150px]" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
                       {isCameraActive ? (
                         <>
                           <video ref={videoRef} autoPlay playsInline className="w-full max-h-[250px] object-contain bg-black"></video>
@@ -480,18 +505,24 @@ function ProductsTab({ businessId, websites }) {
                             <FaTimes />
                           </button>
                         </>
-                      ) : (
-                        <div className="relative w-full text-center">
-                          <img src={formData.imagePreview} alt="Preview" className="max-h-[250px] object-contain mx-auto" />
+                      ) : formData.imagePreview ? (
+                        <>
+                          <img src={formData.imagePreview} alt="Preview" className="max-h-[250px] object-contain w-full" />
+                          {isProcessingImage && (
+                            <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm">
+                              <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                              <span className="font-medium text-sm text-purple-200">Removing Background...</span>
+                            </div>
+                          )}
                           <button 
                             type="button" 
-                            onClick={() => setFormData({...formData, image: null, imagePreview: null})}
+                            onClick={() => setFormData({...formData, image: null, imagePreview: null, processedImageUrl: null})}
                             className="absolute top-2 right-2 bg-[#13121A]/85 text-slate-200 p-2 rounded-full shadow hover:bg-[#13121A] transition-colors border border-slate-800/60"
                           >
                             <FaTimes />
                           </button>
-                        </div>
-                      )}
+                        </>
+                      ) : null}
                     </div>
                   )}
                 </div>
@@ -585,9 +616,10 @@ function ProductsTab({ businessId, websites }) {
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold transition-all shadow-md"
+                    disabled={isProcessingImage}
+                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-4 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {editingProduct ? 'Save Changes' : 'Add Product'}
+                    {isProcessingImage ? 'Processing Image...' : (editingProduct ? 'Update Product' : 'Save Product')}
                   </button>
                 </div>
               </form>
@@ -614,11 +646,9 @@ function ProductsTab({ businessId, websites }) {
                     <div key={product._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 p-4 shadow-sm flex items-center justify-between group hover:border-purple-500/40 transition-colors">
                       <div className="flex items-center gap-4 flex-1">
                         {product.imageUrl ? (
-                          <img 
-                            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
-                            alt={product.name} 
-                            className="w-16 h-16 rounded-lg object-cover bg-[#09080E] border border-slate-800/60"
-                          />
+                          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-700/50" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
+                            <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} alt={product.name} className="w-full h-full object-contain" />
+                          </div>
                         ) : (
                           <div className="w-16 h-16 bg-purple-600/10 rounded-lg flex items-center justify-center text-purple-400 border border-purple-500/20">
                             <FaImage className="text-2xl" />

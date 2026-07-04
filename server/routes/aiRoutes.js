@@ -634,15 +634,16 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
       return res.status(400).json({ error: 'No image file uploaded' });
     }
     let finalImageUrl = `/uploads/${req.file.filename}`;
-    if (process.env.REMOVE_BG_API_KEY) {
-      try {
-        const removedBgPath = await removeBackground(req.file.path);
-        if (removedBgPath) {
-          finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
-        }
-      } catch (bgError) {
-        console.error('Background removal failed:', bgError);
+    // Attempt local OpenCV background removal
+    console.log('Attempting local OpenCV background removal...');
+    try {
+      const removedBgPath = await removeBackground(req.file.path);
+      if (removedBgPath) {
+        finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
+        console.log('Background removed successfully:', finalImageUrl);
       }
+    } catch (bgError) {
+      console.error('Background removal failed:', bgError);
     }
     res.json({
       url: finalImageUrl,
@@ -657,18 +658,22 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
 
 async function removeBackground(imagePath) {
   try {
-    const formData = new FormData();
-    formData.append('image_file', fs.createReadStream(imagePath));
-    formData.append('size', 'auto');
-    const response = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
-      headers: { ...formData.getHeaders(), 'X-Api-Key': process.env.REMOVE_BG_API_KEY },
-      responseType: 'arraybuffer'
-    });
     const outputPath = imagePath.replace(/\.\w+$/, '-nobg.png');
-    fs.writeFileSync(outputPath, response.data);
-    return outputPath;
+    const scriptPath = path.join(__dirname, '../scripts/remove_bg.py');
+    const { exec } = require('child_process');
+    const util = require('util');
+    const execPromise = util.promisify(exec);
+    
+    // Execute the OpenCV/rembg python script locally
+    const command = `python "${scriptPath}" "${imagePath}" "${outputPath}"`;
+    await execPromise(command);
+    
+    if (fs.existsSync(outputPath)) {
+      return outputPath;
+    }
+    return null;
   } catch (error) {
-    console.error('Remove.bg API error:', error.message);
+    console.error('Local OpenCV background removal error:', error.message);
     return null;
   }
 }

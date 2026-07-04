@@ -6,6 +6,9 @@ const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
 const Photo = require('../models/Photo');
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
 
 // Configure multer for disk storage (for background removal)
 const diskStorage = multer.diskStorage({
@@ -64,20 +67,16 @@ router.post('/product-image', diskUpload.single('image'), async (req, res) => {
     
     let finalImageUrl = `/uploads/${req.file.filename}`;
     
-    // Try to remove background if API key is available
-    if (process.env.REMOVE_BG_API_KEY) {
-      console.log('Attempting background removal...');
-      try {
-        const removedBgPath = await removeBackground(req.file.path);
-        if (removedBgPath) {
-          finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
-          console.log('Background removed successfully:', finalImageUrl);
-        }
-      } catch (bgError) {
-        console.error('Background removal failed:', bgError);
+    // Attempt local OpenCV background removal
+    console.log('Attempting local OpenCV background removal...');
+    try {
+      const removedBgPath = await removeBackground(req.file.path);
+      if (removedBgPath) {
+        finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
+        console.log('Background removed successfully:', finalImageUrl);
       }
-    } else {
-      console.log('No REMOVE_BG_API_KEY found, skipping background removal');
+    } catch (bgError) {
+      console.error('Background removal failed:', bgError);
     }
 
     res.json({ 
@@ -150,28 +149,22 @@ router.delete('/:photoId', async (req, res) => {
   }
 });
 
-// Background removal helper function
+// Background removal helper function using local OpenCV script
 async function removeBackground(imagePath) {
   try {
-    const formData = new FormData();
-    formData.append('image_file', fs.createReadStream(imagePath));
-    formData.append('size', 'auto');
-    
-    const response = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
-      headers: {
-        ...formData.getHeaders(),
-        'X-Api-Key': process.env.REMOVE_BG_API_KEY
-      },
-      responseType: 'arraybuffer',
-      timeout: 30000
-    });
-    
     const outputPath = imagePath.replace(/\.\w+$/, '-nobg.png');
-    fs.writeFileSync(outputPath, response.data);
+    const scriptPath = path.join(__dirname, '../scripts/remove_bg.py');
     
-    return outputPath;
+    // Execute the OpenCV/rembg python script locally
+    const command = `python "${scriptPath}" "${imagePath}" "${outputPath}"`;
+    await execPromise(command);
+    
+    if (fs.existsSync(outputPath)) {
+      return outputPath;
+    }
+    return null;
   } catch (error) {
-    console.error('Remove.bg API error:', error.message);
+    console.error('Local OpenCV background removal error:', error.message);
     return null;
   }
 }

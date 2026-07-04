@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   FaChevronDown, FaChevronUp, FaPalette, FaFont, FaBars, FaImage, FaGripHorizontal, 
   FaMousePointer, FaMobileAlt, FaListAlt, FaShieldAlt, FaBullhorn, FaSearch, FaUniversalAccess, FaHistory
-} from 'react-icons/fa';
+, FaClock} from 'react-icons/fa';
 import AICopilot from './AICopilot';
 
 const THEMES = [
@@ -1313,6 +1313,126 @@ function EditorControls({ config, setConfig, website }) {
             </div>
           </div>
         </Section>
+
+
+        {/* 18. Business Hours */}
+        <Section id="hoursSettings" title="18. Business Hours" icon={FaClock}>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">Section Title</label>
+              <input 
+                type="text" 
+                value={config.hours?.title || 'Business Hours'} 
+                onChange={(e) => updateConfig('hours', 'title', e.target.value)}
+                className="w-full p-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:border-blue-500"
+              />
+            </div>
+            
+            <div className="space-y-3">
+              <label className="block text-xs font-bold text-gray-700">Daily Timings</label>
+              {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, idx) => {
+                const defaultDays = config.hours?.days || [
+                  { day: 'Monday', hours: '9:00 AM - 9:00 PM' },
+                  { day: 'Tuesday', hours: '9:00 AM - 9:00 PM' },
+                  { day: 'Wednesday', hours: '9:00 AM - 9:00 PM' },
+                  { day: 'Thursday', hours: '9:00 AM - 9:00 PM' },
+                  { day: 'Friday', hours: '9:00 AM - 10:00 PM' },
+                  { day: 'Saturday', hours: '10:00 AM - 10:00 PM' },
+                  { day: 'Sunday', hours: 'Closed' }
+                ];
+                
+                const currentDayObj = defaultDays.find(d => d.day === day) || { day, hours: 'Closed' };
+                const isClosed = currentDayObj.hours === 'Closed';
+                
+                const getTimes = (hoursStr) => {
+                  if (hoursStr === 'Closed' || !hoursStr) return { open: '', close: '' };
+                  const parts = hoursStr.split('-');
+                  if (parts.length !== 2) return { open: '', close: '' };
+                  
+                  const parseHalf = (str) => {
+                    const match = str.match(/(\d+):(\d+)\s*(AM|PM)/i);
+                    if (!match) return '';
+                    let [_, h, m, ampm] = match;
+                    h = parseInt(h, 10);
+                    if (ampm.toUpperCase() === 'PM' && h < 12) h += 12;
+                    if (ampm.toUpperCase() === 'AM' && h === 12) h = 0;
+                    return `${h.toString().padStart(2, '0')}:${m}`;
+                  };
+                  return { open: parseHalf(parts[0]), close: parseHalf(parts[1]) };
+                };
+                
+                const formatHalf = (time24) => {
+                  if (!time24) return '12:00 AM';
+                  const [hStr, mStr] = time24.split(':');
+                  let h = parseInt(hStr, 10);
+                  const ampm = h >= 12 ? 'PM' : 'AM';
+                  h = h % 12;
+                  if (h === 0) h = 12;
+                  return `${h}:${mStr} ${ampm}`;
+                };
+
+                const times = getTimes(currentDayObj.hours);
+
+                const updateDay = (newHours) => {
+                  const newDays = [...defaultDays];
+                  const dIdx = newDays.findIndex(d => d.day === day);
+                  if (dIdx !== -1) {
+                    newDays[dIdx] = { day, hours: newHours };
+                  } else {
+                    newDays.push({ day, hours: newHours });
+                  }
+                  updateConfig('hours', 'days', newDays);
+                };
+
+                return (
+                  <div key={day} className="p-3 bg-gray-50 border border-gray-150 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-gray-800 text-xs w-20">{day}</span>
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          checked={isClosed}
+                          onChange={(e) => {
+                            if (e.target.checked) updateDay('Closed');
+                            else updateDay('9:00 AM - 5:00 PM');
+                          }}
+                          className="accent-red-500 w-3 h-3"
+                        />
+                        <span className="text-[10px] font-bold text-gray-500 uppercase">Closed</span>
+                      </label>
+                    </div>
+                    {!isClosed && (
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="time" 
+                          value={times.open}
+                          onChange={(e) => {
+                            const newOpen = formatHalf(e.target.value);
+                            const newClose = formatHalf(times.close || '17:00');
+                            updateDay(`${newOpen} - ${newClose}`);
+                          }}
+                          className="flex-1 p-1.5 bg-white border border-gray-200 rounded text-xs outline-none"
+                        />
+                        <span className="text-gray-400 text-xs font-bold">to</span>
+                        <input 
+                          type="time" 
+                          value={times.close}
+                          onChange={(e) => {
+                            const newOpen = formatHalf(times.open || '09:00');
+                            const newClose = formatHalf(e.target.value);
+                            updateDay(`${newOpen} - ${newClose}`);
+                          }}
+                          className="flex-1 p-1.5 bg-white border border-gray-200 rounded text-xs outline-none"
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Section>
+
         
         {/* Placeholder for others */}
         <div className="p-6 text-center text-gray-400 text-xs italic">
