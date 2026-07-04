@@ -133,7 +133,7 @@ const MOCK_TEMPLATES = [
     name: 'Bloom',
     category: 'Beauty',
     description: 'Soft pastels and elegant typography for cosmetics and skincare.',
-    image: 'https://images.unsplash.com/photo-1596462502278-27bf84033005?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80',
     colors: { primary: '#831843', secondary: '#FCE7F3', accent: '#EC4899' }
   },
   {
@@ -175,7 +175,7 @@ const MOCK_TEMPLATES = [
     name: 'Pixel',
     category: 'Electronics',
     description: 'Grid-heavy, spec-focused design for computer parts and accessories.',
-    image: 'https://images.unsplash.com/photo-1550009158-9ffff6ab31c1?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80',
     colors: { primary: '#020617', secondary: '#F8FAFC', accent: '#10B981' }
   },
   {
@@ -185,6 +185,233 @@ const MOCK_TEMPLATES = [
     description: 'Radiant and airy design perfect for organic and natural products.',
     image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80',
     colors: { primary: '#064E3B', secondary: '#ECFDF5', accent: '#10B981' }
+  },
+  {
+    id: 't10',
+    name: 'Bistro',
+    category: 'Food & Beverage',
+    description: 'Elegant charcoal theme with gold accents for fine dining and bistros.',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1E1E1C', secondary: '#F5F5F0', accent: '#C5A880' },
+    isNew: true
+  },
+  {
+    id: 't11',
+    name: 'Loft',
+    category: 'Home Decor',
+    description: 'Scandinavian minimalist grid style with cozy, earthy textures.',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#2E302F', secondary: '#F4F5F4', accent: '#8E9A86' }
+  },
+  {
+    id: 't12',
+    name: 'Zenith',
+    category: 'Services',
+    description: 'Sleek, high-performance dark theme for modern service agencies.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0B0F19', secondary: '#1E293B', accent: '#6366F1' },
+    isPopular: true
+  },
+  {
+    id: 't13',
+    name: 'Trend',
+    category: 'Fashion',
+    description: 'Vibrant modern aesthetic with bold styling for trendsetters.',
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#F43F5E', secondary: '#FFF1F2', accent: '#FDA4AF' }
+  },
+  {
+    id: 't14',
+    name: 'Spark',
+    category: 'Electronics',
+    description: 'High-contrast dark mode grid for gaming and computer hardware.',
+    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#090D16', secondary: '#171E30', accent: '#10B981' },
+    isNew: true
+  },
+  {
+    id: 't15',
+    name: 'Flora',
+    category: 'Beauty',
+    description: 'Soothing botanical styling for organic skincare and aromatherapy.',
+    image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1F2937', secondary: '#F5F7F6', accent: '#4B5E52' }
+  },
+  {
+    id: 't16',
+    name: 'Silk',
+    category: 'Fashion',
+    description: 'Luxurious fashion design featuring serif fonts and subtle gold accents.',
+    image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1F1610', secondary: '#FAF8F5', accent: '#D4AF37' },
+    isNew: true
+  },
+  {
+    id: 't17',
+    name: 'Active',
+    category: 'Fashion',
+    description: 'Bold, high-contrast athletic look with custom fits and active guidelines.',
+    image: 'https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0A0A0A', secondary: '#F3F4F6', accent: '#00D2FF' }
+  },
+  {
+    id: 't18',
+    name: 'Vintage',
+    category: 'Fashion',
+    description: 'Raw retro thrifting card layout styled with warm sepia tones and monospace text.',
+    image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#3C2F2F', secondary: '#F8F1EB', accent: '#D97706' }
+  },
+  {
+    id: 't19',
+    name: 'Quantum',
+    category: 'Electronics',
+    description: 'Deep violet neon glow tech grids with interactive hardware comparisons.',
+    image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0F0926', secondary: '#1A123C', accent: '#C084FC' },
+    isNew: true
+  },
+  {
+    id: 't20',
+    name: 'Aero',
+    category: 'Electronics',
+    description: 'A light, ultra-clean hardware spec setup with quick specs side panels.',
+    image: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0F172A', secondary: '#F1F5F9', accent: '#3B82F6' }
+  },
+  {
+    id: 't21',
+    name: 'RetroTech',
+    category: 'Electronics',
+    description: '8-bit themed store layout with pixel frames and classic sound triggers.',
+    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#242526', secondary: '#ECEFF1', accent: '#4CAF50' }
+  },
+  {
+    id: 't22',
+    name: 'Onyx',
+    category: 'Beauty',
+    description: 'Luxury high-end cosmetics showcasing product purity and elegance.',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0D0D0D', secondary: '#F7F7F7', accent: '#C5A880' },
+    isPopular: true
+  },
+  {
+    id: 't23',
+    name: 'Mist',
+    category: 'Beauty',
+    description: 'Fresh spa design with water colors and dynamic skin hydration checks.',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0A2540', secondary: '#F0F8FF', accent: '#00D2FF' }
+  },
+  {
+    id: 't24',
+    name: 'Petal',
+    category: 'Beauty',
+    description: 'Floral botanical layout focusing on scent notes and organic freshness.',
+    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#4C1D95', secondary: '#FDF2F8', accent: '#EC4899' }
+  },
+  {
+    id: 't25',
+    name: 'Brew',
+    category: 'Food & Beverage',
+    description: 'A cozy espresso house styling with customizable coffee strengths.',
+    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#3E2723', secondary: '#EFEBE9', accent: '#8D6E63' },
+    isPopular: true
+  },
+  {
+    id: 't26',
+    name: 'Slice',
+    category: 'Food & Beverage',
+    description: 'Energetic pizzeria and fast-food grids with ingredient toppings builder.',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#B91C1C', secondary: '#FEF2F2', accent: '#F59E0B' },
+    isNew: true
+  },
+  {
+    id: 't27',
+    name: 'Hops',
+    category: 'Food & Beverage',
+    description: 'Industrial rustic pub theme with interactive food and beer pairings.',
+    image: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1A1813', secondary: '#FBF9F6', accent: '#D97706' }
+  },
+  {
+    id: 't28',
+    name: 'Harvest',
+    category: 'Food & Beverage',
+    description: 'Earthy farm-to-table design highlighting local freshness and origins.',
+    image: 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#2F4F4F', secondary: '#F5FFFA', accent: '#8FBC8F' }
+  },
+  {
+    id: 't29',
+    name: 'Manor',
+    category: 'Home Decor',
+    description: 'Classic luxury and rich wood furniture setups with layout guides.',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#3E2723', secondary: '#FAECE6', accent: '#B78A62' }
+  },
+  {
+    id: 't30',
+    name: 'Patio',
+    category: 'Home Decor',
+    description: 'Sunny garden and porch layouts featuring weather proofing indices.',
+    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1B4D3E', secondary: '#F0FFF4', accent: '#2E8B57' },
+    isNew: true
+  },
+  {
+    id: 't31',
+    name: 'Urban',
+    category: 'Home Decor',
+    description: 'Loft industrial vibes emphasizing concrete grey and clean steel details.',
+    image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#374151', secondary: '#F9FAFB', accent: '#4B5563' }
+  },
+  {
+    id: 't32',
+    name: 'Zen',
+    category: 'Home Decor',
+    description: 'Japanese styled minimalist layouts focusing on feng shui placement guides.',
+    image: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#2C3539', secondary: '#FAF9F6', accent: '#C2B280' }
+  },
+  {
+    id: 't33',
+    name: 'Pulse',
+    category: 'Services',
+    description: 'High energy coaching and fitness trainer theme with goal selectors.',
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#DC2626', secondary: '#111827', accent: '#EF4444' },
+    isNew: true
+  },
+  {
+    id: 't34',
+    name: 'Scale',
+    category: 'Services',
+    description: 'Trustworthy corporate advisory style with interactive ROI metrics.',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#1E3A8A', secondary: '#F8FAFC', accent: '#3B82F6' },
+    isPopular: true
+  },
+  {
+    id: 't35',
+    name: 'PixelCraft',
+    category: 'Services',
+    description: 'Creative visual design agency layouts showing pixel perfect elements.',
+    image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0A0015', secondary: '#FBF8FF', accent: '#8B5CF6' }
+  },
+  {
+    id: 't36',
+    name: 'Care',
+    category: 'Services',
+    description: 'Warm, empathetic counseling and medical styling with soft appointment tabs.',
+    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80',
+    colors: { primary: '#0F766E', secondary: '#F0FDFA', accent: '#14B8A6' }
   }
 ];
 
@@ -268,6 +495,45 @@ function Templates({ token, businessId }) {
   const canvasRef = useRef(null);
 
   // Flow State
+  const [scrapeUrl, setScrapeUrl] = useState('');
+  const [isScraping, setIsScraping] = useState(false);
+
+  const handleUrlScrape = async () => {
+    if (!scrapeUrl.trim()) return;
+    setIsScraping(true);
+    try {
+      const response = await axios.post(`${API_URL}/ai/scrape-and-recommend`, { url: scrapeUrl });
+      setStoreDetails({
+        name: response.data.business?.businessName || storeDetails.name || '',
+        tagline: response.data.business?.description || storeDetails.tagline || '',
+        phone: response.data.business?.phone || storeDetails.phone || '',
+        email: response.data.business?.email || storeDetails.email || '',
+        address: response.data.business?.address || storeDetails.address || '',
+        socialMedia: {
+          whatsapp: response.data.business?.phone || '',
+          instagram: '',
+          facebook: '',
+          twitter: ''
+        }
+      });
+      if (response.data.extractedProducts && response.data.extractedProducts.length > 0) {
+        setProducts(response.data.extractedProducts.map(p => ({
+          name: p.name,
+          price: p.price,
+          category: 'general',
+          description: p.description,
+          image: null,
+          imagePreview: null
+        })));
+      }
+      alert('Store details and products imported successfully!');
+    } catch (error) {
+      console.error('Scraping error:', error);
+      alert(error.response?.data?.error || error.message || 'Failed to import business details from the URL.');
+    }
+    setIsScraping(false);
+  };
+
   const [storeDetails, setStoreDetails] = useState({
     name: '',
     tagline: '',
@@ -300,22 +566,26 @@ function Templates({ token, businessId }) {
 
   const openDrawer = (template) => {
     setPreviewTemplate(template);
+    setStoreDetails(prev => ({
+      ...prev,
+      name: `${template.name} Hub - ${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+    }));
     setIsDrawerOpen(true);
     setDrawerStep(1);
   };
 
   const handleAIBuild = (buildData) => {
     // buildData = { template: 't1', businessName: '...', description: '...' }
-    setStoreDetails(prev => ({
-      ...prev,
-      name: buildData.businessName || prev.name,
-      tagline: buildData.description || prev.tagline
-    }));
-    
     const chosenTemplate = MOCK_TEMPLATES.find(t => t.id === buildData.template);
     if (chosenTemplate) {
       setPreviewTemplate(chosenTemplate);
     }
+    
+    setStoreDetails(prev => ({
+      ...prev,
+      name: buildData.businessName || (chosenTemplate ? `${chosenTemplate.name} Hub - ${Math.random().toString(36).substring(2, 6).toUpperCase()}` : prev.name),
+      tagline: buildData.description || prev.tagline
+    }));
     
     setIsDrawerOpen(true);
     setDrawerStep(1); // Open to step 1 so they can review their details
@@ -648,7 +918,7 @@ function Templates({ token, businessId }) {
 
         const businessDataForAI = {
           businessName: businessData?.businessName || 'My Business',
-          storeName: storeDetails.name || 'My Awesome Store',
+          storeName: storeDetails.name || `${previewTemplate?.name || 'Acme'} Hub - ${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
         logo: storeDetails.logoPreview || storeDetails.logo || businessData?.logo || '',
           logo: uploadedLogoUrl,
           description: storeDetails.tagline || '',
@@ -678,7 +948,7 @@ function Templates({ token, businessId }) {
           css: response.data.css,
           template: previewTemplate?.id || 't1',
           published: true,
-          storeName: storeDetails.name || 'My Awesome Store',
+          storeName: storeDetails.name || `${previewTemplate?.name || 'Acme'} Hub - ${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
           storeInfo: {
             description: storeDetails.tagline || '',
             category: dbCategory,
@@ -744,20 +1014,46 @@ function Templates({ token, businessId }) {
     setChatMsg('');
     setIsChatLoading(true);
 
-    try {
-      const res = await axios.post(`${API_URL}/ai/assistant`, { message: chatMsg });
-      const action = res.data.action;
-      let reply = "I'm not sure how to do that yet.";
+    // Package current store details and catalog context
+    const storeContext = {
+      template: previewTemplate ? `${previewTemplate.name} (${previewTemplate.id})` : 'None',
+      businessName: storeDetails.name || 'Not set',
+      description: storeDetails.tagline || 'Not set',
+      phone: storeDetails.phone || 'Not set',
+      email: storeDetails.email || 'Not set',
+      address: storeDetails.address || 'Not set',
+      products: products.map(p => ({
+        name: p.name,
+        price: p.price,
+        description: p.description || ''
+      }))
+    };
 
-      if (action.type === 'CHANGE_THEME') {
-        reply = `I will change the theme color to ${action.color} when you launch your store!`;
-      } else if (action.type === 'ADD_PRODUCT') {
-        reply = `I've added ${action.productName} for ₹${action.price} to your catalog.`;
-        setProducts(prev => [...prev, { id: Date.now(), name: action.productName, price: action.price, category: 'AI Added' }]);
+    try {
+      const res = await axios.post(`${API_URL}/ai/chat`, {
+        messages: newHistory.map(h => ({ role: h.role === 'ai' ? 'ai' : 'user', text: h.text })),
+        storeContext,
+        businessId
+      });
+      let replyText = res.data.reply;
+
+      // Check for hidden build command trigger
+      const buildMatch = replyText.match(/___BUILD___([\s\S]*?)___BUILD___/);
+      if (buildMatch) {
+        try {
+          const buildData = JSON.parse(buildMatch[1].trim());
+          handleAIBuild(buildData);
+          setChatOpen(false); // Close inline chat panel
+        } catch (e) {
+          console.error("Failed to parse inline build command:", e);
+        }
+        // Strip out the build command from the visible chat message
+        replyText = replyText.replace(/___BUILD___[\s\S]*?___BUILD___/, '').trim();
       }
 
-      setChatHistory([...newHistory, { role: 'ai', text: reply }]);
+      setChatHistory([...newHistory, { role: 'ai', text: replyText }]);
     } catch (e) {
+      console.error('AI Assistant Error:', e);
       setChatHistory([...newHistory, { role: 'ai', text: 'Sorry, I encountered an error connecting to the AI.' }]);
     } finally {
       setIsChatLoading(false);
@@ -765,7 +1061,7 @@ function Templates({ token, businessId }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans pb-20 relative">
+    <div className="min-h-screen bg-[#09080E] font-sans pb-20 relative">
       {/* Camera Modal */}
       {showCameraModal && (
         <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
@@ -818,10 +1114,10 @@ function Templates({ token, businessId }) {
       {/* FULL SCREEN PUBLISHING LOADER */}
       {isPublishing && (
         <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex flex-col items-center justify-center text-white">
-          <div className="w-24 h-24 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-8"></div>
+          <div className="w-24 h-24 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-8"></div>
           <h2 className="text-3xl font-bold font-jakarta mb-4 animate-pulse">Generating your store...</h2>
           <div className="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div className="h-full bg-blue-500 animate-[progress_1.5s_ease-in-out_infinite]"></div>
+            <div className="h-full bg-indigo-600 animate-[progress_1.5s_ease-in-out_infinite]"></div>
           </div>
           <style>{`@keyframes progress { 0% { width: 0%; margin-left: 0%; } 50% { width: 100%; margin-left: 0%; } 100% { width: 0%; margin-left: 100%; } }`}</style>
         </div>
@@ -836,17 +1132,17 @@ function Templates({ token, businessId }) {
       )}
 
       {/* NAVBAR */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-30">
+      <nav className="bg-[#0D0C14] border-b border-slate-800/60 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-md">
+            <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/15">
               <FaStore className="text-xl" />
             </div>
-            <span className="font-bold font-jakarta text-2xl tracking-tight text-gray-900">VendorBuild</span>
+            <span className="font-extrabold font-jakarta text-2xl tracking-tight text-white">VendorBuild</span>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => navigate('/')} className="text-gray-500 hover:text-gray-900 font-medium transition-colors">Home</button>
-            {token && <button onClick={() => navigate('/dashboard')} className="text-gray-500 hover:text-gray-900 font-medium transition-colors">Dashboard</button>}
+            <button onClick={() => navigate('/')} className="text-slate-400 hover:text-white font-medium transition-colors">Home</button>
+            {token && <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white font-medium transition-colors">Dashboard</button>}
           </div>
         </div>
       </nav>
@@ -854,10 +1150,10 @@ function Templates({ token, businessId }) {
       {/* HERO & FILTERS */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-12">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="font-jakarta text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+          <h1 className="font-jakarta text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
             Choose Your Store Template
           </h1>
-          <p className="text-lg md:text-xl text-gray-500">
+          <p className="text-lg md:text-xl text-slate-500">
             Pick a design, add your products, and go live in minutes. No coding required.
           </p>
         </div>
@@ -869,8 +1165,8 @@ function Templates({ token, businessId }) {
               key={category}
               onClick={() => setActiveCategory(category)}
               className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${activeCategory === category
-                ? 'bg-blue-600 text-white shadow-md transform scale-105'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20 transform scale-105'
+                : 'bg-[#13121A] text-slate-400 border border-slate-800/60 hover:border-indigo-500/40 hover:text-slate-200'
                 }`}
             >
               {category}
@@ -883,9 +1179,9 @@ function Templates({ token, businessId }) {
           {filteredTemplates.map(template => (
             <div
               key={template.id}
-              className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
+              className="bg-[#13121A] rounded-2xl overflow-hidden border border-slate-800/60 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
             >
-              <div className="relative h-64 overflow-hidden bg-gray-100">
+              <div className="relative h-64 overflow-hidden bg-slate-900/50">
                 <img
                   src={template.image}
                   alt={template.name}
@@ -900,23 +1196,23 @@ function Templates({ token, businessId }) {
                   </button>
                 </div>
                 <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                  <span className="bg-[#09080E]/80 backdrop-blur-sm text-slate-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-slate-700/50">
                     {template.category}
                   </span>
                 </div>
                 <div className="absolute top-4 right-4 flex gap-2">
-                  {template.isNew && <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1"><FaStar className="text-[10px]" /> New</span>}
+                  {template.isNew && <span className="bg-indigo-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1"><FaStar className="text-[10px]" /> New</span>}
                   {template.isPopular && <span className="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">Popular</span>}
                 </div>
               </div>
 
               <div className="p-6 flex-1 flex flex-col">
-                <h3 className="font-jakarta text-2xl font-bold text-gray-900 mb-2">{template.name}</h3>
-                <p className="text-gray-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
+                <h3 className="font-jakarta text-2xl font-bold text-white mb-2">{template.name}</h3>
+                <p className="text-slate-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => openDrawer(template)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-colors shadow-sm"
+                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 rounded-xl font-bold transition-all shadow-md shadow-indigo-500/10 hover:scale-[1.01]"
                   >
                     Use This Template
                   </button>
@@ -928,22 +1224,21 @@ function Templates({ token, businessId }) {
 
         {filteredTemplates.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-gray-500 text-lg">No templates found for this category.</p>
+            <p className="text-slate-500 text-lg">No templates found for this category.</p>
           </div>
         )}
       </div>
 
-      {/* FOOTER CTA STRIP */}
-      <div className="bg-white border-t border-gray-200 mt-12 py-16">
+      <div className="bg-[#0D0C14] border-t border-slate-800/60 mt-12 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaStar className="text-2xl" />
           </div>
-          <h2 className="font-jakarta text-3xl font-bold text-gray-900 mb-4">Not sure which template to pick?</h2>
-          <p className="text-gray-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect store for you.</p>
+          <h2 className="font-jakarta text-3xl font-bold text-white mb-4">Not sure which template to pick?</h2>
+          <p className="text-slate-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect store for you.</p>
           <button 
             onClick={() => setIsChatOpen(true)}
-            className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg"
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg shadow-indigo-500/20"
           >
             Ask AI for a Recommendation
           </button>
@@ -954,18 +1249,18 @@ function Templates({ token, businessId }) {
       {previewTemplate && !isDrawerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/90 backdrop-blur-sm p-4 md:p-8 animate-fade-in">
           <div className="bg-white w-full h-full max-w-7xl rounded-2xl overflow-hidden shadow-2xl flex flex-col relative">
-            <div className="h-16 border-b border-gray-200 flex items-center justify-between px-6 bg-white shrink-0 relative z-20">
+            <div className="h-16 border-b border-slate-200 flex items-center justify-between px-6 bg-white shrink-0 relative z-20">
               <div className="flex items-center gap-4">
-                <span className="font-bold text-lg">{previewTemplate.name} Preview</span>
-                <div className="hidden md:flex gap-2 bg-gray-100 p-1 rounded-lg">
-                  <button onClick={() => setPreviewDevice('desktop')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'desktop' ? 'bg-white text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}><FaDesktop /></button>
-                  <button onClick={() => setPreviewDevice('mobile')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'mobile' ? 'bg-white text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}><FaMobileAlt /></button>
+                <span className="font-bold text-lg text-slate-900">{previewTemplate.name} Preview</span>
+                <div className="hidden md:flex gap-2 bg-slate-100 p-1 rounded-lg">
+                  <button onClick={() => setPreviewDevice('desktop')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'desktop' ? 'bg-white text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}><FaDesktop /></button>
+                  <button onClick={() => setPreviewDevice('mobile')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'mobile' ? 'bg-white text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}><FaMobileAlt /></button>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => openDrawer(previewTemplate)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-sm transition-colors"
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-5 py-2 rounded-xl font-semibold shadow-md shadow-indigo-500/10 hover:scale-[1.01] transition-all"
                 >
                   Use This Template
                 </button>
@@ -1006,33 +1301,33 @@ function Templates({ token, businessId }) {
       {isDrawerOpen && (
         <>
           <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 animate-fade-in" onClick={closeDrawer}></div>
-          <div className={`fixed top-0 right-0 h-full w-full bg-white shadow-2xl z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
+          <div className={`fixed top-0 right-0 h-full w-full bg-[#0D0C14] shadow-2xl shadow-black/50 z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
 
             {/* Drawer Header */}
-            <div className="h-20 border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
-              <h2 className="font-jakarta text-xl font-bold text-gray-900">Setup Your Store</h2>
-              <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition-colors">
+            <div className="h-20 border-b border-slate-800/60 flex items-center justify-between px-6 shrink-0">
+              <h2 className="font-jakarta text-xl font-bold text-white">Setup Your Store</h2>
+              <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors">
                 <FaTimes />
               </button>
             </div>
 
             {/* Progress Stepper */}
-            <div className="px-6 py-6 bg-gray-50 border-b border-gray-200 shrink-0">
+            <div className="px-6 py-6 bg-[#09080E] border-b border-slate-800/60 shrink-0">
               <div className="flex items-center justify-between relative">
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 z-0 rounded-full"></div>
-                <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-blue-600 z-0 rounded-full transition-all duration-300`} style={{ width: drawerStep === 1 ? '0%' : drawerStep === 2 ? '50%' : '100%' }}></div>
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-800 z-0 rounded-full"></div>
+                <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-purple-600 z-0 rounded-full transition-all duration-300`} style={{ width: drawerStep === 1 ? '0%' : drawerStep === 2 ? '50%' : '100%' }}></div>
 
                 {[1, 2, 3].map(step => (
-                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors border-2 ${drawerStep >= step ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-400'
+                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all border-2 ${drawerStep >= step ? 'bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-500/20' : 'bg-[#0D0C14] border-slate-700 text-slate-600'
                     }`}>
                     {drawerStep > step ? <FaCheck className="text-xs" /> : step}
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between mt-2 text-xs font-medium text-gray-500">
-                <span className={drawerStep >= 1 ? 'text-blue-600' : ''}>Details</span>
-                <span className={drawerStep >= 2 ? 'text-blue-600' : ''}>Products</span>
-                <span className={drawerStep >= 3 ? 'text-blue-600' : ''}>Publish</span>
+              <div className="flex justify-between mt-2 text-xs font-semibold text-slate-500">
+                <span className={drawerStep >= 1 ? 'text-purple-650 font-bold' : ''}>Details</span>
+                <span className={drawerStep >= 2 ? 'text-purple-650 font-bold' : ''}>Products</span>
+                <span className={drawerStep >= 3 ? 'text-purple-650 font-bold' : ''}>Publish</span>
               </div>
             </div>
 
@@ -1042,73 +1337,73 @@ function Templates({ token, businessId }) {
               {/* STEP 1: Details */}
               {drawerStep === 1 && (
                 <div className="space-y-6 animate-fade-in-up">
-                  <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <FaStore className="text-blue-600 text-2xl" />
+                  <div className="text-center mb-6">
+                    <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-purple-500/30">
+                      <FaStore className="text-purple-650 text-2xl" />
                     </div>
-                    <h3 className="font-jakarta text-2xl font-bold text-gray-900">Store Details</h3>
-                    <p className="text-gray-500 mt-2">Let's give your new store an identity.</p>
+                    <h3 className="font-jakarta text-2xl font-bold text-white">Store Details</h3>
+                    <p className="text-slate-500 mt-2">Let's give your new store an identity.</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Store Name *</label>
+                    <label className="block text-sm font-semibold text-slate-400 mb-2">Store Name *</label>
                     <input
                       type="text"
                       value={storeDetails.name}
                       onChange={(e) => setStoreDetails({ ...storeDetails, name: e.target.value })}
                       placeholder="e.g. Acme SuperMart"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                      className="w-full border border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-200 bg-[#09080E] placeholder-slate-700 font-medium"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Tagline</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Tagline</label>
                     <input
                       type="text"
                       value={storeDetails.tagline}
                       onChange={(e) => setStoreDetails({ ...storeDetails, tagline: e.target.value })}
                       placeholder="e.g. Best quality goods for you"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <FaPhone className="inline mr-2 text-gray-400" /> Phone Number *
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <FaPhone className="inline mr-2 text-slate-400" /> Phone Number *
                     </label>
                     <input
                       type="tel"
                       value={storeDetails.phone}
                       onChange={(e) => setStoreDetails({ ...storeDetails, phone: e.target.value })}
                       placeholder="+1 234 567 8900"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Will be displayed on your website with WhatsApp button</p>
+                    <p className="text-xs text-slate-500 mt-1">Will be displayed on your website with WhatsApp button</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <FaEnvelope className="inline mr-2 text-gray-400" /> Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <FaEnvelope className="inline mr-2 text-slate-400" /> Email Address <span className="text-slate-400 font-normal">(Optional)</span>
                     </label>
                     <input
                       type="email"
                       value={storeDetails.email}
                       onChange={(e) => setStoreDetails({ ...storeDetails, email: e.target.value })}
                       placeholder="contact@yourstore.com"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <FaMapMarkerAlt className="inline mr-2 text-gray-400" /> Store Address
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <FaMapMarkerAlt className="inline mr-2 text-slate-400" /> Store Address
                     </label>
                     <textarea
                       value={storeDetails.address}
                       onChange={(e) => setStoreDetails({ ...storeDetails, address: e.target.value })}
                       placeholder="123 Business St., Suite 100, City, Country"
                       rows="3"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all text-gray-900 bg-gray-50 focus:bg-white resize-none"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium resize-none"
                     />
                   </div>
 
@@ -1129,7 +1424,7 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, whatsapp: e.target.value }
                           })}
                           placeholder="+1 234 567 8900"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                         />
                         <p className="text-xs text-gray-500 mt-1">Customers can chat with you directly via WhatsApp</p>
                       </div>
@@ -1146,7 +1441,7 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, instagram: e.target.value }
                           })}
                           placeholder="https://instagram.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                         />
                       </div>
 
@@ -1162,7 +1457,7 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, facebook: e.target.value }
                           })}
                           placeholder="https://facebook.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                         />
                       </div>
 
@@ -1178,26 +1473,26 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, twitter: e.target.value }
                           })}
                           placeholder="https://twitter.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Store Logo</label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer relative overflow-hidden">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Store Logo</label>
+                    <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center bg-slate-50 hover:bg-slate-100 hover:border-purple-400 transition-colors cursor-pointer relative overflow-hidden">
                       <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="logo-upload" onChange={handleLogoUpload} />
                       {storeDetails.logo ? (
                         <div className="flex flex-col items-center">
                           <img src={storeDetails.logo} alt="Store Logo Preview" className="h-20 object-contain mb-2" />
-                          <p className="text-blue-600 font-medium text-sm">Change logo</p>
+                          <p className="text-purple-650 font-bold text-sm">Change logo</p>
                         </div>
                       ) : (
                         <div>
-                          <FaImage className="text-3xl text-gray-400 mx-auto mb-2" />
-                          <p className="text-blue-600 font-medium text-sm">Click to upload logo</p>
-                          <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 2MB</p>
+                          <FaImage className="text-3xl text-slate-400 mx-auto mb-2" />
+                          <p className="text-purple-650 font-bold text-sm">Click to upload logo</p>
+                          <p className="text-xs text-slate-400 mt-1">PNG, JPG up to 2MB</p>
                         </div>
                       )}
                     </div>
@@ -1217,33 +1512,33 @@ function Templates({ token, businessId }) {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                     {/* LEFT COLUMN - Add Product Form */}
-                    <div className="bg-gradient-to-br from-gray-50 to-white p-5 rounded-2xl border border-gray-200 shadow-sm sticky top-0">
-                      <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <FaPlus className="text-blue-600" /> Add New Product
+                    <div className="bg-gradient-to-br from-slate-50 to-white p-5 rounded-2xl border border-slate-200 shadow-sm sticky top-0">
+                      <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <FaPlus className="text-indigo-650" /> Add New Product
                       </h4>
 
                       <div className="space-y-4">
                         {/* Product Image Upload with Camera Options */}
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image & Details</label>
+                          <label className="block text-sm font-bold text-slate-700 mb-2">Product Image & Details</label>
                           <div className="flex gap-3">
                             <button
                               onClick={startVoice}
-                              className={`flex-1 ${isVoiceRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700'} text-white rounded-xl p-3 text-center transition-all shadow-md`}
+                              className={`flex-1 ${isVoiceRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-gradient-to-r from-purple-500 to-purple-650 hover:from-purple-650 hover:to-purple-700'} text-white rounded-xl p-3 text-center transition-all shadow-md`}
                             >
                               <FaMicrophone className={`text-xl mx-auto mb-1 ${isVoiceRecording ? 'animate-pulse' : ''}`} />
-                              <span className="text-xs font-semibold">{isVoiceRecording ? 'Listening...' : 'Voice Input'}</span>
+                              <span className="text-xs font-bold">{isVoiceRecording ? 'Listening...' : 'Voice Input'}</span>
                             </button>
                             <button
                               onClick={() => startCamera(null)}
-                              className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-3 text-center hover:from-blue-600 hover:to-blue-700 transition-all shadow-md"
+                              className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl p-3 text-center transition-all shadow-md"
                             >
                               <FaCamera className="text-xl mx-auto mb-1" />
-                              <span className="text-xs font-semibold">Take Photo</span>
+                              <span className="text-xs font-bold">Take Photo</span>
                             </button>
                             <button
                               onClick={() => document.getElementById('product-image-input').click()}
-                              className="flex-1 bg-white border-2 border-dashed border-gray-300 rounded-xl p-3 text-center hover:border-blue-400 transition-colors"
+                              className="flex-1 bg-white border-2 border-dashed border-slate-250 rounded-xl p-3 text-center hover:border-purple-400 transition-colors"
                             >
                               <FaUpload className="text-xl text-gray-400 mx-auto mb-1" />
                               <span className="text-xs text-gray-500">Upload File</span>
@@ -1258,7 +1553,7 @@ function Templates({ token, businessId }) {
                           />
                           {newProduct.imagePreview && (
                             <div className="mt-3 relative">
-                              <div className="relative w-full h-40 rounded-lg overflow-hidden border-2 border-blue-500 bg-gray-100">
+                              <div className="relative w-full h-40 rounded-lg overflow-hidden border-2 border-purple-500 bg-gray-100">
                                 <img src={newProduct.imagePreview} alt="Preview" className="w-full h-full object-contain" />
                                 {newProduct.isRemovingBg && (
                                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -1290,19 +1585,19 @@ function Templates({ token, businessId }) {
                             placeholder="Product Name *"
                             value={newProduct.name}
                             onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 text-sm font-semibold"
                           />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                           <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 font-bold">₹</span>
                             <input
                               type="number"
                               placeholder="Price *"
                               value={newProduct.price}
                               onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
-                              className="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                              className="w-full border border-slate-200 bg-slate-50 rounded-xl pl-7 pr-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold"
                             />
                           </div>
                           <input
@@ -1310,7 +1605,7 @@ function Templates({ token, businessId }) {
                             placeholder="Category"
                             value={newProduct.category}
                             onChange={e => setNewProduct({ ...newProduct, category: e.target.value })}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold"
                           />
                         </div>
 
@@ -1320,7 +1615,7 @@ function Templates({ token, businessId }) {
                             value={newProduct.description}
                             onChange={e => setNewProduct({ ...newProduct, description: e.target.value })}
                             rows="2"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 text-sm resize-none"
+                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold resize-none"
                           />
                         </div>
 
@@ -1335,18 +1630,18 @@ function Templates({ token, businessId }) {
                     </div>
 
                     {/* RIGHT COLUMN - Products Grid */}
-                    <div className="bg-gray-50 rounded-2xl p-5 border border-gray-200">
-                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
-                        <h4 className="font-semibold text-gray-900">Your Products</h4>
-                        <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
+                    <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200">
+                        <h4 className="font-bold text-slate-900">Your Products</h4>
+                        <span className="text-sm bg-purple-50 text-purple-750 px-3 py-1 rounded-full font-bold">
                           {products.length} {products.length === 1 ? 'item' : 'items'}
                         </span>
                       </div>
 
                       {products.length === 0 ? (
-                        <div className="text-center py-12 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl bg-white">
-                          <FaImage className="text-4xl mx-auto mb-3 opacity-50" />
-                          <p className="text-sm">No products added yet</p>
+                        <div className="text-center py-12 text-slate-400 border-2 border-dashed border-slate-200 rounded-2xl bg-white">
+                          <FaImage className="text-4xl mx-auto mb-3 opacity-55" />
+                          <p className="text-sm font-semibold">No products added yet</p>
                           <p className="text-xs mt-1">Fill the form and click "Add Product"</p>
                         </div>
                       ) : (
@@ -1380,15 +1675,15 @@ function Templates({ token, businessId }) {
                                         {p.name}
                                       </h5>
                                       <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                        <span className="text-blue-600 font-bold text-sm">₹{p.price}</span>
+                                        <span className="text-purple-650 font-bold text-sm">₹{p.price}</span>
                                         {p.category && (
-                                          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                                          <span className="text-xs bg-slate-100 text-slate-650 px-2 py-0.5 rounded-full font-semibold">
                                             {p.category}
                                           </span>
                                         )}
                                       </div>
                                       {p.description && (
-                                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">{p.description}</p>
+                                        <p className="text-xs text-slate-500 mt-1 line-clamp-1">{p.description}</p>
                                       )}
                                     </div>
 
@@ -1396,14 +1691,14 @@ function Templates({ token, businessId }) {
                                     <div className="flex gap-1 flex-shrink-0">
                                       <button
                                         onClick={() => startCamera(idx)}
-                                        className="text-blue-500 hover:text-blue-700 p-1.5 rounded-lg hover:bg-blue-50 transition-colors"
+                                        className="text-purple-600 hover:text-purple-800 p-1.5 rounded-lg hover:bg-purple-50 transition-colors"
                                         title="Take new photo"
                                       >
                                         <FaCamera className="text-sm" />
                                       </button>
                                       <button
                                         onClick={() => document.getElementById(`product-image-edit-${p.id}`).click()}
-                                        className="text-green-500 hover:text-green-700 p-1.5 rounded-lg hover:bg-green-50 transition-colors"
+                                        className="text-green-600 hover:text-green-800 p-1.5 rounded-lg hover:bg-green-50 transition-colors"
                                         title="Upload image"
                                       >
                                         <FaUpload className="text-sm" />
@@ -1418,7 +1713,7 @@ function Templates({ token, businessId }) {
                                       />
                                       <button
                                         onClick={() => removeProduct(p.id)}
-                                        className="text-gray-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                                        className="text-slate-400 hover:text-red-650 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
                                         title="Remove product"
                                       >
                                         <FaTrash className="text-sm" />
@@ -1503,13 +1798,13 @@ function Templates({ token, businessId }) {
             </div>
 
             {/* Drawer Footer / Navigation */}
-            <div className="p-6 border-t border-gray-200 bg-white shrink-0">
+            <div className="p-6 border-t border-slate-200 bg-white shrink-0">
               <div className="flex gap-4">
                 {drawerStep > 1 && (
                   <button
                     onClick={() => setDrawerStep(drawerStep - 1)}
                     disabled={isPublishing}
-                    className="flex-1 py-3.5 bg-white border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                    className="flex-1 py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-50 transition-colors"
                   >
                     Back
                   </button>
@@ -1518,7 +1813,7 @@ function Templates({ token, businessId }) {
                 {drawerStep < 3 ? (
                   <button
                     onClick={() => setDrawerStep(drawerStep + 1)}
-                    className="flex-1 py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold shadow-md hover:from-indigo-700 hover:to-purple-700 transition-all hover:scale-[1.01] flex items-center justify-center gap-2"
                   >
                     Continue <FaChevronRight className="text-sm" />
                   </button>
@@ -1526,7 +1821,7 @@ function Templates({ token, businessId }) {
                   <button
                     onClick={handleLaunch}
                     disabled={isPublishing}
-                    className="flex-1 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg shadow-lg hover:bg-blue-700 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:transform-none"
+                    className="flex-1 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:transform-none"
                   >
                     {isPublishing ? (
                       <>
@@ -1548,42 +1843,42 @@ function Templates({ token, businessId }) {
       {/* AI Assistant Chat Widget */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         {chatOpen && (
-          <div className="bg-white w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-gray-200 flex flex-col overflow-hidden animate-fade-in-up">
-            <div className="bg-blue-600 text-white p-4 font-bold flex justify-between items-center">
+          <div className="bg-white w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-slate-205 flex flex-col overflow-hidden animate-fade-in-up">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 font-bold flex justify-between items-center shadow-sm">
               <span>Vendor AI Assistant ✨</span>
-              <button onClick={() => setChatOpen(false)} className="hover:text-gray-200"><FaTimes /></button>
+              <button onClick={() => setChatOpen(false)} className="hover:text-slate-200"><FaTimes /></button>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50">
+            <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50">
               {chatHistory.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] rounded-xl p-3 text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'}`}>
+                  <div className={`max-w-[80%] rounded-xl p-3 text-sm font-medium ${msg.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {isChatLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white border border-gray-200 rounded-xl p-3 shadow-sm flex gap-1 rounded-bl-none">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex gap-1 rounded-bl-none">
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                   </div>
                 </div>
               )}
             </div>
-            <div className="p-3 bg-white border-t border-gray-200 flex gap-2">
+            <div className="p-3 bg-white border-t border-slate-200 flex gap-2">
               <input
                 type="text"
                 value={chatMsg}
                 onChange={e => setChatMsg(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && handleSendChat()}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-gray-100 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="flex-1 bg-slate-100 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-500 font-semibold"
               />
               <button
                 onClick={handleSendChat}
                 disabled={!chatMsg.trim() || isChatLoading}
-                className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-3 py-2 rounded-lg disabled:opacity-50 font-bold"
               >
                 Send
               </button>
@@ -1599,7 +1894,25 @@ function Templates({ token, businessId }) {
             <span className="absolute -top-10 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded shadow-lg whitespace-nowrap">Need Help?</span>
           </button>
         )}
-        <AIChatModal isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} onBuildTriggered={handleAIBuild} />
+        <AIChatModal
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          onBuildTriggered={handleAIBuild}
+          businessId={businessId}
+          storeContext={{
+            template: previewTemplate ? `${previewTemplate.name} (${previewTemplate.id})` : 'None',
+            businessName: storeDetails.name || 'Not set',
+            description: storeDetails.tagline || 'Not set',
+            phone: storeDetails.phone || 'Not set',
+            email: storeDetails.email || 'Not set',
+            address: storeDetails.address || 'Not set',
+            products: products.map(p => ({
+              name: p.name,
+              price: p.price,
+              description: p.description || ''
+            }))
+          }}
+        />
       </div>
 
       {/* Global styles for hide scrollbar but keep functionality */}

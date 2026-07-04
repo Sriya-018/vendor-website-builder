@@ -96,7 +96,82 @@ const DEFAULT_CONFIG = {
     darkMode: 'off', // off, auto, always
     focusRingColor: '#3b82f6',
     focusRingThickness: 2,
-  }
+  },
+  sectionOrder: ['hero', 'ingredients', 'products', 'routine', 'gallery', 'faq', 'testimonials', 'hours', 'contact'],
+  sections: {
+    hero: true,
+    ingredients: true,
+    products: true,
+    routine: true,
+    gallery: true,
+    faq: true,
+    testimonials: true,
+    hours: true,
+    contact: true
+  },
+  beauty: {
+    ingredients: [
+      { id: '1', name: 'Organic Aloe Vera', desc: 'Soothes and hydrates irritated skin.', icon: '🌿' },
+      { id: '2', name: 'Hyaluronic Acid', desc: 'Retains moisture for a plump look.', icon: '💧' },
+      { id: '3', name: 'Vitamin C Extract', desc: 'Brightens and evens out skin tone.', icon: '🍊' }
+    ],
+    routine: {
+      title: 'Your Daily Glow Routine',
+      steps: [
+        { id: '1', num: '01', title: 'Cleanse', text: 'Wash away impurities with our gentle cleanser.' },
+        { id: '2', num: '02', title: 'Tone', text: 'Balance your skin pH level with floral mist.' },
+        { id: '3', num: '03', title: 'Serum', text: 'Apply key vitamins and active ingredients.' },
+        { id: '4', num: '04', title: 'Moisturize', text: 'Lock in hydration for all-day radiance.' }
+      ]
+    }
+  },
+  faq: {
+    title: 'Frequently Asked Questions',
+    questions: [
+      { id: '1', question: 'What are your delivery hours?', answer: 'We deliver daily from 9:00 AM to 9:00 PM.' },
+      { id: '2', question: 'How can I track my order?', answer: 'You will receive SMS updates with a tracking link.' },
+      { id: '3', question: 'What is your refund policy?', answer: 'We offer full refunds on items returned within 7 days.' }
+    ]
+  },
+  testimonials: {
+    title: 'What Our Customers Say',
+    list: [
+      { id: '1', name: 'Aarav Mehta', role: 'Verified Buyer', review: 'Absolutely love the quality of products here! Fast delivery and great customer support.', rating: 5 },
+      { id: '2', name: 'Priya Sharma', role: 'Regular Customer', review: 'Excellent range of options. The ordering process was seamless and the packaging was premium.', rating: 5 },
+      { id: '3', name: 'Rohan Gupta', role: 'Local Guide', review: 'Best prices in town. Strongly recommended to anyone looking for authentic items.', rating: 4 }
+    ]
+  },
+  gallery: {
+    title: 'Our Photo Gallery',
+    images: [
+      'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80',
+      'https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&q=80',
+      'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=600&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80',
+      'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80',
+      'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80'
+    ]
+  },
+  countdown: {
+    show: true,
+    title: 'Mega Summer Sale Ending Soon!',
+    endDate: new Date(Date.now() + 86400000 * 2).toISOString(),
+    bgColor: '#2563eb',
+    textColor: '#ffffff'
+  },
+  hours: {
+    title: 'Business Hours',
+    days: [
+      { day: 'Monday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Tuesday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Wednesday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Thursday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Friday', hours: '9:00 AM - 10:00 PM' },
+      { day: 'Saturday', hours: '10:00 AM - 10:00 PM' },
+      { day: 'Sunday', hours: 'Closed' }
+    ]
+  },
+  customPages: []
 };
 
 function WebsiteEditor() {
@@ -151,7 +226,13 @@ function WebsiteEditor() {
       
       // Apply root level properties from the legacy generation
       if (siteData.template) mergedConfig.template = siteData.template;
-      if (siteData.theme) mergedConfig.themeColor = siteData.theme;
+      if (siteData.theme) mergedConfig.themeColor = typeof siteData.theme === 'object' ? siteData.theme.primaryColor : siteData.theme;
+      
+      // Initialize default logoText based on template storeName
+      mergedConfig.navbar = {
+        ...DEFAULT_CONFIG.navbar,
+        logoText: siteData.storeName || siteData.storeInfo?.businessName || siteData.businessId?.businessName || ''
+      };
       
       // Merge saved designConfig if it exists
       if (siteData.designConfig && Object.keys(siteData.designConfig).length > 0) {
@@ -160,10 +241,17 @@ function WebsiteEditor() {
         mergedConfig = {
           ...mergedConfig,
           ...dbConfig,
+          sectionOrder: dbConfig.sectionOrder || DEFAULT_CONFIG.sectionOrder,
+          sections: { ...DEFAULT_CONFIG.sections, ...(dbConfig.sections || {}) },
+          faq: { ...DEFAULT_CONFIG.faq, ...(dbConfig.faq || {}) },
+          testimonials: { ...DEFAULT_CONFIG.testimonials, ...(dbConfig.testimonials || {}) },
+          gallery: { ...DEFAULT_CONFIG.gallery, ...(dbConfig.gallery || {}) },
+          countdown: { ...DEFAULT_CONFIG.countdown, ...(dbConfig.countdown || {}) },
+          hours: { ...DEFAULT_CONFIG.hours, ...(dbConfig.hours || {}) },
           navbar: { 
             ...DEFAULT_CONFIG.navbar, 
             ...(dbConfig.navbar || {}),
-            logoText: (!isGeneric && dbConfig.navbar && dbConfig.navbar.logoText) || siteData.storeInfo?.businessName || siteData.businessId?.businessName || siteData.storeName || ''
+            logoText: (!isGeneric && dbConfig.navbar && dbConfig.navbar.logoText) || siteData.storeName || siteData.storeInfo?.businessName || siteData.businessId?.businessName || ''
           },
           header: { 
             ...DEFAULT_CONFIG.header, 
@@ -179,11 +267,24 @@ function WebsiteEditor() {
             badges: { ...DEFAULT_CONFIG.trust.badges, ...((dbConfig.trust && dbConfig.trust.badges) || {}) },
             testimonials: { ...DEFAULT_CONFIG.trust.testimonials, ...((dbConfig.trust && dbConfig.trust.testimonials) || {}) }
           },
-          media: { ...DEFAULT_CONFIG.media, ...(dbConfig.media || {}) },
+           media: { ...DEFAULT_CONFIG.media, ...(dbConfig.media || {}) },
           buttons: { ...DEFAULT_CONFIG.buttons, ...(dbConfig.buttons || {}) },
           spacing: { ...DEFAULT_CONFIG.spacing, ...(dbConfig.spacing || {}) },
           mobile: { ...DEFAULT_CONFIG.mobile, ...(dbConfig.mobile || {}) },
+          beauty: {
+            ...DEFAULT_CONFIG.beauty,
+            ...(dbConfig.beauty || {}),
+            routine: {
+              ...DEFAULT_CONFIG.beauty.routine,
+              ...((dbConfig.beauty && dbConfig.beauty.routine) || {})
+            }
+          },
+          customPages: dbConfig.customPages || DEFAULT_CONFIG.customPages || [],
         };
+      }
+      
+      if (typeof mergedConfig.themeColor === 'object' && mergedConfig.themeColor !== null) {
+        mergedConfig.themeColor = mergedConfig.themeColor.primaryColor || '#2563eb';
       }
       
       setConfig(mergedConfig);
@@ -197,7 +298,10 @@ function WebsiteEditor() {
     try {
       if (isPublish) setIsSaving(true);
       
-      const payload = { designConfig: currentConfig };
+      const payload = { 
+        designConfig: currentConfig,
+        theme: typeof currentConfig.themeColor === 'string' ? { primaryColor: currentConfig.themeColor } : undefined
+      };
       if (isPublish) payload.published = true;
       
       await axios.put(`${API_URL}/website/update/${websiteId}`, payload);
@@ -214,6 +318,76 @@ function WebsiteEditor() {
     }
   };
 
+  const handleUpdateConfig = (category, field, value) => {
+    setConfig(prev => {
+      if (category === 'sectionOrder') {
+        return { ...prev, sectionOrder: value };
+      }
+      if (category === 'sections') {
+        return {
+          ...prev,
+          sections: {
+            ...prev.sections,
+            [field]: value
+          }
+        };
+      }
+      if (typeof prev[category] !== 'object') {
+        return { ...prev, [category]: value };
+      }
+      return {
+        ...prev,
+        [category]: {
+          ...prev[category],
+          [field]: value
+        }
+      };
+    });
+  };
+
+  const handleUpdateProduct = async (productId, field, value) => {
+    setProducts(prev => prev.map(p => (p._id === productId || p.id === productId) ? { ...p, [field]: value } : p));
+    
+    try {
+      if (productId && typeof productId === 'string' && productId.length === 24) {
+        await axios.put(`${API_URL}/business/products/${productId}`, { [field]: value });
+      }
+    } catch (e) {
+      console.error("Failed to update product inline", e);
+    }
+  };
+
+  const handleAddProduct = async () => {
+    try {
+      const businessIdStr = business._id || business;
+      const isBeauty = config.template === 't3' || config.template === 't9' || config.template === 't15' || website?.storeInfo?.category === 'beauty';
+      
+      const res = await axios.post(`${API_URL}/business/${businessIdStr}/products`, {
+        websiteId: websiteId,
+        name: isBeauty ? 'New Organic Serum' : 'New Premium Product',
+        price: isBeauty ? 399 : 499,
+        category: isBeauty ? 'skincare' : 'general',
+        description: isBeauty ? 'Rich botanical extracts formulated for skin health.' : 'High-quality item description.',
+        imageUrl: ''
+      });
+      setProducts(prev => [...prev, res.data]);
+    } catch (e) {
+      console.error("Failed to add product inline", e);
+      alert("Failed to add product. Please try again.");
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+    try {
+      await axios.delete(`${API_URL}/business/products/${productId}`);
+      setProducts(prev => prev.filter(p => p._id !== productId && p.id !== productId));
+    } catch (e) {
+      console.error("Failed to delete product inline", e);
+      alert("Failed to delete product. Please try again.");
+    }
+  };
+
   const handlePublish = () => {
     saveConfigToDatabase(config, true);
     alert('✅ Design Published Successfully!');
@@ -221,8 +395,8 @@ function WebsiteEditor() {
 
   if (!website) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#FAF9FD]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
@@ -231,61 +405,61 @@ function WebsiteEditor() {
     <div className="h-screen flex flex-col bg-gray-100 overflow-hidden font-sans">
       
       {/* Top Bar */}
-      <div className="h-16 bg-white border-b border-gray-200 shadow-sm flex items-center justify-between px-6 shrink-0 z-20">
+      <div className="h-16 bg-white border-b border-slate-200/80 shadow-sm flex items-center justify-between px-6 shrink-0 z-20">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate('/dashboard')}
-            className="text-gray-500 hover:text-gray-800 transition-colors bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
+            className="text-slate-600 hover:text-slate-850 transition-colors bg-slate-100 hover:bg-slate-200 p-2 rounded-xl"
           >
             <FaArrowLeft />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-lg font-bold text-lg">
+            <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center rounded-lg font-extrabold text-lg shadow-md shadow-indigo-500/10">
               {business?.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
             <div>
-              <div className="text-xs text-gray-500 font-medium">Editing store:</div>
-              <div className="font-bold text-gray-900 leading-tight">{website.slug}</div>
+              <div className="text-xs text-slate-500 font-semibold">Editing store:</div>
+              <div className="font-extrabold text-slate-900 leading-tight">{website.slug}</div>
             </div>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="flex items-center bg-gray-100 p-1 rounded-lg border border-gray-200">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
             <button 
               onClick={() => setDevicePreview('desktop')}
-              className={`p-2 rounded-md transition-colors ${devicePreview === 'desktop' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'desktop' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
               title="Desktop"
             >
               <FaDesktop />
             </button>
             <button 
               onClick={() => setDevicePreview('tablet')}
-              className={`p-2 rounded-md transition-colors ${devicePreview === 'tablet' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'tablet' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
               title="Tablet"
             >
               <FaTabletAlt />
             </button>
             <button 
               onClick={() => setDevicePreview('mobile')}
-              className={`p-2 rounded-md transition-colors ${devicePreview === 'mobile' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'mobile' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
               title="Mobile"
             >
               <FaMobileAlt />
             </button>
           </div>
           
-          <div className="h-6 w-px bg-gray-300"></div>
+          <div className="h-6 w-px bg-slate-250"></div>
           
           {lastSaved && (
-            <div className="text-xs text-gray-500 font-medium">
+            <div className="text-xs text-slate-500 font-semibold">
               Saved {lastSaved.toLocaleTimeString()}
             </div>
           )}
 
           <button 
             onClick={() => window.open(`/website/${website.slug}`, '_blank')}
-            className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg font-semibold border border-gray-200 transition-colors text-sm"
+            className="flex items-center gap-2 text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-xl font-bold transition-all text-sm"
           >
             <FaExternalLinkAlt className="text-xs" /> View Live Site
           </button>
@@ -293,7 +467,7 @@ function WebsiteEditor() {
           <button 
             onClick={handlePublish}
             disabled={isSaving}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold shadow-sm transition-all text-sm disabled:opacity-70"
+            className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-5 py-2 rounded-xl font-extrabold shadow-md shadow-indigo-500/10 hover:scale-[1.01] transition-all text-sm disabled:opacity-75"
           >
             <FaSave /> {isSaving ? 'Publishing...' : 'Save & Publish'}
           </button>
@@ -304,13 +478,24 @@ function WebsiteEditor() {
       <div className="flex-1 flex overflow-hidden">
         
         {/* Left Panel: 40% Width */}
-        <div className="w-[40%] bg-white border-r border-gray-200 flex flex-col overflow-y-auto relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div className="w-[40%] bg-white border-r border-slate-200 flex flex-col overflow-y-auto relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
           <EditorControls config={config} setConfig={setConfig} website={website} />
         </div>
 
         {/* Right Panel: 60% Width */}
-        <div className="w-[60%] bg-gray-100 flex items-center justify-center p-8 overflow-hidden relative">
-          <LivePreview config={config} devicePreview={devicePreview} website={website} business={business} products={products} />
+        <div className="w-[60%] bg-slate-50 flex items-center justify-center p-8 overflow-hidden relative">
+          <LivePreview 
+            config={config} 
+            devicePreview={devicePreview} 
+            website={website} 
+            business={business} 
+            products={products}
+            isEditable={true}
+            onUpdateConfig={handleUpdateConfig}
+            onUpdateProduct={handleUpdateProduct}
+            onAddProduct={handleAddProduct}
+            onDeleteProduct={handleDeleteProduct}
+          />
         </div>
         
       </div>

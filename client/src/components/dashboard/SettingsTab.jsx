@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaMoneyBillWave } from 'react-icons/fa';
+import { FaSave, FaStore, FaPhone, FaMapMarkerAlt, FaHashtag, FaEnvelope, FaInstagram, FaFacebook, FaTwitter, FaWhatsapp, FaMoneyBillWave, FaGlobe } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -24,7 +24,10 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
       upiId: '',
       bankDetails: '',
       instructions: ''
-    }
+    },
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: ''
   });
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -34,6 +37,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
     if (selectedWebsite) {
       // Load specific store's info, fallback to businessData if storeInfo is empty
       const storeInfo = selectedWebsite.storeInfo || {};
+      const seo = selectedWebsite.seo || {};
       setFormData({
         businessName: storeInfo.businessName ?? businessData?.businessName ?? '',
         storeName: selectedWebsite.storeName ?? '',
@@ -53,7 +57,10 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
           upiId: storeInfo.paymentInfo?.upiId ?? businessData?.paymentInfo?.upiId ?? '',
           bankDetails: storeInfo.paymentInfo?.bankDetails ?? businessData?.paymentInfo?.bankDetails ?? '',
           instructions: storeInfo.paymentInfo?.instructions ?? businessData?.paymentInfo?.instructions ?? ''
-        }
+        },
+        seoTitle: seo.title ?? '',
+        seoDescription: seo.description ?? '',
+        seoKeywords: seo.keywords ?? ''
       });
     } else if (businessData) {
       // Load global business defaults
@@ -76,7 +83,10 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
           upiId: businessData.paymentInfo?.upiId || '',
           bankDetails: businessData.paymentInfo?.bankDetails || '',
           instructions: businessData.paymentInfo?.instructions || ''
-        }
+        },
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: ''
       });
     }
   }, [businessData, selectedWebsite]);
@@ -158,6 +168,11 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
             },
             socialMedia: formData.socialMedia,
             paymentInfo: formData.paymentInfo
+          },
+          seo: {
+            title: formData.seoTitle,
+            description: formData.seoDescription,
+            keywords: formData.seoKeywords
           }
         };
 
@@ -200,15 +215,15 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl">
-      <div className="p-6 border-b border-gray-200 bg-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden max-w-4xl">
+      <div className="p-6 border-b border-slate-800/60 bg-slate-900/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Settings</h2>
-          <p className="text-sm text-gray-500">Update information and contact details</p>
+          <h2 className="text-xl font-bold text-white">Settings</h2>
+          <p className="text-sm text-slate-400">Update information and contact details</p>
         </div>
         
         <div className="w-full md:w-64">
-          <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider">Editing Settings For:</label>
+          <label className="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Editing Settings For:</label>
           <select 
             value={selectedWebsite ? selectedWebsite._id : 'global'} 
             onChange={(e) => {
@@ -219,7 +234,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
                 if (setSelectedWebsite) setSelectedWebsite(site);
               }
             }}
-            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-900 focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 bg-[#09080E] border border-slate-700/60 rounded-lg text-sm font-medium text-slate-200 focus:ring-2 focus:ring-purple-500 outline-none"
           >
             <option value="global">🏢 Global Business Defaults</option>
             {websites && websites.map(site => (
@@ -231,7 +246,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
       <div className="p-6 md:p-8">
         {message && (
-          <div className={`p-4 mb-6 rounded-lg text-sm font-medium ${message.includes('success') ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+          <div className={`p-4 mb-6 rounded-lg text-sm font-medium ${message.includes('success') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
             {message}
           </div>
         )}
@@ -239,39 +254,38 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
         <form onSubmit={handleSave} className="space-y-8">
           {/* General Information */}
           <section>
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
-              <FaStore className="text-gray-400" /> General Information
+            <h3 className="text-lg font-semibold text-white border-b border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
+              <FaStore className="text-purple-400" /> General Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-400 mb-1">
                   Business Name *
                 </label>
                 <input 
                   type="text" required name="businessName" value={formData.businessName} onChange={handleChange}
-                  disabled={!!selectedWebsite}
-                  className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 ${selectedWebsite ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none"
                 />
               </div>
 
               {selectedWebsite && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-400 mb-1">
                     Store Logo
                   </label>
                   <div className="flex items-center gap-4">
                     {formData.logo ? (
-                      <div className="relative w-16 h-16 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center">
+                      <div className="relative w-16 h-16 bg-[#09080E] rounded-lg border border-slate-800/60 flex items-center justify-center">
                         <img src={formData.logo.startsWith('http') ? formData.logo : `http://localhost:5000${formData.logo}`} alt="Logo" className="w-full h-full object-contain rounded-lg" />
                         <button type="button" onClick={() => setFormData(prev => ({ ...prev, logo: '' }))} style={{ width: '18px', height: '18px', minWidth: '18px', minHeight: '18px', padding: 0, margin: 0, lineHeight: '18px' }} className="absolute -top-1.5 -right-1.5 bg-red-500 text-white flex items-center justify-center rounded-full text-[12px] shadow hover:bg-red-600 border border-white z-10">&times;</button>
                       </div>
                     ) : (
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-gray-400">
+                      <div className="w-16 h-16 bg-purple-600/10 rounded-lg border border-dashed border-purple-500/25 flex items-center justify-center text-purple-400">
                         <FaStore />
                       </div>
                     )}
-                    <label className="cursor-pointer bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                    <label className="cursor-pointer bg-[#13121A] border border-slate-700/60 text-slate-350 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors">
                       Upload New Logo
                       <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
                     </label>
@@ -281,30 +295,30 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
               
               {selectedWebsite && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-400 mb-1">
                     Store Name
                   </label>
                   <input 
                     type="text" name="storeName" value={formData.storeName} onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                    className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   />
                 </div>
               )}
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Category</label>
                 <input 
                   type="text" name="category" value={formData.category} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="e.g. Retail, Restaurant, Services"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description / Tagline</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Description / Tagline</label>
                 <textarea 
                   name="description" value={formData.description} onChange={handleChange} rows="3"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none resize-none" 
                   placeholder="A short description of your business..."
                 />
               </div>
@@ -313,38 +327,38 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
           {/* Contact Details */}
           <section>
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
-              <FaPhone className="text-gray-400" /> Contact Details
+            <h3 className="text-lg font-semibold text-white border-b border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
+              <FaPhone className="text-purple-400" /> Contact Details
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaPhone className="text-gray-400" /> Phone Number
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaPhone className="text-slate-500 animate-pulse" /> Phone Number
                 </label>
                 <input 
                   type="text" name="phone" value={formData.phone} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaEnvelope className="text-gray-400" /> Email Address
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaEnvelope className="text-slate-550" /> Email Address
                 </label>
                 <input 
                   type="email" name="email" value={formData.email} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-gray-400" /> Address
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaMapMarkerAlt className="text-slate-550" /> Address
                 </label>
                 <textarea 
                   name="address" value={formData.address} onChange={handleChange} rows="2"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none resize-none" 
                 />
               </div>
             </div>
@@ -352,51 +366,51 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
           {/* Social Media Links */}
           <section>
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
-              <FaHashtag className="text-gray-400" /> Social Media
+            <h3 className="text-lg font-semibold text-white border-b border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
+              <FaHashtag className="text-purple-400" /> Social Media
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaInstagram className="text-pink-600" /> Instagram Profile
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaInstagram className="text-pink-500" /> Instagram Profile
                 </label>
                 <input 
                   type="url" name="social_instagram" value={formData.socialMedia.instagram} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="https://instagram.com/yourhandle"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaFacebook className="text-blue-600" /> Facebook Page
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaFacebook className="text-blue-500" /> Facebook Page
                 </label>
                 <input 
                   type="url" name="social_facebook" value={formData.socialMedia.facebook} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="https://facebook.com/yourpage"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
                   <FaTwitter className="text-blue-400" /> Twitter / X Profile
                 </label>
                 <input 
                   type="url" name="social_twitter" value={formData.socialMedia.twitter} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="https://twitter.com/yourhandle"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                  <FaWhatsapp className="text-green-500" /> WhatsApp Direct Link
+                <label className="block text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+                  <FaWhatsapp className="text-emerald-500" /> WhatsApp Direct Link
                 </label>
                 <input 
                   type="url" name="social_whatsapp" value={formData.socialMedia.whatsapp} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="https://wa.me/yournumber"
                 />
               </div>
@@ -405,45 +419,92 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
           {/* Payment Information */}
           <section>
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
-              <FaMoneyBillWave className="text-gray-400" /> Payment Information
+            <h3 className="text-lg font-semibold text-white border-b border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
+              <FaMoneyBillWave className="text-purple-400" /> Payment Information
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">UPI ID</label>
                 <input 
                   type="text" name="payment_upiId" value={formData.paymentInfo.upiId} onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none" 
                   placeholder="e.g. yourname@upi"
                 />
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Bank Details / Other Info</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Bank Details / Other Info</label>
                 <textarea 
                   name="payment_bankDetails" value={formData.paymentInfo.bankDetails} onChange={handleChange} rows="2"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none resize-none" 
                   placeholder="Account Number, IFSC code, etc."
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Instructions for Customers</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Payment Instructions for Customers</label>
                 <textarea 
                   name="payment_instructions" value={formData.paymentInfo.instructions} onChange={handleChange} rows="2"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none" 
+                  className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none resize-none" 
                   placeholder="e.g. Please send a screenshot of the payment on WhatsApp after placing the order."
                 />
               </div>
             </div>
           </section>
 
-          <div className="pt-6 border-t border-gray-200">
+          {/* SEO (Search Engine Optimization) - Only for individual websites */}
+          {selectedWebsite && (
+            <section className="bg-slate-900/40 p-6 rounded-xl border border-slate-800/60">
+              <h3 className="text-lg font-semibold text-white border-b border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
+                <FaGlobe className="text-purple-400" /> Search Engine Optimization (SEO)
+              </h3>
+              
+              <div className="grid grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">
+                    Meta Title
+                  </label>
+                  <input 
+                    type="text" name="seoTitle" value={formData.seoTitle} onChange={handleChange}
+                    className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none"
+                    placeholder="e.g. Premium Florist Shop | Flora Hub"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Appears as the main clickable headline in search engines. Recommended length: 50-60 characters.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">
+                    Meta Description
+                  </label>
+                  <textarea 
+                    name="seoDescription" value={formData.seoDescription} onChange={handleChange} rows="2"
+                    className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none resize-none" 
+                    placeholder="e.g. Order fresh bouquets, roses, and wedding flowers online. Same-day delivery with 100% freshness guarantee. Order now!"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Appears as the snippet below your page title. Recommended length: 150-160 characters.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">
+                    Keywords
+                  </label>
+                  <input 
+                    type="text" name="seoKeywords" value={formData.seoKeywords} onChange={handleChange}
+                    className="w-full px-4 py-2 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 bg-[#09080E] focus:bg-[#0D0C14] text-slate-200 transition-all outline-none"
+                    placeholder="e.g. flowers, florist, bouquet delivery, roses, gift shop"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Comma-separated tags representing search terms relevant to your business.</p>
+                </div>
+              </div>
+            </section>
+          )}
+
+          <div className="pt-6 border-t border-slate-800/60">
             <button 
               type="submit" 
               disabled={isSaving}
-              className="flex items-center justify-center gap-2 w-full md:w-auto px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+              className="flex items-center justify-center gap-2 w-full md:w-auto px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
             >
               {isSaving ? (
                 <>

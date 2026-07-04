@@ -11,6 +11,18 @@ import TemplateNexus from '../components/editor/templates/TemplateNexus';
 import TemplateVogue from '../components/editor/templates/TemplateVogue';
 import TemplatePixel from '../components/editor/templates/TemplatePixel';
 import TemplateGlow from '../components/editor/templates/TemplateGlow';
+import TemplateBistro from '../components/editor/templates/TemplateBistro';
+import TemplateLoft from '../components/editor/templates/TemplateLoft';
+import TemplateZenith from '../components/editor/templates/TemplateZenith';
+import TemplateTrend from '../components/editor/templates/TemplateTrend';
+import TemplateSpark from '../components/editor/templates/TemplateSpark';
+import TemplateFlora from '../components/editor/templates/TemplateFlora';
+import TemplateFashionNew from '../components/editor/templates/TemplateFashionNew';
+import TemplateElectronicsNew from '../components/editor/templates/TemplateElectronicsNew';
+import TemplateBeautyNew from '../components/editor/templates/TemplateBeautyNew';
+import TemplateFoodNew from '../components/editor/templates/TemplateFoodNew';
+import TemplateDecorNew from '../components/editor/templates/TemplateDecorNew';
+import TemplateServicesNew from '../components/editor/templates/TemplateServicesNew';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -103,7 +115,82 @@ const DEFAULT_CONFIG = {
     darkMode: 'off', // off, auto, always
     focusRingColor: '#3b82f6',
     focusRingThickness: 2,
-  }
+  },
+  sectionOrder: ['hero', 'ingredients', 'products', 'routine', 'gallery', 'faq', 'testimonials', 'hours', 'contact'],
+  sections: {
+    hero: true,
+    ingredients: true,
+    products: true,
+    routine: true,
+    gallery: true,
+    faq: true,
+    testimonials: true,
+    hours: true,
+    contact: true
+  },
+  beauty: {
+    ingredients: [
+      { id: '1', name: 'Organic Aloe Vera', desc: 'Soothes and hydrates irritated skin.', icon: '🌿' },
+      { id: '2', name: 'Hyaluronic Acid', desc: 'Retains moisture for a plump look.', icon: '💧' },
+      { id: '3', name: 'Vitamin C Extract', desc: 'Brightens and evens out skin tone.', icon: '🍊' }
+    ],
+    routine: {
+      title: 'Your Daily Glow Routine',
+      steps: [
+        { id: '1', num: '01', title: 'Cleanse', text: 'Wash away impurities with our gentle cleanser.' },
+        { id: '2', num: '02', title: 'Tone', text: 'Balance your skin pH level with floral mist.' },
+        { id: '3', num: '03', title: 'Serum', text: 'Apply key vitamins and active ingredients.' },
+        { id: '4', num: '04', title: 'Moisturize', text: 'Lock in hydration for all-day radiance.' }
+      ]
+    }
+  },
+  faq: {
+    title: 'Frequently Asked Questions',
+    questions: [
+      { id: '1', question: 'What are your delivery hours?', answer: 'We deliver daily from 9:00 AM to 9:00 PM.' },
+      { id: '2', question: 'How can I track my order?', answer: 'You will receive SMS updates with a tracking link.' },
+      { id: '3', question: 'What is your refund policy?', answer: 'We offer full refunds on items returned within 7 days.' }
+    ]
+  },
+  testimonials: {
+    title: 'What Our Customers Say',
+    list: [
+      { id: '1', name: 'Aarav Mehta', role: 'Verified Buyer', review: 'Absolutely love the quality of products here! Fast delivery and great customer support.', rating: 5 },
+      { id: '2', name: 'Priya Sharma', role: 'Regular Customer', review: 'Excellent range of options. The ordering process was seamless and the packaging was premium.', rating: 5 },
+      { id: '3', name: 'Rohan Gupta', role: 'Local Guide', review: 'Best prices in town. Strongly recommended to anyone looking for authentic items.', rating: 4 }
+    ]
+  },
+  gallery: {
+    title: 'Our Photo Gallery',
+    images: [
+      'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80',
+      'https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&q=80',
+      'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=600&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80',
+      'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80',
+      'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80'
+    ]
+  },
+  countdown: {
+    show: true,
+    title: 'Mega Summer Sale Ending Soon!',
+    endDate: new Date(Date.now() + 86400000 * 2).toISOString(),
+    bgColor: '#2563eb',
+    textColor: '#ffffff'
+  },
+  hours: {
+    title: 'Business Hours',
+    days: [
+      { day: 'Monday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Tuesday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Wednesday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Thursday', hours: '9:00 AM - 9:00 PM' },
+      { day: 'Friday', hours: '9:00 AM - 10:00 PM' },
+      { day: 'Saturday', hours: '10:00 AM - 10:00 PM' },
+      { day: 'Sunday', hours: 'Closed' }
+    ]
+  },
+  customPages: []
 };
 
 const ShoppingCart = ({ items, isOpen, setIsOpen, updateQuantity, removeItem, checkout, onShowHistory, pastOrdersCount, hasUpi }) => {
@@ -393,8 +480,9 @@ const OrdersHistoryModal = ({ orders, onClose }) => {
   );
 };
 
-function WebsiteView() {
-  const { slug } = useParams();
+function WebsiteView({ forceSlug }) {
+  const { slug: paramSlug } = useParams();
+  const slug = forceSlug || paramSlug;
   const [website, setWebsite] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -448,7 +536,34 @@ function WebsiteView() {
 
   const fetchWebsite = async () => {
     try {
-      const response = await axios.get(`${API_URL}/website/${slug}`);
+      let visitorRegion = '';
+      try {
+        // Try freeipapi first as it is highly accurate for regional ISP routes (e.g. Vizag vs Hyderabad)
+        const geoRes = await axios.get('https://freeipapi.com/api/json', { timeout: 1500 });
+        if (geoRes.data && (geoRes.data.cityName || geoRes.data.city)) {
+          visitorRegion = geoRes.data.cityName || geoRes.data.city;
+        } else {
+          // Fallback to ipapi.co
+          const geoResBackup = await axios.get('https://ipapi.co/json/', { timeout: 1500 });
+          if (geoResBackup.data && geoResBackup.data.city) {
+            visitorRegion = geoResBackup.data.city;
+          }
+        }
+        
+        if (visitorRegion) {
+          const host = window.location.hostname;
+          const isDevHost = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.') || host.startsWith('172.16.');
+          if (isDevHost) {
+            visitorRegion = `${visitorRegion} (Local Workspace / Dev)`;
+          }
+        }
+      } catch (err) {
+        // Fallback silently if offline or API blocked
+      }
+
+      const response = await axios.get(`${API_URL}/website/${slug}`, {
+        params: visitorRegion ? { region: visitorRegion } : {}
+      });
       const websiteData = response.data;
       setWebsite(websiteData);
       
@@ -465,6 +580,39 @@ function WebsiteView() {
     }
     setLoading(false);
   };
+
+  // Dynamic SEO Injection
+  useEffect(() => {
+    if (website) {
+      // Set Document Title
+      const titleText = website.seo?.title || website.storeName || website.storeInfo?.businessName || 'Store';
+      document.title = titleText;
+
+      // Set Meta Description
+      let metaDesc = document.querySelector('meta[name="description"]');
+      const descText = website.seo?.description || website.storeInfo?.description || '';
+      if (descText) {
+        if (!metaDesc) {
+          metaDesc = document.createElement('meta');
+          metaDesc.setAttribute('name', 'description');
+          document.head.appendChild(metaDesc);
+        }
+        metaDesc.setAttribute('content', descText);
+      }
+
+      // Set Meta Keywords
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      const keywordsText = website.seo?.keywords || website.storeInfo?.category || '';
+      if (keywordsText) {
+        if (!metaKeywords) {
+          metaKeywords = document.createElement('meta');
+          metaKeywords.setAttribute('name', 'keywords');
+          document.head.appendChild(metaKeywords);
+        }
+        metaKeywords.setAttribute('content', keywordsText);
+      }
+    }
+  }, [website]);
 
   const handleTemplateClick = (e) => {
     // Find the closest button or anchor
@@ -493,6 +641,7 @@ function WebsiteView() {
     let name = btn.getAttribute('data-product-name');
     let priceText = btn.getAttribute('data-product-price');
     let image = btn.getAttribute('data-product-image');
+    let productId = btn.getAttribute('data-product-id');
 
     // Fallback: If data attributes are missing (legacy websites), traverse the DOM
     if (!name || !priceText) {
@@ -541,10 +690,13 @@ function WebsiteView() {
         const next = [...prev];
         const nextItem = { ...next[existing] };
         nextItem.quantity += 1;
+        if (!nextItem.productId && productId) {
+          nextItem.productId = productId;
+        }
         next[existing] = nextItem;
         return next;
       }
-      return [...prev, { name, price, image, quantity: 1 }];
+      return [...prev, { productId, name, price, image, quantity: 1 }];
     });
     setIsCartOpen(true);
   };
@@ -584,12 +736,24 @@ function WebsiteView() {
     const businessName = bId?.businessName || 'Store';
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // Save local order counts for instant bestseller sorting
+    try {
+      const localCounts = JSON.parse(localStorage.getItem(`order_counts_${slug}`) || '{}');
+      cartItems.forEach(item => {
+        const identifier = item.productId || item.name;
+        localCounts[identifier] = (localCounts[identifier] || 0) + item.quantity;
+      });
+      localStorage.setItem(`order_counts_${slug}`, JSON.stringify(localCounts));
+    } catch (e) {
+      console.error('Failed to save local order counts:', e);
+    }
+
     let localOrder = { _id: Date.now().toString(), paymentStatus: 'unpaid', paymentMethod };
     try {
       const orderRes = await axios.post(`${API_URL}/business/${bId._id}/orders`, {
         websiteId: website._id,
         storeName: website.slug || businessName,
-        items: cartItems.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })),
+        items: cartItems.map(i => ({ productId: i.productId, name: i.name, quantity: i.quantity, price: i.price })),
         totalAmount: total,
         customerName: 'WhatsApp Customer',
         customerPhone: 'N/A', // WhatsApp checkout handles real identity
@@ -613,7 +777,7 @@ function WebsiteView() {
     cartItems.forEach(item => {
       message += `• ${item.quantity}x ${item.name} - ₹${(item.price * item.quantity).toFixed(2)}\n`;
     });
-    message += `\n*Total: ₹₹{total.toFixed(2)}*\n*Payment Method:* ${paymentText}\n\nPlease process my order.`;
+    message += `\n*Total: ₹${total.toFixed(2)}*\n*Payment Method:* ${paymentText}\n\nPlease process my order.`;
 
     const newOrder = {
       _id: localOrder._id,
@@ -669,12 +833,23 @@ function WebsiteView() {
     
     let baseConfig = { ...DEFAULT_CONFIG };
     if (website.template) baseConfig.template = website.template;
-    if (website.theme) baseConfig.themeColor = website.theme;
+    if (website.theme) baseConfig.themeColor = typeof website.theme === 'object' ? website.theme.primaryColor : website.theme;
 
     const siteConfig = website.designConfig || {};
     const config = { ...baseConfig, ...siteConfig };
     
+    if (typeof config.themeColor === 'object' && config.themeColor !== null) {
+      config.themeColor = config.themeColor.primaryColor || '#2563eb';
+    }
+    
     // Deep merge to guarantee all nested properties exist
+    config.sectionOrder = siteConfig.sectionOrder || DEFAULT_CONFIG.sectionOrder;
+    config.sections = { ...DEFAULT_CONFIG.sections, ...(siteConfig.sections || {}) };
+    config.faq = { ...DEFAULT_CONFIG.faq, ...(siteConfig.faq || {}) };
+    config.testimonials = { ...DEFAULT_CONFIG.testimonials, ...(siteConfig.testimonials || {}) };
+    config.gallery = { ...DEFAULT_CONFIG.gallery, ...(siteConfig.gallery || {}) };
+    config.countdown = { ...DEFAULT_CONFIG.countdown, ...(siteConfig.countdown || {}) };
+    config.hours = { ...DEFAULT_CONFIG.hours, ...(siteConfig.hours || {}) };
     config.navbar = { ...DEFAULT_CONFIG.navbar, ...(siteConfig.navbar || {}) };
     
     // Fallback to businessName if logoText is not set or is generic
@@ -694,14 +869,54 @@ function WebsiteView() {
       config.trust.badges = { ...DEFAULT_CONFIG.trust.badges, ...siteConfig.trust.badges };
     }
     config.media = { ...DEFAULT_CONFIG.media, ...(siteConfig.media || {}) };
+    config.beauty = { 
+      ...DEFAULT_CONFIG.beauty, 
+      ...(siteConfig.beauty || {}),
+      routine: {
+        ...DEFAULT_CONFIG.beauty.routine,
+        ...((siteConfig.beauty && siteConfig.beauty.routine) || {})
+      }
+    };
+    config.customPages = siteConfig.customPages || DEFAULT_CONFIG.customPages || [];
     
-    const displayProducts = products && products.length > 0 ? products.map((p, i) => ({
-      id: p._id || i,
-      name: p.name,
-      price: p.price,
-      img: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : `https://picsum.photos/seed/${encodeURIComponent(p.name || 'product')}${i}/600/600`,
-      badge: p.category ? 'new' : null
-    })) : [];
+    const localCounts = (() => {
+      try {
+        return JSON.parse(localStorage.getItem(`order_counts_${slug}`) || '{}');
+      } catch (e) {
+        return {};
+      }
+    })();
+
+    const displayProducts = products && products.length > 0 ? products.map((p, i) => {
+      const dbCount = p.orderCount || 0;
+      const localCount = localCounts[p._id] || localCounts[p.name] || 0;
+      return {
+        id: p._id || i,
+        _id: p._id || i,
+        name: p.name,
+        price: p.price,
+        description: p.description || '',
+        category: p.category || 'general',
+        img: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : `https://picsum.photos/seed/${encodeURIComponent(p.name || 'product')}${i}/600/600`,
+        badge: p.category ? 'new' : null,
+        orderCount: dbCount + localCount,
+        isBestseller: p.isBestseller || false,
+        inStock: p.inStock !== false,
+        stockQuantity: p.stockQuantity !== undefined ? p.stockQuantity : 10,
+        sizes: p.sizes || [],
+        specs: p.specs || '',
+        dietary: p.dietary || [],
+        material: p.material || ''
+      };
+    }) : (config.template === 't3' || config.template === 't9' || config.template === 't15' || website?.storeInfo?.category === 'beauty' ? [
+      { id: 1, _id: 1, name: 'Rosewater Glow Toner', price: 299.00, img: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80', badge: 'sale', orderCount: localCounts[1] || localCounts['Rosewater Glow Toner'] || 0, isBestseller: false },
+      { id: 2, _id: 2, name: 'Vitamin C Brightening Serum', price: 499.00, img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80', badge: 'new', orderCount: localCounts[2] || localCounts['Vitamin C Brightening Serum'] || 0, isBestseller: false },
+      { id: 3, _id: 3, name: 'Hydrating Clay Cleanser', price: 349.50, img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80', orderCount: localCounts[3] || localCounts['Hydrating Clay Cleanser'] || 0, isBestseller: false },
+    ] : [
+      { id: 1, _id: 1, name: 'Premium Wireless Headphones', price: 199.99, img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80', badge: 'sale', orderCount: localCounts[1] || localCounts['Premium Wireless Headphones'] || 0, isBestseller: false },
+      { id: 2, _id: 2, name: 'Minimalist Wrist Watch', price: 129.50, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80', badge: 'new', orderCount: localCounts[2] || localCounts['Minimalist Wrist Watch'] || 0, isBestseller: false },
+      { id: 3, _id: 3, name: 'Smart Home Speaker', price: 89.99, img: 'https://images.unsplash.com/photo-1589492477829-5e65395b66ea?w=500&q=80', orderCount: localCounts[3] || localCounts['Smart Home Speaker'] || 0, isBestseller: false },
+    ]);
 
     const props = {
       config,
@@ -716,10 +931,43 @@ function WebsiteView() {
       case 't8': return <TemplatePixel {...props} />;
       case 't7': return <TemplateVogue {...props} />;
       case 't6': return <TemplateNexus {...props} />;
+      case 't12': return <TemplateZenith {...props} />;
       case 't5': return <TemplateHaven {...props} />;
+      case 't11': return <TemplateLoft {...props} />;
       case 't4': return <TemplateCrave {...props} />;
+      case 't10': return <TemplateBistro {...props} />;
       case 't3': return <TemplateBloom {...props} />;
+      case 't15': return <TemplateFlora {...props} />;
       case 't2': return <TemplateSlate {...props} />;
+      case 't14': return <TemplateSpark {...props} />;
+      case 't13': return <TemplateTrend {...props} />;
+      case 't16':
+      case 't17':
+      case 't18':
+        return <TemplateFashionNew {...props} />;
+      case 't19':
+      case 't20':
+      case 't21':
+        return <TemplateElectronicsNew {...props} />;
+      case 't22':
+      case 't23':
+      case 't24':
+        return <TemplateBeautyNew {...props} />;
+      case 't25':
+      case 't26':
+      case 't27':
+      case 't28':
+        return <TemplateFoodNew {...props} />;
+      case 't29':
+      case 't30':
+      case 't31':
+      case 't32':
+        return <TemplateDecorNew {...props} />;
+      case 't33':
+      case 't34':
+      case 't35':
+      case 't36':
+        return <TemplateServicesNew {...props} />;
       case 't1':
       default: return <TemplateAurora {...props} />;
     }

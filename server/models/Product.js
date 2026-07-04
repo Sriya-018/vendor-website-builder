@@ -9,8 +9,13 @@ const ProductSchema = new mongoose.Schema({
   description: { type: String, default: '' },
   imageUrl: { type: String, default: '' },
   inStock: { type: Boolean, default: true },
+  stockQuantity: { type: Number, default: 10 },
   isBestseller: { type: Boolean, default: false },
   orderCount: { type: Number, default: 0 },
+  sizes: { type: [String], default: [] },
+  specs: { type: String, default: '' },
+  dietary: { type: [String], default: [] },
+  material: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

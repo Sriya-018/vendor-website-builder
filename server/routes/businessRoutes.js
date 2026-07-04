@@ -125,6 +125,37 @@ router.post('/:businessId/orders', async (req, res) => {
       paymentStatus: paymentStatus || 'unpaid'
     });
 
+    // Increment order count and decrement stock quantity for each item purchased
+    if (items && Array.isArray(items)) {
+      for (const item of items) {
+        const qty = item.quantity || 1;
+        let productObj = null;
+        if (item.productId) {
+          productObj = await Product.findById(item.productId);
+        } else if (item.name) {
+          // Fallback to update by name and websiteId/businessId if productId is missing
+          const query = { name: item.name };
+          if (websiteId) {
+            query.websiteId = websiteId;
+          } else {
+            query.businessId = req.params.businessId;
+          }
+          productObj = await Product.findOne(query);
+        }
+
+        if (productObj) {
+          productObj.orderCount += qty;
+          if (productObj.stockQuantity !== undefined && productObj.stockQuantity !== null) {
+            productObj.stockQuantity = Math.max(0, productObj.stockQuantity - qty);
+            if (productObj.stockQuantity <= 0) {
+              productObj.inStock = false;
+            }
+          }
+          await productObj.save();
+        }
+      }
+    }
+
     res.status(201).json(newOrder);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -146,6 +177,53 @@ router.put('/orders/:orderId', async (req, res) => {
       { new: true }
     );
     res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get inquiries for a business
+router.get('/:businessId/inquiries', async (req, res) => {
+  try {
+    const Inquiry = require('../models/Inquiry');
+    const inquiries = await Inquiry.find({ businessId: req.params.businessId })
+      .sort({ createdAt: -1 });
+    res.json(inquiries);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Submit a new inquiry
+router.post('/:businessId/inquiries', async (req, res) => {
+  try {
+    const Inquiry = require('../models/Inquiry');
+    const { name, email, message, websiteId } = req.body;
+    
+    if (!name || !email || !message || !websiteId) {
+      return res.status(400).json({ error: 'All fields (name, email, message, websiteId) are required.' });
+    }
+    
+    const newInquiry = await Inquiry.create({
+      businessId: req.params.businessId,
+      websiteId,
+      name,
+      email,
+      message
+    });
+    
+    res.status(201).json(newInquiry);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete customer inquiry
+router.delete('/inquiries/:inquiryId', async (req, res) => {
+  try {
+    const Inquiry = require('../models/Inquiry');
+    await Inquiry.findByIdAndDelete(req.params.inquiryId);
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

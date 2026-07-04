@@ -8,10 +8,27 @@ import EditWebsite from './pages/EditWebsite';
 import WebsiteEditor from './pages/WebsiteEditor';
 import Templates from './pages/Templates';
 import AdminDashboard from './pages/AdminDashboard';
-
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [businessId, setBusinessId] = useState(localStorage.getItem('businessId'));
+  const [subdomain, setSubdomain] = useState(null);
+
+  useEffect(() => {
+    const host = window.location.hostname;
+    const parts = host.split('.');
+    
+    // Detect custom subdomain (e.g. florist.localhost or florist.vendorhub.in)
+    if (host !== 'localhost' && host !== '127.0.0.1') {
+      if (parts.length > 2 && parts[0] !== 'www') {
+        setSubdomain(parts[0]);
+      }
+    } else {
+      // In local dev, allow checking subdomains e.g. storename.localhost
+      if (parts.length > 1 && parts[0] !== 'localhost' && parts[0] !== 'www') {
+        setSubdomain(parts[0]);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -28,6 +45,18 @@ function App() {
       localStorage.removeItem('businessId');
     }
   }, [businessId]);
+
+  if (subdomain) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<WebsiteView forceSlug={subdomain} />} />
+          <Route path="/website/:slug" element={<WebsiteView />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 
   return (
     <BrowserRouter>

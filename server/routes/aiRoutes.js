@@ -6,6 +6,9 @@ const fs = require('fs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const axios = require('axios');
 const FormData = require('form-data');
+const cheerio = require('cheerio');
+const Website = require('../models/Website');
+const Business = require('../models/Business');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'demo-key');
 
@@ -39,6 +42,267 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: fileFilter
+});
+
+// Scrape and recommend template, details and products
+router.post('/scrape-and-recommend', async (req, res) => {
+  try {
+    let { url } = req.body;
+    if (!url) return res.status(400).json({ error: 'URL is required' });
+
+    // Prefix protocol if missing
+    if (!/^https?:\/\//i.test(url)) {
+      url = 'https://' + url;
+    }
+
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36'
+      },
+      timeout: 8000
+    });
+
+    const html = response.data;
+    const $ = cheerio.load(html);
+
+    // Clean up unnecessary tags
+    $('script, style, nav, footer, header, noscript, iframe').remove();
+    const rawText = $('body').text().replace(/\s+/g, ' ').trim().slice(0, 10000);
+
+    if (!rawText) {
+      return res.status(400).json({ error: 'No readable text content found on this page' });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      // Re-load the html with cheerio to get full document (since elements were removed from $)
+      const full$ = cheerio.load(html);
+
+      // 1. Extract Business Name
+      let businessName = '';
+      businessName = full$('meta[property="og:site_name"]').attr('content') || 
+                     full$('meta[name="application-name"]').attr('content') || '';
+      
+      if (!businessName) {
+        const titleText = full$('title').text().trim();
+        if (titleText) {
+          const parts = titleText.split(/[-|•—]/);
+          businessName = parts[0].trim();
+        }
+      }
+      
+      if (!businessName) {
+        businessName = full$('h1').first().text().trim();
+      }
+      
+      if (!businessName) {
+        businessName = 'Scraped Store';
+      }
+
+      if (businessName.length > 50) {
+        businessName = businessName.slice(0, 47) + '...';
+      }
+
+      // 2. Extract Description/Tagline
+      let description = full$('meta[name="description"]').attr('content') || 
+                        full$('meta[property="og:description"]').attr('content') || '';
+      
+      if (!description) {
+        const firstP = full$('p').first().text().trim();
+        if (firstP && firstP.length > 20 && firstP.length < 200) {
+          description = firstP;
+        } else {
+          description = `Welcome to our custom store. Discover our premium collections and services!`;
+        }
+      }
+
+      // 3. Extract Contact Details using regex
+      const textToSearch = full$('body').text();
+      
+      // Email regex
+      const emailMatch = textToSearch.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}/);
+      const email = emailMatch ? emailMatch[0] : 'hello@' + businessName.toLowerCase().replace(/[^a-z0-9]/g, '') + '.com';
+
+      // Phone regex
+      const phoneMatch = textToSearch.match(/(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}|\+91\s?\d{10}|\b\d{10}\b/);
+      const phone = phoneMatch ? phoneMatch[0].trim() : '9876543210';
+
+      // Location address
+      let address = '';
+      const addressMeta = full$('meta[property="business:contact_data:street_address"]').attr('content');
+      if (addressMeta) {
+        address = addressMeta;
+      } else {
+        const footerText = full$('footer').text().trim();
+        const addressMatch = footerText.match(/(?:address|location|visit us|street|road|city|state|pincode|zipcode)\b.*?[0-9]{5,6}/gi);
+        if (addressMatch) {
+          address = addressMatch[0].replace(/\s+/g, ' ').trim().slice(0, 100);
+        } else {
+          address = 'Main Street, City Center';
+        }
+      }
+
+      // 4. Category & Template Detection
+      const lowerText = textToSearch.toLowerCase() + ' ' + url.toLowerCase();
+      let recommendedTemplate = 'grocery'; // fallback default
+
+      const isFlorist = lowerText.includes('flower') || lowerText.includes('florist') || lowerText.includes('bouquet') || lowerText.includes('blossom') || lowerText.includes('rose') || lowerText.includes('lily');
+
+      if (lowerText.includes('restaurant') || lowerText.includes('food') || lowerText.includes('menu') || lowerText.includes('dine') || lowerText.includes('cuisine') || lowerText.includes('delicacy') || lowerText.includes('dish') || lowerText.includes('baking') || lowerText.includes('bakery')) {
+        recommendedTemplate = 'restaurant';
+      } else if (lowerText.includes('tailor') || lowerText.includes('boutique') || lowerText.includes('fashion') || lowerText.includes('clothing') || lowerText.includes('apparel') || lowerText.includes('wear') || lowerText.includes('suit') || lowerText.includes('dress')) {
+        recommendedTemplate = 'tailor';
+      } else if (lowerText.includes('salon') || lowerText.includes('spa') || lowerText.includes('beauty') || lowerText.includes('hair') || lowerText.includes('makeup') || lowerText.includes('nail') || lowerText.includes('parlor') || lowerText.includes('wellness')) {
+        recommendedTemplate = 'salon';
+      } else if (lowerText.includes('mechanic') || lowerText.includes('car') || lowerText.includes('auto') || lowerText.includes('repair') || lowerText.includes('garage') || lowerText.includes('wheel') || lowerText.includes('brake') || lowerText.includes('vehicle')) {
+        recommendedTemplate = 'mechanic';
+      } else if (lowerText.includes('tea') || lowerText.includes('coffee') || lowerText.includes('cafe') || lowerText.includes('bistro') || lowerText.includes('brew')) {
+        recommendedTemplate = 'tea_shop';
+      } else if (isFlorist || lowerText.includes('grocery') || lowerText.includes('supermarket') || lowerText.includes('fruit') || lowerText.includes('vegetable') || lowerText.includes('organic')) {
+        recommendedTemplate = 'grocery';
+      }
+
+      // 5. Product Extraction / Generation
+      let extractedProducts = [];
+
+      // Try parsing JSON-LD product data
+      full$('script[type="application/ld+json"]').each((_, elem) => {
+        try {
+          const json = JSON.parse(full$(elem).html());
+          const parseNode = (node) => {
+            if (!node) return;
+            if (node['@type'] === 'Product' || node.type === 'Product') {
+              const name = node.name || '';
+              const desc = node.description || '';
+              let price = 99;
+              if (node.offers) {
+                const offersObj = Array.isArray(node.offers) ? node.offers[0] : node.offers;
+                price = parseFloat(offersObj.price) || parseFloat(offersObj.lowPrice) || 99;
+              }
+              if (name && extractedProducts.length < 4) {
+                extractedProducts.push({ name, price, description: desc.slice(0, 150) || 'Premium product from store.' });
+              }
+            }
+            if (node['@graph'] && Array.isArray(node['@graph'])) {
+              node['@graph'].forEach(parseNode);
+            }
+          };
+          parseNode(json);
+        } catch (e) {}
+      });
+
+      // Generate context-matching fallback products if we didn't extract enough
+      if (extractedProducts.length < 2) {
+        if (isFlorist) {
+          extractedProducts = [
+            { name: 'Red Roses Elegant Bouquet', price: 799, description: 'A beautiful arrangement of hand-picked long-stemmed fresh red roses wrapped elegantly.' },
+            { name: 'Pure White Lilies Bunch', price: 999, description: 'Exquisite fresh white lilies matched with rich seasonal foliage, perfect for tables and gifts.' },
+            { name: 'Assorted Carnations Gift Box', price: 649, description: 'A mixed color box of fresh carnations designed to bring joy and color to any room.' },
+            { name: 'Purple Orchids Premium Vase', price: 1200, description: 'Long-lasting premium purple orchids styled inside a tall sleek clear glass vase.' }
+          ];
+        } else {
+          switch (recommendedTemplate) {
+            case 'restaurant':
+              extractedProducts = [
+                { name: 'Signature Butter Chicken', price: 380, description: 'Succulent chicken cooked in a rich, buttery, spiced tomato gravy. Serves 1-2.' },
+                { name: 'Paneer Tikka Sizzler', price: 320, description: 'Grilled spiced cottage cheese cubes served on a sizzling hot plate with onions and mint chutney.' },
+                { name: 'Dum Veg Biryani', price: 280, description: 'Fragrant long-grain basmati rice cooked slowly with layered spiced vegetables and saffron.' },
+                { name: 'Hot Fudge Brownie', price: 190, description: 'Warm gooey chocolate brownie topped with chocolate fudge sauce and vanilla bean ice cream.' }
+              ];
+              break;
+            case 'salon':
+              extractedProducts = [
+                { name: 'Hair Cut & Style Consultation', price: 500, description: 'Professional haircut, refreshing wash, head massage, and blowout style by senior stylist.' },
+                { name: 'Detoxifying Facial Spa', price: 1200, description: 'Deep cleansing, exfoliation, face massage, and nourishing cream mask for bright, glowing skin.' },
+                { name: 'Classic Pedicure & Manicure', price: 850, description: 'Soothing organic scrub, nail trimming, shaping, cuticle care, and nourishing lotion massage.' },
+                { name: 'Smoothing Keratin Treatment', price: 2500, description: 'Hair repair treatment that eliminates frizz, restores shine, and smooths split ends.' }
+              ];
+              break;
+            case 'mechanic':
+              extractedProducts = [
+                { name: 'Full Engine Oil Service', price: 1800, description: 'Engine oil replacement, oil filter change, fluid top-up, and 20-point safety check.' },
+                { name: 'Laser Wheel Alignment', price: 750, description: 'Precision laser wheel alignment and balancing for smooth driving and tires longevity.' },
+                { name: 'Front Brake Pads Install', price: 2200, description: 'Replacement of worn front brake pads with premium quality parts and rotor inspection.' },
+                { name: 'Car AC Gas Top-up', price: 1200, description: 'AC system pressure test, leak check, and eco-friendly refrigerant gas top-up.' }
+              ];
+              break;
+            case 'tailor':
+              extractedProducts = [
+                { name: 'Bespoke Suit Stitching', price: 5000, description: 'Premium custom-tailored two-piece suit with high-grade interlining, collar and cuff choices.' },
+                { name: 'Custom Fitted Dress Shirt', price: 800, description: 'Fine custom shirt stitched to your exact body shape with choice of collar and pocket styles.' },
+                { name: 'Tailored Trousers / Pants', price: 700, description: 'Stitching of formal or casual pants with customizable fit, cuffs, and pocket depths.' },
+                { name: 'Premium Dress Alterations', price: 350, description: 'Resizing, sleeve alterations, hemming, or fitting modifications for premium garments.' }
+              ];
+              break;
+            case 'tea_shop':
+              extractedProducts = [
+                { name: 'Masala Chai Pot', price: 90, description: 'Traditional milk tea infused with cardamom, cloves, cinnamon, and fresh ginger. Serves 2.' },
+                { name: 'Aromatic Filter Coffee', price: 50, description: 'Freshly brewed strong South Indian chicory-blend coffee served in traditional brass container.' },
+                { name: 'Whole Leaf Green Tea', price: 80, description: 'Light, antioxidant-rich green tea leaves brewed to a clean, refreshing golden infusion.' },
+                { name: 'Butter Croissant Basket', price: 120, description: 'Golden flaky pastries baked fresh daily, served warm with mixed fruit jam and butter.' }
+              ];
+              break;
+            case 'grocery':
+            default:
+              extractedProducts = [
+                { name: 'Premium Organic Apples (1kg)', price: 180, description: 'Crisp, sweet, naturally grown red organic apples imported from premium orchards.' },
+                { name: 'Fresh Whole Wheat Bread', price: 45, description: 'Freshly baked whole wheat sliced loaf, rich in fiber with no artificial preservatives.' },
+                { name: 'Organic Honey Jar (250g)', price: 250, description: '100% pure, raw, unfiltered forest honey collected ethically from natural beehives.' },
+                { name: 'Farm Fresh Milk (1L)', price: 68, description: 'Pasteurized homogenized full-cream cow milk sourced directly from local organic farms.' }
+              ];
+              break;
+          }
+        }
+      }
+
+      return res.json({
+        recommendedTemplate,
+        business: {
+          businessName,
+          description,
+          phone,
+          email,
+          address
+        },
+        extractedProducts
+      });
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    const prompt = `You are an expert website builder assistant for "VendorBuild".
+Analyze the text content scraped from a business webpage:
+"${rawText}"
+
+Based on the context, extract and recommend:
+1. A template category from this exact list: 'restaurant', 'tailor', 'grocery', 'salon', 'mechanic', 'tea_shop'.
+2. The business information (businessName, a short description, phone number, email address, physical location address).
+3. A list of up to 4 actual products or services they offer, including their name, price (as a number), and description. If prices are not explicitly mentioned in the text, guess realistic prices based on their industry.
+
+Return ONLY a valid JSON object (no markdown blocks, no other text) following this exact schema:
+{
+  "recommendedTemplate": "restaurant/tailor/grocery/salon/mechanic/tea_shop",
+  "business": {
+    "businessName": "Extracted Business Name",
+    "description": "Extracted Short Description",
+    "phone": "Extracted Phone",
+    "email": "Extracted Email",
+    "address": "Extracted Address"
+  },
+  "extractedProducts": [
+    { "name": "Product Name", "price": 99, "description": "Product Description" }
+  ]
+}`;
+
+    const result = await model.generateContent(prompt);
+    const resText = result.response.text();
+    const jsonMatch = resText.match(/\{[\s\S]*\}/);
+    const cleanJson = jsonMatch ? jsonMatch[0] : resText;
+    const extractedData = JSON.parse(cleanJson);
+
+    res.json(extractedData);
+  } catch (error) {
+    console.error('Scrape and recommend error:', error);
+    res.status(500).json({ error: error.message || 'Failed to scrape and process the URL.' });
+  }
 });
 
 // Extract business info from voice/text
@@ -100,23 +364,233 @@ router.post('/extract-product', async (req, res) => {
 // General AI Chatbot for Website Building Assistant
 router.post('/chat', async (req, res) => {
   try {
-    const { messages } = req.body;
-    
+    const { messages, storeContext, businessId } = req.body;
+    const latestMessage = messages[messages.length - 1].text;
+
+    // Fetch existing websites context for this businessId
+    let userWebsites = [];
+    let websitesCount = 0;
+    if (businessId) {
+      try {
+        userWebsites = await Website.find({ businessId });
+        websitesCount = userWebsites.length;
+      } catch (dbErr) {
+        console.error('Failed to query user websites in chat:', dbErr);
+      }
+    }
+
+    // Detect URL in the message
+    const urlRegex = /((?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*))/gi;
+    const urlMatch = latestMessage.match(urlRegex);
+    let scrapedUrl = '';
+    let scrapedContent = '';
+    let scrapedTitle = '';
+    let html = '';
+
+    if (urlMatch) {
+      let matchedUrl = urlMatch[0];
+      if (/\.[a-z]{2,6}/i.test(matchedUrl)) {
+        if (!/^https?:\/\//i.test(matchedUrl)) {
+          matchedUrl = 'https://' + matchedUrl;
+        }
+        scrapedUrl = matchedUrl;
+        try {
+          const fetchRes = await axios.get(matchedUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36'
+            },
+            timeout: 6000
+          });
+          html = fetchRes.data;
+          const $ = cheerio.load(html);
+          scrapedTitle = $('title').text().trim();
+          $('script, style, nav, footer, header, noscript, iframe').remove();
+          scrapedContent = $('body').text().replace(/\s+/g, ' ').trim().slice(0, 6000);
+        } catch (err) {
+          console.error('Chat URL scrape error:', err.message);
+        }
+      }
+    }
+
     if (!process.env.GEMINI_API_KEY) {
+      if (scrapedUrl && html) {
+        const full$ = cheerio.load(html);
+        let businessName = '';
+        businessName = full$('meta[property="og:site_name"]').attr('content') || 
+                       full$('meta[name="application-name"]').attr('content') || '';
+        if (!businessName) {
+          if (scrapedTitle) {
+            const parts = scrapedTitle.split(/[-|•—]/);
+            businessName = parts[0].trim();
+          }
+        }
+        if (!businessName) {
+          businessName = full$('h1').first().text().trim();
+        }
+        if (!businessName) {
+          businessName = 'Scraped Store';
+        }
+        if (businessName.length > 50) {
+          businessName = businessName.slice(0, 47) + '...';
+        }
+
+        let description = full$('meta[name="description"]').attr('content') || 
+                          full$('meta[property="og:description"]').attr('content') || '';
+        if (!description) {
+          const firstP = full$('p').first().text().trim();
+          if (firstP && firstP.length > 20 && firstP.length < 200) {
+            description = firstP;
+          } else {
+            description = `Welcome to our custom store. Discover our premium collections and services!`;
+          }
+        }
+
+        const textToSearch = full$('body').text();
+        const emailMatch = textToSearch.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}/);
+        const email = emailMatch ? emailMatch[0] : 'hello@' + businessName.toLowerCase().replace(/[^a-z0-9]/g, '') + '.com';
+        const phoneMatch = textToSearch.match(/(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}|\+91\s?\d{10}|\b\d{10}\b/);
+        const phone = phoneMatch ? phoneMatch[0].trim() : '9876543210';
+
+        const lowerText = textToSearch.toLowerCase() + ' ' + scrapedUrl.toLowerCase();
+        let recommendedTemplate = 'grocery';
+        let templateName = 'Flora';
+        const isFlorist = lowerText.includes('flower') || lowerText.includes('florist') || lowerText.includes('bouquet') || lowerText.includes('blossom') || lowerText.includes('rose') || lowerText.includes('lily');
+
+        if (lowerText.includes('restaurant') || lowerText.includes('food') || lowerText.includes('menu') || lowerText.includes('dine') || lowerText.includes('cuisine') || lowerText.includes('delicacy') || lowerText.includes('dish') || lowerText.includes('baking') || lowerText.includes('bakery')) {
+          recommendedTemplate = 'restaurant';
+          templateName = 'Crave';
+        } else if (lowerText.includes('tailor') || lowerText.includes('boutique') || lowerText.includes('fashion') || lowerText.includes('clothing') || lowerText.includes('apparel') || lowerText.includes('wear') || lowerText.includes('suit') || lowerText.includes('dress')) {
+          recommendedTemplate = 'tailor';
+          templateName = 'Aurora';
+        } else if (lowerText.includes('salon') || lowerText.includes('spa') || lowerText.includes('beauty') || lowerText.includes('hair') || lowerText.includes('makeup') || lowerText.includes('nail') || lowerText.includes('parlor') || lowerText.includes('wellness')) {
+          recommendedTemplate = 'salon';
+          templateName = 'Bloom';
+        } else if (lowerText.includes('mechanic') || lowerText.includes('car') || lowerText.includes('auto') || lowerText.includes('repair') || lowerText.includes('garage') || lowerText.includes('wheel') || lowerText.includes('brake') || lowerText.includes('vehicle')) {
+          recommendedTemplate = 'mechanic';
+          templateName = 'Pulse';
+        } else if (lowerText.includes('tea') || lowerText.includes('coffee') || lowerText.includes('cafe') || lowerText.includes('bistro') || lowerText.includes('brew')) {
+          recommendedTemplate = 'tea_shop';
+          templateName = 'Bistro';
+        } else if (isFlorist || lowerText.includes('grocery') || lowerText.includes('supermarket') || lowerText.includes('fruit') || lowerText.includes('vegetable') || lowerText.includes('organic')) {
+          recommendedTemplate = 'grocery';
+          templateName = isFlorist ? 'Flora' : 'Harvest';
+        }
+
+        return res.json({
+          reply: `I have scraped and analyzed **${scrapedUrl}** locally!\n\nHere is what I found:\n\n* **Business Name**: ${businessName}\n* **Tagline/Description**: ${description}\n* **Contact Details**: Phone \`${phone}\` | Email \`${email}\`\n* **Recommended Template**: **${templateName}** (matches the detected business type)\n\nI have also prepared a list of customized products for your catalog.\n\nTo build your website with these details instantly, simply click the **"Import details from a website"** button on the setup drawer and paste **${scrapedUrl}**! I will auto-fill your details and set up the product catalog instantly. Let me know if you have any questions!`
+        });
+      }
+
+      // If no URL, check if the user is asking about stores list
+      const msgLower = latestMessage.toLowerCase();
+      
+      // Check if user is asking why it is offline, or explaining the offline behavior
+      if (msgLower.includes('offline') || msgLower.includes('y are you') || msgLower.includes('why are you') || msgLower.includes('why is it') || msgLower.includes('y is it') || msgLower.includes('not the answer')) {
+        const storeList = userWebsites.map((w, idx) => `• **${w.storeName || w.slug}** (${w.template || 'Default'} design) - [Live Site](http://localhost:5000/site/${w.slug})`).join('\n');
+        return res.json({
+          reply: `I am currently running in a smart local offline mode. This ensures you can build and set up your stores without needing external LLM API keys (no rate limits or costs!).\n\nEven in offline mode, I can query your data directly! Here are your active stores in my database:\n\n${storeList || 'You have not launched any stores yet. Choose a template or click "Import from Website" on the dashboard to get started!'}\n\nTo enable full conversational AI guidance, you can add a valid \`GEMINI_API_KEY\` to your \`.env\` file.`
+        });
+      }
+
+      if (msgLower.includes('how many store') || msgLower.includes('my store') || msgLower.includes('list store') || msgLower.includes('what are my store') || msgLower.includes('how many website') || msgLower.includes('which website') || msgLower.includes('which store')) {
+        const storeList = userWebsites.map((w, idx) => `• **${w.storeName || w.slug}** (${w.template || 'Default'} design) - [Live Site](http://localhost:5000/site/${w.slug})`).join('\n');
+        return res.json({
+          reply: `I checked the database! 🏪 You currently have **${websitesCount}** store(s) created under your business profile:\n\n${storeList || 'You have not launched any stores yet. Choose a template or click "Import from Website" on the dashboard to get started!'}`
+        });
+      }
+
+      // Offline FAQ / Guide Matcher
+      if (msgLower.includes('how to add') || msgLower.includes('how do i add') || msgLower.includes('add product') || msgLower.includes('add item') || msgLower.includes('adding product') || msgLower.includes('adding item')) {
+        return res.json({
+          reply: `To **add or manage products** for your store:\n\n1. In the setup drawer on the left, navigate to **Step 2 (Product Catalog)**.\n2. Fill in the product's **Name**, **Price**, and optional **Description**.\n3. (Optional) Click the **Voice Microphone icon** next to the input to add items hands-free via voice recording!\n4. Click **"Add Product"** and they will appear in your live preview instantly.`
+        });
+      }
+
+      if (msgLower.includes('change template') || msgLower.includes('change layout') || msgLower.includes('switch template') || msgLower.includes('choose template') || msgLower.includes('another template') || msgLower.includes('select template') || msgLower.includes('change theme')) {
+        return res.json({
+          reply: `To **change your template layout**:\n\n1. Close the current store configuration drawer (click the 'X' or click outside).\n2. Browse the template library and click the **"Preview"** button on any card (e.g. *Flora*, *Crave*, *Aurora*, *Bloom*).\n3. When you decide on a template, click **"Use this Template"** in the top bar. Your store details and catalog will automatically carry over to the new design layout!`
+        });
+      }
+
+      if (msgLower.includes('logo') || msgLower.includes('profile') || msgLower.includes('contact') || msgLower.includes('phone') || msgLower.includes('email') || msgLower.includes('address') || msgLower.includes('change info') || msgLower.includes('update info') || msgLower.includes('update detail')) {
+        return res.json({
+          reply: `To **update your business info, logo, or contact details**:\n\n1. Open the setup drawer and look under **Step 1 (Store Details)**.\n2. You can upload a new logo image, or change your **Business Name**, **Tagline/Description**, **Phone Number**, **Email**, and **Location Address**.\n3. Scroll down to update your social media links (WhatsApp, Instagram, Facebook, etc.). All changes will sync in real-time in the editor preview!`
+        });
+      }
+
+      if (msgLower.includes('publish') || msgLower.includes('launch') || msgLower.includes('live') || msgLower.includes('go live') || msgLower.includes('save my store')) {
+        return res.json({
+          reply: `To **publish and launch your store live**:\n\n1. After filling in your details (Step 1) and catalog products (Step 2), click the green **"Publish Store"** button at the bottom of the drawer.\n2. This will save your custom configuration and create a live public URL (e.g. \`http://localhost:5000/site/your-store-slug\`).\n3. You will be redirected to the **Dashboard** where you can view live orders, customer inquiries, update products, and customize your site further.`
+        });
+      }
+
+      if (msgLower.includes('import') || msgLower.includes('website import') || msgLower.includes('how to import') || msgLower.includes('scrape') || msgLower.includes('link')) {
+        return res.json({
+          reply: `To **import your business details and products from an existing website link**:\n\n1. Go to your **Dashboard Overview** page.\n2. Click the **"Import from Website"** button next to the standard create button.\n3. Enter your website's URL (e.g. \`https://example.com\`) and click **"Scrape & Import"**.\n4. Our system will analyze the page, select a matching template, auto-fill your contact details, generate products catalog items, and redirect you straight to the builder customized for you!`
+        });
+      }
+
+      // If no URL, but we have storeContext, answer questions about their own store
+      if (storeContext) {
+        if (msgLower.includes('product') || msgLower.includes('catalog') || msgLower.includes('item') || msgLower.includes('list')) {
+          const prodList = (storeContext.products || []).map((p, i) => `${i + 1}. **${p.name}** (₹${p.price}) ${p.description ? `- *${p.description}*` : ''}`).join('\n');
+          return res.json({
+            reply: `I checked your current store catalog! 📦 You currently have **${storeContext.products?.length || 0}** product(s) added:\n\n${prodList || 'Your product catalog is empty right now. You can add items in Step 2 of the setup drawer!'}`
+          });
+        }
+        
+        if (msgLower.includes('template') || msgLower.includes('theme') || msgLower.includes('layout') || msgLower.includes('design')) {
+          return res.json({
+            reply: `Your active layout design is set to the **${storeContext.template}** template.\n\nTo change templates, close the current setup drawer and pick another card from the templates selection list!`
+          });
+        }
+        
+        if (msgLower.includes('detail') || msgLower.includes('info') || msgLower.includes('business') || msgLower.includes('profile') || msgLower.includes('contact') || msgLower.includes('phone') || msgLower.includes('email') || msgLower.includes('address')) {
+          return res.json({
+            reply: `Here is what is currently inside your store profile details:\n\n* **Business Name**: ${storeContext.businessName}\n* **Tagline/Description**: ${storeContext.description}\n* **Phone Number**: ${storeContext.phone}\n* **Email Address**: ${storeContext.email}\n* **Physical Location**: ${storeContext.address}`
+          });
+        }
+
+        if (msgLower.includes('help') || msgLower.includes('doubt') || msgLower.includes('question') || msgLower.includes('what can you do')) {
+          return res.json({
+            reply: `I can read your current store's details to help you out! Ask me things like:\n\n* *"What products do I have?"* to list your catalog.\n* *"Which template am I using?"* to see your active layout.\n* *"What are my business details?"* to inspect your profile fields.`
+          });
+        }
+      }
+
       return res.json({
-        reply: "I am currently running in offline demo mode. Please add a valid Gemini API key to your .env file to enable the AI assistant!"
+        reply: `I am currently running in local offline mode to avoid hitting API limits. I can help query your store info, catalog, and setup choices directly. Try asking:\n\n• *"How many stores do I have?"* to list all your registered stores.\n• *"What products do I have?"* to see your current template's catalog.\n• *"Which template am I using?"* to inspect your active layout design.`
       });
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
     
+    let contextPrompt = '';
+    if (storeContext || websitesCount > 0) {
+      contextPrompt = `\n\n[Active Store Context]:
+The vendor is currently editing/building their store on our platform with the following configurations:
+- Template: ${storeContext?.template || 'None selected'}
+- Business Name: ${storeContext?.businessName || 'Not set'}
+- Tagline/Description: ${storeContext?.description || 'Not set'}
+- Contact: Phone ${storeContext?.phone || 'Not set'} | Email ${storeContext?.email || 'Not set'}
+- Address: ${storeContext?.address || 'Not set'}
+- Products Catalog (${(storeContext?.products || []).length} products):
+${(storeContext?.products || []).map((p, idx) => `  ${idx + 1}. ${p.name} (₹${p.price}) ${p.description ? `- ${p.description}` : ''}`).join('\n') || '  No products configured yet.'}
+
+[Vendor's Stores List]:
+The vendor has created a total of ${websitesCount} store(s) on our platform:
+${userWebsites.map((w, idx) => `  ${idx + 1}. Name: "${w.storeName || w.slug}", Template: "${w.template}", Live URL: "http://localhost:5000/site/${w.slug}"`).join('\n') || '  No stores created yet.'}
+
+Use this context to address any doubts, list their other stores, explain choices, suggest improvements to their texts or catalog, and directly reference their products or settings in your answers.`;
+    }
+
     const systemPrompt = `You are an expert website building assistant for "VendorBuild", a platform that helps vendors create modern, beautiful stores easily without coding. 
-Your goal is to help users choose templates (like Aurora, Slate, Bloom, Crave, Haven, Nexus, Vogue, Pixel, Glow), explain website features, and provide general advice on setting up an online business.
+Your goal is to help users choose templates (like Aurora, Slate, Bloom, Crave, Haven, Nexus, Vogue, Pixel, Glow, Bistro, Loft, Zenith, Trend, Spark, Flora), explain website features, and provide general advice on setting up an online business.
 CRITICAL: If the user explicitly asks you to build a website or choose a template for them, ask them for their business name and what they sell (if they haven't provided it yet).
 Once you have their business details and know which template fits best, reply normally with a helpful message, but append this EXACT string to the very end of your response:
 ___BUILD___ {"template": "template_id_here", "businessName": "their_business_name", "description": "a_short_tagline"} ___BUILD___
 
-Template IDs: Aurora (t1), Slate (t2), Bloom (t3), Crave (t4), Haven (t5), Nexus (t6), Vogue (t7), Pixel (t8), Glow (t9).
+Template IDs: Aurora (t1), Slate (t2), Bloom (t3), Crave (t4), Haven (t5), Nexus (t6), Vogue (t7), Pixel (t8), Glow (t9), Bistro (t10), Loft (t11), Zenith (t12), Trend (t13), Spark (t14), Flora (t15).
 
 Keep your answers very concise, friendly, and formatted nicely with markdown.`;
 
@@ -125,23 +599,24 @@ Keep your answers very concise, friendly, and formatted nicely with markdown.`;
       parts: [{ text: msg.text }]
     }));
     
-    // Gemini API requires the first message in history to be from the 'user'.
-    // Since our chat UI starts with a greeting from the 'ai', we must strip it.
     while (history.length > 0 && history[0].role === 'model') {
       history.shift();
     }
     
-    const latestMessage = messages[messages.length - 1].text;
+    let promptToSend = latestMessage;
+    if (scrapedUrl && scrapedContent) {
+      promptToSend = `The user asked: "${latestMessage}"\n\nI have fetched and scraped the webpage content of "${scrapedUrl}" for context:\n\n=== SCRAPED CONTENT ===\n${scrapedContent}\n========================\n\nAnalyze this content, summarize/guide the user about this business, suggest which template fits best (e.g. Flora/Bloom for flowers, Crave for restaurant/food, etc.), and ask them if they want to build the site or customize it based on this. If they decide to build, you can trigger the ___BUILD___ payload.`;
+    }
 
     const chat = model.startChat({
       history: history,
       systemInstruction: {
         role: "system",
-        parts: [{ text: systemPrompt }]
+        parts: [{ text: systemPrompt + contextPrompt }]
       }
     });
 
-    const result = await chat.sendMessage(latestMessage);
+    const result = await chat.sendMessage(promptToSend);
     const response = await result.response;
     
     res.json({ reply: response.text() });
@@ -290,14 +765,20 @@ function buildLogoBlock(businessData, primaryColor, accentColor) {
 
 function generateWebsiteHTML(businessData, productImages, templateId, templateName, theme, heroImage, products) {
   switch (templateId) {
-    case 't2': return generateSlateTemplate(businessData, productImages, theme, heroImage, products);
-    case 't3': return generateBloomTemplate(businessData, productImages, theme, heroImage, products);
-    case 't4': return generateCraveTemplate(businessData, productImages, theme, heroImage, products);
-    case 't5': return generateHavenTemplate(businessData, productImages, theme, heroImage, products);
-    case 't6': return generateNexusTemplate(businessData, productImages, theme, heroImage, products);
+    case 't2':
+    case 't14': return generateSlateTemplate(businessData, productImages, theme, heroImage, products);
+    case 't3':
+    case 't15': return generateBloomTemplate(businessData, productImages, theme, heroImage, products);
+    case 't4':
+    case 't10': return generateCraveTemplate(businessData, productImages, theme, heroImage, products);
+    case 't5':
+    case 't11': return generateHavenTemplate(businessData, productImages, theme, heroImage, products);
+    case 't6':
+    case 't12': return generateNexusTemplate(businessData, productImages, theme, heroImage, products);
     case 't7': return generateVogueTemplate(businessData, productImages, theme, heroImage, products);
     case 't8': return generatePixelTemplate(businessData, productImages, theme, heroImage, products);
     case 't9': return generateGlowTemplate(businessData, productImages, theme, heroImage, products);
+    case 't13':
     case 't1':
     default: return generateAuroraTemplate(businessData, productImages, theme, heroImage, products);
   }
@@ -1524,6 +2005,57 @@ function parseCommand(text) {
   }
   return { action: 'UNKNOWN', data: {}, message: "I can help you:\n• Add products (e.g., 'Add a blue shirt for ₹25')\n• Change theme colors (e.g., 'Change theme to red')\n• Update phone number (e.g., 'Change phone to 9876543210')\n• Add social media links" };
 }
+
+// AI Image Generator for custom website backgrounds
+router.post('/generate-background', async (req, res) => {
+  try {
+    const { prompt, style } = req.body;
+    if (!prompt) {
+      return res.status(400).json({ error: 'prompt is required' });
+    }
+
+    let finalPrompt = prompt;
+    if (style && style !== 'default') {
+      finalPrompt += `, styled as ${style}`;
+    }
+
+    // Optimize user prompt using Gemini if API key is present
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'demo-key') {
+      try {
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+        const systemPrompt = `Optimize this user prompt to generate a beautiful, clean, high-quality, professional website hero background banner. Keep it clean, atmospheric, and suitable to overlay text on it. Output ONLY the optimized prompt text. User prompt: "${finalPrompt}"`;
+        const result = await model.generateContent(systemPrompt);
+        const response = await result.response;
+        const text = response.text().trim();
+        if (text) {
+          finalPrompt = text;
+        }
+      } catch (err) {
+        console.error('Gemini optimization failed, fallback to original prompt:', err);
+      }
+    }
+
+    // Call Pollinations AI to generate the image
+    const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1200&height=800&nologo=true&private=true&seed=${Math.floor(Math.random() * 100000)}`;
+    const imageRes = await axios.get(pollinationsUrl, { responseType: 'arraybuffer' });
+
+    // Ensure uploads directory exists
+    const uploadDir = path.join(__dirname, '../uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Save image locally
+    const filename = `ai-bg-${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg`;
+    const filepath = path.join(uploadDir, filename);
+    fs.writeFileSync(filepath, imageRes.data);
+
+    res.json({ success: true, url: `/uploads/${filename}` });
+  } catch (error) {
+    console.error('AI background generation failed:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 

@@ -1,10 +1,12 @@
-# Create .gitignore
-echo node_modules/ > .gitignore
-echo server/node_modules/ >> .gitignore
-echo client/node_modules/ >> .gitignore
-echo .env >> .gitignore
-echo dist/ >> .gitignore
-echo .vite/ >> .gitignore
-echo .DS_Store >> .gitignore
-echo *.log >> .gitignore
-echo .cursor/ >> .gitignore
+node_modules/
+server/node_modules/
+client/node_modules/
+.env
+server/.env
+client/dist/
+.vite/
+.DS_Store
+*.log
+.cursor/
+server/uploads/*
+!server/uploads/.gitkeep

@@ -24,7 +24,9 @@ function ProductsTab({ businessId, websites }) {
     category: 'general',
     description: '',
     image: null,
-    imagePreview: null
+    imagePreview: null,
+    stockQuantity: 10,
+    inStock: true
   });
 
   useEffect(() => {
@@ -69,7 +71,7 @@ function ProductsTab({ businessId, websites }) {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null });
+    setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, stockQuantity: 10, inStock: true });
     setEditingProduct(null);
     setActiveWebsiteId(null);
     setShowAddModal(false);
@@ -159,7 +161,9 @@ function ProductsTab({ businessId, websites }) {
       category: product.category || 'general',
       description: product.description || '',
       image: null,
-      imagePreview: product.imageUrl ? `http://localhost:5000${product.imageUrl}` : null
+      imagePreview: product.imageUrl ? `http://localhost:5000${product.imageUrl}` : null,
+      stockQuantity: product.stockQuantity !== undefined ? product.stockQuantity : 10,
+      inStock: product.inStock !== false
     });
     setShowAddModal(true);
   };
@@ -194,7 +198,9 @@ function ProductsTab({ businessId, websites }) {
         category: formData.category,
         description: formData.description,
         imageUrl: finalImageUrl,
-        websiteId: activeWebsiteId
+        websiteId: activeWebsiteId,
+        stockQuantity: Number(formData.stockQuantity),
+        inStock: formData.inStock
       };
 
       if (editingProduct) {
@@ -208,7 +214,7 @@ function ProductsTab({ businessId, websites }) {
         setProducts([...products, res.data]);
         
         // Clear form but keep modal open for multiple additions
-        setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null });
+        setFormData({ name: '', price: '', category: 'general', description: '', image: null, imagePreview: null, stockQuantity: 10, inStock: true });
         if (fileInputRef.current) fileInputRef.current.value = '';
         stopCamera();
       }
@@ -220,16 +226,16 @@ function ProductsTab({ businessId, websites }) {
 
   if (!websites || websites.length === 0) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden p-12 text-center">
-        <FaGlobe className="text-5xl text-gray-300 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">No Stores Found</h2>
-        <p className="text-gray-500 mb-6">Create a store from the Overview tab before managing products.</p>
+      <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
+        <FaGlobe className="text-5xl text-slate-700 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-white mb-2">No Stores Found</h2>
+        <p className="text-slate-450 mb-6">Create a store from the Overview tab before managing products.</p>
       </div>
     );
   }
 
   if (isLoading) {
-    return <div className="p-8 text-center text-gray-500">Loading products...</div>;
+    return <div className="p-8 text-center text-slate-500">Loading products...</div>;
   }
 
   return (
@@ -238,33 +244,33 @@ function ProductsTab({ businessId, websites }) {
         const websiteProducts = products.filter(p => p.websiteId === website._id);
         
         return (
-          <div key={website._id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+          <div key={website._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden">
+            <div className="p-6 border-b border-slate-800/60 flex justify-between items-center bg-slate-900/40">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <FaGlobe className="text-blue-500" />
-                  Store: <span className="font-medium text-gray-700">{website.storeName || website.slug}</span>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <FaGlobe className="text-indigo-400" />
+                  Store: <span className="font-medium text-slate-350">{website.storeName || website.slug}</span>
                 </h2>
-                <p className="text-sm text-gray-500">Manage products for this specific website</p>
+                <p className="text-sm text-slate-400">Manage products for this specific website</p>
               </div>
               <button
                 onClick={() => handleAddClick(website._id)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
+                className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all shadow-sm"
               >
                 <FaPlus /> Add Product
               </button>
             </div>
 
             {websiteProducts.length === 0 ? (
-              <div className="p-12 text-center text-gray-500 flex flex-col items-center">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4 text-2xl">
+              <div className="p-12 text-center text-slate-500 flex flex-col items-center">
+                <div className="w-16 h-16 bg-purple-600/10 rounded-2xl flex items-center justify-center text-purple-400 mb-4 text-2xl border border-purple-500/20">
                   <FaImage />
                 </div>
-                <p className="text-lg font-medium text-gray-900">No products yet</p>
-                <p className="mt-1 mb-6">Add products to display them on {website.slug}.</p>
+                <p className="text-lg font-medium text-white">No products yet</p>
+                <p className="mt-1 mb-6 text-slate-450">Add products to display them on {website.slug}.</p>
                 <button
                   onClick={() => handleAddClick(website._id)}
-                  className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 shadow-sm"
+                  className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition-colors shadow-sm"
                 >
                   <FaPlus /> Add Product
                 </button>
@@ -273,46 +279,58 @@ function ProductsTab({ businessId, websites }) {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
-                      <th className="px-6 py-4 font-medium">Product</th>
-                      <th className="px-6 py-4 font-medium">Price</th>
-                      <th className="px-6 py-4 font-medium">Category</th>
-                      <th className="px-6 py-4 font-medium text-right">Actions</th>
+                    <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                      <th className="px-6 py-4 font-semibold">Product</th>
+                      <th className="px-6 py-4 font-semibold">Price</th>
+                      <th className="px-6 py-4 font-semibold">Category</th>
+                      <th className="px-6 py-4 font-semibold">Stock</th>
+                      <th className="px-6 py-4 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 text-sm">
+                  <tbody className="divide-y divide-slate-800/60 text-sm">
                     {websiteProducts.map(product => (
-                      <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                      <tr key={product._id} className="hover:bg-slate-800/20 transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-4">
                             {product.imageUrl ? (
                               <img 
                                 src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
                                 alt={product.name} 
-                                className="w-12 h-12 rounded object-cover border border-gray-200"
+                                className="w-12 h-12 rounded object-cover border border-slate-800/60"
                               />
                             ) : (
-                              <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400">
+                              <div className="w-12 h-12 bg-purple-600/10 rounded flex items-center justify-center text-purple-400 border border-purple-500/20">
                                 <FaImage />
                               </div>
                             )}
                             <div>
-                              <div className="font-medium text-gray-900">{product.name}</div>
-                              <div className="text-xs text-gray-500 truncate max-w-[200px]">{product.description}</div>
+                              <div className="font-medium text-white">{product.name}</div>
+                              <div className="text-xs text-slate-450 truncate max-w-[200px]">{product.description}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 font-medium">₹{product.price.toLocaleString()}</td>
+                        <td className="px-6 py-4 font-medium text-white">₹{product.price.toLocaleString()}</td>
                         <td className="px-6 py-4">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800 capitalize">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 capitalize">
                             {product.category || 'General'}
                           </span>
                         </td>
+                        <td className="px-6 py-4">
+                          {product.inStock !== false ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              In Stock ({product.stockQuantity ?? 10})
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20 font-bold">
+                              Out of Stock
+                            </span>
+                          )}
+                        </td>
                         <td className="px-6 py-4 text-right">
-                          <button onClick={() => handleEdit(product)} className="text-blue-600 hover:text-blue-900 p-2 mr-2">
+                          <button onClick={() => handleEdit(product)} className="text-purple-400 hover:text-purple-300 p-2 mr-2">
                             <FaEdit />
                           </button>
-                          <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 p-2">
+                          <button onClick={() => handleDelete(product._id)} className="text-red-400 hover:text-red-300 p-2">
                             <FaTrash />
                           </button>
                         </td>
@@ -328,57 +346,57 @@ function ProductsTab({ businessId, websites }) {
 
       {/* Unassigned / Legacy Products */}
       {products.filter(p => !p.websiteId).length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mt-8">
-          <div className="p-6 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <FaImage className="text-gray-500" />
+        <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden mt-8">
+          <div className="p-6 border-b border-slate-800/60 bg-slate-900/40">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <FaImage className="text-purple-400" />
               Unassigned Products
             </h2>
-            <p className="text-sm text-gray-500">Older products that are not assigned to a specific store.</p>
+            <p className="text-sm text-slate-400">Older products that are not assigned to a specific store.</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase text-gray-500 tracking-wider">
-                  <th className="px-6 py-4 font-medium">Product</th>
-                  <th className="px-6 py-4 font-medium">Price</th>
-                  <th className="px-6 py-4 font-medium">Category</th>
-                  <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                  <th className="px-6 py-4 font-semibold">Product</th>
+                  <th className="px-6 py-4 font-semibold">Price</th>
+                  <th className="px-6 py-4 font-semibold">Category</th>
+                  <th className="px-6 py-4 text-right font-semibold">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 text-sm">
+              <tbody className="divide-y divide-slate-800/60 text-sm">
                 {products.filter(p => !p.websiteId).map(product => (
-                  <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={product._id} className="hover:bg-slate-800/20 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         {product.imageUrl ? (
                           <img 
                             src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
                             alt={product.name} 
-                            className="w-12 h-12 rounded object-cover border border-gray-200"
+                            className="w-12 h-12 rounded object-cover border border-slate-800/60"
                           />
                         ) : (
-                          <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400">
+                          <div className="w-12 h-12 bg-purple-600/10 rounded flex items-center justify-center text-purple-400 border border-purple-500/20">
                             <FaImage />
                           </div>
                         )}
                         <div>
-                          <div className="font-medium text-gray-900">{product.name}</div>
-                          <div className="text-xs text-gray-500 truncate max-w-[200px]">{product.description}</div>
+                          <div className="font-medium text-white">{product.name}</div>
+                          <div className="text-xs text-slate-450 truncate max-w-[200px]">{product.description}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-medium">₹{product.price.toLocaleString()}</td>
+                    <td className="px-6 py-4 font-medium text-white">₹{product.price.toLocaleString()}</td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-800 capitalize">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 capitalize">
                         {product.category || 'General'}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button onClick={() => handleEdit(product)} className="text-blue-600 hover:text-blue-900 p-2 mr-2">
+                      <button onClick={() => handleEdit(product)} className="text-purple-400 hover:text-purple-300 p-2 mr-2">
                         <FaEdit />
                       </button>
-                      <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 p-2">
+                      <button onClick={() => handleDelete(product._id)} className="text-red-400 hover:text-red-300 p-2">
                         <FaTrash />
                       </button>
                     </td>
@@ -388,36 +406,34 @@ function ProductsTab({ businessId, websites }) {
             </table>
           </div>
         </div>
-      )}
-
-      {/* Add/Edit Product 2-Column Modal */}
+      )}      {/* Add/Edit Product 2-Column Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-6xl shadow-xl max-h-[95vh] overflow-hidden flex flex-col md:flex-row relative">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[#13121A] border border-slate-800/60 rounded-2xl w-full max-w-6xl shadow-2xl max-h-[95vh] overflow-hidden flex flex-col md:flex-row relative">
             <button 
               onClick={resetForm} 
-              className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 bg-white hover:bg-gray-100 rounded-full p-2 z-10 transition-colors shadow-sm border border-gray-100"
+              className="absolute top-6 right-6 text-slate-500 hover:text-slate-350 bg-[#13121A] hover:bg-slate-800 rounded-full p-2 z-10 transition-colors shadow-sm border border-slate-800/60"
             >
               <FaTimes className="text-xl" />
             </button>
             
             {/* Left Column: Form */}
-            <div className="w-full md:w-1/2 p-8 border-r border-gray-100 overflow-y-auto max-h-[95vh] bg-white">
-              <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-6">
-                <FaPlus className="text-blue-600" />
+            <div className="w-full md:w-1/2 p-8 border-r border-slate-800/60 overflow-y-auto max-h-[95vh] bg-[#13121A]">
+              <h3 className="text-2xl font-bold text-white flex items-center gap-2 mb-6">
+                <FaPlus className="text-purple-400" />
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <h4 className="font-bold text-gray-800 mb-4 text-lg">Product Image & Details</h4>
+                  <h4 className="font-bold text-slate-200 mb-4 text-lg">Product Image & Details</h4>
                   
                   {/* 3 Action Buttons */}
                   <div className="grid grid-cols-3 gap-3 mb-6">
                     <button 
                       type="button"
                       onClick={startVoiceInput}
-                      className={`flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold transition-all ${isListening ? 'bg-purple-600 text-white animate-pulse' : 'bg-[#a855f7] hover:bg-purple-600 text-white shadow-sm hover:shadow-md'}`}
+                      className={`flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold transition-all ${isListening ? 'bg-purple-600 text-white animate-pulse' : 'bg-purple-600 hover:bg-purple-700 text-white shadow-md'}`}
                     >
                       <FaMicrophone className="text-2xl mb-1" />
                       <span className="text-xs">Voice Input</span>
@@ -426,7 +442,7 @@ function ProductsTab({ businessId, websites }) {
                     <button 
                       type="button"
                       onClick={isCameraActive ? capturePhoto : startCamera}
-                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md transition-all"
+                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold bg-indigo-650 hover:bg-indigo-700 text-white shadow-md transition-all"
                     >
                       <FaCamera className="text-2xl mb-1" />
                       <span className="text-xs">{isCameraActive ? 'Capture' : 'Take Photo'}</span>
@@ -435,7 +451,7 @@ function ProductsTab({ businessId, websites }) {
                     <button 
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold border-2 border-dashed border-gray-300 text-gray-500 hover:text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-all"
+                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold border-2 border-dashed border-slate-800/60 text-slate-400 hover:text-slate-250 hover:border-slate-600 hover:bg-slate-800/40 transition-all"
                     >
                       <FaUpload className="text-2xl mb-1" />
                       <span className="text-xs">Upload File</span>
@@ -451,7 +467,7 @@ function ProductsTab({ businessId, websites }) {
 
                   {/* Camera / Image Preview Area */}
                   {(isCameraActive || formData.imagePreview) && (
-                    <div className="mb-6 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative flex items-center justify-center min-h-[150px]">
+                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-800/60 bg-[#09080E] relative flex items-center justify-center min-h-[150px]">
                       {isCameraActive ? (
                         <>
                           <video ref={videoRef} autoPlay playsInline className="w-full max-h-[250px] object-contain bg-black"></video>
@@ -459,7 +475,7 @@ function ProductsTab({ businessId, websites }) {
                           <button 
                             type="button" 
                             onClick={stopCamera}
-                            className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full shadow-lg hover:bg-red-700"
+                            className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full shadow-lg hover:bg-red-700 animate-pulse"
                           >
                             <FaTimes />
                           </button>
@@ -470,7 +486,7 @@ function ProductsTab({ businessId, websites }) {
                           <button 
                             type="button" 
                             onClick={() => setFormData({...formData, image: null, imagePreview: null})}
-                            className="absolute top-2 right-2 bg-white/80 text-gray-800 p-2 rounded-full shadow hover:bg-white"
+                            className="absolute top-2 right-2 bg-[#13121A]/85 text-slate-200 p-2 rounded-full shadow hover:bg-[#13121A] transition-colors border border-slate-800/60"
                           >
                             <FaTimes />
                           </button>
@@ -485,7 +501,7 @@ function ProductsTab({ businessId, websites }) {
                     <input 
                       type="text" required name="name" 
                       value={formData.name} onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium" 
+                      className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
                       placeholder="Product Name *"
                     />
                   </div>
@@ -493,12 +509,12 @@ function ProductsTab({ businessId, websites }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <span className="text-gray-500 font-medium">₹</span>
+                        <span className="text-slate-500 font-medium">₹</span>
                       </div>
                       <input 
                         type="number" required min="0" step="0.01" name="price" 
                         value={formData.price} onChange={handleInputChange}
-                        className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium" 
+                        className="w-full pl-8 pr-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
                         placeholder="Price *"
                       />
                     </div>
@@ -506,7 +522,7 @@ function ProductsTab({ businessId, websites }) {
                       <input 
                         type="text" name="category" 
                         value={formData.category} onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium" 
+                        className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
                         placeholder="Category"
                       />
                     </div>
@@ -516,22 +532,60 @@ function ProductsTab({ businessId, websites }) {
                     <textarea 
                       name="description" rows="3"
                       value={formData.description} onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none font-medium" 
+                      className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
                       placeholder="Product Description"
                     />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 py-1">
+                    <label className="flex items-center gap-2.5 cursor-pointer p-3.5 bg-[#09080E] hover:bg-[#0D0C14] border border-slate-700/60 rounded-lg transition-all select-none">
+                      <input 
+                        type="checkbox" 
+                        name="inStock"
+                        checked={formData.inStock} 
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setFormData(prev => ({
+                            ...prev,
+                            inStock: checked,
+                            stockQuantity: checked ? (prev.stockQuantity > 0 ? prev.stockQuantity : 10) : 0
+                          }));
+                        }}
+                        className="w-4 h-4 accent-purple-500 cursor-pointer" 
+                      />
+                      <span className="text-sm font-bold text-slate-350">📦 In Stock</span>
+                    </label>
+                    <div>
+                      <input 
+                        type="number" 
+                        name="stockQuantity"
+                        min="0"
+                        value={formData.stockQuantity} 
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value) || 0;
+                          setFormData(prev => ({
+                            ...prev,
+                            stockQuantity: val,
+                            inStock: val > 0
+                          }));
+                        }}
+                        className="w-full px-4 py-3.5 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium text-sm bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none" 
+                        placeholder="Quantity in Stock"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex gap-3 pt-6">
                   <button 
                     type="button" onClick={resetForm}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 text-gray-700 rounded-xl font-bold hover:bg-gray-100 transition-colors"
+                    className="flex-1 px-4 py-3 bg-[#09080E] border border-slate-700/60 text-slate-350 rounded-xl font-bold hover:bg-slate-800 transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md"
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold transition-all shadow-md"
                   >
                     {editingProduct ? 'Save Changes' : 'Add Product'}
                   </button>
@@ -540,46 +594,46 @@ function ProductsTab({ businessId, websites }) {
             </div>
 
             {/* Right Column: Your Products */}
-            <div className="w-full md:w-1/2 p-8 bg-[#fafafa] overflow-y-auto max-h-[95vh]">
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
-                <h3 className="text-xl font-bold text-gray-900">Your Products</h3>
-                <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-sm font-bold">
+            <div className="w-full md:w-1/2 p-8 bg-[#0D0C14] overflow-y-auto max-h-[95vh]">
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800/60">
+                <h3 className="text-xl font-bold text-white">Your Products</h3>
+                <span className="bg-purple-500/10 text-purple-300 border border-purple-500/20 py-1 px-3 rounded-full text-sm font-bold">
                   {products.filter(p => p.websiteId === activeWebsiteId).length} items
                 </span>
               </div>
               
               <div className="space-y-4">
                 {products.filter(p => p.websiteId === activeWebsiteId).length === 0 ? (
-                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center bg-white flex flex-col items-center justify-center">
-                    <FaImage className="text-5xl text-gray-300 mb-4" />
-                    <h4 className="text-gray-500 font-medium mb-1">No products added yet</h4>
-                    <p className="text-gray-400 text-sm">Fill the form and click "Add Product"</p>
+                  <div className="border-2 border-dashed border-slate-800/60 rounded-2xl p-12 text-center bg-[#13121A] flex flex-col items-center justify-center">
+                    <FaImage className="text-5xl text-slate-655 mb-4" />
+                    <h4 className="text-slate-455 font-medium mb-1">No products added yet</h4>
+                    <p className="text-slate-500 text-sm">Fill the form and click "Add Product"</p>
                   </div>
                 ) : (
                   products.filter(p => p.websiteId === activeWebsiteId).reverse().map(product => (
-                    <div key={product._id} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex items-center justify-between group hover:border-blue-300 transition-colors">
+                    <div key={product._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 p-4 shadow-sm flex items-center justify-between group hover:border-purple-500/40 transition-colors">
                       <div className="flex items-center gap-4 flex-1">
                         {product.imageUrl ? (
                           <img 
                             src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
                             alt={product.name} 
-                            className="w-16 h-16 rounded-lg object-cover bg-gray-100"
+                            className="w-16 h-16 rounded-lg object-cover bg-[#09080E] border border-slate-800/60"
                           />
                         ) : (
-                          <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+                          <div className="w-16 h-16 bg-purple-600/10 rounded-lg flex items-center justify-center text-purple-400 border border-purple-500/20">
                             <FaImage className="text-2xl" />
                           </div>
                         )}
                         <div>
-                          <div className="font-bold text-gray-900 text-lg leading-tight">{product.name}</div>
-                          <div className="font-bold text-blue-600 mt-1">₹{product.price.toLocaleString()}</div>
+                          <div className="font-bold text-white text-lg leading-tight">{product.name}</div>
+                          <div className="font-bold text-purple-400 mt-1">₹{product.price.toLocaleString()}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => handleEdit(product)} className="p-3 text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
+                        <button onClick={() => handleEdit(product)} className="p-3 text-purple-400 hover:bg-slate-800 rounded-full transition-colors">
                           <FaEdit />
                         </button>
-                        <button onClick={() => handleDelete(product._id)} className="p-3 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors">
+                        <button onClick={() => handleDelete(product._id)} className="p-3 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors">
                           <FaTrash />
                         </button>
                       </div>
@@ -588,7 +642,6 @@ function ProductsTab({ businessId, websites }) {
                 )}
               </div>
             </div>
-            
           </div>
         </div>
       )}

@@ -1,10 +1,28 @@
 const express = require('express');
 const router = express.Router();
+const geoip = require('geoip-lite');
+const axios = require('axios');
 const Website = require('../models/Website');
 const Business = require('../models/Business');
 const Photo = require('../models/Photo');
 
 const cache = new Map();
+
+let cachedServerRegion = null;
+async function resolveServerRegion() {
+  if (cachedServerRegion) return cachedServerRegion;
+  try {
+    const res = await axios.get('http://ip-api.com/json/', { timeout: 2000 });
+    if (res.data && res.data.status === 'success') {
+      cachedServerRegion = res.data.city || res.data.regionName || 'Local Workspace';
+      return cachedServerRegion;
+    }
+  } catch (err) {
+    // Fail silently
+  }
+  cachedServerRegion = 'Local Workspace';
+  return cachedServerRegion;
+}
 
 // Get published website by slug
 router.get('/:slug', async (req, res) => {
@@ -18,6 +36,64 @@ router.get('/:slug', async (req, res) => {
     
     // Increment view count
     website.views += 1;
+
+    // Resolve region/city name
+    let regionName = req.query.region;
+
+    if (!regionName) {
+      // Resolve IP address fallback
+      let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      if (ip && ip.includes(',')) {
+        ip = ip.split(',')[0].trim();
+      }
+
+      const isLocal = !ip || ip === '::1' || ip === '127.0.0.1' || ip.startsWith('10.') || ip.startsWith('192.168.') || ip.startsWith('172.16.');
+
+      if (isLocal) {
+        const serverRegion = await resolveServerRegion();
+        regionName = `${serverRegion} (Local Workspace / Dev)`;
+      } else {
+        const geo = geoip.lookup(ip);
+        if (geo) {
+          regionName = geo.city || geo.region || 'Unknown Region';
+        } else {
+          regionName = 'Local Workspace (Dev & Self Tests)';
+        }
+      }
+    }
+
+    // Sanitize and map to standard Indian regions
+    const lowerRegion = regionName.toLowerCase();
+    const isDev = lowerRegion.includes('local workspace') || lowerRegion.includes('dev');
+    
+    if (lowerRegion.includes('bangalore') || lowerRegion.includes('karnataka') || lowerRegion.includes('bengaluru')) {
+      regionName = isDev ? 'Bengaluru (Local Workspace / Dev)' : 'Bengaluru (Local Workspace / Dev)';
+    } else if (lowerRegion.includes('mumbai') || lowerRegion.includes('maharashtra')) {
+      regionName = isDev ? 'Mumbai Metro (Local Workspace / Dev)' : 'Mumbai Metro';
+    } else if (lowerRegion.includes('delhi') || lowerRegion.includes('haryana') || lowerRegion.includes('uttar pradesh')) {
+      regionName = isDev ? 'Delhi NCR (Local Workspace / Dev)' : 'Delhi NCR';
+    } else if (lowerRegion.includes('chennai') || lowerRegion.includes('tamil nadu')) {
+      regionName = isDev ? 'Chennai (Local Workspace / Dev)' : 'Chennai';
+    } else if (lowerRegion.includes('kolkata') || lowerRegion.includes('west bengal')) {
+      regionName = isDev ? 'Kolkata (Local Workspace / Dev)' : 'Kolkata';
+    } else if (lowerRegion.includes('visakhapatnam') || lowerRegion.includes('rasapudipalem') || lowerRegion.includes('rasapūdipalem') || lowerRegion.includes('vizag')) {
+      regionName = isDev ? 'Visakhapatnam (Local Workspace / Dev)' : 'Visakhapatnam Metro';
+    } else {
+      regionName = isDev ? `${regionName}` : regionName;
+    }
+
+    // Initialize viewsByRegion if missing
+    if (!website.viewsByRegion) {
+      website.viewsByRegion = [];
+    }
+
+    const regionEntry = website.viewsByRegion.find(r => r.regionName === regionName);
+    if (regionEntry) {
+      regionEntry.views += 1;
+    } else {
+      website.viewsByRegion.push({ regionName, views: 1 });
+    }
+
     await website.save();
     
     res.json(website);
@@ -91,6 +167,11 @@ router.post('/:businessId/new', async (req, res) => {
         },
         socialMedia: storeInfo?.socialMedia || business.socialMedia,
         paymentInfo: storeInfo?.paymentInfo || business.paymentInfo
+      },
+      seo: {
+        title: storeName || business.businessName || '',
+        description: storeInfo?.description || business.description || '',
+        keywords: storeInfo?.category || business.category || ''
       }
     });
     
@@ -104,7 +185,7 @@ router.post('/:businessId/new', async (req, res) => {
 router.put('/update/:websiteId', async (req, res) => {
   try {
     const { websiteId } = req.params;
-    const { template, theme, sections, html, css, designConfig, designHistory, published, storeInfo, storeName } = req.body;
+    const { template, theme, sections, html, css, designConfig, designHistory, published, storeInfo, storeName, seo } = req.body;
     
     const website = await Website.findById(websiteId);
     if (!website) return res.status(404).json({ error: 'Website not found' });
@@ -122,6 +203,10 @@ router.put('/update/:websiteId', async (req, res) => {
       website.markModified('storeInfo');
     }
     if (storeName !== undefined) website.storeName = storeName;
+    if (seo !== undefined) {
+      website.seo = seo;
+      website.markModified('seo');
+    }
     website.updatedAt = new Date();
     
     await website.save();

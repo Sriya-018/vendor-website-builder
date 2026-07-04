@@ -22,6 +22,10 @@ const WebsiteSchema = new mongoose.Schema({
   slug: { type: String, unique: true },
   published: { type: Boolean, default: false },
   views: { type: Number, default: 0 },
+  viewsByRegion: [{
+    regionName: { type: String },
+    views: { type: Number, default: 0 }
+  }],
   designConfig: { type: mongoose.Schema.Types.Mixed, default: {} },
   storeInfo: {
     businessName: { type: String },
@@ -46,6 +50,11 @@ const WebsiteSchema = new mongoose.Schema({
       bankDetails: { type: String },
       instructions: { type: String }
     }
+  },
+  seo: {
+    title: { type: String, default: '' },
+    description: { type: String, default: '' },
+    keywords: { type: String, default: '' }
   },
   designHistory: [{
     config: { type: mongoose.Schema.Types.Mixed },

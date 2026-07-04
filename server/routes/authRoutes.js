@@ -90,25 +90,6 @@ router.post('/send-otp', async (req, res) => {
     let query = phone ? { vendorPhone: phone } : { vendorEmail: email };
     let business = await Business.findOne(query);
 
-    // If business exists and has a businessName, treat as existing user and login directly
-    if (business && business.businessName) {
-      const tokenPayload = phone ? phone : email;
-      const token = Buffer.from(`${tokenPayload}:${Date.now()}`).toString('base64');
-      
-      return res.json({
-        success: true,
-        isNewUser: false,
-        token,
-        business: {
-          id: business._id,
-          phone: business.vendorPhone,
-          email: business.vendorEmail,
-          hasBusiness: true,
-          businessName: business.businessName
-        }
-      });
-    }
-
     // REAL SMS FLOW via MessageCentral
     if (phone && !isPhoneDemo) {
       try {
@@ -195,9 +176,11 @@ router.post('/send-otp', async (req, res) => {
       }
     }
 
+    const isNewUser = !(business && business.businessName);
+
     res.json({
       success: true,
-      isNewUser: true,
+      isNewUser,
       message: 'OTP sent successfully',
       ...(isDemo && { demoOtp: DEMO_OTP })
     });

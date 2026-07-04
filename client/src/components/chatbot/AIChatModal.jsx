@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
 
-function AIChatModal({ isOpen, onClose, onBuildTriggered }) {
+function AIChatModal({ isOpen, onClose, onBuildTriggered, businessId, storeContext }) {
   const [messages, setMessages] = useState([
     { role: 'ai', text: 'Hi there! I am your VendorBuild AI assistant. I can help you pick a template or guide you on setting up your store. How can I help you today?' }
   ]);
@@ -58,7 +58,11 @@ function AIChatModal({ isOpen, onClose, onBuildTriggered }) {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${API_URL}/ai/chat`, { messages: newMessages });
+      const response = await axios.post(`${API_URL}/ai/chat`, {
+        messages: newMessages,
+        businessId: businessId || localStorage.getItem('businessId'),
+        storeContext
+      });
       let replyText = response.data.reply;
       
       // Check for hidden build command
