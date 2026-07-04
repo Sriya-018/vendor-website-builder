@@ -691,11 +691,54 @@ export default function TemplateFlora({
               </div>
               <div className="divide-y divide-gray-100 border-t border-b border-gray-100 py-4">
                 {hoursDays.map((item, idx) => (
-                  <div key={idx} className="flex justify-between py-3.5 text-xs tracking-wider">
-                    <span className="text-gray-400 uppercase font-semibold">{item.day}</span>
-                    <span className="font-bold text-[#1F2937]">{item.hours}</span>
+                  <div key={idx} className="flex justify-between items-center py-3.5 text-xs tracking-wider">
+                    <div className="flex items-center gap-2">
+                      {isEditable && (
+                        <button
+                          onClick={() => {
+                            const updated = hoursDays.filter((_, i) => i !== idx);
+                            onUpdateConfig('hours', 'days', updated);
+                          }}
+                          className="text-red-500 hover:text-red-700 font-bold mr-1 text-sm leading-none"
+                          title="Remove Day"
+                        >
+                          ×
+                        </button>
+                      )}
+                      <EditableText
+                        isEditable={isEditable}
+                        value={item.day}
+                        onChange={(val) => {
+                          const updated = hoursDays.map((d, i) => i === idx ? { ...d, day: val } : d);
+                          onUpdateConfig('hours', 'days', updated);
+                        }}
+                        tagName="span"
+                        className="text-gray-400 uppercase font-semibold"
+                      />
+                    </div>
+                    <EditableText
+                      isEditable={isEditable}
+                      value={item.hours}
+                      onChange={(val) => {
+                        const updated = hoursDays.map((d, i) => i === idx ? { ...d, hours: val } : d);
+                        onUpdateConfig('hours', 'days', updated);
+                      }}
+                      tagName="span"
+                      className="font-bold text-[#1F2937]"
+                    />
                   </div>
                 ))}
+                {isEditable && (
+                  <button
+                    onClick={() => {
+                      const updated = [...hoursDays, { day: 'New Day', hours: '9:00 AM - 5:00 PM' }];
+                      onUpdateConfig('hours', 'days', updated);
+                    }}
+                    className="w-full mt-4 py-2 border border-dashed border-gray-200 hover:border-gray-400 text-gray-500 rounded text-xs font-bold transition-all text-center"
+                  >
+                    + Add Row
+                  </button>
+                )}
               </div>
             </section>
           </SectionWrapper>
