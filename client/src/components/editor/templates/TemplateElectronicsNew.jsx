@@ -21,13 +21,13 @@ export default function TemplateElectronicsNew(props) {
       layoutClass: 'bg-[#0F0926] text-white',
       fontClass: 'font-sans',
       logoTextClass: 'text-white font-extrabold text-2xl uppercase tracking-widest bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent',
-      navbarClass: 'bg-[#0F0926]/90 backdrop-blur-md border-b border-purple-900/40 shadow-lg',
+      navbarClass: 'bg-[#0F0926]/90 backdrop-blur-md border-b border-purple-900/40 shadow-theme',
       heroClass: 'min-h-[85vh] bg-[#0F0926] text-white',
       heroHeadingClass: 'font-extrabold text-5xl md:text-7xl leading-none tracking-tight text-white bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text',
-      ctaButtonClass: 'bg-purple-600 text-white hover:bg-purple-700 rounded-xl py-3 px-8 shadow-[0_0_20px_rgba(192,132,252,0.3)]',
+      ctaButtonClass: 'bg-theme-primary text-white text-white hover:bg-theme-primary text-white rounded-theme py-3 px-8 shadow-[0_0_20px_rgba(192,132,252,0.3)]',
       catalogSectionClass: 'bg-[#0F0926] text-white',
       sectionHeadingClass: 'font-extrabold text-3xl tracking-tight text-white',
-      productCardClass: 'bg-[#1A123C] rounded-xl border border-purple-950 shadow-md hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(192,132,252,0.1)] duration-300',
+      productCardClass: 'bg-[#1A123C] rounded-theme border border-purple-950 shadow-theme hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(192,132,252,0.1)] duration-300',
       gallerySectionClass: 'bg-[#0F0926] border-t border-purple-950',
       faqSectionClass: 'bg-[#1A123C] border-t border-[#1A123C]',
       testimonialsSectionClass: 'bg-[#0F0926] border-t border-purple-950',
@@ -40,21 +40,21 @@ export default function TemplateElectronicsNew(props) {
   } else if (templateId === 't20') {
     // Aero - Clean Hardware
     themeConfig = {
-      layoutClass: 'bg-white text-slate-800',
+      layoutClass: 'bg-theme-surface text-theme-text',
       fontClass: 'font-sans font-light',
-      logoTextClass: 'text-slate-800 font-extrabold text-xl tracking-tight',
-      navbarClass: 'bg-white/95 border-b border-slate-200 py-4 shadow-sm',
+      logoTextClass: 'text-theme-text font-extrabold text-xl tracking-tight',
+      navbarClass: 'bg-theme-surface/95 border-b border-theme-border py-4 shadow-theme',
       heroClass: 'min-h-[80vh] bg-slate-900 text-white',
       heroHeadingClass: 'font-light text-5xl md:text-7xl leading-tight text-white',
-      ctaButtonClass: 'bg-blue-600 text-white hover:bg-blue-700 rounded-lg py-3 px-8 shadow-sm',
-      catalogSectionClass: 'bg-white text-slate-800',
-      sectionHeadingClass: 'font-bold text-3xl tracking-tight text-slate-800',
-      productCardClass: 'bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-500/20 duration-200',
-      gallerySectionClass: 'bg-slate-50 border-t border-slate-100',
-      faqSectionClass: 'bg-white border-t border-slate-100',
-      testimonialsSectionClass: 'bg-slate-50 border-t border-slate-100',
-      hoursSectionClass: 'bg-white border-t border-slate-100',
-      contactSectionClass: 'bg-slate-50 border-t border-slate-100',
+      ctaButtonClass: 'bg-theme-primary text-white text-white hover:bg-theme-primary text-white rounded-theme py-3 px-8 shadow-theme',
+      catalogSectionClass: 'bg-theme-surface text-theme-text',
+      sectionHeadingClass: 'font-bold text-3xl tracking-tight text-theme-text',
+      productCardClass: 'bg-theme-surface rounded-theme border border-theme-border shadow-theme hover:shadow-theme hover:border-blue-500/20 duration-200',
+      gallerySectionClass: 'bg-theme-bg border-t border-theme-border',
+      faqSectionClass: 'bg-theme-surface border-t border-theme-border',
+      testimonialsSectionClass: 'bg-theme-bg border-t border-theme-border',
+      hoursSectionClass: 'bg-theme-surface border-t border-theme-border',
+      contactSectionClass: 'bg-theme-bg border-t border-theme-border',
       primaryColor: '#0F172A',
       accentColor: '#3B82F6',
       defaultHeroImage: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=1200&q=80'
@@ -71,11 +71,11 @@ export default function TemplateElectronicsNew(props) {
       ctaButtonClass: 'bg-[#4CAF50] text-black hover:bg-[#43A047] rounded-none py-3.5 px-8 font-bold border-2 border-black shadow-[4px_4px_0px_#000] transition-transform',
       catalogSectionClass: 'bg-[#ECEFF1] text-[#242526]',
       sectionHeadingClass: 'font-black text-3xl text-[#242526]',
-      productCardClass: 'bg-white border-4 border-black rounded-none shadow-[4px_4px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 duration-200',
+      productCardClass: 'bg-theme-surface border-4 border-black rounded-none shadow-[4px_4px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 duration-200',
       gallerySectionClass: 'bg-[#ECEFF1] border-t-4 border-black',
-      faqSectionClass: 'bg-white border-t-4 border-black',
+      faqSectionClass: 'bg-theme-surface border-t-4 border-black',
       testimonialsSectionClass: 'bg-[#ECEFF1] border-t-4 border-black',
-      hoursSectionClass: 'bg-white border-t-4 border-black',
+      hoursSectionClass: 'bg-theme-surface border-t-4 border-black',
       contactSectionClass: 'bg-[#ECEFF1] border-t-4 border-black',
       primaryColor: '#242526',
       accentColor: '#4CAF50',
@@ -153,7 +153,7 @@ function QuantumComparisonMatrix({ accentColor }) {
             <select
               value={deviceA}
               onChange={(e) => setDeviceA(e.target.value)}
-              className="w-full bg-[#0F0926] border border-purple-900/40 rounded-xl px-4 py-3 text-sm focus:outline-none text-white font-bold"
+              className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-white font-bold"
             >
               {Object.keys(components).map(k => (
                 <option key={k} value={k}>{components[k].name}</option>
@@ -165,7 +165,7 @@ function QuantumComparisonMatrix({ accentColor }) {
             <select
               value={deviceB}
               onChange={(e) => setDeviceB(e.target.value)}
-              className="w-full bg-[#0F0926] border border-purple-900/40 rounded-xl px-4 py-3 text-sm focus:outline-none text-white font-bold"
+              className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-white font-bold"
             >
               {Object.keys(components).map(k => (
                 <option key={k} value={k}>{components[k].name}</option>
@@ -174,7 +174,7 @@ function QuantumComparisonMatrix({ accentColor }) {
           </div>
         </div>
 
-        <div className="border border-purple-900/40 rounded-2xl overflow-hidden bg-[#0F0926]">
+        <div className="border border-purple-900/40 rounded-theme overflow-hidden bg-[#0F0926]">
           <table className="w-full text-xs md:text-sm text-left">
             <thead>
               <tr className="bg-purple-950/40 text-slate-350 border-b border-purple-900/20 uppercase tracking-wider font-extrabold text-[10px]">
@@ -248,12 +248,12 @@ function AeroSpecDrawer({ accentColor }) {
   const s = specs[activeTab];
 
   return (
-    <section className="py-20 px-8 bg-slate-50 border-t border-b border-slate-100 text-slate-800 text-left font-sans font-light">
+    <section className="py-20 px-8 bg-theme-bg border-t border-b border-theme-border text-theme-text text-left font-sans font-light">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <FaMicrochip size={28} className="mx-auto mb-3 text-blue-600" />
-          <h2 className="text-3xl font-bold tracking-tight text-slate-800">Advanced Specifications Panel</h2>
-          <div className="w-12 h-0.5 bg-blue-600 mx-auto mt-4"></div>
+          <FaMicrochip size={28} className="mx-auto mb-3 text-theme-primary" />
+          <h2 className="text-3xl font-bold tracking-tight text-theme-text">Advanced Specifications Panel</h2>
+          <div className="w-12 h-0.5 bg-theme-primary text-white mx-auto mt-4"></div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-3 mb-8">
@@ -261,10 +261,10 @@ function AeroSpecDrawer({ accentColor }) {
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`p-4 border rounded-xl transition-all text-center text-xs font-bold uppercase tracking-wider ${
+              className={`p-4 border rounded-theme transition-all text-center text-xs font-bold uppercase tracking-wider ${
                 activeTab === key 
-                  ? 'border-blue-500 bg-white text-blue-600 shadow-sm' 
-                  : 'border-slate-200 hover:border-slate-300 text-slate-500 bg-white'
+                  ? 'border-blue-500 bg-theme-surface text-theme-primary shadow-theme' 
+                  : 'border-theme-border hover:border-theme-border text-theme-muted bg-theme-surface'
               }`}
             >
               {specs[key].title}
@@ -272,15 +272,15 @@ function AeroSpecDrawer({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-white p-8 rounded-xl border border-slate-150 shadow-sm">
-          <h4 className="font-bold text-sm tracking-wide text-slate-900 border-b border-slate-100 pb-3 mb-5 uppercase flex items-center gap-2">
-            <FaInfoCircle className="text-blue-500" /> {s.title} Overview
+        <div className="bg-theme-surface p-8 rounded-theme border border-slate-150 shadow-theme">
+          <h4 className="font-bold text-sm tracking-wide text-theme-text border-b border-theme-border pb-3 mb-5 uppercase flex items-center gap-2">
+            <FaInfoCircle className="text-theme-primary" /> {s.title} Overview
           </h4>
           <div className="space-y-4">
             {s.items.map((item, idx) => (
               <div key={idx} className="flex justify-between border-b border-slate-50 pb-3 last:border-0 last:pb-0 text-xs md:text-sm">
-                <span className="font-bold text-slate-800">{item.label}</span>
-                <span className="text-slate-500 text-right">{item.value}</span>
+                <span className="font-bold text-theme-text">{item.label}</span>
+                <span className="text-theme-muted text-right">{item.value}</span>
               </div>
             ))}
           </div>
@@ -336,11 +336,11 @@ function RetroTechSynth({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#ECEFF1] border-t-4 border-b-4 border-black text-[#242526] text-left font-mono">
-      <div className="max-w-xl mx-auto border-4 border-black p-8 bg-white shadow-[4px_4px_0px_#000]">
+      <div className="max-w-xl mx-auto border-4 border-black p-8 bg-theme-surface shadow-[4px_4px_0px_#000]">
         <div className="text-center mb-8 font-black uppercase">
           <FaGamepad size={32} className="mx-auto mb-3 text-[#4CAF50]" />
           <h2 className="text-2xl">8-Bit Sound Synthesizer</h2>
-          <p className="text-[10px] tracking-wider text-gray-500 mt-2">Keypad tone generator. Click notes to play sound.</p>
+          <p className="text-[10px] tracking-wider text-theme-muted mt-2">Keypad tone generator. Click notes to play sound.</p>
         </div>
 
         <div className="grid grid-cols-4 gap-3 mb-6">
@@ -351,7 +351,7 @@ function RetroTechSynth({ accentColor }) {
               className={`py-4 border-4 border-black text-center font-bold text-xs uppercase ${
                 activeNote === note.label 
                   ? 'bg-[#4CAF50] text-black shadow-none translate-x-0.5 translate-y-0.5' 
-                  : 'bg-white text-black hover:bg-neutral-50 shadow-[2px_2px_0px_#000]'
+                  : 'bg-theme-surface text-black hover:bg-neutral-50 shadow-[2px_2px_0px_#000]'
               }`}
             >
               <FaVolumeUp className="mx-auto mb-1 text-[10px]" />

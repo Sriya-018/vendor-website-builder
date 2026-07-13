@@ -21,17 +21,17 @@ export default function TemplateFashionNew(props) {
       layoutClass: 'bg-[#FAF8F5] text-[#1F1610]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#1F1610] tracking-[0.2em] font-semibold',
-      navbarClass: 'bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#FAF8F5] shadow-sm',
+      navbarClass: 'bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#FAF8F5] shadow-theme',
       heroClass: 'min-h-[85vh] bg-[#1F1610] text-[#FAF8F5]',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl leading-tight font-light italic',
       ctaButtonClass: 'border border-[#D4AF37] text-[#FAF8F5] hover:bg-[#D4AF37] transition-all rounded-none',
       catalogSectionClass: 'bg-[#FAF8F5] text-[#1F1610]',
       sectionHeadingClass: 'font-serif text-4xl leading-tight font-light text-[#1F1610]',
-      productCardClass: 'bg-white rounded-none border border-[#FAF8F5] shadow-sm hover:shadow-md hover:border-[#D4AF37]/30 duration-300',
+      productCardClass: 'bg-theme-surface rounded-none border border-[#FAF8F5] shadow-theme hover:shadow-theme hover:border-[#D4AF37]/30 duration-300',
       gallerySectionClass: 'bg-[#FAF8F5]',
-      faqSectionClass: 'bg-white border-t border-b border-[#FAF8F5]',
+      faqSectionClass: 'bg-theme-surface border-t border-b border-[#FAF8F5]',
       testimonialsSectionClass: 'bg-[#FAF8F5]',
-      hoursSectionClass: 'bg-white border-t border-b border-[#FAF8F5]',
+      hoursSectionClass: 'bg-theme-surface border-t border-b border-[#FAF8F5]',
       contactSectionClass: 'bg-[#FAF8F5]',
       primaryColor: '#1F1610',
       accentColor: '#D4AF37',
@@ -40,21 +40,21 @@ export default function TemplateFashionNew(props) {
   } else if (templateId === 't17') {
     // Active - Sportswear
     themeConfig = {
-      layoutClass: 'bg-white text-black',
+      layoutClass: 'bg-theme-surface text-black',
       fontClass: 'font-sans font-extrabold tracking-tight italic',
       logoTextClass: 'text-black tracking-normal font-black text-2xl uppercase italic',
-      navbarClass: 'bg-white border-b-2 border-black py-4 shadow-none',
+      navbarClass: 'bg-theme-surface border-b-2 border-black py-4 shadow-none',
       heroClass: 'min-h-[80vh] bg-black text-white italic',
       heroHeadingClass: 'font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none',
       ctaButtonClass: 'bg-[#00D2FF] text-black hover:bg-[#00E5FF] rounded-none uppercase py-4 px-10 border-2 border-black font-black',
-      catalogSectionClass: 'bg-white text-black',
+      catalogSectionClass: 'bg-theme-surface text-black',
       sectionHeadingClass: 'font-black text-5xl uppercase tracking-tighter',
-      productCardClass: 'bg-white rounded-none border-2 border-black hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_#000] duration-200',
-      gallerySectionClass: 'bg-slate-50 border-t-2 border-black',
-      faqSectionClass: 'bg-white border-t-2 border-black',
-      testimonialsSectionClass: 'bg-slate-50 border-t-2 border-black',
-      hoursSectionClass: 'bg-white border-t-2 border-black',
-      contactSectionClass: 'bg-slate-50 border-t-2 border-black',
+      productCardClass: 'bg-theme-surface rounded-none border-2 border-black hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_#000] duration-200',
+      gallerySectionClass: 'bg-theme-bg border-t-2 border-black',
+      faqSectionClass: 'bg-theme-surface border-t-2 border-black',
+      testimonialsSectionClass: 'bg-theme-bg border-t-2 border-black',
+      hoursSectionClass: 'bg-theme-surface border-t-2 border-black',
+      contactSectionClass: 'bg-theme-bg border-t-2 border-black',
       primaryColor: '#0A0A0A',
       accentColor: '#00D2FF',
       defaultHeroImage: 'https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80'
@@ -68,14 +68,14 @@ export default function TemplateFashionNew(props) {
       navbarClass: 'bg-[#F8F1EB]/95 border-b border-[#3C2F2F]/20',
       heroClass: 'min-h-[75vh] bg-[#3C2F2F] text-[#F8F1EB]',
       heroHeadingClass: 'font-bold text-4xl md:text-6xl tracking-tight leading-normal',
-      ctaButtonClass: 'bg-[#D97706] text-white hover:bg-[#C2410C] rounded-md py-3 px-8 shadow-sm',
+      ctaButtonClass: 'bg-[#D97706] text-white hover:bg-[#C2410C] rounded-theme py-3 px-8 shadow-theme',
       catalogSectionClass: 'bg-[#F8F1EB] text-[#3C2F2F]',
       sectionHeadingClass: 'font-bold text-3xl tracking-tight',
-      productCardClass: 'bg-white border border-[#3C2F2F]/15 rounded-lg shadow-sm hover:shadow-md hover:border-[#D97706] duration-200',
+      productCardClass: 'bg-theme-surface border border-[#3C2F2F]/15 rounded-theme shadow-theme hover:shadow-theme hover:border-[#D97706] duration-200',
       gallerySectionClass: 'bg-[#F8F1EB] border-t border-[#3C2F2F]/10',
-      faqSectionClass: 'bg-white border-t border-[#3C2F2F]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#3C2F2F]/10',
       testimonialsSectionClass: 'bg-[#F8F1EB] border-t border-[#3C2F2F]/10',
-      hoursSectionClass: 'bg-white border-t border-[#3C2F2F]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#3C2F2F]/10',
       contactSectionClass: 'bg-[#F8F1EB] border-t border-[#3C2F2F]/10',
       primaryColor: '#3C2F2F',
       accentColor: '#D97706',
@@ -134,7 +134,7 @@ function SilkFabricGuide({ accentColor }) {
   const f = fabrics[selectedFabric];
 
   return (
-    <section className="py-20 px-8 bg-white border-t border-b border-[#FAF8F5] text-slate-800 text-left font-serif">
+    <section className="py-20 px-8 bg-theme-surface border-t border-b border-[#FAF8F5] text-theme-text text-left font-serif">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <span className="text-xs uppercase tracking-[0.25em] font-bold" style={{ color: accentColor }}>Premium Materials</span>
@@ -150,10 +150,10 @@ function SilkFabricGuide({ accentColor }) {
               className={`p-4 border transition-all text-center uppercase tracking-widest text-xs font-semibold ${
                 selectedFabric === key 
                   ? 'border-[#D4AF37] bg-[#FAF8F5]' 
-                  : 'border-slate-100 hover:border-slate-300'
+                  : 'border-theme-border hover:border-theme-border'
               }`}
             >
-              <FaTshirt className="mx-auto mb-2 text-base text-slate-500" />
+              <FaTshirt className="mx-auto mb-2 text-base text-theme-muted" />
               {fabrics[key].name}
             </button>
           ))}
@@ -161,16 +161,16 @@ function SilkFabricGuide({ accentColor }) {
 
         <div className="p-8 border border-[#FAF8F5] bg-[#FAF8F5]/50 grid md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
-            <h4 className="font-bold text-sm tracking-wide uppercase text-slate-900 border-b border-slate-200 pb-2">Material Sourcing</h4>
-            <p className="text-sm font-light text-slate-600 leading-relaxed">{f.origin}</p>
-            <h4 className="font-bold text-sm tracking-wide uppercase text-slate-900 border-b border-slate-200 pb-2 pt-2">Skin Feel & Weight</h4>
-            <p className="text-sm font-light text-slate-600 leading-relaxed">{f.feel}</p>
+            <h4 className="font-bold text-sm tracking-wide uppercase text-theme-text border-b border-theme-border pb-2">Material Sourcing</h4>
+            <p className="text-sm font-light text-theme-muted leading-relaxed">{f.origin}</p>
+            <h4 className="font-bold text-sm tracking-wide uppercase text-theme-text border-b border-theme-border pb-2 pt-2">Skin Feel & Weight</h4>
+            <p className="text-sm font-light text-theme-muted leading-relaxed">{f.feel}</p>
           </div>
-          <div className="space-y-4 bg-white p-6 border border-slate-100 shadow-sm">
-            <h4 className="font-bold text-sm tracking-wide uppercase text-slate-900 flex items-center gap-2">
+          <div className="space-y-4 bg-theme-surface p-6 border border-theme-border shadow-theme">
+            <h4 className="font-bold text-sm tracking-wide uppercase text-theme-text flex items-center gap-2">
               <FaInfoCircle className="text-[#D4AF37]" /> Care Instructions
             </h4>
-            <p className="text-xs font-light text-slate-500 leading-relaxed">{f.care}</p>
+            <p className="text-xs font-light text-theme-muted leading-relaxed">{f.care}</p>
           </div>
         </div>
       </div>
@@ -206,12 +206,12 @@ function ActiveFitFinder({ accentColor }) {
   };
 
   return (
-    <section className="py-20 px-8 bg-slate-50 border-t-2 border-b-2 border-black italic text-black text-left font-sans tracking-tight">
-      <div className="max-w-xl mx-auto border-2 border-black p-8 bg-white shadow-[4px_4px_0px_#000]">
+    <section className="py-20 px-8 bg-theme-bg border-t-2 border-b-2 border-black italic text-black text-left font-sans tracking-tight">
+      <div className="max-w-xl mx-auto border-2 border-black p-8 bg-theme-surface shadow-[4px_4px_0px_#000]">
         <div className="text-center mb-8 uppercase font-black">
           <FaRunning size={30} className="mx-auto mb-3 text-black" />
           <h2 className="text-3xl">Find Your Performance Fit</h2>
-          <p className="text-xs tracking-wider text-gray-500 mt-1">Select dimensions for accurate athletic sizing</p>
+          <p className="text-xs tracking-wider text-theme-muted mt-1">Select dimensions for accurate athletic sizing</p>
         </div>
 
         <div className="space-y-6">
@@ -247,7 +247,7 @@ function ActiveFitFinder({ accentColor }) {
 
           <button
             onClick={calculateFit}
-            className="w-full py-4 text-xs font-black uppercase tracking-widest text-white bg-black hover:bg-neutral-800 transition-colors shadow-sm"
+            className="w-full py-4 text-xs font-black uppercase tracking-widest text-white bg-black hover:bg-neutral-800 transition-colors shadow-theme"
           >
             Calculate Recommended Size
           </button>
@@ -255,7 +255,7 @@ function ActiveFitFinder({ accentColor }) {
           {recommendation && (
             <div className="mt-8 p-6 bg-[#00D2FF]/10 border-2 border-[#00D2FF] text-black">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">Fit Result</span>
+                <span className="text-[10px] uppercase font-black tracking-widest text-theme-muted">Fit Result</span>
                 <span className="text-2xl font-black uppercase bg-black text-white px-3 py-1 italic tracking-widest">{recommendation.size}</span>
               </div>
               <p className="text-xs font-bold leading-relaxed">{recommendation.fitText}</p>
@@ -294,7 +294,7 @@ function VintageEraExplorer({ accentColor }) {
   const e = eras[activeEra];
 
   return (
-    <section className="py-20 px-8 bg-white border-t border-b border-[#3C2F2F]/10 text-[#3C2F2F] text-left font-mono">
+    <section className="py-20 px-8 bg-theme-surface border-t border-b border-[#3C2F2F]/10 text-[#3C2F2F] text-left font-mono">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <FaHistory size={28} className="mx-auto mb-3 text-[#D97706]" />
@@ -310,7 +310,7 @@ function VintageEraExplorer({ accentColor }) {
               className={`flex-1 py-3 text-sm font-bold border-b-2 transition-all ${
                 activeEra === era 
                   ? 'border-[#D97706] text-[#D97706]' 
-                  : 'border-transparent text-slate-400 hover:text-slate-600'
+                  : 'border-transparent text-slate-400 hover:text-theme-muted'
               }`}
             >
               {era} Catalog
@@ -318,14 +318,14 @@ function VintageEraExplorer({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-[#F8F1EB] p-8 border border-[#3C2F2F]/10 rounded-lg grid md:grid-cols-2 gap-8 items-start">
+        <div className="bg-[#F8F1EB] p-8 border border-[#3C2F2F]/10 rounded-theme grid md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
             <h3 className="font-bold text-md text-[#D97706]">{e.title}</h3>
-            <p className="text-xs leading-relaxed text-slate-600">{e.desc}</p>
+            <p className="text-xs leading-relaxed text-theme-muted">{e.desc}</p>
           </div>
-          <div className="bg-white p-6 border border-[#3C2F2F]/10 rounded-md">
-            <h4 className="font-bold text-xs uppercase text-[#3C2F2F] border-b border-slate-100 pb-2 mb-3">Era Staples</h4>
-            <ul className="space-y-2 text-xs text-slate-500">
+          <div className="bg-theme-surface p-6 border border-[#3C2F2F]/10 rounded-theme">
+            <h4 className="font-bold text-xs uppercase text-[#3C2F2F] border-b border-theme-border pb-2 mb-3">Era Staples</h4>
+            <ul className="space-y-2 text-xs text-theme-muted">
               {e.staples.map((s, idx) => (
                 <li key={idx} className="flex items-center gap-2">
                   <FaCheck className="text-[#D97706] text-[10px]" />

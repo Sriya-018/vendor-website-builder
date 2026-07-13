@@ -25,10 +25,10 @@ export default function TemplateServicesNew(props) {
       navbarClass: 'bg-black border-b border-neutral-900 py-4 shadow-none',
       heroClass: 'min-h-[80vh] bg-black text-white italic',
       heroHeadingClass: 'font-black text-6xl md:text-8xl tracking-tighter uppercase leading-none text-white',
-      ctaButtonClass: 'bg-red-600 text-white hover:bg-red-700 rounded-none uppercase py-4 px-10 border-2 border-black font-black',
+      ctaButtonClass: 'bg-theme-primary text-white text-white hover:bg-theme-primary text-white rounded-none uppercase py-4 px-10 border-2 border-black font-black',
       catalogSectionClass: 'bg-neutral-950 text-white',
       sectionHeadingClass: 'font-black text-5xl uppercase tracking-tighter text-white',
-      productCardClass: 'bg-neutral-900 rounded-none border border-neutral-800 hover:border-red-600 shadow-md duration-200',
+      productCardClass: 'bg-neutral-900 rounded-none border border-neutral-800 hover:border-red-600 shadow-theme duration-200',
       gallerySectionClass: 'bg-black border-t border-neutral-900',
       faqSectionClass: 'bg-[#111] border-t border-[#111]',
       testimonialsSectionClass: 'bg-black border-t border-neutral-900',
@@ -41,21 +41,21 @@ export default function TemplateServicesNew(props) {
   } else if (templateId === 't34') {
     // Scale - Corporate Consulting
     themeConfig = {
-      layoutClass: 'bg-white text-slate-800',
+      layoutClass: 'bg-theme-surface text-theme-text',
       fontClass: 'font-sans font-light',
-      logoTextClass: 'text-slate-900 font-extrabold text-xl tracking-tight uppercase',
-      navbarClass: 'bg-white border-b border-slate-200 py-4 shadow-sm',
+      logoTextClass: 'text-theme-text font-extrabold text-xl tracking-tight uppercase',
+      navbarClass: 'bg-theme-surface border-b border-theme-border py-4 shadow-theme',
       heroClass: 'min-h-[80vh] bg-slate-900 text-white',
       heroHeadingClass: 'font-light text-5xl md:text-7xl leading-tight text-white',
-      ctaButtonClass: 'bg-blue-600 text-white hover:bg-blue-700 rounded-lg py-3 px-8 font-bold uppercase text-xs tracking-wider',
-      catalogSectionClass: 'bg-white text-slate-800',
-      sectionHeadingClass: 'font-bold text-3xl tracking-tight text-slate-900 uppercase',
-      productCardClass: 'bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-500/20 duration-200',
-      gallerySectionClass: 'bg-slate-50 border-t border-slate-100',
-      faqSectionClass: 'bg-white border-t border-slate-100',
-      testimonialsSectionClass: 'bg-slate-50 border-t border-slate-100',
-      hoursSectionClass: 'bg-white border-t border-slate-100',
-      contactSectionClass: 'bg-slate-50 border-t border-slate-100',
+      ctaButtonClass: 'bg-theme-primary text-white text-white hover:bg-theme-primary text-white rounded-theme py-3 px-8 font-bold uppercase text-xs tracking-wider',
+      catalogSectionClass: 'bg-theme-surface text-theme-text',
+      sectionHeadingClass: 'font-bold text-3xl tracking-tight text-theme-text uppercase',
+      productCardClass: 'bg-theme-surface border border-theme-border shadow-theme hover:shadow-theme hover:border-blue-500/20 duration-200',
+      gallerySectionClass: 'bg-theme-bg border-t border-theme-border',
+      faqSectionClass: 'bg-theme-surface border-t border-theme-border',
+      testimonialsSectionClass: 'bg-theme-bg border-t border-theme-border',
+      hoursSectionClass: 'bg-theme-surface border-t border-theme-border',
+      contactSectionClass: 'bg-theme-bg border-t border-theme-border',
       primaryColor: '#1E3A8A',
       accentColor: '#3B82F6',
       defaultHeroImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80'
@@ -66,13 +66,13 @@ export default function TemplateServicesNew(props) {
       layoutClass: 'bg-[#0A0015] text-white',
       fontClass: 'font-sans',
       logoTextClass: 'text-white font-black text-2xl uppercase tracking-widest',
-      navbarClass: 'bg-[#0A0015]/95 border-b border-purple-900/10 shadow-lg py-5',
+      navbarClass: 'bg-[#0A0015]/95 border-b border-purple-900/10 shadow-theme py-5',
       heroClass: 'min-h-[85vh] bg-[#0A0015] text-white',
       heroHeadingClass: 'font-extrabold text-5xl md:text-7xl leading-none tracking-tight text-white bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent',
-      ctaButtonClass: 'bg-purple-600 text-white hover:bg-purple-700 rounded-xl py-3 px-8 shadow-[0_0_20px_rgba(139,92,246,0.35)]',
+      ctaButtonClass: 'bg-theme-primary text-white text-white hover:bg-theme-primary text-white rounded-theme py-3 px-8 shadow-[0_0_20px_rgba(139,92,246,0.35)]',
       catalogSectionClass: 'bg-[#0A0015] text-white border-t border-purple-900/10',
       sectionHeadingClass: 'font-bold text-3xl tracking-tight text-white',
-      productCardClass: 'bg-[#150C24] border border-purple-950 rounded-xl hover:border-purple-500 duration-300',
+      productCardClass: 'bg-[#150C24] border border-purple-950 rounded-theme hover:border-purple-500 duration-300',
       gallerySectionClass: 'bg-[#0A0015] border-t border-purple-950',
       faqSectionClass: 'bg-[#150C24] border-t border-[#111]',
       testimonialsSectionClass: 'bg-[#0A0015] border-t border-purple-950',
@@ -88,17 +88,17 @@ export default function TemplateServicesNew(props) {
       layoutClass: 'bg-[#FAF9F6] text-[#0F766E]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#0F766E] font-bold text-lg uppercase tracking-[0.25em]',
-      navbarClass: 'bg-[#FAF9F6]/95 border-b border-[#14B8A6]/15 shadow-sm py-4',
+      navbarClass: 'bg-[#FAF9F6]/95 border-b border-[#14B8A6]/15 shadow-theme py-4',
       heroClass: 'min-h-[75vh] bg-[#0F766E] text-white',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl font-light leading-normal text-white',
-      ctaButtonClass: 'bg-[#14B8A6] text-white hover:bg-[#0D9488] rounded-full py-3.5 px-8 font-bold uppercase text-xs tracking-wider shadow-sm',
+      ctaButtonClass: 'bg-[#14B8A6] text-white hover:bg-[#0D9488] rounded-full py-3.5 px-8 font-bold uppercase text-xs tracking-wider shadow-theme',
       catalogSectionClass: 'bg-[#FAF9F6] text-[#0F766E]',
       sectionHeadingClass: 'font-serif text-3xl font-bold text-[#0F766E] uppercase tracking-widest',
-      productCardClass: 'bg-white border border-[#14B8A6]/15 rounded-2xl shadow-sm hover:shadow-md hover:border-[#14B8A6]/30 duration-200',
+      productCardClass: 'bg-theme-surface border border-[#14B8A6]/15 rounded-theme shadow-theme hover:shadow-theme hover:border-[#14B8A6]/30 duration-200',
       gallerySectionClass: 'bg-[#FAF9F6] border-t border-[#14B8A6]/10',
-      faqSectionClass: 'bg-white border-t border-[#14B8A6]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#14B8A6]/10',
       testimonialsSectionClass: 'bg-[#FAF9F6] border-t border-[#14B8A6]/10',
-      hoursSectionClass: 'bg-white border-t border-[#14B8A6]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#14B8A6]/10',
       contactSectionClass: 'bg-[#FAF9F6] border-t border-[#14B8A6]/10',
       primaryColor: '#0F766E',
       accentColor: '#14B8A6',
@@ -155,9 +155,9 @@ function PulseCalorieEstimator({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-neutral-950 border-t border-b border-neutral-900 text-white text-left font-sans italic tracking-tight">
-      <div className="max-w-xl mx-auto border border-neutral-800 p-8 bg-neutral-900 rounded-none shadow-md">
+      <div className="max-w-xl mx-auto border border-neutral-800 p-8 bg-neutral-900 rounded-none shadow-theme">
         <div className="text-center mb-8 uppercase font-black">
-          <FaHeartbeat size={30} className="mx-auto mb-3 text-red-600 animate-pulse" />
+          <FaHeartbeat size={30} className="mx-auto mb-3 text-theme-primary animate-pulse" />
           <h2 className="text-3xl text-white">Daily Target Calorie Guide</h2>
           <p className="text-[10px] tracking-wider text-neutral-500 mt-2 font-bold uppercase">Configure metrics to calculate coaching pack</p>
         </div>
@@ -183,7 +183,7 @@ function PulseCalorieEstimator({ accentColor }) {
               onClick={() => setGoal('lose')}
               className={`py-3 text-xs uppercase font-black tracking-wider border-2 transition-all ${
                 goal === 'lose' 
-                  ? 'border-red-600 bg-red-600 text-white' 
+                  ? 'border-red-600 bg-theme-primary text-white text-white' 
                   : 'border-neutral-800 text-neutral-400 bg-neutral-950 hover:border-neutral-750'
               }`}
             >
@@ -193,7 +193,7 @@ function PulseCalorieEstimator({ accentColor }) {
               onClick={() => setGoal('gain')}
               className={`py-3 text-xs uppercase font-black tracking-wider border-2 transition-all ${
                 goal === 'gain' 
-                  ? 'border-red-600 bg-red-600 text-white' 
+                  ? 'border-red-600 bg-theme-primary text-white text-white' 
                   : 'border-neutral-800 text-neutral-400 bg-neutral-950 hover:border-neutral-750'
               }`}
             >
@@ -202,7 +202,7 @@ function PulseCalorieEstimator({ accentColor }) {
           </div>
 
           <div className="mt-8 p-6 bg-black border border-neutral-800">
-            <span className="text-[10px] uppercase tracking-widest font-black text-red-600">Daily Target: {cal.calculated} kCal</span>
+            <span className="text-[10px] uppercase tracking-widest font-black text-theme-primary">Daily Target: {cal.calculated} kCal</span>
             <h4 className="text-base font-black text-white mt-1 uppercase">{cal.coachingType}</h4>
             <p className="text-xs text-neutral-400 leading-relaxed mt-2">{cal.details}</p>
           </div>
@@ -227,12 +227,12 @@ function ScaleRoiEstimator({ accentColor }) {
   const r = getRoiData();
 
   return (
-    <section className="py-20 px-8 bg-slate-50 border-t border-b border-slate-100 text-slate-800 text-left font-sans font-light">
-      <div className="max-w-xl mx-auto border border-slate-150 p-8 rounded-2xl bg-white shadow-sm">
+    <section className="py-20 px-8 bg-theme-bg border-t border-b border-theme-border text-theme-text text-left font-sans font-light">
+      <div className="max-w-xl mx-auto border border-slate-150 p-8 rounded-theme bg-theme-surface shadow-theme">
         <div className="text-center mb-8 uppercase font-bold">
-          <FaCalculator size={30} className="mx-auto mb-3 text-blue-600" />
-          <h2 className="text-2xl text-slate-900 tracking-tight">Consulting Impact Calculator</h2>
-          <p className="text-xs font-light text-slate-500 mt-1.5 lowercase">Slide revenue to project consulting value enhancements</p>
+          <FaCalculator size={30} className="mx-auto mb-3 text-theme-primary" />
+          <h2 className="text-2xl text-theme-text tracking-tight">Consulting Impact Calculator</h2>
+          <p className="text-xs font-light text-theme-muted mt-1.5 lowercase">Slide revenue to project consulting value enhancements</p>
         </div>
 
         <div className="space-y-6">
@@ -252,13 +252,13 @@ function ScaleRoiEstimator({ accentColor }) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-100">
-            <div className="p-4 border border-slate-50 bg-slate-50/50 rounded-xl text-center">
-              <span className="text-xl font-bold text-blue-600">₹{r.profitLift.toLocaleString()}</span>
+          <div className="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-theme-border">
+            <div className="p-4 border border-slate-50 bg-theme-bg/50 rounded-theme text-center">
+              <span className="text-xl font-bold text-theme-primary">₹{r.profitLift.toLocaleString()}</span>
               <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium mt-1">Est. Profit Lift</p>
             </div>
-            <div className="p-4 border border-slate-50 bg-slate-50/50 rounded-xl text-center">
-              <span className="text-xl font-bold text-slate-800">+{r.efficiency}%</span>
+            <div className="p-4 border border-slate-50 bg-theme-bg/50 rounded-theme text-center">
+              <span className="text-xl font-bold text-theme-text">+{r.efficiency}%</span>
               <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium mt-1">Process Savings</p>
             </div>
           </div>
@@ -308,9 +308,9 @@ function PixelCraftPortfolio({ accentColor }) {
             <button
               key={key}
               onClick={() => setActiveScreen(key)}
-              className={`p-4 border border-purple-900 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`p-4 border border-purple-900 rounded-theme text-xs font-bold uppercase tracking-wider transition-all ${
                 activeScreen === key 
-                  ? 'border-[#8B5CF6] bg-[#150C24] text-white shadow-sm' 
+                  ? 'border-[#8B5CF6] bg-[#150C24] text-white shadow-theme' 
                   : 'border-purple-950 hover:border-purple-900 text-purple-300'
               }`}
             >
@@ -319,7 +319,7 @@ function PixelCraftPortfolio({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-[#150C24] p-8 border border-purple-950 rounded-xl shadow-md">
+        <div className="bg-[#150C24] p-8 border border-purple-950 rounded-theme shadow-theme">
           <h4 className="font-bold text-sm tracking-wide text-white border-b border-purple-900 pb-3 mb-4 uppercase">
             {p.title}
           </h4>
@@ -369,14 +369,14 @@ function CarePlanner({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#FAF9F6] border-t border-b border-[#14B8A6]/15 text-[#0F766E] text-left font-serif">
-      <div className="max-w-xl mx-auto border border-[#14B8A6]/15 p-8 bg-white rounded-2xl shadow-sm">
+      <div className="max-w-xl mx-auto border border-[#14B8A6]/15 p-8 bg-theme-surface rounded-theme shadow-theme">
         <div className="text-center mb-8">
           <FaBookOpen size={28} className="mx-auto mb-3 text-[#14B8A6]" />
           <h2 className="text-2xl font-bold uppercase tracking-widest">Therapy Sessional Selector</h2>
-          <p className="text-xs text-slate-500 leading-relaxed mt-2 lowercase font-sans">Select category to inspect session parameters</p>
+          <p className="text-xs text-theme-muted leading-relaxed mt-2 lowercase font-sans">Select category to inspect session parameters</p>
         </div>
 
-        <div className="flex border-b border-slate-100 mb-8 text-xs font-bold text-center font-sans">
+        <div className="flex border-b border-theme-border mb-8 text-xs font-bold text-center font-sans">
           {Object.keys(plans).map(key => (
             <button
               key={key}
@@ -392,21 +392,21 @@ function CarePlanner({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-[#FAF9F6] p-6 border border-[#14B8A6]/10 rounded-xl font-sans">
+        <div className="bg-[#FAF9F6] p-6 border border-[#14B8A6]/10 rounded-theme font-sans">
           <span className="text-[9px] uppercase tracking-widest font-bold text-[#14B8A6] block mb-1">Session Spec Sheet</span>
-          <h4 className="text-base font-bold text-slate-800 leading-snug">{pl.title}</h4>
-          <div className="grid grid-cols-2 gap-4 text-xs font-bold text-slate-400 mt-4 border-t border-slate-100 pt-4 uppercase">
+          <h4 className="text-base font-bold text-theme-text leading-snug">{pl.title}</h4>
+          <div className="grid grid-cols-2 gap-4 text-xs font-bold text-slate-400 mt-4 border-t border-theme-border pt-4 uppercase">
             <div>
               <span>Duration</span>
-              <p className="text-slate-800 mt-1 font-bold">{pl.duration}</p>
+              <p className="text-theme-text mt-1 font-bold">{pl.duration}</p>
             </div>
             <div>
               <span>Format</span>
-              <p className="text-slate-800 mt-1 font-bold">{pl.format}</p>
+              <p className="text-theme-text mt-1 font-bold">{pl.format}</p>
             </div>
             <div className="col-span-2">
               <span>Practitioner</span>
-              <p className="text-slate-800 mt-1 font-bold">{pl.therapist}</p>
+              <p className="text-theme-text mt-1 font-bold">{pl.therapist}</p>
             </div>
           </div>
         </div>

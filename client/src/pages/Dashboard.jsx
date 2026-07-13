@@ -7,6 +7,8 @@ import {
   FaBars, FaTimes, FaGlobe, FaArrowRight, FaBox, FaEnvelope,
   FaPaintBrush, FaHome, FaUser
 } from 'react-icons/fa';
+import ThemeToggle from '../components/ThemeToggle';
+import { useTheme } from '../contexts/ThemeContext';
 
 import OverviewTab from '../components/dashboard/OverviewTab';
 import ProductsTab from '../components/dashboard/ProductsTab';
@@ -21,11 +23,7 @@ import AccountSettingsTab from '../components/dashboard/AccountSettingsTab';
 const API_URL = 'http://localhost:5000/api';
 
 function Dashboard({ token, businessId }) {
-  const [theme, setTheme] = useState(localStorage.getItem('dashboard-theme') || 'dark');
-
-  useEffect(() => {
-    localStorage.setItem('dashboard-theme', theme);
-  }, [theme]);
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [business, setBusiness] = useState(null);
   const [stats, setStats] = useState({ views: 0, orders: 0, revenue: 0 });
@@ -171,10 +169,10 @@ function Dashboard({ token, businessId }) {
   };
 
   if (!business) return (
-    <div className="flex items-center justify-center min-h-screen bg-[#09080E]">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50 dark:bg-[#09080E]">
       <div className="flex flex-col items-center gap-4">
         <div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-slate-400 text-sm">Loading your workspace...</p>
+        <p className="text-slate-600 dark:text-slate-400 text-sm">Loading your workspace...</p>
       </div>
     </div>
   );
@@ -196,7 +194,7 @@ function Dashboard({ token, businessId }) {
       case 'settings':
         return <SettingsTab businessId={businessId} businessData={business} onUpdate={setBusiness} refreshData={fetchData} websites={websites} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} />;
       case 'account-settings':
-        return <AccountSettingsTab theme={theme} setTheme={setTheme} business={business} onUpdate={setBusiness} />;
+        return <AccountSettingsTab business={business} onUpdate={setBusiness} />;
       case 'edit-website':
         return <EditWebsiteTab businessId={businessId} businessData={business} selectedWebsite={selectedWebsite} setSelectedWebsite={setSelectedWebsite} websites={websites} routerNavigate={navigate} />;
       default:
@@ -209,31 +207,32 @@ function Dashboard({ token, businessId }) {
       onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${activeTab === id
           ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30 shadow-sm shadow-purple-500/10'
-          : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+          : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/60 hover:text-slate-200'
         }`}
     >
-      <Icon className={`text-sm ${activeTab === id ? 'text-purple-400' : 'text-slate-500'}`} />
+      <Icon className={`text-sm ${activeTab === id ? 'text-purple-400' : 'text-slate-600 dark:text-slate-500'}`} />
       {label}
     </button>
   );
 
   return (
-    <div className={`flex min-h-screen font-sans transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-[#09080E] text-slate-200' : 'bg-[#F8FAFC] text-slate-800'}`}>
+    <div className={`flex min-h-screen font-sans transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-slate-50 dark:bg-[#09080E] text-slate-200' : 'bg-[#F8FAFC] text-slate-800'}`}>
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#0D0C14] border-r border-slate-800/60 h-screen sticky top-0">
+      <aside className={`hidden md:flex flex-col w-64 ${theme === 'dark' ? 'bg-white dark:bg-[#0D0C14] border-slate-200 dark:border-slate-800/60' : 'bg-white border-slate-200'} border-r h-screen sticky top-0`}>
         <div
-          className="p-5 border-b border-slate-800/60 flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
+          className="p-5 border-b border-slate-200 dark:border-slate-800/60 flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
           onClick={() => navigate('/')}
         >
           <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center rounded-xl font-extrabold shadow-lg shadow-indigo-500/20 text-sm">
             {business.businessName?.charAt(0).toUpperCase() || 'B'}
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-extrabold text-sm text-white truncate block">
+            <span className={`font-extrabold text-sm truncate block ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
               {business.businessName || 'My Workspace'}
             </span>
             <span className="text-xs text-purple-400 font-medium">Vendor Dashboard</span>
           </div>
+          <ThemeToggle />
         </div>
 
         <div className="p-4 flex-1 overflow-y-auto">
@@ -255,10 +254,10 @@ function Dashboard({ token, businessId }) {
           </nav>
         </div>
 
-        <div className="p-4 border-t border-slate-800/60">
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800/60">
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-3 px-3 py-2.5 w-full text-slate-500 hover:bg-red-500/10 hover:text-red-400 rounded-lg font-medium transition-colors text-sm"
+            className="flex items-center gap-3 px-3 py-2.5 w-full text-slate-600 dark:text-slate-500 hover:bg-red-500/10 hover:text-red-400 rounded-lg font-medium transition-colors text-sm"
           >
             <FaSignOutAlt className="text-slate-600" />
             Sign Out
@@ -269,21 +268,24 @@ function Dashboard({ token, businessId }) {
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto w-full">
         {/* Top Navbar Mobile */}
-        <div className="md:hidden flex items-center justify-between bg-[#0D0C14] px-4 py-4 border-b border-slate-800/60 sticky top-0 z-20">
+        <div className={`md:hidden flex items-center justify-between px-4 py-4 border-b sticky top-0 z-20 ${theme === 'dark' ? 'bg-white dark:bg-[#0D0C14] border-slate-200 dark:border-slate-800/60' : 'bg-white border-slate-200'}`}>
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-8 h-8 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center rounded-lg font-extrabold shadow-md shadow-indigo-500/10 text-xs">
               {business.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
-            <span className="font-extrabold text-base text-white truncate max-w-[150px]">{business.businessName}</span>
+            <span className={`font-extrabold text-base truncate max-w-[150px] ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{business.businessName}</span>
           </div>
-          <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors">
-            {isSidebarOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="text-slate-600 dark:text-slate-400 hover:text-slate-600 dark:hover:text-white p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 transition-colors">
+              {isSidebarOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu dropdown */}
         {isSidebarOpen && (
-          <div className="md:hidden bg-[#0D0C14] border-b border-slate-800/60 p-4 absolute w-full z-10 shadow-2xl shadow-black/50">
+          <div className="md:hidden bg-white dark:bg-[#0D0C14] border-b border-slate-200 dark:border-slate-800/60 p-4 absolute w-full z-10 shadow-2xl shadow-black/50">
             <nav className="flex flex-col space-y-1">
               <NavItem id="overview" icon={FaHome} label="Dashboard" />
               <NavItem id="analytics" icon={FaChartLine} label="Live Analytics" />
@@ -294,7 +296,7 @@ function Dashboard({ token, businessId }) {
               <NavItem id="inquiries" icon={FaEnvelope} label="Messages" />
               <NavItem id="settings" icon={FaStore} label="Business Settings" />
               <NavItem id="account-settings" icon={FaUser} label="Account Settings" />
-              <div className="h-px bg-slate-800 my-2"></div>
+              <div className="h-px bg-slate-100 dark:bg-slate-800 my-2"></div>
               <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 text-red-400 hover:bg-red-500/10 rounded-lg font-medium text-sm">
                 <FaSignOutAlt /> Sign Out
               </button>
@@ -307,15 +309,15 @@ function Dashboard({ token, businessId }) {
           {activeTab === 'overview' && (
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Overview</h1>
-                <p className="text-slate-500 text-sm">Welcome back! Here's what's happening with your store today.</p>
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-1">Overview</h1>
+                <p className="text-slate-600 dark:text-slate-500 text-sm">Welcome back! Here's what's happening with your store today.</p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowImportModal(true)}
-                  className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm"
+                  className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm"
                 >
-                  <FaGlobe className="text-slate-500" />
+                  <FaGlobe className="text-slate-600 dark:text-slate-500" />
                   Import from Website
                 </button>
                 <button
@@ -337,10 +339,10 @@ function Dashboard({ token, businessId }) {
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-[#13121A] w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 border border-slate-800/60 relative">
+          <div className="bg-white dark:bg-[#13121A] w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 border border-slate-200 dark:border-slate-800/60 relative">
             <button
               onClick={() => { setShowImportModal(false); setImportError(null); setScrapeUrl(''); }}
-              className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors p-1.5 rounded-full hover:bg-slate-800"
+              className="absolute top-4 right-4 text-slate-600 dark:text-slate-500 hover:text-slate-700 dark:text-slate-300 transition-colors p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800"
             >
               <FaTimes className="text-lg" />
             </button>
@@ -349,13 +351,13 @@ function Dashboard({ token, businessId }) {
               <div className="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-purple-500/30">
                 <FaGlobe className="text-xl" />
               </div>
-              <h3 className="text-xl font-bold text-white">Import Site from Website</h3>
-              <p className="text-slate-500 text-xs mt-1">Paste any URL to crawl, analyze, detect the best template layout, and build your store instantly.</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Import Site from Website</h3>
+              <p className="text-slate-600 dark:text-slate-500 text-xs mt-1">Paste any URL to crawl, analyze, detect the best template layout, and build your store instantly.</p>
             </div>
 
             <form onSubmit={handleImportWebsite} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Website URL</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Website URL</label>
                 <input
                   type="url"
                   placeholder="e.g. https://floral-boutique.com"
@@ -363,7 +365,7 @@ function Dashboard({ token, businessId }) {
                   onChange={(e) => setScrapeUrl(e.target.value)}
                   disabled={isImporting}
                   required
-                  className="w-full border border-slate-700/60 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-slate-200 bg-[#09080E] placeholder-slate-600 transition-all"
+                  className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-slate-200 bg-slate-50 dark:bg-[#09080E] placeholder-slate-600 transition-all"
                 />
               </div>
 

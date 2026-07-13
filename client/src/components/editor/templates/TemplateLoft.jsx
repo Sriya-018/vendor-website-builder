@@ -241,7 +241,7 @@ export default function TemplateLoft({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white/95 border border-slate-200 text-slate-800 rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface/95 border border-theme-border text-theme-text rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
@@ -296,7 +296,7 @@ export default function TemplateLoft({
               </div>
 
               {/* Loft Unique Feature: Shop by Room filtered tabs */}
-              <div className="flex flex-wrap justify-center gap-3 mb-16 border-b border-gray-200 pb-6">
+              <div className="flex flex-wrap justify-center gap-3 mb-16 border-b border-theme-border pb-6">
                 {['All', 'Living Room', 'Bedroom', 'Dining', 'Workspace'].map(room => (
                   <button
                     key={room}
@@ -304,7 +304,7 @@ export default function TemplateLoft({
                     className={`px-5 py-2 text-xs uppercase font-semibold tracking-wider transition-all rounded-none ${
                       activeRoomTab === room 
                         ? 'bg-[#2E302F] text-white' 
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        : 'bg-gray-100 text-theme-muted hover:bg-gray-200'
                     }`}
                   >
                     {room}
@@ -323,17 +323,17 @@ export default function TemplateLoft({
                 {activeLoftProducts.slice(0, 4).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-[#fcfcfc] border border-gray-100 hover:shadow-lg transition-shadow flex flex-col justify-between"
+                    className="bg-[#fcfcfc] border border-theme-border hover:shadow-theme transition-shadow flex flex-col justify-between"
                   >
                     <div>
-                      <div className="aspect-[4/3] overflow-hidden bg-gray-50 relative">
+                      <div className="aspect-[4/3] overflow-hidden bg-theme-bg relative">
                         <img 
                           src={getProductImageUrl(product, i)}
                           alt={product.name}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         />
                         {product.inStock === false && (
-                          <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-theme-surface/70 flex items-center justify-center">
                             <span className="px-3 py-1.5 border border-[#2E302F] text-[#2E302F] text-[10px] uppercase font-bold tracking-wider">
                               Sold Out
                             </span>
@@ -347,11 +347,11 @@ export default function TemplateLoft({
                           value={product.name}
                           onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                           tagName="h4"
-                          className="font-bold text-sm truncate uppercase tracking-wider text-slate-800"
+                          className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                         />
                         
                         {/* Specifications list (Loft materials) */}
-                        <div className="mt-2 text-[10px] text-gray-500 font-light">
+                        <div className="mt-2 text-[10px] text-theme-muted font-light">
                           {(product.specs || []).slice(0, 2).map((sp, sIdx) => (
                             <div key={sIdx} className="flex justify-between py-0.5 border-b border-gray-50">
                               <span>{sp.split(':')[0]}</span>
@@ -363,7 +363,7 @@ export default function TemplateLoft({
                     </div>
 
                     <div className="p-5 pt-0">
-                      <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
+                      <div className="flex items-center justify-between border-t border-theme-border pt-4 mt-2">
                         <div className="font-bold text-md text-[#2E302F]">
                           <span>₹</span>
                           <EditableText
@@ -390,7 +390,7 @@ export default function TemplateLoft({
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-3 py-1.5 bg-gray-100 text-[10px] font-bold text-gray-500 hover:bg-gray-200 uppercase tracking-widest text-center"
+                          className="w-full mt-3 py-1.5 bg-gray-100 text-[10px] font-bold text-theme-muted hover:bg-gray-200 uppercase tracking-widest text-center"
                         >
                           ⚙️ Edit Parameters
                         </button>
@@ -416,7 +416,7 @@ export default function TemplateLoft({
         const galleryImages = config.gallery?.images || [];
         return (
           <SectionWrapper key="gallery" isEditable={isEditable} sectionKey="gallery" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="max-w-7xl mx-auto px-8 py-20 bg-gray-50 border-t border-b border-gray-100">
+            <section className="max-w-7xl mx-auto px-8 py-20 bg-theme-bg border-t border-b border-theme-border">
               <div className="text-center mb-12">
                 <EditableText
                   isEditable={isEditable}
@@ -429,7 +429,7 @@ export default function TemplateLoft({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square overflow-hidden group border border-gray-200 bg-white">
+                  <div key={idx} className="relative aspect-square overflow-hidden group border border-theme-border bg-theme-surface">
                     <img src={img} alt={`Loft View ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-350" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-[#2E302F]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -445,7 +445,7 @@ export default function TemplateLoft({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-1.5 bg-white text-[#2E302F] rounded text-xs outline-none focus:ring-1 focus:ring-slate-500"
+                          className="w-full px-3 py-1.5 bg-theme-surface text-[#2E302F] rounded text-xs outline-none focus:ring-1 focus:ring-slate-500"
                         />
                       </div>
                     )}
@@ -476,8 +476,8 @@ export default function TemplateLoft({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-gray-150 overflow-hidden transition-all">
-                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left uppercase font-semibold text-xs tracking-wider text-slate-800 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div key={item.id || idx} className="bg-theme-surface border border-gray-150 overflow-hidden transition-all">
+                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left uppercase font-semibold text-xs tracking-wider text-theme-text flex items-center justify-between hover:bg-theme-bg transition-colors">
                         <EditableText
                           isEditable={isEditable}
                           value={item.q}
@@ -488,10 +488,10 @@ export default function TemplateLoft({
                           }}
                           tagName="span"
                         />
-                        <span className="text-slate-500">{isOpen ? '—' : '+'}</span>
+                        <span className="text-theme-muted">{isOpen ? '—' : '+'}</span>
                       </button>
                       {isOpen && (
-                        <div className="px-6 pb-5 pt-1 text-xs text-gray-500 font-light leading-relaxed border-t border-gray-100">
+                        <div className="px-6 pb-5 pt-1 text-xs text-theme-muted font-light leading-relaxed border-t border-theme-border">
                           <EditableText
                             isEditable={isEditable}
                             value={item.a}
@@ -531,8 +531,8 @@ export default function TemplateLoft({
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                   {testList.map((item, idx) => (
-                    <div key={idx} className="p-8 bg-white border border-gray-200 text-center flex flex-col justify-between">
-                      <p className="text-sm font-light italic leading-relaxed text-gray-600">
+                    <div key={idx} className="p-8 bg-theme-surface border border-theme-border text-center flex flex-col justify-between">
+                      <p className="text-sm font-light italic leading-relaxed text-theme-muted">
                         “
                         <EditableText
                           isEditable={isEditable}
@@ -546,7 +546,7 @@ export default function TemplateLoft({
                         />
                         ”
                       </p>
-                      <div className="mt-8 border-t border-gray-100 pt-6">
+                      <div className="mt-8 border-t border-theme-border pt-6">
                         <EditableText
                           isEditable={isEditable}
                           value={item.author}
@@ -556,7 +556,7 @@ export default function TemplateLoft({
                             onUpdateConfig('testimonials', 'items', updated);
                           }}
                           tagName="h5"
-                          className="font-bold text-xs uppercase tracking-wider text-slate-800"
+                          className="font-bold text-xs uppercase tracking-wider text-theme-text"
                         />
                         <EditableText
                           isEditable={isEditable}
@@ -594,7 +594,7 @@ export default function TemplateLoft({
                 />
                 <div className="w-12 h-0.5 mx-auto mt-3" style={{ backgroundColor: accentColor }}></div>
               </div>
-              <div className="divide-y divide-gray-100 border-t border-b border-gray-100 py-4">
+              <div className="divide-y divide-gray-100 border-t border-b border-theme-border py-4">
                 {hoursDays.map((item, idx) => (
                   <div key={idx} className="flex justify-between py-3.5 text-xs tracking-wider">
                     <span className="text-gray-400 uppercase font-semibold">{item.day}</span>
@@ -627,37 +627,37 @@ export default function TemplateLoft({
                       value={contactSubtitle}
                       onChange={(val) => onUpdateConfig('contact', 'subtitle', val)}
                       tagName="p"
-                      className="text-xs text-gray-500 font-light"
+                      className="text-xs text-theme-muted font-light"
                     />
                   </div>
-                  <div className="space-y-4 text-xs font-medium text-gray-600">
+                  <div className="space-y-4 text-xs font-medium text-theme-muted">
                     {phoneNumber && (
                       <div className="flex items-center gap-4">
-                        <FaPhoneAlt className="text-slate-500" />
+                        <FaPhoneAlt className="text-theme-muted" />
                         <span>{phoneNumber}</span>
                       </div>
                     )}
                     {email && (
                       <div className="flex items-center gap-4">
-                        <FaEnvelope className="text-slate-500" />
+                        <FaEnvelope className="text-theme-muted" />
                         <span>{email}</span>
                       </div>
                     )}
                     {address && (
                       <div className="flex items-center gap-4">
-                        <FaMapMarkerAlt className="text-slate-500" />
+                        <FaMapMarkerAlt className="text-theme-muted" />
                         <span>{address}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="bg-[#fcfcfc] p-8 border border-gray-200 rounded-none shadow-2xl relative">
+                <div className="bg-[#fcfcfc] p-8 border border-theme-border rounded-none shadow-theme relative">
                   {formSubmitted ? (
-                    <div className="text-center py-12 text-slate-800 space-y-4">
+                    <div className="text-center py-12 text-theme-text space-y-4">
                       <FaPaperPlane size={36} className="mx-auto text-slate-400" />
                       <h4 className="text-lg font-bold uppercase tracking-wider">Inquiry Sent</h4>
-                      <p className="text-xs text-gray-500 font-light">We will get back to you with custom catalog updates.</p>
+                      <p className="text-xs text-theme-muted font-light">We will get back to you with custom catalog updates.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleContactSubmit} className="space-y-5">
@@ -669,7 +669,7 @@ export default function TemplateLoft({
                           value={contactForm.name}
                           onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
                           placeholder="e.g. Jane Doe"
-                          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                          className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
                         />
                       </div>
 
@@ -681,7 +681,7 @@ export default function TemplateLoft({
                           value={contactForm.email}
                           onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
                           placeholder="e.g. jane@example.com"
-                          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                          className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
                         />
                       </div>
 
@@ -693,7 +693,7 @@ export default function TemplateLoft({
                           value={contactForm.message}
                           onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                           placeholder="Describe custom sizes, designs, etc."
-                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800 resize-none"
+                          className="w-full px-4 py-3 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text resize-none"
                         />
                       </div>
 
@@ -749,18 +749,18 @@ export default function TemplateLoft({
         <main className="flex-1 max-w-7xl mx-auto w-full px-8 py-16">
           <div className="text-center mb-16">
             <h1 className="text-3xl font-bold uppercase tracking-wider">The Catalog</h1>
-            <p className="text-xs text-gray-500 mt-2 font-light">Browse our selected collections and minimalist layouts.</p>
+            <p className="text-xs text-theme-muted mt-2 font-light">Browse our selected collections and minimalist layouts.</p>
           </div>
 
           {/* Search, Filter & Sort */}
-          <div className="bg-gray-50 p-6 border border-gray-200 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="bg-theme-bg p-6 border border-theme-border mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full md:max-w-xs">
               <input 
                 type="text" 
                 placeholder="Search catalog..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                className="w-full pl-9 pr-4 py-2 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
               />
               <FaSearch className="absolute left-3.5 top-3 text-gray-400" size={10} />
             </div>
@@ -769,7 +769,7 @@ export default function TemplateLoft({
               <select 
                 value={selectedCategory} 
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 bg-white border border-gray-200 text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#2E302F]"
+                className="px-3 py-2 bg-theme-surface border border-theme-border text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#2E302F]"
               >
                 {categoriesList.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -779,7 +779,7 @@ export default function TemplateLoft({
               <select 
                 value={sortBy} 
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full md:w-auto px-3 py-2 bg-white border border-gray-200 text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#2E302F]"
+                className="w-full md:w-auto px-3 py-2 bg-theme-surface border border-theme-border text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#2E302F]"
               >
                 <option value="default">Default Catalog</option>
                 <option value="price-low">Price: Low to High</option>
@@ -793,17 +793,17 @@ export default function TemplateLoft({
             {sortedFilteredProducts.map((product, i) => (
               <div 
                 key={product._id || product.id || i}
-                className="bg-[#fcfcfc] border border-gray-150 flex flex-col justify-between hover:shadow-md transition-shadow"
+                className="bg-[#fcfcfc] border border-gray-150 flex flex-col justify-between hover:shadow-theme transition-shadow"
               >
                 <div>
-                  <div className="aspect-[4/3] overflow-hidden bg-gray-50 relative">
+                  <div className="aspect-[4/3] overflow-hidden bg-theme-bg relative">
                     <img 
                       src={getProductImageUrl(product, i)}
                       alt={product.name}
                       className="w-full h-full object-cover hover:scale-102 transition-transform duration-350"
                     />
                     {product.inStock === false && (
-                      <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-theme-surface/70 flex items-center justify-center">
                         <span className="px-3 py-1.5 border border-[#2E302F] text-[#2E302F] text-[10px] uppercase font-bold tracking-wider">
                           Sold Out
                         </span>
@@ -817,12 +817,12 @@ export default function TemplateLoft({
                       value={product.name}
                       onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                       tagName="h4"
-                      className="font-bold text-sm truncate uppercase tracking-wider text-slate-800"
+                      className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                     />
                   </div>
                 </div>
                 <div className="p-5 pt-0">
-                  <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
+                  <div className="flex items-center justify-between border-t border-theme-border pt-4 mt-2">
                     <div className="font-bold text-md text-[#2E302F]">
                       <span>₹</span>
                       <EditableText
@@ -853,7 +853,7 @@ export default function TemplateLoft({
         </main>
 
         {/* Footer */}
-        <footer className="py-8 text-center text-xs text-gray-400 border-t border-gray-150 bg-gray-50">
+        <footer className="py-8 text-center text-xs text-gray-400 border-t border-gray-150 bg-theme-bg">
           <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
         </footer>
       </div>
@@ -863,10 +863,10 @@ export default function TemplateLoft({
   return (
     <div 
       id="preview-scroll-container"
-      className="w-full h-full overflow-y-auto relative bg-white flex flex-col justify-between font-sans text-gray-800"
+      className="w-full h-full overflow-y-auto relative bg-theme-surface flex flex-col justify-between font-sans text-theme-text"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${(scrolled || currentPage !== 'home') ? 'bg-white/95 border-b border-gray-200 shadow-md text-gray-800' : 'bg-transparent text-white'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 border-b border-theme-border shadow-theme text-theme-text' : 'bg-transparent text-white'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -918,7 +918,7 @@ export default function TemplateLoft({
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-50 py-12 px-8 border-t border-gray-100 text-center text-xs text-gray-400 font-light">
+      <footer className="bg-theme-bg py-12 px-8 border-t border-theme-border text-center text-xs text-gray-400 font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-bold text-gray-700 uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. Pure Minimalist Living.</p>
@@ -931,7 +931,7 @@ export default function TemplateLoft({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-none max-w-lg w-full p-6 border border-gray-200 shadow-2xl relative text-left">
+            <div className="bg-theme-surface rounded-none max-w-lg w-full p-6 border border-theme-border shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -939,11 +939,11 @@ export default function TemplateLoft({
                 ×
               </button>
               
-              <h3 className="text-xl font-bold uppercase tracking-wider text-slate-800 border-b border-gray-100 pb-3 mb-6">
+              <h3 className="text-xl font-bold uppercase tracking-wider text-theme-text border-b border-theme-border pb-3 mb-6">
                 Decor Parameters Settings
               </h3>
 
-              <div className="space-y-4 font-sans text-xs text-gray-600">
+              <div className="space-y-4 font-sans text-xs text-theme-muted">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5">Item Name</label>
@@ -951,7 +951,7 @@ export default function TemplateLoft({
                       type="text"
                       value={product.name}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-800 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-theme-text outline-none focus:border-slate-500"
                     />
                   </div>
 
@@ -961,7 +961,7 @@ export default function TemplateLoft({
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-800 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-theme-text outline-none focus:border-slate-500"
                     />
                   </div>
                 </div>
@@ -974,7 +974,7 @@ export default function TemplateLoft({
                       value={product.category || ''}
                       placeholder="e.g. Living Room, Bedroom, Dining, Workspace"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-800 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-theme-text outline-none focus:border-slate-500"
                     />
                   </div>
                 </div>
@@ -993,7 +993,7 @@ export default function TemplateLoft({
                             updated[idx] = e.target.value;
                             onUpdateProduct(product._id || product.id, 'specs', updated);
                           }}
-                          className="flex-1 px-3 py-1.5 bg-white border border-gray-250 rounded-none text-xs outline-none focus:border-slate-400 text-slate-850"
+                          className="flex-1 px-3 py-1.5 bg-theme-surface border border-gray-250 rounded-none text-xs outline-none focus:border-slate-400 text-slate-850"
                         />
                         <button 
                           type="button"
@@ -1013,7 +1013,7 @@ export default function TemplateLoft({
                         const updated = [...(product.specs || []), 'Material: Solid Oak'];
                         onUpdateProduct(product._id || product.id, 'specs', updated);
                       }}
-                      className="w-full py-2 bg-white border border-dashed border-gray-200 hover:border-gray-450 text-xs font-bold text-gray-500 rounded transition-colors"
+                      className="w-full py-2 bg-theme-surface border border-dashed border-theme-border hover:border-gray-450 text-xs font-bold text-theme-muted rounded transition-colors"
                     >
                       + Add Material/Size Row
                     </button>
@@ -1021,19 +1021,19 @@ export default function TemplateLoft({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-gray-200 bg-gray-50 transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-theme-border bg-theme-bg transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'isBestseller', e.target.checked)}
                       className="w-4 h-4 accent-slate-600 cursor-pointer"
                     />
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-800 select-none">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-theme-text select-none">
                       ⭐ Feature on Top
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-gray-200 bg-gray-50 transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-theme-border bg-theme-bg transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1044,7 +1044,7 @@ export default function TemplateLoft({
                       }}
                       className="w-4 h-4 accent-slate-600 cursor-pointer"
                     />
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-800 select-none">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-theme-text select-none">
                       📦 In Stock
                     </div>
                   </label>
@@ -1061,16 +1061,16 @@ export default function TemplateLoft({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-800 outline-none focus:border-slate-500"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-theme-text outline-none focus:border-slate-500"
                     placeholder="Quantity in Stock"
                   />
                 </div>
 
                 {/* Presentation Image */}
-                <div className="p-4 border border-gray-200 bg-gray-50/50 space-y-3">
+                <div className="p-4 border border-theme-border bg-theme-bg/50 space-y-3">
                   <span className="block text-[10px] uppercase tracking-wider text-gray-400">Decor Image</span>
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 border border-gray-200 shrink-0 bg-white">
+                    <div className="w-20 h-20 border border-theme-border shrink-0 bg-theme-surface">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1079,7 +1079,7 @@ export default function TemplateLoft({
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white border border-gray-200 hover:bg-gray-100 text-slate-850 font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface border border-theme-border hover:bg-gray-100 text-slate-850 font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1094,13 +1094,13 @@ export default function TemplateLoft({
                         value={product.img || ''} 
                         placeholder="Paste image link" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-white border border-gray-200 text-xs text-slate-850 outline-none focus:border-slate-500" 
+                        className="w-full px-3 py-1.5 bg-theme-surface border border-theme-border text-xs text-slate-850 outline-none focus:border-slate-500" 
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-3 pt-4 border-t border-gray-100 justify-between items-center">
+                <div className="flex gap-3 pt-4 border-t border-theme-border justify-between items-center">
                   <button 
                     onClick={() => {
                       if (onDeleteProduct) {
@@ -1130,19 +1130,19 @@ export default function TemplateLoft({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-none max-w-lg w-full p-6 shadow-2xl border border-gray-200 relative text-left">
+          <div className="bg-theme-surface rounded-none max-w-lg w-full p-6 shadow-theme border border-theme-border relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-2xl w-8 h-8 flex items-center justify-center"
             >
               ×
             </button>
-            <h3 className="text-xl font-bold uppercase tracking-wider text-slate-800 mb-1">
+            <h3 className="text-xl font-bold uppercase tracking-wider text-theme-text mb-1">
               Loft Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a minimalist room preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a minimalist room preset or generate using AI.</p>
 
-            <div className="flex border-b border-gray-200 mb-6 font-semibold">
+            <div className="flex border-b border-theme-border mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
                 className={`flex-1 py-2 font-bold text-xs uppercase tracking-wider text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#2E302F] text-[#2E302F]' : 'border-transparent text-gray-400 hover:text-gray-550'}`}
@@ -1173,7 +1173,7 @@ export default function TemplateLoft({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video border border-gray-100 hover:border-[#2E302F] transition-all bg-gray-50"
+                    className="cursor-pointer group relative aspect-video border border-theme-border hover:border-[#2E302F] transition-all bg-theme-bg"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1185,23 +1185,23 @@ export default function TemplateLoft({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your room setting backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your room setting backdrop</label>
                   <textarea 
                     placeholder="e.g. bright scandinavian styled apartment, cozy minimalist loft living room wood shelves"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-none outline-none focus:border-slate-500 text-sm text-slate-800 resize-none"
+                    className="w-full px-4 py-3 bg-theme-surface border border-theme-border rounded-none outline-none focus:border-slate-500 text-sm text-theme-text resize-none"
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-white border border-gray-200 rounded-none outline-none focus:border-slate-500 text-sm text-slate-800 font-bold"
+                      className="w-full p-3 bg-theme-surface border border-theme-border rounded-none outline-none focus:border-slate-500 text-sm text-theme-text font-bold"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

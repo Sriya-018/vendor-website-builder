@@ -242,7 +242,7 @@ export default function TemplateTrend({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white text-black font-black text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface text-black font-black text-xs uppercase tracking-wider shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
@@ -268,7 +268,7 @@ export default function TemplateTrend({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="px-8 py-4 bg-white text-black font-black text-xs uppercase tracking-widest hover:bg-[#F43F5E] hover:text-white transition-colors flex items-center gap-2"
+                      className="px-8 py-4 bg-theme-surface text-black font-black text-xs uppercase tracking-widest hover:bg-[#F43F5E] hover:text-white transition-colors flex items-center gap-2"
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Streetwear'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
                       <FaArrowRight />
@@ -305,8 +305,8 @@ export default function TemplateTrend({
                       <button
                         key={pin.id}
                         onClick={() => setActiveHotspot(pin.id === activeHotspot ? null : pin.id)}
-                        className={`absolute w-6 h-6 rounded-full flex items-center justify-center cursor-pointer shadow-lg animate-ping-slow ${
-                          activeHotspot === pin.id ? 'bg-[#F43F5E] scale-110' : 'bg-white'
+                        className={`absolute w-6 h-6 rounded-full flex items-center justify-center cursor-pointer shadow-theme animate-ping-slow ${
+                          activeHotspot === pin.id ? 'bg-[#F43F5E] scale-110' : 'bg-theme-surface'
                         }`}
                         style={{ top: pin.top, left: pin.left }}
                       >
@@ -338,14 +338,14 @@ export default function TemplateTrend({
                             data-product-name={product.name}
                             data-product-price={product.price}
                             data-product-image={getProductImageUrl(product, activePin.targetIdx)}
-                            className="w-full py-3 bg-white text-black font-black uppercase text-xs tracking-wider hover:bg-[#F43F5E] hover:text-white transition-colors"
+                            className="w-full py-3 bg-theme-surface text-black font-black uppercase text-xs tracking-wider hover:bg-[#F43F5E] hover:text-white transition-colors"
                           >
                             Add This Piece
                           </button>
                         </div>
                       );
                     })() : (
-                      <div className="text-center py-16 border border-dashed border-white/10 text-gray-500 text-xs font-light">
+                      <div className="text-center py-16 border border-dashed border-white/10 text-theme-muted text-xs font-light">
                         Select one of the glowing pins on the left photo model to preview and check fit details.
                       </div>
                     )}
@@ -369,7 +369,7 @@ export default function TemplateTrend({
                   className="text-4xl font-extrabold uppercase tracking-widest"
                   style={{ color: accentColor }}
                 />
-                <div className="w-16 h-1 mx-auto mt-4 bg-white"></div>
+                <div className="w-16 h-1 mx-auto mt-4 bg-theme-surface"></div>
               </div>
               
               <div 
@@ -395,7 +395,7 @@ export default function TemplateTrend({
                         />
                         {product.inStock === false && (
                           <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
-                            <span className="px-3 py-1.5 border border-red-500 text-red-500 font-black text-[10px] uppercase tracking-wider bg-red-950/20">
+                            <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-black text-[10px] uppercase tracking-wider bg-red-950/20">
                               Sold Out
                             </span>
                           </div>
@@ -433,7 +433,7 @@ export default function TemplateTrend({
                           data-product-price={product.price}
                           data-product-image={getProductImageUrl(product, i)}
                           disabled={product.inStock === false}
-                          className="px-3 py-1.5 bg-white text-black hover:bg-[#F43F5E] hover:text-white font-black text-[9px] uppercase tracking-wider transition-colors disabled:opacity-40"
+                          className="px-3 py-1.5 bg-theme-surface text-black hover:bg-[#F43F5E] hover:text-white font-black text-[9px] uppercase tracking-wider transition-colors disabled:opacity-40"
                         >
                           Bag
                         </button>
@@ -441,7 +441,7 @@ export default function TemplateTrend({
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-3 py-1.5 bg-white/5 text-[9px] font-bold text-gray-500 hover:text-white uppercase tracking-widest text-center"
+                          className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-white uppercase tracking-widest text-center"
                         >
                           ⚙️ Edit Apparel Settings
                         </button>
@@ -453,7 +453,7 @@ export default function TemplateTrend({
               <div className="text-center mt-16">
                 <button 
                   onClick={() => changePage('shop')}
-                  className="px-10 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-black font-black text-xs uppercase tracking-widest transition-colors"
+                  className="px-10 py-4 bg-transparent border-2 border-white text-white hover:bg-theme-surface hover:text-black font-black text-xs uppercase tracking-widest transition-colors"
                 >
                   See Full Drop
                 </button>
@@ -477,7 +477,7 @@ export default function TemplateTrend({
                   className="text-3xl font-extrabold uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-1 mx-auto mt-4 bg-white"></div>
+                <div className="w-12 h-1 mx-auto mt-4 bg-theme-surface"></div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
@@ -523,7 +523,7 @@ export default function TemplateTrend({
                   className="text-3xl font-extrabold uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-1 mx-auto mt-4 bg-white"></div>
+                <div className="w-12 h-1 mx-auto mt-4 bg-theme-surface"></div>
               </div>
               <div className="space-y-4">
                 {faqList.map((item, idx) => {
@@ -581,7 +581,7 @@ export default function TemplateTrend({
                     className="text-3xl font-extrabold uppercase tracking-wider"
                     style={{ color: accentColor }}
                   />
-                  <div className="w-12 h-1 mx-auto mt-4 bg-white"></div>
+                  <div className="w-12 h-1 mx-auto mt-4 bg-theme-surface"></div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                   {testList.map((item, idx) => (
@@ -645,7 +645,7 @@ export default function TemplateTrend({
                   className="text-xl font-bold uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-1 mx-auto mt-4 bg-white"></div>
+                <div className="w-12 h-1 mx-auto mt-4 bg-theme-surface"></div>
               </div>
               <div className="divide-y divide-white/5 border-t border-b border-white/5 py-4">
                 {hoursDays.map((item, idx) => (
@@ -706,12 +706,12 @@ export default function TemplateTrend({
                   </div>
                 </div>
 
-                <div className="bg-neutral-950 p-8 border border-white/5 shadow-2xl relative">
+                <div className="bg-neutral-950 p-8 border border-white/5 shadow-theme relative">
                   {formSubmitted ? (
                     <div className="text-center py-12 text-[#F43F5E] space-y-4">
                       <FaPaperPlane size={36} className="mx-auto" />
                       <h4 className="text-xl font-bold uppercase tracking-wider">Inquiry Dropped</h4>
-                      <p className="text-xs text-gray-500 font-light font-sans">We will send design details and catalog parameters soon.</p>
+                      <p className="text-xs text-theme-muted font-light font-sans">We will send design details and catalog parameters soon.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleContactSubmit} className="space-y-5 font-sans">
@@ -753,7 +753,7 @@ export default function TemplateTrend({
 
                       <button 
                         type="submit"
-                        className="w-full py-3.5 bg-white text-black font-black uppercase tracking-wider text-xs hover:bg-[#F43F5E] hover:text-white transition-colors"
+                        className="w-full py-3.5 bg-theme-surface text-black font-black uppercase tracking-wider text-xs hover:bg-[#F43F5E] hover:text-white transition-colors"
                       >
                         Submit Message Drop
                       </button>
@@ -793,7 +793,7 @@ export default function TemplateTrend({
           )}
           <button 
             onClick={() => changePage('home')}
-            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-white/5"
+            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
           >
             ← Back To Drop
           </button>
@@ -857,20 +857,20 @@ export default function TemplateTrend({
                       className="w-full h-full object-cover"
                     />
                     {product.isBestseller && (
-                      <span className="absolute top-4 left-4 px-3 py-1 bg-white text-black font-black text-[9px] uppercase tracking-widest">
+                      <span className="absolute top-4 left-4 px-3 py-1 bg-theme-surface text-black font-black text-[9px] uppercase tracking-widest">
                         Hot Drop
                       </span>
                     )}
                     {product.inStock === false && (
                       <div className="absolute inset-0 bg-black/85 flex items-center justify-center">
-                        <span className="px-3 py-1.5 border border-red-500 text-red-500 font-black text-[10px] uppercase tracking-wider bg-red-950/20">
+                        <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-black text-[10px] uppercase tracking-wider bg-red-950/20">
                           Sold Out
                         </span>
                       </div>
                     )}
                   </div>
                   <div className="p-5">
-                    <span className="text-[9px] uppercase font-bold text-gray-500 mb-1 block">{product.category || 'Apparel'}</span>
+                    <span className="text-[9px] uppercase font-bold text-theme-muted mb-1 block">{product.category || 'Apparel'}</span>
                     <EditableText
                       isEditable={isEditable}
                       value={product.name}
@@ -900,7 +900,7 @@ export default function TemplateTrend({
                       data-product-price={product.price}
                       data-product-image={getProductImageUrl(product, i)}
                       disabled={product.inStock === false}
-                      className="px-3 py-1.5 bg-white text-black hover:bg-[#F43F5E] hover:text-white font-black text-[9px] uppercase tracking-wider transition-colors disabled:opacity-40"
+                      className="px-3 py-1.5 bg-theme-surface text-black hover:bg-[#F43F5E] hover:text-white font-black text-[9px] uppercase tracking-wider transition-colors disabled:opacity-40"
                     >
                       Bag
                     </button>
@@ -925,7 +925,7 @@ export default function TemplateTrend({
       className="w-full h-full overflow-y-auto relative bg-black flex flex-col justify-between font-sans text-gray-200"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-black/95 border-b border-white/5 shadow-lg' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-black/95 border-b border-white/5 shadow-theme' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -944,7 +944,7 @@ export default function TemplateTrend({
           <div className="flex items-center gap-6">
             <button 
               onClick={() => changePage('shop')} 
-              className="px-5 py-2 border border-white hover:bg-white hover:text-black text-xs font-black uppercase tracking-wider text-white transition-colors"
+              className="px-5 py-2 border border-white hover:bg-theme-surface hover:text-black text-xs font-black uppercase tracking-wider text-white transition-colors"
             >
               Shop Drop
             </button>
@@ -958,7 +958,7 @@ export default function TemplateTrend({
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#050505] py-12 px-8 border-t border-white/5 text-center text-xs text-gray-500 font-light">
+      <footer className="bg-[#050505] py-12 px-8 border-t border-white/5 text-center text-xs text-theme-muted font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-black text-[#F43F5E] uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. Street Drop Design.</p>
@@ -971,7 +971,7 @@ export default function TemplateTrend({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 border border-white/10 shadow-2xl relative text-left">
+            <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 border border-white/10 shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -986,7 +986,7 @@ export default function TemplateTrend({
               <div className="space-y-4 font-sans text-xs text-gray-300">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Apparel Title</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Apparel Title</label>
                     <input 
                       type="text"
                       value={product.name}
@@ -996,7 +996,7 @@ export default function TemplateTrend({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Drop Price (₹)</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Drop Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
@@ -1008,7 +1008,7 @@ export default function TemplateTrend({
 
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Category</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
@@ -1020,7 +1020,7 @@ export default function TemplateTrend({
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Design Specification Description</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Design Specification Description</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe streetwear specifics, fabric composition, GSM parameters."
@@ -1061,7 +1061,7 @@ export default function TemplateTrend({
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Stock Capacity</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Stock Capacity</label>
                   <input 
                     type="number"
                     min="0"
@@ -1078,7 +1078,7 @@ export default function TemplateTrend({
 
                 {/* Scoping Image */}
                 <div className="p-4 border border-white/10 bg-black/25 space-y-3">
-                  <span className="block text-[10px] uppercase tracking-wider text-gray-500">Apparel Presentation Image</span>
+                  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Apparel Presentation Image</span>
                   <div className="flex gap-4 items-center">
                     <div className="w-20 h-20 border border-white/10 shrink-0">
                       <img 
@@ -1089,7 +1089,7 @@ export default function TemplateTrend({
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1126,7 +1126,7 @@ export default function TemplateTrend({
                   </button>
                   <button 
                     onClick={() => setActiveEditProductId(null)}
-                    className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-white hover:bg-rose-500 hover:text-white"
+                    className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-theme-surface hover:bg-rose-500 hover:text-white"
                   >
                     Done
                   </button>
@@ -1140,7 +1140,7 @@ export default function TemplateTrend({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-2xl border border-white/10 relative text-left">
+          <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-theme border border-white/10 relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1150,18 +1150,18 @@ export default function TemplateTrend({
             <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-1">
               Trend Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a streetwear drop preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a streetwear drop preset or generate using AI.</p>
 
             <div className="flex border-b border-white/10 mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#F43F5E] text-[#F43F5E]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#F43F5E] text-[#F43F5E]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#F43F5E] text-[#F43F5E]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#F43F5E] text-[#F43F5E]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 AI Generator
               </button>
@@ -1195,7 +1195,7 @@ export default function TemplateTrend({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your drop backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your drop backdrop</label>
                   <textarea 
                     placeholder="e.g. moody urban skate park with street art graffiti, hyper realistic photo banner"
                     value={aiPrompt}
@@ -1207,7 +1207,7 @@ export default function TemplateTrend({
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
@@ -1225,7 +1225,7 @@ export default function TemplateTrend({
                 <button 
                   onClick={handleGenerateAiBg}
                   disabled={isGenerating}
-                  className="w-full py-3.5 hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2 bg-white hover:bg-[#F43F5E] hover:text-white"
+                  className="w-full py-3.5 hover:opacity-90 text-black font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2 bg-theme-surface hover:bg-[#F43F5E] hover:text-white"
                 >
                   {isGenerating ? (
                     <>

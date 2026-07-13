@@ -13,6 +13,8 @@ import {
 } from 'react-icons/fa';
 import LivePreview from '../components/editor/LivePreview';
 import AIChatModal from '../components/chatbot/AIChatModal';
+import ThemeToggle from '../components/ThemeToggle';
+import { useTheme } from '../contexts/ThemeContext';
 
 const DEFAULT_CONFIG = {
   template: 't1',
@@ -416,6 +418,7 @@ const MOCK_TEMPLATES = [
 ];
 
 function Templates({ token, businessId }) {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
   const [previewTemplate, setPreviewTemplate] = useState(null);
@@ -1061,7 +1064,7 @@ function Templates({ token, businessId }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#09080E] font-sans pb-20 relative">
+    <div className={`min-h-screen font-sans pb-20 relative transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-slate-50 dark:bg-[#09080E] text-slate-100' : 'bg-[#F8FAFC] text-slate-800'}`}>
       {/* Camera Modal */}
       {showCameraModal && (
         <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
@@ -1132,17 +1135,18 @@ function Templates({ token, businessId }) {
       )}
 
       {/* NAVBAR */}
-      <nav className="bg-[#0D0C14] border-b border-slate-800/60 sticky top-0 z-30">
+      <nav className={`${theme === 'dark' ? 'bg-white dark:bg-[#0D0C14] border-slate-200 dark:border-slate-800/60' : 'bg-white border-slate-200'} border-b sticky top-0 z-30 transition-colors duration-300`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/15">
               <FaStore className="text-xl" />
             </div>
-            <span className="font-extrabold font-jakarta text-2xl tracking-tight text-white">VendorBuild</span>
+            <span className={`font-extrabold font-jakarta text-2xl tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>VendorBuild</span>
           </div>
-          <div className="flex gap-4">
-            <button onClick={() => navigate('/')} className="text-slate-400 hover:text-white font-medium transition-colors">Home</button>
-            {token && <button onClick={() => navigate('/dashboard')} className="text-slate-400 hover:text-white font-medium transition-colors">Dashboard</button>}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <button onClick={() => navigate('/')} className={`${theme === 'dark' ? 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors`}>Home</button>
+            {token && <button onClick={() => navigate('/dashboard')} className={`${theme === 'dark' ? 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors`}>Dashboard</button>}
           </div>
         </div>
       </nav>
@@ -1150,10 +1154,10 @@ function Templates({ token, businessId }) {
       {/* HERO & FILTERS */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-12">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="font-jakarta text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+          <h1 className={`font-jakarta text-4xl md:text-5xl font-extrabold mb-4 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
             Choose Your Store Template
           </h1>
-          <p className="text-lg md:text-xl text-slate-500">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-500">
             Pick a design, add your products, and go live in minutes. No coding required.
           </p>
         </div>
@@ -1166,7 +1170,7 @@ function Templates({ token, businessId }) {
               onClick={() => setActiveCategory(category)}
               className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${activeCategory === category
                 ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20 transform scale-105'
-                : 'bg-[#13121A] text-slate-400 border border-slate-800/60 hover:border-indigo-500/40 hover:text-slate-200'
+                : `${theme === 'dark' ? 'bg-white dark:bg-[#13121A] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800/60 hover:text-slate-200' : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900'} border hover:border-indigo-500/40`
                 }`}
             >
               {category}
@@ -1179,7 +1183,7 @@ function Templates({ token, businessId }) {
           {filteredTemplates.map(template => (
             <div
               key={template.id}
-              className="bg-[#13121A] rounded-2xl overflow-hidden border border-slate-800/60 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
+              className="bg-white dark:bg-[#13121A] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800/60 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group flex flex-col transform hover:-translate-y-1"
             >
               <div className="relative h-64 overflow-hidden bg-slate-900/50">
                 <img
@@ -1196,7 +1200,7 @@ function Templates({ token, businessId }) {
                   </button>
                 </div>
                 <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-[#09080E]/80 backdrop-blur-sm text-slate-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-slate-700/50">
+                  <span className="bg-slate-50 dark:bg-[#09080E]/80 backdrop-blur-sm text-slate-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-slate-300 dark:border-slate-700/50">
                     {template.category}
                   </span>
                 </div>
@@ -1207,8 +1211,8 @@ function Templates({ token, businessId }) {
               </div>
 
               <div className="p-6 flex-1 flex flex-col">
-                <h3 className="font-jakarta text-2xl font-bold text-white mb-2">{template.name}</h3>
-                <p className="text-slate-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
+                <h3 className="font-jakarta text-2xl font-bold text-slate-900 dark:text-white mb-2">{template.name}</h3>
+                <p className="text-slate-600 dark:text-slate-500 text-sm flex-1 mb-6 leading-relaxed">{template.description}</p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => openDrawer(template)}
@@ -1224,18 +1228,18 @@ function Templates({ token, businessId }) {
 
         {filteredTemplates.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-slate-500 text-lg">No templates found for this category.</p>
+            <p className="text-slate-600 dark:text-slate-500 text-lg">No templates found for this category.</p>
           </div>
         )}
       </div>
 
-      <div className="bg-[#0D0C14] border-t border-slate-800/60 mt-12 py-16">
+      <div className="bg-white dark:bg-[#0D0C14] border-t border-slate-200 dark:border-slate-800/60 mt-12 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaStar className="text-2xl" />
           </div>
-          <h2 className="font-jakarta text-3xl font-bold text-white mb-4">Not sure which template to pick?</h2>
-          <p className="text-slate-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect store for you.</p>
+          <h2 className="font-jakarta text-3xl font-bold text-slate-900 dark:text-white mb-4">Not sure which template to pick?</h2>
+          <p className="text-slate-600 dark:text-slate-500 text-lg mb-8">Let our AI analyze your business and automatically generate the perfect store for you.</p>
           <button 
             onClick={() => setIsChatOpen(true)}
             className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg shadow-indigo-500/20"
@@ -1253,8 +1257,8 @@ function Templates({ token, businessId }) {
               <div className="flex items-center gap-4">
                 <span className="font-bold text-lg text-slate-900">{previewTemplate.name} Preview</span>
                 <div className="hidden md:flex gap-2 bg-slate-100 p-1 rounded-lg">
-                  <button onClick={() => setPreviewDevice('desktop')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'desktop' ? 'bg-white text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}><FaDesktop /></button>
-                  <button onClick={() => setPreviewDevice('mobile')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'mobile' ? 'bg-white text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}><FaMobileAlt /></button>
+                  <button onClick={() => setPreviewDevice('desktop')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'desktop' ? 'bg-white text-indigo-600' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}><FaDesktop /></button>
+                  <button onClick={() => setPreviewDevice('mobile')} className={`p-1.5 shadow-sm rounded-md ${previewDevice === 'mobile' ? 'bg-white text-indigo-600' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}><FaMobileAlt /></button>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -1301,30 +1305,30 @@ function Templates({ token, businessId }) {
       {isDrawerOpen && (
         <>
           <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 animate-fade-in" onClick={closeDrawer}></div>
-          <div className={`fixed top-0 right-0 h-full w-full bg-[#0D0C14] shadow-2xl shadow-black/50 z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
+          <div className={`fixed top-0 right-0 h-full w-full bg-white dark:bg-[#0D0C14] shadow-2xl shadow-black/50 z-50 flex flex-col transform transition-all duration-300 translate-x-0 ${drawerStep === 2 ? 'max-w-4xl' : 'max-w-md'}`}>
 
             {/* Drawer Header */}
-            <div className="h-20 border-b border-slate-800/60 flex items-center justify-between px-6 shrink-0">
-              <h2 className="font-jakarta text-xl font-bold text-white">Setup Your Store</h2>
-              <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors">
+            <div className="h-20 border-b border-slate-200 dark:border-slate-800/60 flex items-center justify-between px-6 shrink-0">
+              <h2 className="font-jakarta text-xl font-bold text-slate-900 dark:text-white">Setup Your Store</h2>
+              <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-200 transition-colors">
                 <FaTimes />
               </button>
             </div>
 
             {/* Progress Stepper */}
-            <div className="px-6 py-6 bg-[#09080E] border-b border-slate-800/60 shrink-0">
+            <div className="px-6 py-6 bg-slate-50 dark:bg-[#09080E] border-b border-slate-200 dark:border-slate-800/60 shrink-0">
               <div className="flex items-center justify-between relative">
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-800 z-0 rounded-full"></div>
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-100 dark:bg-slate-800 z-0 rounded-full"></div>
                 <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-purple-600 z-0 rounded-full transition-all duration-300`} style={{ width: drawerStep === 1 ? '0%' : drawerStep === 2 ? '50%' : '100%' }}></div>
 
                 {[1, 2, 3].map(step => (
-                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all border-2 ${drawerStep >= step ? 'bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-500/20' : 'bg-[#0D0C14] border-slate-700 text-slate-600'
+                  <div key={step} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all border-2 ${drawerStep >= step ? 'bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-500/20' : 'bg-white dark:bg-[#0D0C14] border-slate-300 dark:border-slate-700 text-slate-600'
                     }`}>
                     {drawerStep > step ? <FaCheck className="text-xs" /> : step}
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between mt-2 text-xs font-semibold text-slate-500">
+              <div className="flex justify-between mt-2 text-xs font-semibold text-slate-600 dark:text-slate-500">
                 <span className={drawerStep >= 1 ? 'text-purple-650 font-bold' : ''}>Details</span>
                 <span className={drawerStep >= 2 ? 'text-purple-650 font-bold' : ''}>Products</span>
                 <span className={drawerStep >= 3 ? 'text-purple-650 font-bold' : ''}>Publish</span>
@@ -1341,79 +1345,79 @@ function Templates({ token, businessId }) {
                     <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-purple-500/30">
                       <FaStore className="text-purple-650 text-2xl" />
                     </div>
-                    <h3 className="font-jakarta text-2xl font-bold text-white">Store Details</h3>
-                    <p className="text-slate-500 mt-2">Let's give your new store an identity.</p>
+                    <h3 className="font-jakarta text-2xl font-bold text-slate-900 dark:text-white">Store Details</h3>
+                    <p className="text-slate-600 dark:text-slate-500 mt-2">Let's give your new store an identity.</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-400 mb-2">Store Name *</label>
+                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">Store Name *</label>
                     <input
                       type="text"
                       value={storeDetails.name}
                       onChange={(e) => setStoreDetails({ ...storeDetails, name: e.target.value })}
                       placeholder="e.g. Acme SuperMart"
-                      className="w-full border border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-200 bg-[#09080E] placeholder-slate-700 font-medium"
+                      className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-[#09080E] placeholder-slate-400 dark:placeholder-slate-500 font-medium"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Tagline</label>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Tagline</label>
                     <input
                       type="text"
                       value={storeDetails.tagline}
                       onChange={(e) => setStoreDetails({ ...storeDetails, tagline: e.target.value })}
                       placeholder="e.g. Best quality goods for you"
-                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
+                      className="w-full border border-slate-200 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 font-medium placeholder-slate-400 dark:placeholder-slate-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      <FaPhone className="inline mr-2 text-slate-400" /> Phone Number *
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                      <FaPhone className="inline mr-2 text-slate-600 dark:text-slate-400" /> Phone Number *
                     </label>
                     <input
                       type="tel"
                       value={storeDetails.phone}
                       onChange={(e) => setStoreDetails({ ...storeDetails, phone: e.target.value })}
                       placeholder="+1 234 567 8900"
-                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
+                      className="w-full border border-slate-200 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 font-medium placeholder-slate-400 dark:placeholder-slate-500"
                     />
-                    <p className="text-xs text-slate-500 mt-1">Will be displayed on your website with WhatsApp button</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-500 mt-1">Will be displayed on your website with WhatsApp button</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      <FaEnvelope className="inline mr-2 text-slate-400" /> Email Address <span className="text-slate-400 font-normal">(Optional)</span>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                      <FaEnvelope className="inline mr-2 text-slate-600 dark:text-slate-400" /> Email Address <span className="text-slate-600 dark:text-slate-400 font-normal">(Optional)</span>
                     </label>
                     <input
                       type="email"
                       value={storeDetails.email}
                       onChange={(e) => setStoreDetails({ ...storeDetails, email: e.target.value })}
                       placeholder="contact@yourstore.com"
-                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium"
+                      className="w-full border border-slate-200 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 font-medium placeholder-slate-400 dark:placeholder-slate-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      <FaMapMarkerAlt className="inline mr-2 text-slate-400" /> Store Address
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                      <FaMapMarkerAlt className="inline mr-2 text-slate-600 dark:text-slate-400" /> Store Address
                     </label>
                     <textarea
                       value={storeDetails.address}
                       onChange={(e) => setStoreDetails({ ...storeDetails, address: e.target.value })}
                       placeholder="123 Business St., Suite 100, City, Country"
                       rows="3"
-                      className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 bg-slate-50 focus:bg-white font-medium resize-none"
+                      className="w-full border border-slate-200 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 font-medium resize-none placeholder-slate-400 dark:placeholder-slate-500"
                     />
                   </div>
 
                   {/* Social Media Section */}
-                  <div className="border-t border-gray-200 pt-6 mt-4">
-                    <h4 className="font-semibold text-gray-900 mb-4">Social Media Links (Optional)</h4>
+                  <div className="border-t border-slate-200 dark:border-slate-800/60 pt-6 mt-4">
+                    <h4 className="font-semibold text-slate-900 dark:text-white mb-4">Social Media Links (Optional)</h4>
 
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
                           <FaWhatsapp className="text-green-600" /> WhatsApp Number
                         </label>
                         <input
@@ -1424,13 +1428,13 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, whatsapp: e.target.value }
                           })}
                           placeholder="+1 234 567 8900"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                          className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#09080E] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                         />
-                        <p className="text-xs text-gray-500 mt-1">Customers can chat with you directly via WhatsApp</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-500 mt-1">Customers can chat with you directly via WhatsApp</p>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
                           <FaInstagram className="text-pink-600" /> Instagram URL
                         </label>
                         <input
@@ -1441,12 +1445,12 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, instagram: e.target.value }
                           })}
                           placeholder="https://instagram.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                          className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#09080E] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
                           <FaFacebook className="text-blue-700" /> Facebook URL
                         </label>
                         <input
@@ -1457,12 +1461,12 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, facebook: e.target.value }
                           })}
                           placeholder="https://facebook.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                          className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#09080E] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
                           <FaTwitter className="text-blue-400" /> Twitter URL
                         </label>
                         <input
@@ -1473,14 +1477,14 @@ function Templates({ token, businessId }) {
                             socialMedia: { ...storeDetails.socialMedia, twitter: e.target.value }
                           })}
                           placeholder="https://twitter.com/yourstore"
-                          className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                          className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#09080E] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Store Logo</label>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Store Logo</label>
                     <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center bg-slate-50 hover:bg-slate-100 hover:border-purple-400 transition-colors cursor-pointer relative overflow-hidden">
                       <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="logo-upload" onChange={handleLogoUpload} />
                       {storeDetails.logo ? (
@@ -1490,9 +1494,9 @@ function Templates({ token, businessId }) {
                         </div>
                       ) : (
                         <div>
-                          <FaImage className="text-3xl text-slate-400 mx-auto mb-2" />
+                          <FaImage className="text-3xl text-slate-600 dark:text-slate-400 mx-auto mb-2" />
                           <p className="text-purple-650 font-bold text-sm">Click to upload logo</p>
-                          <p className="text-xs text-slate-400 mt-1">PNG, JPG up to 2MB</p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">PNG, JPG up to 2MB</p>
                         </div>
                       )}
                     </div>
@@ -1504,23 +1508,23 @@ function Templates({ token, businessId }) {
               {drawerStep === 2 && (
                 <div className="space-y-6 animate-fade-in-up">
                   <div className="mb-6">
-                    <h3 className="font-jakarta text-2xl font-bold text-gray-900">Add Products</h3>
-                    <p className="text-gray-500 mt-1 text-sm">Add products to your catalog. Professional layout for better management.</p>
+                    <h3 className="font-jakarta text-2xl font-bold text-slate-900 dark:text-white">Add Products</h3>
+                    <p className="text-slate-600 dark:text-slate-400 mt-1 text-sm">Add products to your catalog. Professional layout for better management.</p>
                   </div>
 
                   {/* Two Column Layout for Add Product Form and Product List */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                     {/* LEFT COLUMN - Add Product Form */}
-                    <div className="bg-gradient-to-br from-slate-50 to-white p-5 rounded-2xl border border-slate-200 shadow-sm sticky top-0">
-                      <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <div className="bg-gradient-to-br from-slate-50 to-white dark:from-[#09080E] dark:to-[#13121A] p-5 rounded-2xl border border-slate-200 dark:border-slate-800/60 shadow-sm sticky top-0">
+                      <h4 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                         <FaPlus className="text-indigo-650" /> Add New Product
                       </h4>
 
                       <div className="space-y-4">
                         {/* Product Image Upload with Camera Options */}
                         <div>
-                          <label className="block text-sm font-bold text-slate-700 mb-2">Product Image & Details</label>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Product Image & Details</label>
                           <div className="flex gap-3">
                             <button
                               onClick={startVoice}
@@ -1538,10 +1542,10 @@ function Templates({ token, businessId }) {
                             </button>
                             <button
                               onClick={() => document.getElementById('product-image-input').click()}
-                              className="flex-1 bg-white border-2 border-dashed border-slate-250 rounded-xl p-3 text-center hover:border-purple-400 transition-colors"
+                              className="flex-1 bg-white dark:bg-[#13121A] border-2 border-dashed border-slate-250 dark:border-slate-700/60 rounded-xl p-3 text-center hover:border-purple-400 transition-colors"
                             >
-                              <FaUpload className="text-xl text-gray-400 mx-auto mb-1" />
-                              <span className="text-xs text-gray-500">Upload File</span>
+                              <FaUpload className="text-xl text-slate-400 dark:text-slate-500 mx-auto mb-1" />
+                              <span className="text-xs text-slate-600 dark:text-slate-500">Upload File</span>
                             </button>
                           </div>
                           <input
@@ -1585,19 +1589,19 @@ function Templates({ token, businessId }) {
                             placeholder="Product Name *"
                             value={newProduct.name}
                             onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
-                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 text-sm font-semibold"
+                            className="w-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-[#13121A] rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                           />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                           <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 font-bold">₹</span>
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-600 dark:text-slate-500 font-bold">₹</span>
                             <input
                               type="number"
                               placeholder="Price *"
                               value={newProduct.price}
                               onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
-                              className="w-full border border-slate-200 bg-slate-50 rounded-xl pl-7 pr-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold"
+                              className="w-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-[#13121A] rounded-xl pl-7 pr-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                             />
                           </div>
                           <input
@@ -1605,7 +1609,7 @@ function Templates({ token, businessId }) {
                             placeholder="Category"
                             value={newProduct.category}
                             onChange={e => setNewProduct({ ...newProduct, category: e.target.value })}
-                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold"
+                            className="w-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-[#13121A] rounded-xl px-3 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                           />
                         </div>
 
@@ -1615,14 +1619,14 @@ function Templates({ token, businessId }) {
                             value={newProduct.description}
                             onChange={e => setNewProduct({ ...newProduct, description: e.target.value })}
                             rows="2"
-                            className="w-full border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold resize-none"
+                            className="w-full border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-[#13121A] rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-semibold resize-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                           />
                         </div>
 
                         <button
                           onClick={addProduct}
                           disabled={!newProduct.name || !newProduct.price}
-                          className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 disabled:opacity-50 transition-colors"
+                          className="w-full bg-slate-900 dark:bg-purple-600 text-white py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:bg-slate-800 dark:hover:bg-purple-700 disabled:opacity-50 transition-colors"
                         >
                           <FaPlus className="text-xs" /> Add Product
                         </button>
@@ -1630,16 +1634,16 @@ function Templates({ token, businessId }) {
                     </div>
 
                     {/* RIGHT COLUMN - Products Grid */}
-                    <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
-                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200">
-                        <h4 className="font-bold text-slate-900">Your Products</h4>
-                        <span className="text-sm bg-purple-50 text-purple-750 px-3 py-1 rounded-full font-bold">
+                    <div className="bg-slate-50 dark:bg-[#09080E] rounded-2xl p-5 border border-slate-200 dark:border-slate-800/60">
+                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200 dark:border-slate-800/60">
+                        <h4 className="font-bold text-slate-900 dark:text-white">Your Products</h4>
+                        <span className="text-sm bg-purple-50 dark:bg-purple-500/10 text-purple-750 dark:text-purple-400 px-3 py-1 rounded-full font-bold">
                           {products.length} {products.length === 1 ? 'item' : 'items'}
                         </span>
                       </div>
 
                       {products.length === 0 ? (
-                        <div className="text-center py-12 text-slate-400 border-2 border-dashed border-slate-200 rounded-2xl bg-white">
+                        <div className="text-center py-12 text-slate-600 dark:text-slate-400 border-2 border-dashed border-slate-200 dark:border-slate-700/60 rounded-2xl bg-white dark:bg-[#13121A]">
                           <FaImage className="text-4xl mx-auto mb-3 opacity-55" />
                           <p className="text-sm font-semibold">No products added yet</p>
                           <p className="text-xs mt-1">Fill the form and click "Add Product"</p>
@@ -1683,7 +1687,7 @@ function Templates({ token, businessId }) {
                                         )}
                                       </div>
                                       {p.description && (
-                                        <p className="text-xs text-slate-500 mt-1 line-clamp-1">{p.description}</p>
+                                        <p className="text-xs text-slate-600 dark:text-slate-500 mt-1 line-clamp-1">{p.description}</p>
                                       )}
                                     </div>
 
@@ -1713,7 +1717,7 @@ function Templates({ token, businessId }) {
                                       />
                                       <button
                                         onClick={() => removeProduct(p.id)}
-                                        className="text-slate-400 hover:text-red-650 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                                        className="text-slate-600 dark:text-slate-400 hover:text-red-650 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
                                         title="Remove product"
                                       >
                                         <FaTrash className="text-sm" />
@@ -1730,11 +1734,11 @@ function Templates({ token, businessId }) {
                       {/* Product Count Summary */}
                       {products.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-gray-200">
-                          <div className="flex justify-between text-xs text-gray-500">
+                          <div className="flex justify-between text-xs text-slate-600 dark:text-slate-500">
                             <span>Total Products</span>
                             <span className="font-semibold text-gray-900">{products.length}</span>
                           </div>
-                          <div className="flex justify-between text-xs text-gray-500 mt-1">
+                          <div className="flex justify-between text-xs text-slate-600 dark:text-slate-500 mt-1">
                             <span>With Images</span>
                             <span className="font-semibold text-green-600">{products.filter(p => p.imagePreview).length}</span>
                           </div>
@@ -1748,48 +1752,48 @@ function Templates({ token, businessId }) {
               {/* STEP 3: Publish */}
               {drawerStep === 3 && (
                 <div className="space-y-6 animate-fade-in-up text-center pt-8">
-                  <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
-                    <FaCheck className="text-green-600 text-4xl relative z-10" />
-                    <div className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-20"></div>
+                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <FaCheck className="text-green-500 text-3xl" />
                   </div>
+                  <h3 className="font-jakarta text-2xl font-bold text-slate-900 dark:text-white">Ready to Launch!</h3>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Your store is fully configured and ready to accept customers.
+                  </p>
 
-                  <h3 className="font-jakarta text-3xl font-bold text-gray-900">Ready to Launch!</h3>
-                  <p className="text-gray-500 mt-2 text-lg">Your store is fully configured and ready to accept customers.</p>
-
-                  <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 text-left mt-8">
-                    <h4 className="font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Store Summary</h4>
-                    <div className="space-y-3 text-sm max-h-96 overflow-y-auto">
+                  <div className="bg-white dark:bg-[#13121A] rounded-2xl p-6 text-left border border-slate-200 dark:border-slate-800/60 shadow-sm mt-8">
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-4 pb-4 border-b border-slate-200 dark:border-slate-800/60">Store Summary</h4>
+                    <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Store Name:</span>
-                        <span className="font-semibold text-gray-900">{storeDetails.name || 'My Awesome Store'}</span>
+                        <span className="text-slate-500 dark:text-slate-400">Store Name:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">{storeDetails.name || 'Not provided'}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Phone:</span>
-                        <span className="font-semibold text-gray-900">{storeDetails.phone || 'Not provided'}</span>
+                        <span className="text-slate-500 dark:text-slate-400">Phone:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">{storeDetails.phone || 'Not provided'}</span>
                       </div>
                       {storeDetails.email && (
                         <div className="flex justify-between">
-                          <span className="text-gray-500">Email:</span>
-                          <span className="font-semibold text-gray-900">{storeDetails.email}</span>
+                          <span className="text-slate-500 dark:text-slate-400">Email:</span>
+                          <span className="font-semibold text-slate-900 dark:text-white">{storeDetails.email}</span>
                         </div>
                       )}
                       <div className="flex justify-between">
-                        <span className="text-gray-500">WhatsApp:</span>
-                        <span className="font-semibold text-gray-900">
+                        <span className="text-slate-500 dark:text-slate-400">WhatsApp:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">
                           {storeDetails.socialMedia?.whatsapp ? '✓ Enabled' : 'Not configured'}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Template:</span>
-                        <span className="font-semibold text-gray-900">{previewTemplate?.name}</span>
+                        <span className="text-slate-500 dark:text-slate-400">Template:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">{previewTemplate?.name}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Products Added:</span>
-                        <span className="font-semibold text-gray-900">{products.length} items</span>
+                        <span className="text-slate-500 dark:text-slate-400">Products Added:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">{products.length} items</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-500">Products with Images:</span>
-                        <span className="font-semibold text-gray-900">{products.filter(p => p.imagePreview).length} items</span>
+                        <span className="text-slate-500 dark:text-slate-400">Products with Images:</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">{products.filter(p => p.imagePreview).length} items</span>
                       </div>
                     </div>
                   </div>
@@ -1798,13 +1802,13 @@ function Templates({ token, businessId }) {
             </div>
 
             {/* Drawer Footer / Navigation */}
-            <div className="p-6 border-t border-slate-200 bg-white shrink-0">
+            <div className="p-6 border-t border-slate-200 dark:border-slate-800/60 bg-white dark:bg-[#09080E] shrink-0">
               <div className="flex gap-4">
                 {drawerStep > 1 && (
                   <button
                     onClick={() => setDrawerStep(drawerStep - 1)}
                     disabled={isPublishing}
-                    className="flex-1 py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-50 transition-colors"
+                    className="flex-1 py-3.5 bg-white dark:bg-[#09080E] border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-[#13121A] transition-colors"
                   >
                     Back
                   </button>

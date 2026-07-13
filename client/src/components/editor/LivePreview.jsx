@@ -94,13 +94,21 @@ function LivePreview({
   };
 
   const cssVariables = {
-    '--theme-color': config.themeColor || '#2563eb',
+    '--primary': config.theme?.primary || '#2563eb',
+    '--secondary': config.theme?.secondary || '#4f46e5',
+    '--accent': config.theme?.accent || '#f59e0b',
+    '--background': config.theme?.background || '#ffffff',
+    '--surface': config.theme?.surface || '#f9fafb',
+    '--text': config.theme?.text || '#111827',
+    '--muted': config.theme?.muted || '#6b7280',
+    '--border': config.theme?.border || '#e5e7eb',
     '--heading-font': getFontFamily('headingFont'),
     '--body-font': getFontFamily('bodyFont'),
-    '--base-size': `${config.typography.baseSize || 16}px`,
-    '--line-height': config.typography.lineHeight === 'compact' ? 1.4 : config.typography.lineHeight === 'relaxed' ? 1.8 : 1.6,
-    '--letter-spacing': config.typography.letterSpacing === 'tight' ? '-0.02em' : config.typography.letterSpacing === 'wide' ? '0.05em' : 'normal',
-    '--radius': config.spacing.borderRadius === 'sharp' ? '0px' : config.spacing.borderRadius === 'pill' ? '9999px' : '8px',
+    '--base-size': `${config.typography?.baseSize || 16}px`,
+    '--line-height': config.typography?.lineHeight === 'compact' ? 1.4 : config.typography?.lineHeight === 'relaxed' ? 1.8 : 1.6,
+    '--letter-spacing': config.typography?.letterSpacing === 'tight' ? '-0.02em' : config.typography?.letterSpacing === 'wide' ? '0.05em' : 'normal',
+    '--radius': config.spacing?.borderRadius || '8px',
+    '--shadow': config.shadows?.globalStyle === 'none' ? 'none' : config.shadows?.globalStyle === 'light' ? '0 1px 2px 0 rgb(0 0 0 / 0.05)' : config.shadows?.globalStyle === 'heavy' ? '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)' : '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
   };
 
   // Real products or fallback dummy products
@@ -196,10 +204,11 @@ function LivePreview({
     <div className={`h-full w-full flex items-center justify-center transition-all duration-300 relative`}>
       {/* Device Frame */}
       <div 
-        className={`${getDeviceWidth()} h-full max-h-[800px] w-full bg-white shadow-2xl overflow-hidden flex flex-col transition-all duration-500 rounded-[2rem] border-[12px] border-gray-900 ring-1 ring-gray-200 relative`} 
+        className={`${getDeviceWidth()} h-full max-h-[800px] w-full bg-theme-background shadow-2xl overflow-hidden flex flex-col transition-all duration-500 rounded-[2rem] border-[12px] border-gray-900 ring-1 ring-gray-200 relative`} 
         style={{ ...cssVariables, transform: 'translate(0, 0)' }}
       >
-        <div className="flex-1 overflow-y-auto w-full">
+        <style dangerouslySetInnerHTML={{ __html: config.customCss || '' }} />
+        <div className="flex-1 overflow-y-auto w-full preview-content">
           {renderTemplate()}
         </div>
       </div>

@@ -246,7 +246,7 @@ export default function TemplateCrave({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white/95 border border-amber-250 text-orange-950 rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface/95 border border-amber-250 text-orange-950 rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
@@ -271,7 +271,7 @@ export default function TemplateCrave({
                 <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                   <button 
                     onClick={() => changePage('shop')}
-                    className="inline-block px-10 py-4 text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-xl flex items-center gap-2"
+                    className="inline-block px-10 py-4 text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-theme flex items-center gap-2"
                     style={{ backgroundColor: accentColor }}
                   >
                     <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'See Our Menu'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -310,7 +310,7 @@ export default function TemplateCrave({
                 {products.slice(0, 3).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-white rounded-2xl overflow-hidden border hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
+                    className="bg-theme-surface rounded-theme overflow-hidden border hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
                     style={{ borderColor: '#fde68a', boxShadow: `0 12px 30px ${accentColor}26`, borderRadius: 'var(--radius)' }}
                   >
                     <div>
@@ -351,7 +351,7 @@ export default function TemplateCrave({
                           data-product-name={product.name}
                           data-product-price={product.price}
                           data-product-image={product.img || `https://picsum.photos/seed/food${i}/600/600`}
-                          className="text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity"
+                          className="text-white px-5 py-2.5 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
                           style={{ backgroundColor: accentColor }}
                         >
                           Order Now
@@ -393,7 +393,7 @@ export default function TemplateCrave({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden group shadow-sm border border-amber-200 bg-white">
+                  <div key={idx} className="relative aspect-square rounded-theme overflow-hidden group shadow-theme border border-amber-200 bg-theme-surface">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -409,7 +409,7 @@ export default function TemplateCrave({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-1.5 bg-white rounded-full text-xs outline-none focus:ring-2 focus:ring-orange-500"
+                          className="w-full px-3 py-1.5 bg-theme-surface rounded-full text-xs outline-none focus:ring-2 focus:ring-orange-500"
                         />
                       </div>
                     )}
@@ -441,7 +441,7 @@ export default function TemplateCrave({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-amber-200 rounded-xl overflow-hidden shadow-sm transition-all animate-fade-in">
+                    <div key={item.id || idx} className="bg-theme-surface border border-amber-200 rounded-theme overflow-hidden shadow-theme transition-all animate-fade-in">
                       <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-amber-900 flex items-center justify-between hover:bg-amber-50/20 transition-colors">
                         <EditableText
                           isEditable={isEditable}
@@ -496,7 +496,7 @@ export default function TemplateCrave({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-between border border-amber-100">
+                    <div key={item.id || idx} className="bg-theme-surface rounded-theme p-6 shadow-theme flex flex-col justify-between border border-amber-100">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -507,7 +507,7 @@ export default function TemplateCrave({
                                 const updated = testimonialList.map(t => t.id === item.id ? { ...t, rating: starIdx + 1 } : t);
                                 onUpdateConfig('testimonials', 'list', updated);
                               }}
-                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-amber-500' : 'text-amber-100'}`}
+                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-theme-primary' : 'text-amber-100'}`}
                             >
                               ★
                             </button>
@@ -559,8 +559,8 @@ export default function TemplateCrave({
         const hoursDays = config.hours?.days || [];
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="py-20 px-8 bg-white">
-              <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-100 rounded-3xl p-8 md:p-12 shadow-sm">
+            <section className="py-20 px-8 bg-theme-surface">
+              <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-100 rounded-theme p-8 md:p-12 shadow-theme">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
@@ -619,7 +619,7 @@ export default function TemplateCrave({
                     { label: 'Min', val: timeLeft.minutes },
                     { label: 'Sec', val: timeLeft.seconds }
                   ].map((col, idx) => (
-                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-2xl min-w-[70px] border border-white/10 shadow-md">
+                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-white/10 shadow-theme">
                       <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-amber-250 mt-1">{col.label}</span>
                     </div>
@@ -635,7 +635,7 @@ export default function TemplateCrave({
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="contact" className="bg-[#fef3c7] py-20 px-8 text-center border-t border-[#fde68a]">
               <h3 className="text-4xl mb-6" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Visit Us</h3>
-              <div className="inline-block bg-white rounded-3xl p-8 text-left shadow-sm min-w-[300px] border border-amber-200">
+              <div className="inline-block bg-theme-surface rounded-theme p-8 text-left shadow-theme min-w-[300px] border border-amber-200">
                 <div className="space-y-4">
                   {phoneNumber && (
                     <p className="flex items-center gap-3">
@@ -749,10 +749,10 @@ export default function TemplateCrave({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-24 animate-fade-in">
           {/* Catalog Filters Header */}
-          <div className="bg-white rounded-3xl p-8 border border-amber-200 shadow-sm mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="bg-theme-surface rounded-theme p-8 border border-amber-200 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-4xl" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Our Menu</h2>
-              <p className="text-amber-600 text-sm mt-1">Order fresh food catalog options directly</p>
+              <p className="text-theme-primary text-sm mt-1">Order fresh food catalog options directly</p>
             </div>
             
             <div className="flex flex-col md:flex-row gap-4 flex-1 max-w-xl md:justify-end">
@@ -790,7 +790,7 @@ export default function TemplateCrave({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'text-white shadow-md' : 'bg-white border border-amber-200 text-amber-800 hover:bg-amber-50'}`}
+                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'text-white shadow-theme' : 'bg-theme-surface border border-amber-200 text-amber-800 hover:bg-amber-50'}`}
                 style={{ backgroundColor: selectedCategory === cat ? accentColor : '' }}
               >
                 {cat}
@@ -800,10 +800,10 @@ export default function TemplateCrave({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-amber-200 shadow-sm">
+            <div className="text-center py-20 bg-theme-surface rounded-theme border border-amber-200 shadow-theme">
               <div className="text-4xl mb-3">🔍</div>
               <h3 className="font-extrabold text-amber-900 text-lg">No dishes found</h3>
-              <p className="text-amber-500 text-sm mt-1">Try matching another search query or category filter</p>
+              <p className="text-theme-primary text-sm mt-1">Try matching another search query or category filter</p>
             </div>
           ) : (
             <div 
@@ -817,7 +817,7 @@ export default function TemplateCrave({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-white rounded-2xl overflow-hidden border hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between animate-fade-in relative"
+                  className="bg-theme-surface rounded-theme overflow-hidden border hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between animate-fade-in relative"
                   style={{ borderColor: '#fde68a', boxShadow: `0 12px 30px ${accentColor}26`, borderRadius: 'var(--radius)' }}
                 >
                   <div>
@@ -828,11 +828,11 @@ export default function TemplateCrave({
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Sold Out
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20" style={{ backgroundColor: accentColor }}>
+                        <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
                           ⭐ Bestseller
                         </span>
                       ) : null}
@@ -842,7 +842,7 @@ export default function TemplateCrave({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-white/95 border border-amber-200 hover:bg-amber-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-theme-surface/95 border border-amber-200 hover:bg-amber-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -850,7 +850,7 @@ export default function TemplateCrave({
                       )}
                     </div>
                     <div className="p-6">
-                      <div className="text-[0.65rem] font-bold tracking-[0.12em] uppercase mb-1.5 text-amber-600">
+                      <div className="text-[0.65rem] font-bold tracking-[0.12em] uppercase mb-1.5 text-theme-primary">
                         {product.category || 'Dishes'}
                       </div>
                       <EditableText
@@ -893,9 +893,9 @@ export default function TemplateCrave({
                         data-product-price={product.price}
                         data-product-image={getProductImageUrl(product, i)}
                         disabled={product.inStock === false}
-                        className={`text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${
+                        className={`text-white px-5 py-2.5 rounded-theme font-bold text-sm transition-all ${
                           product.inStock === false 
-                            ? 'bg-amber-250 text-amber-500 cursor-not-allowed' 
+                            ? 'bg-amber-250 text-theme-primary cursor-not-allowed' 
                             : 'hover:opacity-90'
                         }`}
                         style={{ backgroundColor: product.inStock !== false ? accentColor : undefined }}
@@ -910,7 +910,7 @@ export default function TemplateCrave({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-white border-2 border-dashed border-amber-300 rounded-3xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-orange-500 hover:bg-orange-50/20 transition-all duration-300 min-h-[300px]"
+                  className="bg-theme-surface border-2 border-dashed border-amber-300 rounded-theme p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-orange-500 hover:bg-orange-50/20 transition-all duration-300 min-h-[300px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div className="w-12 h-12 rounded-full bg-amber-50 text-orange-500 flex items-center justify-center text-xl font-bold mb-3">+</div>
@@ -930,33 +930,33 @@ export default function TemplateCrave({
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-extrabold" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Where to Find Us</h2>
-                <p className="text-amber-700 text-sm mt-1">Stop by our place or contact us for reservations/orders.</p>
+                <p className="text-theme-primary text-sm mt-1">Stop by our place or contact us for reservations/orders.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {phoneNumber && (
-                  <div className="bg-white border border-amber-100 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
+                  <div className="bg-theme-surface border border-amber-100 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-amber-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Call Us</div>
+                      <div className="text-[10px] font-bold text-theme-primary uppercase tracking-widest">Call Us</div>
                       <div className="font-bold text-amber-900 text-sm break-all">{phoneNumber}</div>
                     </div>
                   </div>
                 )}
                 {email && (
-                  <div className="bg-white border border-amber-100 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
+                  <div className="bg-theme-surface border border-amber-100 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-amber-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Email Us</div>
+                      <div className="text-[10px] font-bold text-theme-primary uppercase tracking-widest">Email Us</div>
                       <div className="font-bold text-amber-900 text-sm break-all">{email}</div>
                     </div>
                   </div>
                 )}
                 {address && (
-                  <div className="bg-white border border-amber-100 rounded-3xl p-6 shadow-sm flex items-center gap-4 sm:col-span-2">
-                    <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
+                  <div className="bg-theme-surface border border-amber-100 rounded-theme p-6 shadow-theme flex items-center gap-4 sm:col-span-2">
+                    <div className="w-12 h-12 bg-amber-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Address</div>
+                      <div className="text-[10px] font-bold text-theme-primary uppercase tracking-widest">Address</div>
                       <div className="font-bold text-amber-900 text-sm">{address}</div>
                     </div>
                   </div>
@@ -964,7 +964,7 @@ export default function TemplateCrave({
               </div>
 
               {/* Hours panel */}
-              <div className="bg-white border border-amber-100 rounded-3xl p-8 shadow-sm">
+              <div className="bg-theme-surface border border-amber-100 rounded-theme p-8 shadow-theme">
                 <h3 className="font-bold text-amber-950 text-xl mb-4" style={{ fontFamily: "'Lobster', cursive" }}>{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
@@ -978,63 +978,63 @@ export default function TemplateCrave({
             </div>
 
             {/* Contact Inquiry Form */}
-            <div className="bg-white border border-amber-100 rounded-3xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="bg-theme-surface border border-amber-100 rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
               <h3 className="text-2xl font-bold mb-6" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Book a Table / Inquire</h3>
               
               {formSubmitted ? (
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
+                <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
                   <div className="w-16 h-16 bg-amber-50 text-orange-500 rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
                   <h4 className="font-extrabold text-amber-950 text-xl">Inquiry Received!</h4>
-                  <p className="text-amber-600 text-sm mt-1 max-w-[280px]">Thank you. We will confirm your request shortly.</p>
+                  <p className="text-theme-primary text-sm mt-1 max-w-[280px]">Thank you. We will confirm your request shortly.</p>
                 </div>
               ) : null}
 
               <form onSubmit={handleContactSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Name</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Name</label>
                   <input 
                     type="text" 
                     placeholder="Enter your name" 
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all"
+                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Email</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Email</label>
                   <input 
                     type="email" 
                     placeholder="Enter your email" 
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all"
+                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all"
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Date</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Date</label>
                     <input 
                       type="date" 
                       value={reservationDetails.date}
                       onChange={(e) => setReservationDetails({ ...reservationDetails, date: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all"
+                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Time</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Time</label>
                     <input 
                       type="time" 
                       value={reservationDetails.time}
                       onChange={(e) => setReservationDetails({ ...reservationDetails, time: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all"
+                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Guests</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Guests</label>
                     <select 
                       value={reservationDetails.guests}
                       onChange={(e) => setReservationDetails({ ...reservationDetails, guests: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all cursor-pointer"
+                      className="w-full px-3 py-2.5 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-xs text-amber-950 transition-all cursor-pointer"
                     >
                       {[1,2,3,4,5,6,7,8,10,12].map(n => (
                         <option key={n} value={n}>{n} Guests</option>
@@ -1043,19 +1043,19 @@ export default function TemplateCrave({
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-amber-600 uppercase tracking-widest mb-2">Request Details</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Request Details</label>
                   <textarea 
                     placeholder="What dishes or special instructions do you have?" 
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-2xl outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all resize-none"
+                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-250 rounded-theme outline-none focus:ring-2 focus:ring-orange-400 text-sm text-amber-950 transition-all resize-none"
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-4 rounded-full text-white font-extrabold shadow-md hover:opacity-95 transition-opacity"
+                  className="w-full py-4 rounded-full text-white font-extrabold shadow-theme hover:opacity-95 transition-opacity"
                   style={{ backgroundColor: accentColor }}
                 >
                   Submit Reservation / Inquiry
@@ -1076,17 +1076,17 @@ export default function TemplateCrave({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-[#fffbeb] rounded-3xl max-w-lg w-full p-8 shadow-2xl relative border border-amber-200 font-sans text-amber-950 text-left animate-fade-in">
+            <div className="bg-[#fffbeb] rounded-theme max-w-lg w-full p-8 shadow-theme relative border border-amber-200 font-sans text-amber-950 text-left animate-fade-in">
               <button 
                 onClick={() => setActiveEditProductId(null)}
-                className="absolute top-4 right-4 text-amber-500 hover:text-amber-700 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-amber-100"
+                className="absolute top-4 right-4 text-theme-primary hover:text-theme-primary font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-amber-100"
               >
                 ×
               </button>
               <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>
                 Edit Dish Settings
               </h3>
-              <p className="text-xs text-amber-600 mb-6">Modify price, descriptions, ingredients, or dietary preferences.</p>
+              <p className="text-xs text-theme-primary mb-6">Modify price, descriptions, ingredients, or dietary preferences.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 <div>
@@ -1095,7 +1095,7 @@ export default function TemplateCrave({
                     type="text"
                     value={product.name}
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-xl outline-none focus:ring-2 focus:ring-orange-450 text-sm text-amber-950"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-450 text-sm text-amber-950"
                   />
                 </div>
 
@@ -1106,7 +1106,7 @@ export default function TemplateCrave({
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-xl outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950"
                     />
                   </div>
 
@@ -1117,7 +1117,7 @@ export default function TemplateCrave({
                       value={product.category || ''}
                       placeholder="e.g. Starters, Main Course"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-xl outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950"
                     />
                   </div>
                 </div>
@@ -1129,7 +1129,7 @@ export default function TemplateCrave({
                     placeholder="Describe main ingredients, taste profile, and preparation time."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white border border-amber-200 rounded-xl outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950 resize-none"
+                    className="w-full px-4 py-3 bg-theme-surface border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-455 text-sm text-amber-950 resize-none"
                   />
                 </div>
 
@@ -1150,10 +1150,10 @@ export default function TemplateCrave({
                               : [...currentDietary, dt];
                             onUpdateProduct(product._id || product.id, 'dietary', newDietary);
                           }}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                          className={`px-4 py-2 rounded-theme text-xs font-bold transition-all border ${
                             hasDietary 
-                              ? 'bg-orange-500 border-orange-500 text-white shadow-sm' 
-                              : 'bg-white border-amber-200 text-amber-900 hover:bg-amber-50'
+                              ? 'bg-orange-500 border-orange-500 text-white shadow-theme' 
+                              : 'bg-theme-surface border-amber-200 text-amber-900 hover:bg-amber-50'
                           }`}
                         >
                           {dt}
@@ -1164,7 +1164,7 @@ export default function TemplateCrave({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-amber-200 bg-white rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-amber-200 bg-theme-surface rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1176,7 +1176,7 @@ export default function TemplateCrave({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-amber-200 bg-white rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-amber-200 bg-theme-surface rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1205,17 +1205,17 @@ export default function TemplateCrave({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-xl outline-none focus:ring-2 focus:ring-orange-455 text-sm font-medium text-amber-950"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-455 text-sm font-medium text-amber-950"
                     placeholder="Quantity in Stock"
                   />
                 </div>
 
                 {/* Product Image Section */}
-                <div className="p-4 border border-amber-200 rounded-2xl bg-amber-50/50 space-y-3">
+                <div className="p-4 border border-amber-200 rounded-theme bg-amber-50/50 space-y-3">
                   <span className="block text-xs font-bold text-amber-900 uppercase">Product Image</span>
                   
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-white border border-amber-200 shrink-0">
+                    <div className="w-20 h-20 rounded-theme overflow-hidden bg-theme-surface border border-amber-200 shrink-0">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1225,7 +1225,7 @@ export default function TemplateCrave({
 
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold rounded-xl text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1241,7 +1241,7 @@ export default function TemplateCrave({
                         value={product.img || ''} 
                         placeholder="Paste image link" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-amber-250 rounded-lg text-xs outline-none focus:ring-1 focus:ring-orange-500 text-amber-950" 
+                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-amber-250 rounded-theme text-xs outline-none focus:ring-1 focus:ring-orange-500 text-amber-950" 
                       />
                     </div>
                   </div>
@@ -1258,7 +1258,7 @@ export default function TemplateCrave({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-full font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-full font-bold text-xs shadow-theme transition-all"
                   >
                     Delete Dish
                   </button>
@@ -1279,7 +1279,7 @@ export default function TemplateCrave({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-amber-100">
+          <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-amber-100">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -1289,18 +1289,18 @@ export default function TemplateCrave({
             <h3 className="text-xl font-bold mb-1 text-amber-950" style={{ fontFamily: "'Lobster', cursive" }}>
               Header Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a food/beverage preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a food/beverage preset or generate using AI.</p>
 
             <div className="flex border-b border-amber-200 mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-450 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-450 hover:text-theme-muted'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-450 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-450 hover:text-theme-muted'}`}
               >
                 AI Generator
               </button>
@@ -1322,7 +1322,7 @@ export default function TemplateCrave({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border-2 border-transparent hover:border-orange-500 transition-all bg-amber-50/20"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border-2 border-transparent hover:border-orange-500 transition-all bg-amber-50/20"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1334,23 +1334,23 @@ export default function TemplateCrave({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your food background</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your food background</label>
                   <textarea 
                     placeholder="e.g. delicious Italian pizza closeup, steaming coffee cup cozy cafe morning light"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-200 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 text-sm text-amber-955 resize-none"
+                    className="w-full px-4 py-3 bg-amber-50/30 border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-500 text-sm text-amber-955 resize-none"
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-amber-50/30 border border-amber-200 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 text-sm font-bold bg-white text-amber-950"
+                      className="w-full p-3 bg-amber-50/30 border border-amber-200 rounded-theme outline-none focus:ring-2 focus:ring-orange-500 text-sm font-bold bg-theme-surface text-amber-950"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

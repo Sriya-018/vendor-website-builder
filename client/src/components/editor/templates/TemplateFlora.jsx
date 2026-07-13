@@ -248,7 +248,7 @@ export default function TemplateFlora({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white/95 border border-slate-200 text-slate-800 rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface/95 border border-theme-border text-theme-text rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
@@ -291,18 +291,18 @@ export default function TemplateFlora({
       case 'routineFinder':
         return (
           <SectionWrapper key="routineFinder" isEditable={isEditable} sectionKey="routineFinder" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="bg-slate-50 py-20 px-8 border-b border-gray-150">
+            <section className="bg-theme-bg py-20 px-8 border-b border-gray-150">
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                   <span className="text-[10px] uppercase tracking-widest text-[#4B5E52] font-bold block mb-2" style={{ color: accentColor }}>Botanical Quiz</span>
-                  <h2 className="text-3xl font-bold tracking-wide text-gray-800">Skincare Routine Finder</h2>
-                  <p className="text-xs text-gray-500 mt-2 font-light">Identify your skin needs to select a perfectly matched botanical routine.</p>
+                  <h2 className="text-3xl font-bold tracking-wide text-theme-text">Skincare Routine Finder</h2>
+                  <p className="text-xs text-theme-muted mt-2 font-light">Identify your skin needs to select a perfectly matched botanical routine.</p>
                 </div>
 
-                <div className="bg-white border border-gray-200 p-8 grid md:grid-cols-2 gap-8 items-start">
+                <div className="bg-theme-surface border border-theme-border p-8 grid md:grid-cols-2 gap-8 items-start">
                   {/* Selectable quiz questions */}
                   <div className="space-y-6">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center gap-2 mb-2">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-theme-muted flex items-center gap-2 mb-2">
                       <FaQuestionCircle className="text-[#4B5E52]" style={{ color: accentColor }} /> Select Parameters
                     </h3>
                     
@@ -321,7 +321,7 @@ export default function TemplateFlora({
                             className={`py-2 text-[10px] uppercase font-bold border transition-colors ${
                               quizSkinType === t.val 
                                 ? 'bg-[#4B5E52] text-white border-[#4B5E52]' 
-                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                                : 'bg-theme-bg text-theme-muted border-theme-border hover:bg-gray-100'
                             }`}
                             style={quizSkinType === t.val ? { backgroundColor: accentColor, borderColor: accentColor } : {}}
                           >
@@ -346,7 +346,7 @@ export default function TemplateFlora({
                             className={`py-2 text-[10px] uppercase font-bold border transition-colors ${
                               quizGoal === g.val 
                                 ? 'bg-[#4B5E52] text-white border-[#4B5E52]' 
-                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                                : 'bg-theme-bg text-theme-muted border-theme-border hover:bg-gray-100'
                             }`}
                             style={quizGoal === g.val ? { backgroundColor: accentColor, borderColor: accentColor } : {}}
                           >
@@ -366,14 +366,14 @@ export default function TemplateFlora({
                   </div>
 
                   {/* Quiz Results display */}
-                  <div className="h-full bg-slate-50 border border-gray-150 p-6 flex flex-col justify-between items-center text-center">
+                  <div className="h-full bg-theme-bg border border-gray-150 p-6 flex flex-col justify-between items-center text-center">
                     {quizResult ? (
                       <div className="animate-fade-in w-full space-y-4">
                         <span className="text-[10px] uppercase tracking-widest text-[#4B5E52] font-bold block" style={{ color: accentColor }}>Personalized Match</span>
-                        <div className="h-28 w-28 rounded-full overflow-hidden border-2 border-white mx-auto shadow-md">
+                        <div className="h-28 w-28 rounded-full overflow-hidden border-2 border-white mx-auto shadow-theme">
                           <img src={getProductImageUrl(quizResult, 0)} className="w-full h-full object-cover" alt="Recommended product" />
                         </div>
-                        <h4 className="font-bold text-sm uppercase text-gray-800">{quizResult.name}</h4>
+                        <h4 className="font-bold text-sm uppercase text-theme-text">{quizResult.name}</h4>
                         <span className="text-[#4B5E52] font-bold text-sm" style={{ color: accentColor }}>₹{quizResult.price}</span>
                         <button
                           data-cart-add="true"
@@ -401,7 +401,7 @@ export default function TemplateFlora({
       case 'products':
         return (
           <SectionWrapper key="products" isEditable={isEditable} sectionKey="products" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section id="products" className="max-w-7xl mx-auto px-8 py-24 text-gray-800 bg-white">
+            <section id="products" className="max-w-7xl mx-auto px-8 py-24 text-theme-text bg-theme-surface">
               <div className="text-center mb-16">
                 <EditableText
                   isEditable={isEditable}
@@ -425,17 +425,17 @@ export default function TemplateFlora({
                 {products.slice(0, 4).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-[#f5f7f6] border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow flex flex-col justify-between"
+                    className="bg-[#f5f7f6] border border-theme-border overflow-hidden hover:shadow-theme transition-shadow flex flex-col justify-between"
                   >
                     <div>
-                      <div className="aspect-square overflow-hidden bg-gray-50 relative">
+                      <div className="aspect-square overflow-hidden bg-theme-bg relative">
                         <img 
                           src={getProductImageUrl(product, i)}
                           alt={product.name}
                           className="w-full h-full object-cover hover:scale-102 transition-transform duration-300"
                         />
                         {product.inStock === false && (
-                          <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-theme-surface/80 flex items-center justify-center">
                             <span className="px-3 py-1.5 border border-[#4B5E52] text-[#4B5E52] text-[10px] uppercase font-bold tracking-wider" style={{ color: accentColor, borderColor: accentColor }}>
                               Sold Out
                             </span>
@@ -449,12 +449,12 @@ export default function TemplateFlora({
                           value={product.name}
                           onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                           tagName="h4"
-                          className="font-bold text-sm truncate uppercase tracking-wider text-slate-800"
+                          className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                         />
                       </div>
                     </div>
                     <div className="p-5 pt-0">
-                      <div className="flex items-center justify-between border-t border-gray-200/50 pt-4 mt-2">
+                      <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
                         <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -482,7 +482,7 @@ export default function TemplateFlora({
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-3 py-1.5 bg-gray-200/60 text-[9px] font-bold text-gray-500 hover:bg-gray-200 uppercase tracking-widest text-center"
+                          className="w-full mt-3 py-1.5 bg-gray-200/60 text-[9px] font-bold text-theme-muted hover:bg-gray-200 uppercase tracking-widest text-center"
                         >
                           ⚙️ Edit Parameters
                         </button>
@@ -523,7 +523,7 @@ export default function TemplateFlora({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square overflow-hidden group border border-gray-200 bg-white">
+                  <div key={idx} className="relative aspect-square overflow-hidden group border border-theme-border bg-theme-surface">
                     <img src={img} alt={`Organic Botanical ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-350" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-[#1F2937]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -539,7 +539,7 @@ export default function TemplateFlora({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-1.5 bg-white text-gray-800 rounded text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                          className="w-full px-3 py-1.5 bg-theme-surface text-theme-text rounded text-xs outline-none focus:ring-1 focus:ring-emerald-500"
                         />
                       </div>
                     )}
@@ -555,7 +555,7 @@ export default function TemplateFlora({
         const faqList = config.faq?.questions || [];
         return (
           <SectionWrapper key="faq" isEditable={isEditable} sectionKey="faq" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="max-w-4xl mx-auto px-8 py-20 text-gray-800 bg-white">
+            <section className="max-w-4xl mx-auto px-8 py-20 text-theme-text bg-theme-surface">
               <div className="text-center mb-12">
                 <EditableText
                   isEditable={isEditable}
@@ -571,8 +571,8 @@ export default function TemplateFlora({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-gray-150 overflow-hidden transition-all">
-                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left uppercase font-semibold text-xs tracking-wider text-slate-800 flex items-center justify-between hover:bg-[#f5f7f6] transition-colors">
+                    <div key={item.id || idx} className="bg-theme-surface border border-gray-150 overflow-hidden transition-all">
+                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left uppercase font-semibold text-xs tracking-wider text-theme-text flex items-center justify-between hover:bg-[#f5f7f6] transition-colors">
                         <EditableText
                           isEditable={isEditable}
                           value={item.q}
@@ -583,10 +583,10 @@ export default function TemplateFlora({
                           }}
                           tagName="span"
                         />
-                        <span className="text-slate-500">{isOpen ? '—' : '+'}</span>
+                        <span className="text-theme-muted">{isOpen ? '—' : '+'}</span>
                       </button>
                       {isOpen && (
-                        <div className="px-6 pb-5 pt-1 text-xs text-gray-500 font-light leading-relaxed border-t border-gray-100">
+                        <div className="px-6 pb-5 pt-1 text-xs text-theme-muted font-light leading-relaxed border-t border-theme-border">
                           <EditableText
                             isEditable={isEditable}
                             value={item.a}
@@ -626,8 +626,8 @@ export default function TemplateFlora({
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                   {testList.map((item, idx) => (
-                    <div key={idx} className="p-8 bg-white border border-gray-200 text-center flex flex-col justify-between">
-                      <p className="text-sm font-light italic leading-relaxed text-gray-600">
+                    <div key={idx} className="p-8 bg-theme-surface border border-theme-border text-center flex flex-col justify-between">
+                      <p className="text-sm font-light italic leading-relaxed text-theme-muted">
                         “
                         <EditableText
                           isEditable={isEditable}
@@ -641,7 +641,7 @@ export default function TemplateFlora({
                         />
                         ”
                       </p>
-                      <div className="mt-8 border-t border-gray-100 pt-6">
+                      <div className="mt-8 border-t border-theme-border pt-6">
                         <EditableText
                           isEditable={isEditable}
                           value={item.author}
@@ -651,7 +651,7 @@ export default function TemplateFlora({
                             onUpdateConfig('testimonials', 'items', updated);
                           }}
                           tagName="h5"
-                          className="font-bold text-xs uppercase tracking-wider text-slate-800"
+                          className="font-bold text-xs uppercase tracking-wider text-theme-text"
                         />
                         <EditableText
                           isEditable={isEditable}
@@ -689,7 +689,7 @@ export default function TemplateFlora({
                 />
                 <div className="w-12 h-0.5 mx-auto mt-3" style={{ backgroundColor: accentColor }}></div>
               </div>
-              <div className="divide-y divide-gray-100 border-t border-b border-gray-100 py-4">
+              <div className="divide-y divide-gray-100 border-t border-b border-theme-border py-4">
                 {hoursDays.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-center py-3.5 text-xs tracking-wider">
                     <div className="flex items-center gap-2">
@@ -699,7 +699,7 @@ export default function TemplateFlora({
                             const updated = hoursDays.filter((_, i) => i !== idx);
                             onUpdateConfig('hours', 'days', updated);
                           }}
-                          className="text-red-500 hover:text-red-700 font-bold mr-1 text-sm leading-none"
+                          className="text-theme-primary hover:text-theme-primary font-bold mr-1 text-sm leading-none"
                           title="Remove Day"
                         >
                           ×
@@ -734,7 +734,7 @@ export default function TemplateFlora({
                       const updated = [...hoursDays, { day: 'New Day', hours: '9:00 AM - 5:00 PM' }];
                       onUpdateConfig('hours', 'days', updated);
                     }}
-                    className="w-full mt-4 py-2 border border-dashed border-gray-200 hover:border-gray-400 text-gray-500 rounded text-xs font-bold transition-all text-center"
+                    className="w-full mt-4 py-2 border border-dashed border-theme-border hover:border-gray-400 text-theme-muted rounded text-xs font-bold transition-all text-center"
                   >
                     + Add Row
                   </button>
@@ -765,32 +765,32 @@ export default function TemplateFlora({
                       value={contactSubtitle}
                       onChange={(val) => onUpdateConfig('contact', 'subtitle', val)}
                       tagName="p"
-                      className="text-xs text-gray-500 font-light"
+                      className="text-xs text-theme-muted font-light"
                     />
                   </div>
-                  <div className="space-y-4 text-xs font-medium text-gray-600">
+                  <div className="space-y-4 text-xs font-medium text-theme-muted">
                     {phoneNumber && (
                       <div className="flex items-center gap-4">
-                        <FaPhoneAlt className="text-slate-500" />
+                        <FaPhoneAlt className="text-theme-muted" />
                         <span>{phoneNumber}</span>
                       </div>
                     )}
                     {email && (
                       <div className="flex items-center gap-4">
-                        <FaEnvelope className="text-slate-500" />
+                        <FaEnvelope className="text-theme-muted" />
                         <span>{email}</span>
                       </div>
                     )}
                     {address && (
                       <div className="flex items-center gap-4">
-                        <FaMapMarkerAlt className="text-slate-500" />
+                        <FaMapMarkerAlt className="text-theme-muted" />
                         <span>{address}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="bg-[#fcfcfc] p-8 border border-gray-200 shadow-2xl relative animate-fade-in">
+                <div className="bg-[#fcfcfc] p-8 border border-theme-border shadow-theme relative animate-fade-in">
                   {formSubmitted ? (
                     <div className="text-center py-12 text-[#1F2937] space-y-4">
                       <FaPaperPlane size={36} className="mx-auto text-[#4B5E52]" style={{ color: accentColor }} />
@@ -807,7 +807,7 @@ export default function TemplateFlora({
                           value={contactForm.name}
                           onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
                           placeholder="e.g. Jane Doe"
-                          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                          className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
                         />
                       </div>
 
@@ -819,7 +819,7 @@ export default function TemplateFlora({
                           value={contactForm.email}
                           onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
                           placeholder="e.g. jane@example.com"
-                          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                          className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
                         />
                       </div>
 
@@ -831,7 +831,7 @@ export default function TemplateFlora({
                           value={contactForm.message}
                           onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                           placeholder="Inquire about ingredients, routine builders, or skincare products."
-                          className="w-full px-4 py-3 bg-white border border-gray-200 text-xs outline-none focus:border-slate-500 text-slate-805 resize-none font-sans"
+                          className="w-full px-4 py-3 bg-theme-surface border border-theme-border text-xs outline-none focus:border-slate-500 text-slate-805 resize-none font-sans"
                         />
                       </div>
 
@@ -889,18 +889,18 @@ export default function TemplateFlora({
         <main className="flex-1 max-w-7xl mx-auto w-full px-8 py-16">
           <div className="text-center mb-16">
             <h1 className="text-3xl font-bold uppercase tracking-wider">The Catalog</h1>
-            <p className="text-xs text-gray-500 mt-2 font-light">Explore our botanically selected aromatherapy products and skincare.</p>
+            <p className="text-xs text-theme-muted mt-2 font-light">Explore our botanically selected aromatherapy products and skincare.</p>
           </div>
 
           {/* Search, Filter & Sort */}
-          <div className="bg-[#f5f7f6] p-6 border border-gray-200 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="bg-[#f5f7f6] p-6 border border-theme-border mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full md:max-w-xs">
               <input 
                 type="text" 
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-none text-xs outline-none focus:border-slate-500 text-slate-800"
+                className="w-full pl-9 pr-4 py-2 bg-theme-surface border border-theme-border rounded-none text-xs outline-none focus:border-slate-500 text-theme-text"
               />
               <FaSearch className="absolute left-3.5 top-3 text-gray-400" size={10} />
             </div>
@@ -909,7 +909,7 @@ export default function TemplateFlora({
               <select 
                 value={selectedCategory} 
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 bg-white border border-gray-200 text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#1F2937]"
+                className="px-3 py-2 bg-theme-surface border border-theme-border text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#1F2937]"
               >
                 {categoriesList.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -919,7 +919,7 @@ export default function TemplateFlora({
               <select 
                 value={sortBy} 
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full md:w-auto px-3 py-2 bg-white border border-gray-200 text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#1F2937]"
+                className="w-full md:w-auto px-3 py-2 bg-theme-surface border border-theme-border text-xs rounded-none outline-none focus:border-slate-500 uppercase tracking-widest text-[#1F2937]"
               >
                 <option value="default">Default Products</option>
                 <option value="price-low">Price: Low to High</option>
@@ -933,17 +933,17 @@ export default function TemplateFlora({
             {sortedFilteredProducts.map((product, i) => (
               <div 
                 key={product._id || product.id || i}
-                className="bg-[#f5f7f6] border border-gray-150 flex flex-col justify-between hover:shadow-md transition-shadow"
+                className="bg-[#f5f7f6] border border-gray-150 flex flex-col justify-between hover:shadow-theme transition-shadow"
               >
                 <div>
-                  <div className="aspect-square overflow-hidden bg-gray-50 relative">
+                  <div className="aspect-square overflow-hidden bg-theme-bg relative">
                     <img 
                       src={getProductImageUrl(product, i)}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
                     {product.inStock === false && (
-                      <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-theme-surface/80 flex items-center justify-center">
                         <span className="px-3 py-1.5 border border-[#4B5E52] text-[#4B5E52] text-[10px] uppercase font-bold tracking-wider" style={{ color: accentColor, borderColor: accentColor }}>
                           Sold Out
                         </span>
@@ -962,7 +962,7 @@ export default function TemplateFlora({
                   </div>
                 </div>
                 <div className="p-5 pt-0">
-                  <div className="flex items-center justify-between border-t border-gray-200/50 pt-4 mt-2">
+                  <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
                     <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
                       <span>₹</span>
                       <EditableText
@@ -994,7 +994,7 @@ export default function TemplateFlora({
         </main>
 
         {/* Footer */}
-        <footer className="py-8 text-center text-xs text-gray-400 border-t border-gray-150 bg-gray-50">
+        <footer className="py-8 text-center text-xs text-gray-400 border-t border-gray-150 bg-theme-bg">
           <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
         </footer>
       </div>
@@ -1004,10 +1004,10 @@ export default function TemplateFlora({
   return (
     <div 
       id="preview-scroll-container"
-      className="w-full h-full overflow-y-auto relative bg-white flex flex-col justify-between font-sans text-gray-800"
+      className="w-full h-full overflow-y-auto relative bg-theme-surface flex flex-col justify-between font-sans text-theme-text"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${(scrolled || currentPage !== 'home') ? 'bg-white/95 border-b border-gray-200 shadow-md text-gray-800' : 'bg-transparent text-white'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 border-b border-theme-border shadow-theme text-theme-text' : 'bg-transparent text-white'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -1059,7 +1059,7 @@ export default function TemplateFlora({
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-50 py-12 px-8 border-t border-gray-100 text-center text-xs text-gray-400 font-light">
+      <footer className="bg-theme-bg py-12 px-8 border-t border-theme-border text-center text-xs text-gray-400 font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-bold text-gray-700 uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. Pure Botanical Wellness.</p>
@@ -1072,7 +1072,7 @@ export default function TemplateFlora({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-none max-w-lg w-full p-6 border border-gray-200 shadow-2xl relative text-left">
+            <div className="bg-theme-surface rounded-none max-w-lg w-full p-6 border border-theme-border shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1080,11 +1080,11 @@ export default function TemplateFlora({
                 ×
               </button>
               
-              <h3 className="text-xl font-bold uppercase tracking-wider text-slate-800 border-b border-gray-100 pb-3 mb-6">
+              <h3 className="text-xl font-bold uppercase tracking-wider text-theme-text border-b border-theme-border pb-3 mb-6">
                 Skincare Parameters settings
               </h3>
 
-              <div className="space-y-4 font-sans text-xs text-gray-600">
+              <div className="space-y-4 font-sans text-xs text-theme-muted">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5">Skincare Item Name</label>
@@ -1092,7 +1092,7 @@ export default function TemplateFlora({
                       type="text"
                       value={product.name}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-805 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-slate-805 outline-none focus:border-slate-500"
                     />
                   </div>
 
@@ -1102,7 +1102,7 @@ export default function TemplateFlora({
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-805 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-slate-805 outline-none focus:border-slate-500"
                     />
                   </div>
                 </div>
@@ -1115,7 +1115,7 @@ export default function TemplateFlora({
                       value={product.category || ''}
                       placeholder="e.g. Cleansers, Toners, Aromatherapy Oils"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-805 outline-none focus:border-slate-500"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-slate-805 outline-none focus:border-slate-500"
                     />
                   </div>
                 </div>
@@ -1127,12 +1127,12 @@ export default function TemplateFlora({
                     placeholder="Describe botanical ingredients, skin application details, usage timeline."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 text-sm text-slate-805 outline-none focus:border-slate-500 resize-none font-sans"
+                    className="w-full px-4 py-3 bg-theme-surface border border-theme-border text-sm text-slate-805 outline-none focus:border-slate-500 resize-none font-sans"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-gray-200 bg-gray-50 transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-theme-border bg-theme-bg transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1144,7 +1144,7 @@ export default function TemplateFlora({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-gray-200 bg-gray-50 transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-theme-border bg-theme-bg transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1172,16 +1172,16 @@ export default function TemplateFlora({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-white border border-gray-200 text-sm text-slate-805 outline-none focus:border-slate-500"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border text-sm text-slate-805 outline-none focus:border-slate-500"
                     placeholder="Pieces in stock"
                   />
                 </div>
 
                 {/* Scoping Image */}
-                <div className="p-4 border border-gray-200 bg-gray-50/50 space-y-3">
+                <div className="p-4 border border-theme-border bg-theme-bg/50 space-y-3">
                   <span className="block text-[10px] uppercase tracking-wider text-gray-400">Skincare presentation image</span>
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 border border-gray-200 shrink-0 bg-white">
+                    <div className="w-20 h-20 border border-theme-border shrink-0 bg-theme-surface">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1190,7 +1190,7 @@ export default function TemplateFlora({
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white border border-gray-200 hover:bg-gray-100 text-slate-850 font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface border border-theme-border hover:bg-gray-100 text-slate-850 font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1205,13 +1205,13 @@ export default function TemplateFlora({
                         value={product.img || ''} 
                         placeholder="Paste image link" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-white border border-gray-200 text-xs text-slate-850 outline-none focus:border-slate-500" 
+                        className="w-full px-3 py-1.5 bg-theme-surface border border-theme-border text-xs text-slate-850 outline-none focus:border-slate-500" 
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-3 pt-4 border-t border-gray-100 justify-between items-center">
+                <div className="flex gap-3 pt-4 border-t border-theme-border justify-between items-center">
                   <button 
                     onClick={() => {
                       if (onDeleteProduct) {
@@ -1242,17 +1242,17 @@ export default function TemplateFlora({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-none max-w-lg w-full p-6 shadow-2xl border border-gray-250 relative text-left">
+          <div className="bg-theme-surface rounded-none max-w-lg w-full p-6 shadow-theme border border-gray-250 relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-black font-bold text-2xl w-8 h-8 flex items-center justify-center"
             >
               ×
             </button>
-            <h3 className="text-xl font-bold uppercase tracking-wider text-slate-800 mb-1">
+            <h3 className="text-xl font-bold uppercase tracking-wider text-theme-text mb-1">
               Flora Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a botanical preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a botanical preset or generate using AI.</p>
 
             <div className="flex border-b border-gray-250 mb-6 font-semibold">
               <button 
@@ -1287,7 +1287,7 @@ export default function TemplateFlora({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video border border-gray-150 hover:border-[#4B5E52] transition-all bg-gray-50"
+                    className="cursor-pointer group relative aspect-video border border-gray-150 hover:border-[#4B5E52] transition-all bg-theme-bg"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1299,24 +1299,24 @@ export default function TemplateFlora({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your botanical backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your botanical backdrop</label>
                   <textarea 
                     placeholder="e.g. flat lay organic cosmetics sage green leaves and amber bottles, high quality photo banner"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white border border-gray-250 rounded-none outline-none focus:border-[#4B5E52] text-sm text-gray-800 resize-none font-sans"
+                    className="w-full px-4 py-3 bg-theme-surface border border-gray-250 rounded-none outline-none focus:border-[#4B5E52] text-sm text-theme-text resize-none font-sans"
                     style={{ focusBorderColor: accentColor }}
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-white border border-gray-250 rounded-none outline-none focus:border-slate-500 text-sm text-gray-800 font-bold"
+                      className="w-full p-3 bg-theme-surface border border-gray-250 rounded-none outline-none focus:border-slate-500 text-sm text-theme-text font-bold"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

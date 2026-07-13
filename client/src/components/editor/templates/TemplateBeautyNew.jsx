@@ -21,13 +21,13 @@ export default function TemplateBeautyNew(props) {
       layoutClass: 'bg-[#0D0D0D] text-white',
       fontClass: 'font-serif',
       logoTextClass: 'text-white font-normal text-2xl uppercase tracking-[0.25em] font-serif',
-      navbarClass: 'bg-[#0D0D0D]/95 border-b border-yellow-900/10 shadow-lg py-5',
+      navbarClass: 'bg-[#0D0D0D]/95 border-b border-yellow-900/10 shadow-theme py-5',
       heroClass: 'min-h-[85vh] bg-[#0D0D0D] text-white',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl leading-tight font-light uppercase tracking-wider text-white',
       ctaButtonClass: 'border border-[#C5A880] text-[#C5A880] hover:bg-[#C5A880] hover:text-[#0D0D0D] rounded-none py-3 px-8 uppercase font-bold tracking-widest transition-all',
       catalogSectionClass: 'bg-[#0D0D0D] text-white border-t border-yellow-900/10',
       sectionHeadingClass: 'font-serif text-3xl font-light uppercase tracking-widest text-[#C5A880]',
-      productCardClass: 'bg-black border border-yellow-900/10 rounded-none hover:border-[#C5A880]/40 shadow-sm hover:shadow-[0_0_20px_rgba(197,168,128,0.05)] duration-300',
+      productCardClass: 'bg-black border border-yellow-900/10 rounded-none hover:border-[#C5A880]/40 shadow-theme hover:shadow-[0_0_20px_rgba(197,168,128,0.05)] duration-300',
       gallerySectionClass: 'bg-[#0D0D0D] border-t border-yellow-900/10',
       faqSectionClass: 'bg-black border-t border-[#111]',
       testimonialsSectionClass: 'bg-[#0D0D0D] border-t border-yellow-900/10',
@@ -43,18 +43,18 @@ export default function TemplateBeautyNew(props) {
       layoutClass: 'bg-[#F0F8FF] text-[#0A2540]',
       fontClass: 'font-sans font-light',
       logoTextClass: 'text-[#0A2540] font-bold text-xl tracking-wide',
-      navbarClass: 'bg-[#F0F8FF]/95 border-b border-[#0A2540]/10 shadow-sm py-4',
+      navbarClass: 'bg-[#F0F8FF]/95 border-b border-[#0A2540]/10 shadow-theme py-4',
       heroClass: 'min-h-[80vh] bg-[#0A2540] text-white',
       heroHeadingClass: 'font-light text-5xl md:text-7xl leading-tight text-white',
-      ctaButtonClass: 'bg-[#00D2FF] text-[#0A2540] hover:bg-[#00E5FF] rounded-full py-3 px-8 shadow-sm font-bold uppercase tracking-wider text-xs',
+      ctaButtonClass: 'bg-[#00D2FF] text-[#0A2540] hover:bg-[#00E5FF] rounded-full py-3 px-8 shadow-theme font-bold uppercase tracking-wider text-xs',
       catalogSectionClass: 'bg-[#F0F8FF] text-[#0A2540]',
       sectionHeadingClass: 'font-bold text-3xl tracking-tight text-[#0A2540]',
-      productCardClass: 'bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-cyan-500/20 duration-200',
-      gallerySectionClass: 'bg-[#F0F8FF] border-t border-slate-100',
-      faqSectionClass: 'bg-white border-t border-slate-100',
-      testimonialsSectionClass: 'bg-[#F0F8FF] border-t border-slate-100',
-      hoursSectionClass: 'bg-white border-t border-slate-100',
-      contactSectionClass: 'bg-[#F0F8FF] border-t border-slate-100',
+      productCardClass: 'bg-theme-surface rounded-theme border border-theme-border shadow-theme hover:shadow-theme hover:border-cyan-500/20 duration-200',
+      gallerySectionClass: 'bg-[#F0F8FF] border-t border-theme-border',
+      faqSectionClass: 'bg-theme-surface border-t border-theme-border',
+      testimonialsSectionClass: 'bg-[#F0F8FF] border-t border-theme-border',
+      hoursSectionClass: 'bg-theme-surface border-t border-theme-border',
+      contactSectionClass: 'bg-[#F0F8FF] border-t border-theme-border',
       primaryColor: '#0A2540',
       accentColor: '#00D2FF',
       defaultHeroImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80'
@@ -65,17 +65,17 @@ export default function TemplateBeautyNew(props) {
       layoutClass: 'bg-[#FDF2F8] text-[#4C1D95]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#4C1D95] font-black text-xl italic tracking-tight',
-      navbarClass: 'bg-[#FDF2F8]/95 border-b border-[#EC4899]/10 shadow-sm py-4',
+      navbarClass: 'bg-[#FDF2F8]/95 border-b border-[#EC4899]/10 shadow-theme py-4',
       heroClass: 'min-h-[75vh] bg-[#4C1D95] text-white',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl font-bold leading-normal text-white',
       ctaButtonClass: 'bg-[#EC4899] text-white hover:bg-[#DB2777] rounded-none py-3.5 px-8 font-bold',
       catalogSectionClass: 'bg-[#FDF2F8] text-[#4C1D95]',
       sectionHeadingClass: 'font-serif text-3xl font-bold text-[#4C1D95]',
-      productCardClass: 'bg-white border border-[#EC4899]/10 rounded-xl shadow-sm hover:shadow-md hover:border-[#EC4899]/30 duration-200',
+      productCardClass: 'bg-theme-surface border border-[#EC4899]/10 rounded-theme shadow-theme hover:shadow-theme hover:border-[#EC4899]/30 duration-200',
       gallerySectionClass: 'bg-[#FDF2F8] border-t border-[#EC4899]/10',
-      faqSectionClass: 'bg-white border-t border-[#EC4899]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#EC4899]/10',
       testimonialsSectionClass: 'bg-[#FDF2F8] border-t border-[#EC4899]/10',
-      hoursSectionClass: 'bg-white border-t border-[#EC4899]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#EC4899]/10',
       contactSectionClass: 'bg-[#FDF2F8] border-t border-[#EC4899]/10',
       primaryColor: '#4C1D95',
       accentColor: '#EC4899',
@@ -211,12 +211,12 @@ function MistHydrationAssessment({ accentColor }) {
   const rec = getRecommendation();
 
   return (
-    <section className="py-20 px-8 bg-white border-t border-b border-slate-100 text-[#0A2540] text-left font-sans">
-      <div className="max-w-xl mx-auto border border-slate-150 p-8 rounded-2xl bg-[#F0F8FF]/40 shadow-sm">
+    <section className="py-20 px-8 bg-theme-surface border-t border-b border-theme-border text-[#0A2540] text-left font-sans">
+      <div className="max-w-xl mx-auto border border-slate-150 p-8 rounded-theme bg-[#F0F8FF]/40 shadow-theme">
         <div className="text-center mb-8 uppercase font-bold">
           <FaTint size={30} className="mx-auto mb-3 text-[#00D2FF]" />
           <h2 className="text-2xl tracking-tight">Hydration Level Assessment</h2>
-          <p className="text-xs font-light text-slate-500 lowercase mt-1">Adjust slider to map your skin moisture index</p>
+          <p className="text-xs font-light text-theme-muted lowercase mt-1">Adjust slider to map your skin moisture index</p>
         </div>
 
         <div className="space-y-6">
@@ -235,10 +235,10 @@ function MistHydrationAssessment({ accentColor }) {
             />
           </div>
 
-          <div className="mt-8 p-6 bg-white rounded-xl border border-slate-100 shadow-sm">
+          <div className="mt-8 p-6 bg-theme-surface rounded-theme border border-theme-border shadow-theme">
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#00D2FF]">{rec.level}</span>
             <h4 className="text-lg font-bold text-[#0A2540] mt-1">{rec.product}</h4>
-            <p className="text-xs font-light text-slate-500 leading-relaxed mt-2">{rec.desc}</p>
+            <p className="text-xs font-light text-theme-muted leading-relaxed mt-2">{rec.desc}</p>
           </div>
         </div>
       </div>
@@ -287,11 +287,11 @@ function PetalScentRadar({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#FDF2F8] border-t border-b border-[#EC4899]/10 text-[#4C1D95] text-left font-serif">
-      <div className="max-w-xl mx-auto border border-[#EC4899]/10 p-8 rounded-2xl bg-white shadow-sm">
+      <div className="max-w-xl mx-auto border border-[#EC4899]/10 p-8 rounded-theme bg-theme-surface shadow-theme">
         <div className="text-center mb-8">
           <FaWind size={28} className="mx-auto mb-3 text-[#EC4899]" />
           <h2 className="text-2xl font-bold">Interactive Scent Profile</h2>
-          <p className="text-xs font-light text-slate-500 leading-relaxed mt-1">Blend note components to generate your matching fragrance</p>
+          <p className="text-xs font-light text-theme-muted leading-relaxed mt-1">Blend note components to generate your matching fragrance</p>
         </div>
 
         <div className="space-y-6">
@@ -340,10 +340,10 @@ function PetalScentRadar({ accentColor }) {
             />
           </div>
 
-          <div className="mt-8 p-6 bg-[#FDF2F8] border border-[#EC4899]/10 rounded-xl">
+          <div className="mt-8 p-6 bg-[#FDF2F8] border border-[#EC4899]/10 rounded-theme">
             <span className="text-[10px] uppercase tracking-widest font-bold text-[#EC4899]">Scent Profile Match</span>
             <h4 className="text-base font-bold text-[#4C1D95] mt-1">{p.name}</h4>
-            <p className="text-xs font-light text-slate-500 leading-relaxed mt-2">{p.notes}</p>
+            <p className="text-xs font-light text-theme-muted leading-relaxed mt-2">{p.notes}</p>
           </div>
         </div>
       </div>

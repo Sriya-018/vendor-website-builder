@@ -236,13 +236,13 @@ export default function TemplateGlow({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white/95 backdrop-blur border border-emerald-200 text-emerald-900 rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface/95 backdrop-blur border border-emerald-200 text-emerald-900 rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
               )}
               <div className="relative z-10 max-w-7xl mx-auto px-8 w-full py-20" style={{ textAlign: config.header.heroAlign }}>
-                <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/15 rounded-full text-xs font-bold text-emerald-200 border border-emerald-200/30 mb-6 backdrop-blur-sm">
+                <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-theme-surface/15 rounded-full text-xs font-bold text-emerald-200 border border-emerald-200/30 mb-6 backdrop-blur-sm">
                   🌿 🌱 100% Natural & Organic
                 </span>
                 <EditableText
@@ -263,7 +263,7 @@ export default function TemplateGlow({
                 <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
                   <button 
                     onClick={() => changePage('shop')}
-                    className="px-8 py-4 bg-white rounded-full font-extrabold hover:scale-105 transition-transform shadow-[0_4px_14px_rgba(255,255,255,0.3)] flex items-center gap-2"
+                    className="px-8 py-4 bg-theme-surface rounded-full font-extrabold hover:scale-105 transition-transform shadow-[0_4px_14px_rgba(255,255,255,0.3)] flex items-center gap-2"
                     style={{ color: primaryColor }}
                   >
                     <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Natural'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -274,7 +274,7 @@ export default function TemplateGlow({
                       href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-8 py-4 bg-white/15 border border-white/40 rounded-full font-bold text-white hover:bg-white/25 transition-all backdrop-blur-sm flex items-center"
+                      className="px-8 py-4 bg-theme-surface/15 border border-white/40 rounded-full font-bold text-white hover:bg-theme-surface/25 transition-all backdrop-blur-sm flex items-center"
                     >
                       <FaWhatsapp className="mr-2 text-lg text-emerald-300" /> Chat with Us
                     </a>
@@ -313,7 +313,7 @@ export default function TemplateGlow({
                 {products.slice(0, 6).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-white rounded-3xl overflow-hidden border border-emerald-100/60 hover:shadow-[0_16px_36px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                    className="bg-theme-surface rounded-theme overflow-hidden border border-emerald-100/60 hover:shadow-[0_16px_36px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                     style={{ borderRadius: 'var(--radius)' }}
                   >
                     <div>
@@ -324,11 +324,11 @@ export default function TemplateGlow({
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                         />
                         {product.inStock === false ? (
-                          <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                          <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                             Out of Stock
                           </span>
                         ) : product.isBestseller ? (
-                          <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                          <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                             ⭐ Bestseller
                           </span>
                         ) : null}
@@ -338,7 +338,7 @@ export default function TemplateGlow({
                               e.stopPropagation();
                               setActiveEditProductId(product._id || product.id);
                             }}
-                            className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                            className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                             title="Edit Product Settings"
                           >
                             ⚙️
@@ -428,7 +428,7 @@ export default function TemplateGlow({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-3xl overflow-hidden group shadow-sm border border-emerald-100/50 bg-white">
+                  <div key={idx} className="relative aspect-square rounded-theme overflow-hidden group shadow-theme border border-emerald-100/50 bg-theme-surface">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-[#064E3B]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -444,7 +444,7 @@ export default function TemplateGlow({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-2 bg-white rounded-full text-xs text-emerald-900 border border-emerald-200 outline-none focus:ring-2 focus:ring-emerald-500"
+                          className="w-full px-3 py-2 bg-theme-surface rounded-full text-xs text-emerald-900 border border-emerald-200 outline-none focus:ring-2 focus:ring-emerald-500"
                         />
                       </div>
                     )}
@@ -476,7 +476,7 @@ export default function TemplateGlow({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-emerald-100 rounded-2xl overflow-hidden shadow-sm">
+                    <div key={item.id || idx} className="bg-theme-surface border border-emerald-100 rounded-theme overflow-hidden shadow-theme">
                       <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-emerald-900 flex items-center justify-between hover:bg-emerald-50/50 transition-colors">
                         <EditableText
                           isEditable={isEditable}
@@ -531,7 +531,7 @@ export default function TemplateGlow({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-3xl p-6 shadow-sm border border-emerald-100 flex flex-col justify-between">
+                    <div key={item.id || idx} className="bg-theme-surface rounded-theme p-6 shadow-theme border border-emerald-100 flex flex-col justify-between">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -594,8 +594,8 @@ export default function TemplateGlow({
         const hoursDays = config.hours?.days || [];
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="bg-white py-16 px-8">
-              <div className="max-w-xl mx-auto bg-emerald-50/50 border border-emerald-100 rounded-3xl p-8 shadow-sm">
+            <section className="bg-theme-surface py-16 px-8">
+              <div className="max-w-xl mx-auto bg-emerald-50/50 border border-emerald-100 rounded-theme p-8 shadow-theme">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
@@ -654,7 +654,7 @@ export default function TemplateGlow({
                     { label: 'Mins', val: timeLeft.minutes },
                     { label: 'Secs', val: timeLeft.seconds }
                   ].map((col, idx) => (
-                    <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-2xl min-w-[70px] border border-white/20 backdrop-blur-sm">
+                    <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-theme min-w-[70px] border border-white/20 backdrop-blur-sm">
                       <span className="text-2xl font-black">{String(col.val).padStart(2, '0')}</span>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-100 mt-1">{col.label}</span>
                     </div>
@@ -670,7 +670,7 @@ export default function TemplateGlow({
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="contact" className="bg-emerald-50 py-16 px-8 text-center">
               <h3 className="text-2xl font-black mb-6" style={{ color: primaryColor }}>🌿 Get in Touch</h3>
-              <div className="inline-block bg-white border border-emerald-100 rounded-3xl p-8 text-left shadow-sm min-w-[300px] space-y-4">
+              <div className="inline-block bg-theme-surface border border-emerald-100 rounded-theme p-8 text-left shadow-theme min-w-[300px] space-y-4">
                 {phoneNumber && <p><strong style={{ color: accentColor }}>Phone:</strong> {phoneNumber}</p>}
                 {email && <p><strong style={{ color: accentColor }}>Email:</strong> {email}</p>}
                 {address && <p><strong style={{ color: accentColor }}>Address:</strong> {address}</p>}
@@ -705,7 +705,7 @@ export default function TemplateGlow({
       )}
 
       {/* NAV */}
-      <nav className={`sticky top-0 z-50 w-full transition-all duration-300 border-b-2 border-emerald-100 ${scrolled ? 'bg-white shadow-sm' : 'bg-white'}`}>
+      <nav className={`sticky top-0 z-50 w-full transition-all duration-300 border-b-2 border-emerald-100 ${scrolled ? 'bg-theme-surface shadow-theme' : 'bg-theme-surface'}`}>
         <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
           <div 
             className="flex items-center gap-2 cursor-pointer"
@@ -747,13 +747,13 @@ export default function TemplateGlow({
 
         {/* Mobile Menu */}
         {devicePreview !== 'desktop' && (
-          <div className={`overflow-hidden transition-all bg-white border-b-2 border-emerald-100 ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
+          <div className={`overflow-hidden transition-all bg-theme-surface border-b-2 border-emerald-100 ${menuOpen ? 'max-h-64' : 'max-h-0'}`}>
             <div className="p-4 flex flex-col gap-2 font-bold text-emerald-800">
               {['Home', 'Shop', 'Contact'].map(page => (
                 <button 
                   key={page} 
                   onClick={() => changePage(page.toLowerCase())}
-                  className="p-3 hover:bg-emerald-50 rounded-lg text-left w-full"
+                  className="p-3 hover:bg-emerald-50 rounded-theme text-left w-full"
                 >
                   {page}
                 </button>
@@ -773,7 +773,7 @@ export default function TemplateGlow({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-20 animate-fade-in">
           {/* Filter Row */}
-          <div className="bg-white border border-emerald-100/80 rounded-3xl p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-sm">
+          <div className="bg-theme-surface border border-emerald-100/80 rounded-theme p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-theme">
             <div>
               <h2 className="text-2xl font-black" style={{ color: primaryColor }}>Botanical Catalog</h2>
               <p className="text-emerald-700/60 text-xs mt-1">Ethical, time-tested extracts and remedies.</p>
@@ -807,7 +807,7 @@ export default function TemplateGlow({
           </div>
 
           {/* Skin Type Filters */}
-          <div className="mb-8 bg-white border border-emerald-100 p-5 rounded-3xl shadow-sm">
+          <div className="mb-8 bg-theme-surface border border-emerald-100 p-5 rounded-theme shadow-theme">
             <span className="block text-xs font-bold text-emerald-800/60 uppercase tracking-widest mb-3">Skin Type Target:</span>
             <div className="flex flex-wrap gap-2.5">
               {['All', 'Dry Skin', 'Oily Skin', 'Sensitive', 'Normal'].map(type => (
@@ -828,7 +828,7 @@ export default function TemplateGlow({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full text-xs font-bold capitalize transition-all ${selectedCategory === cat ? 'bg-emerald-600 text-white shadow-md' : 'bg-white border border-emerald-100 text-emerald-800 hover:bg-emerald-50'}`}
+                className={`px-5 py-2 rounded-full text-xs font-bold capitalize transition-all ${selectedCategory === cat ? 'bg-emerald-600 text-white shadow-theme' : 'bg-theme-surface border border-emerald-100 text-emerald-800 hover:bg-emerald-50'}`}
               >
                 {cat}
               </button>
@@ -837,7 +837,7 @@ export default function TemplateGlow({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-white border border-emerald-100 rounded-3xl shadow-sm">
+            <div className="text-center py-20 bg-theme-surface border border-emerald-100 rounded-theme shadow-theme">
               <div className="text-4xl mb-3">🍃</div>
               <h3 className="font-bold text-emerald-900 text-lg">No organic items found</h3>
               <p className="text-emerald-600/60 text-xs mt-1">Try refining search parameters or filters.</p>
@@ -854,7 +854,7 @@ export default function TemplateGlow({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-white rounded-3xl overflow-hidden border border-emerald-100/60 hover:shadow-[0_16px_36px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                  className="bg-theme-surface rounded-theme overflow-hidden border border-emerald-100/60 hover:shadow-[0_16px_36px_rgba(16,185,129,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div>
@@ -865,11 +865,11 @@ export default function TemplateGlow({
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Out of Stock
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           ⭐ Bestseller
                         </span>
                       ) : null}
@@ -879,7 +879,7 @@ export default function TemplateGlow({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -939,7 +939,7 @@ export default function TemplateGlow({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-white border-2 border-dashed border-emerald-200 rounded-3xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50/20 transition-all min-h-[300px]"
+                  className="bg-theme-surface border-2 border-dashed border-emerald-200 rounded-theme p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50/20 transition-all min-h-[300px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mb-3">+</div>
@@ -964,8 +964,8 @@ export default function TemplateGlow({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {phoneNumber && (
-                  <div className="bg-white border border-emerald-100 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0"><FaPhoneAlt /></div>
+                  <div className="bg-theme-surface border border-emerald-100 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-theme flex items-center justify-center text-xl shrink-0"><FaPhoneAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-emerald-700/40 uppercase tracking-widest">Call Us</div>
                       <div className="font-bold text-emerald-950 text-sm break-all">{phoneNumber}</div>
@@ -973,8 +973,8 @@ export default function TemplateGlow({
                   </div>
                 )}
                 {email && (
-                  <div className="bg-white border border-emerald-100 rounded-3xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0"><FaEnvelope /></div>
+                  <div className="bg-theme-surface border border-emerald-100 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-theme flex items-center justify-center text-xl shrink-0"><FaEnvelope /></div>
                     <div>
                       <div className="text-[10px] font-bold text-emerald-700/40 uppercase tracking-widest">Email Us</div>
                       <div className="font-bold text-emerald-950 text-sm break-all">{email}</div>
@@ -982,8 +982,8 @@ export default function TemplateGlow({
                   </div>
                 )}
                 {address && (
-                  <div className="bg-white border border-emerald-100 rounded-3xl p-6 shadow-sm flex items-center gap-4 sm:col-span-2">
-                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0"><FaMapMarkerAlt /></div>
+                  <div className="bg-theme-surface border border-emerald-100 rounded-theme p-6 shadow-theme flex items-center gap-4 sm:col-span-2">
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-theme flex items-center justify-center text-xl shrink-0"><FaMapMarkerAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-emerald-700/40 uppercase tracking-widest">Store Address</div>
                       <div className="font-bold text-emerald-950 text-sm">{address}</div>
@@ -993,7 +993,7 @@ export default function TemplateGlow({
               </div>
 
               {/* Hours Card */}
-              <div className="bg-white border border-emerald-100 rounded-3xl p-8 shadow-sm">
+              <div className="bg-theme-surface border border-emerald-100 rounded-theme p-8 shadow-theme">
                 <h3 className="font-bold text-xl mb-4" style={{ color: primaryColor }}>{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
@@ -1007,11 +1007,11 @@ export default function TemplateGlow({
             </div>
 
             {/* Form */}
-            <div className="bg-white border border-emerald-100 rounded-3xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="bg-theme-surface border border-emerald-100 rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
               <h3 className="text-2xl font-black mb-6" style={{ color: primaryColor }}>Send Inquiry</h3>
               
               {formSubmitted && (
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
+                <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
                   <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
                   <h4 className="font-bold text-emerald-950 text-xl">Inquiry Sent Successfully</h4>
                   <p className="text-emerald-700/60 text-sm mt-1 max-w-[280px]">Our botanical experts will examine your inquiry post-haste.</p>
@@ -1026,7 +1026,7 @@ export default function TemplateGlow({
                     placeholder="Jane Doe" 
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   />
                 </div>
                 <div>
@@ -1036,7 +1036,7 @@ export default function TemplateGlow({
                     placeholder="jane@example.com" 
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   />
                 </div>
                 <div>
@@ -1046,7 +1046,7 @@ export default function TemplateGlow({
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm resize-none"
+                    className="w-full px-4 py-3 bg-emerald-50/30 border border-emerald-100 rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm resize-none"
                   />
                 </div>
 
@@ -1123,70 +1123,70 @@ export default function TemplateGlow({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-emerald-100">
+            <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-emerald-100">
               <button 
                 onClick={() => setActiveEditProductId(null)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                className="absolute top-4 right-4 text-gray-400 hover:text-theme-muted font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
               >
                 ×
               </button>
               <h3 className="text-xl font-extrabold text-emerald-900 mb-1">
                 Edit Product Settings
               </h3>
-              <p className="text-xs text-gray-500 mb-6">Modify product details, upload/change local image, or delete this product.</p>
+              <p className="text-xs text-theme-muted mb-6">Modify product details, upload/change local image, or delete this product.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 {/* Product Name */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Product Name</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Product Name</label>
                   <input 
                     type="text"
                     value={product.name}
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                    className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* Price */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Price (₹)</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                      className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                     />
                   </div>
 
                   {/* Category */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Category</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
                       placeholder="e.g. Skincare, Spa, Herbal"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                      className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                     />
                   </div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Description & Target Skin Type</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Description & Target Skin Type</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe product benefits. Include terms like 'Dry Skin', 'Oily Skin', 'Sensitive' or 'Normal' so customers can filter products on the page!"
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm resize-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
                   {/* Bestseller Badge */}
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-emerald-50/20 hover:bg-emerald-50/45 border border-emerald-100/60 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-emerald-50/20 hover:bg-emerald-50/45 border border-emerald-100/60 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1199,7 +1199,7 @@ export default function TemplateGlow({
                   </label>
 
                   {/* In Stock Toggle */}
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-emerald-50/20 hover:bg-emerald-50/45 border border-emerald-100/60 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-emerald-50/20 hover:bg-emerald-50/45 border border-emerald-100/60 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1218,7 +1218,7 @@ export default function TemplateGlow({
 
                 {/* Stock Quantity */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Stock Quantity (Items Left)</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Stock Quantity (Items Left)</label>
                   <input 
                     type="number"
                     min="0"
@@ -1228,17 +1228,17 @@ export default function TemplateGlow({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-medium"
+                    className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-medium"
                     placeholder="Quantity in Stock"
                   />
                 </div>
 
                 {/* Product Image Section */}
-                <div className="p-4 border border-emerald-100 rounded-2xl bg-emerald-50/20 space-y-3">
+                <div className="p-4 border border-emerald-100 rounded-theme bg-emerald-50/20 space-y-3">
                   <span className="block text-xs font-bold text-emerald-900 uppercase">Product Image</span>
                   
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-emerald-50 border border-emerald-200 shrink-0">
+                    <div className="w-20 h-20 rounded-theme overflow-hidden bg-emerald-50 border border-emerald-200 shrink-0">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1249,7 +1249,7 @@ export default function TemplateGlow({
                     <div className="flex-1 space-y-2">
                       {/* Local File Upload */}
                       <div>
-                        <label className="inline-block px-4 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-bold rounded-xl text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image from PC
                           <input 
                             type="file" 
@@ -1266,14 +1266,14 @@ export default function TemplateGlow({
                         value={product.img || ''} 
                         placeholder="Or paste external Image URL" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-gray-200 rounded-lg text-xs outline-none focus:ring-1 focus:ring-emerald-500" 
+                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-theme-border rounded-theme text-xs outline-none focus:ring-1 focus:ring-emerald-500" 
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3 pt-4 border-t border-gray-100 justify-between items-center">
+                <div className="flex gap-3 pt-4 border-t border-theme-border justify-between items-center">
                   <button 
                     onClick={() => {
                       if (onDeleteProduct) {
@@ -1283,7 +1283,7 @@ export default function TemplateGlow({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-full font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-theme-primary rounded-full font-bold text-xs shadow-theme transition-all"
                   >
                     Delete Product
                   </button>
@@ -1303,7 +1303,7 @@ export default function TemplateGlow({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-emerald-100">
+          <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-emerald-100">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -1313,18 +1313,18 @@ export default function TemplateGlow({
             <h3 className="text-xl font-extrabold text-emerald-950 mb-1">
               Header Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a hand-picked wellness preset or generate an image using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a hand-picked wellness preset or generate an image using AI.</p>
 
-            <div className="flex border-b border-gray-200 mb-6 font-semibold">
+            <div className="flex border-b border-theme-border mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-emerald-600 text-emerald-650' : 'border-transparent text-gray-450 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-emerald-600 text-emerald-650' : 'border-transparent text-gray-450 hover:text-theme-muted'}`}
               >
                 Curated Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-emerald-600 text-emerald-650' : 'border-transparent text-gray-455 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-emerald-600 text-emerald-650' : 'border-transparent text-gray-455 hover:text-theme-muted'}`}
               >
                 AI Background Generator
               </button>
@@ -1346,7 +1346,7 @@ export default function TemplateGlow({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border-2 border-transparent hover:border-emerald-600 transition-all bg-gray-100"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border-2 border-transparent hover:border-emerald-600 transition-all bg-gray-100"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1358,23 +1358,23 @@ export default function TemplateGlow({
             ) : (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your background image</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your background image</label>
                   <textarea 
                     placeholder="e.g. green botanical leaves, luxury spa wellness setup, fresh natural tea background"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-emerald-50/20 border border-emerald-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-600 text-sm resize-none"
+                    className="w-full px-4 py-3 bg-emerald-50/20 border border-emerald-100 rounded-theme outline-none focus:ring-2 focus:ring-emerald-600 text-sm resize-none"
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-emerald-50/20 border border-emerald-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-600 text-sm font-bold bg-white"
+                      className="w-full p-3 bg-emerald-50/20 border border-emerald-100 rounded-theme outline-none focus:ring-2 focus:ring-emerald-600 text-sm font-bold bg-theme-surface"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

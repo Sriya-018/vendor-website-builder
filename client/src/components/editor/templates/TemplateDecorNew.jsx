@@ -22,17 +22,17 @@ export default function TemplateDecorNew(props) {
       layoutClass: 'bg-[#FAF6F0] text-[#3E2723]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#3E2723] font-bold text-xl uppercase tracking-[0.2em]',
-      navbarClass: 'bg-[#FAF6F0]/95 border-b border-[#3E2723]/10 shadow-sm py-4',
+      navbarClass: 'bg-[#FAF6F0]/95 border-b border-[#3E2723]/10 shadow-theme py-4',
       heroClass: 'min-h-[85vh] bg-[#3E2723] text-white',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl leading-tight font-light uppercase tracking-wider text-white',
       ctaButtonClass: 'border border-[#B78A62] text-[#B78A62] hover:bg-[#B78A62] hover:text-white rounded-none py-3 px-8 uppercase font-bold text-xs tracking-wider transition-all',
       catalogSectionClass: 'bg-[#FAF6F0] text-[#3E2723]',
       sectionHeadingClass: 'font-serif text-3xl font-light uppercase tracking-widest text-[#3E2723]',
-      productCardClass: 'bg-white rounded-none border border-[#3E2723]/10 hover:border-[#B78A62] shadow-sm duration-200',
+      productCardClass: 'bg-theme-surface rounded-none border border-[#3E2723]/10 hover:border-[#B78A62] shadow-theme duration-200',
       gallerySectionClass: 'bg-[#FAF6F0] border-t border-[#3E2723]/10',
-      faqSectionClass: 'bg-white border-t border-[#3E2723]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#3E2723]/10',
       testimonialsSectionClass: 'bg-[#FAF6F0] border-t border-[#3E2723]/10',
-      hoursSectionClass: 'bg-white border-t border-[#3E2723]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#3E2723]/10',
       contactSectionClass: 'bg-[#FAF6F0] border-t border-[#3E2723]/10',
       primaryColor: '#3E2723',
       accentColor: '#B78A62',
@@ -41,21 +41,21 @@ export default function TemplateDecorNew(props) {
   } else if (templateId === 't30') {
     // Patio - Garden
     themeConfig = {
-      layoutClass: 'bg-white text-slate-800',
+      layoutClass: 'bg-theme-surface text-theme-text',
       fontClass: 'font-sans',
       logoTextClass: 'text-[#1B4D3E] font-extrabold text-xl tracking-tight uppercase',
-      navbarClass: 'bg-white/95 border-b border-slate-100 py-4 shadow-sm',
+      navbarClass: 'bg-theme-surface/95 border-b border-theme-border py-4 shadow-theme',
       heroClass: 'min-h-[80vh] bg-[#1B4D3E] text-white',
       heroHeadingClass: 'font-bold text-5xl md:text-7xl leading-none text-white uppercase',
-      ctaButtonClass: 'bg-[#2E8B57] text-white hover:bg-[#1E5E3A] rounded-lg py-3 px-8 font-bold uppercase text-xs tracking-wider',
-      catalogSectionClass: 'bg-white text-slate-800',
+      ctaButtonClass: 'bg-[#2E8B57] text-white hover:bg-[#1E5E3A] rounded-theme py-3 px-8 font-bold uppercase text-xs tracking-wider',
+      catalogSectionClass: 'bg-theme-surface text-theme-text',
       sectionHeadingClass: 'font-extrabold text-3xl tracking-tight text-[#1B4D3E] uppercase',
-      productCardClass: 'bg-white border border-slate-150 rounded-xl shadow-sm hover:shadow-md hover:border-[#2E8B57]/30 duration-200',
-      gallerySectionClass: 'bg-slate-50 border-t border-slate-100',
-      faqSectionClass: 'bg-white border-t border-slate-100',
-      testimonialsSectionClass: 'bg-slate-50 border-t border-slate-100',
-      hoursSectionClass: 'bg-white border-t border-slate-100',
-      contactSectionClass: 'bg-slate-50 border-t border-slate-100',
+      productCardClass: 'bg-theme-surface border border-slate-150 rounded-theme shadow-theme hover:shadow-theme hover:border-[#2E8B57]/30 duration-200',
+      gallerySectionClass: 'bg-theme-bg border-t border-theme-border',
+      faqSectionClass: 'bg-theme-surface border-t border-theme-border',
+      testimonialsSectionClass: 'bg-theme-bg border-t border-theme-border',
+      hoursSectionClass: 'bg-theme-surface border-t border-theme-border',
+      contactSectionClass: 'bg-theme-bg border-t border-theme-border',
       primaryColor: '#1B4D3E',
       accentColor: '#2E8B57',
       defaultHeroImage: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80'
@@ -63,20 +63,20 @@ export default function TemplateDecorNew(props) {
   } else if (templateId === 't31') {
     // Urban - Steel Industrial
     themeConfig = {
-      layoutClass: 'bg-[#F9FAFB] text-slate-800',
+      layoutClass: 'bg-[#F9FAFB] text-theme-text',
       fontClass: 'font-sans font-bold',
-      logoTextClass: 'text-slate-900 font-black text-2xl uppercase tracking-tighter italic',
-      navbarClass: 'bg-white border-b-2 border-slate-200 py-4',
+      logoTextClass: 'text-theme-text font-black text-2xl uppercase tracking-tighter italic',
+      navbarClass: 'bg-theme-surface border-b-2 border-theme-border py-4',
       heroClass: 'min-h-[80vh] bg-slate-900 text-white italic',
       heroHeadingClass: 'font-black text-6xl md:text-8xl tracking-tight uppercase text-white',
       ctaButtonClass: 'bg-slate-800 text-white hover:bg-slate-700 rounded-none py-4 px-10 font-bold border-2 border-slate-900 uppercase text-xs',
-      catalogSectionClass: 'bg-[#F9FAFB] text-slate-800 border-t border-slate-200',
-      sectionHeadingClass: 'font-black text-4xl uppercase tracking-tight text-slate-900',
-      productCardClass: 'bg-white rounded-none border border-slate-250 hover:shadow-md hover:border-slate-800 duration-250',
-      gallerySectionClass: 'bg-slate-50 border-t border-slate-250',
-      faqSectionClass: 'bg-white border-t border-slate-250',
-      testimonialsSectionClass: 'bg-slate-50 border-t border-slate-250',
-      hoursSectionClass: 'bg-white border-t border-slate-250',
+      catalogSectionClass: 'bg-[#F9FAFB] text-theme-text border-t border-theme-border',
+      sectionHeadingClass: 'font-black text-4xl uppercase tracking-tight text-theme-text',
+      productCardClass: 'bg-theme-surface rounded-none border border-slate-250 hover:shadow-theme hover:border-slate-800 duration-250',
+      gallerySectionClass: 'bg-theme-bg border-t border-slate-250',
+      faqSectionClass: 'bg-theme-surface border-t border-slate-250',
+      testimonialsSectionClass: 'bg-theme-bg border-t border-slate-250',
+      hoursSectionClass: 'bg-theme-surface border-t border-slate-250',
       contactSectionClass: 'bg-[#F9FAFB] border-t border-slate-250',
       primaryColor: '#374151',
       accentColor: '#4B5563',
@@ -88,17 +88,17 @@ export default function TemplateDecorNew(props) {
       layoutClass: 'bg-[#FAF9F6] text-[#2C3539]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#2C3539] font-bold text-lg uppercase tracking-[0.25em]',
-      navbarClass: 'bg-[#FAF9F6]/95 border-b border-[#C2B280]/15 shadow-sm py-4',
+      navbarClass: 'bg-[#FAF9F6]/95 border-b border-[#C2B280]/15 shadow-theme py-4',
       heroClass: 'min-h-[75vh] bg-[#2C3539] text-[#FAF9F6]',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl font-light leading-normal text-white',
       ctaButtonClass: 'bg-[#C2B280] text-black hover:bg-[#B7A57A] rounded-none py-3.5 px-8 font-bold uppercase text-xs tracking-wider',
       catalogSectionClass: 'bg-[#FAF9F6] text-[#2C3539]',
       sectionHeadingClass: 'font-serif text-3xl font-bold text-[#2C3539] uppercase tracking-widest',
-      productCardClass: 'bg-white border border-[#C2B280]/15 hover:border-[#C2B280] shadow-sm duration-200',
+      productCardClass: 'bg-theme-surface border border-[#C2B280]/15 hover:border-[#C2B280] shadow-theme duration-200',
       gallerySectionClass: 'bg-[#FAF9F6] border-t border-[#C2B280]/10',
-      faqSectionClass: 'bg-white border-t border-[#C2B280]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#C2B280]/10',
       testimonialsSectionClass: 'bg-[#FAF9F6] border-t border-[#C2B280]/10',
-      hoursSectionClass: 'bg-white border-t border-[#C2B280]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#C2B280]/10',
       contactSectionClass: 'bg-[#FAF9F6] border-t border-[#C2B280]/10',
       primaryColor: '#2C3539',
       accentColor: '#C2B280',
@@ -156,11 +156,11 @@ function ManorRoomPlanner({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#FAF6F0] border-t border-b border-[#3E2723]/10 text-[#3E2723] text-left font-serif">
-      <div className="max-w-xl mx-auto border border-[#3E2723]/15 p-8 bg-white rounded-none shadow-sm">
+      <div className="max-w-xl mx-auto border border-[#3E2723]/15 p-8 bg-theme-surface rounded-none shadow-theme">
         <div className="text-center mb-8 uppercase">
           <FaHome size={30} className="mx-auto mb-3 text-[#B78A62]" />
           <h2 className="text-2xl font-bold">Classic Room Scale Estimator</h2>
-          <p className="text-xs text-slate-500 lowercase mt-1.5 font-sans">Input room dimensions to check layout compatibility</p>
+          <p className="text-xs text-theme-muted lowercase mt-1.5 font-sans">Input room dimensions to check layout compatibility</p>
         </div>
 
         <div className="space-y-6">
@@ -235,7 +235,7 @@ function PatioWeatherRating({ accentColor }) {
   const a = assets[selectedFurniture];
 
   return (
-    <section className="py-20 px-8 bg-white border-t border-b border-slate-100 text-slate-800 text-left font-sans">
+    <section className="py-20 px-8 bg-theme-surface border-t border-b border-theme-border text-theme-text text-left font-sans">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <span className="text-xs uppercase tracking-widest font-bold text-[#2E8B57]">Material Diagnostics</span>
@@ -248,10 +248,10 @@ function PatioWeatherRating({ accentColor }) {
             <button
               key={key}
               onClick={() => setSelectedFurniture(key)}
-              className={`p-4 border rounded-xl transition-all text-center text-xs font-bold uppercase tracking-wider ${
+              className={`p-4 border rounded-theme transition-all text-center text-xs font-bold uppercase tracking-wider ${
                 selectedFurniture === key 
                   ? 'border-[#2E8B57] bg-[#F0FFF4] text-[#2E8B57]' 
-                  : 'border-slate-200 text-slate-500 bg-white hover:border-slate-350'
+                  : 'border-theme-border text-theme-muted bg-theme-surface hover:border-slate-350'
               }`}
             >
               {assets[key].name}
@@ -259,21 +259,21 @@ function PatioWeatherRating({ accentColor }) {
           ))}
         </div>
 
-        <div className="p-8 border border-slate-150 rounded-2xl bg-white shadow-sm grid md:grid-cols-3 gap-6">
-          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-xl bg-slate-50/50">
-            <FaCloudRain className="mx-auto text-xl text-blue-500" />
+        <div className="p-8 border border-slate-150 rounded-theme bg-theme-surface shadow-theme grid md:grid-cols-3 gap-6">
+          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-theme bg-theme-bg/50">
+            <FaCloudRain className="mx-auto text-xl text-theme-primary" />
             <h4 className="font-bold text-xs uppercase text-slate-400">Rain & Rust</h4>
-            <p className="text-xs font-bold text-slate-800">{a.rain}</p>
+            <p className="text-xs font-bold text-theme-text">{a.rain}</p>
           </div>
-          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-xl bg-slate-50/50">
-            <FaSun className="mx-auto text-xl text-amber-500" />
+          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-theme bg-theme-bg/50">
+            <FaSun className="mx-auto text-xl text-theme-primary" />
             <h4 className="font-bold text-xs uppercase text-slate-400">Sun & UV Fade</h4>
-            <p className="text-xs font-bold text-slate-800">{a.sun}</p>
+            <p className="text-xs font-bold text-theme-text">{a.sun}</p>
           </div>
-          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-xl bg-slate-50/50">
-            <FaWind className="mx-auto text-xl text-slate-500" />
+          <div className="space-y-2 text-center p-4 border border-slate-50 rounded-theme bg-theme-bg/50">
+            <FaWind className="mx-auto text-xl text-theme-muted" />
             <h4 className="font-bold text-xs uppercase text-slate-400">Wind & Weight</h4>
-            <p className="text-xs font-bold text-slate-800">{a.wind}</p>
+            <p className="text-xs font-bold text-theme-text">{a.wind}</p>
           </div>
         </div>
       </div>
@@ -314,8 +314,8 @@ function UrbanSwatchSelector({ accentColor }) {
     <section className="py-20 px-8 bg-[#F9FAFB] border-t border-b border-slate-250 text-slate-850 text-left font-sans tracking-tight">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <FaPalette size={28} className="mx-auto mb-3 text-slate-900" />
-          <h2 className="text-3xl font-black uppercase text-slate-900">Industrial Material Swatches</h2>
+          <FaPalette size={28} className="mx-auto mb-3 text-theme-text" />
+          <h2 className="text-3xl font-black uppercase text-theme-text">Industrial Material Swatches</h2>
           <div className="w-16 h-1 bg-slate-950 mx-auto mt-4"></div>
         </div>
 
@@ -327,7 +327,7 @@ function UrbanSwatchSelector({ accentColor }) {
               className={`p-4 border-2 border-slate-900 rounded-none text-xs font-black uppercase tracking-wider transition-colors ${
                 activeSwatch === key 
                   ? 'bg-slate-900 text-white shadow-none' 
-                  : 'bg-white hover:bg-slate-50 text-slate-800'
+                  : 'bg-theme-surface hover:bg-theme-bg text-theme-text'
               }`}
             >
               {key} swatches
@@ -335,8 +335,8 @@ function UrbanSwatchSelector({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-white p-8 rounded-none border-2 border-slate-900 shadow-[4px_4px_0px_#000]">
-          <h4 className="font-bold text-sm tracking-wide text-slate-900 border-b border-slate-100 pb-3 mb-4 uppercase">
+        <div className="bg-theme-surface p-8 rounded-none border-2 border-slate-900 shadow-[4px_4px_0px_#000]">
+          <h4 className="font-bold text-sm tracking-wide text-theme-text border-b border-theme-border pb-3 mb-4 uppercase">
             {s.title}
           </h4>
           <p className="text-xs leading-relaxed text-slate-550 mb-5">{s.desc}</p>
@@ -381,14 +381,14 @@ function ZenFengShuiSteps({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#FAF9F6] border-t border-b border-[#C2B280]/15 text-[#2C3539] text-left font-serif">
-      <div className="max-w-xl mx-auto border border-[#C2B280]/15 p-8 bg-white rounded-none shadow-sm">
+      <div className="max-w-xl mx-auto border border-[#C2B280]/15 p-8 bg-theme-surface rounded-none shadow-theme">
         <div className="text-center mb-8">
           <FaCheckSquare size={28} className="mx-auto mb-3 text-[#C2B280]" />
           <h2 className="text-2xl font-bold uppercase tracking-widest">Feng Shui Alignment</h2>
-          <p className="text-xs text-slate-500 leading-relaxed mt-2 lowercase">Step-by-step layout guide for interior harmony</p>
+          <p className="text-xs text-theme-muted leading-relaxed mt-2 lowercase">Step-by-step layout guide for interior harmony</p>
         </div>
 
-        <div className="flex border-b border-slate-100 mb-8 text-xs font-bold text-center">
+        <div className="flex border-b border-theme-border mb-8 text-xs font-bold text-center">
           {[1, 2, 3].map(num => (
             <button
               key={num}
@@ -407,7 +407,7 @@ function ZenFengShuiSteps({ accentColor }) {
         <div className="bg-[#FAF9F6] p-6 border border-[#C2B280]/10">
           <span className="text-[9px] uppercase tracking-widest font-bold text-[#C2B280] font-sans">Principle 0{activeStep}</span>
           <h4 className="text-base font-bold mt-1">{st.title}</h4>
-          <p className="text-xs font-light leading-relaxed mt-2 text-slate-600 font-sans">{st.desc}</p>
+          <p className="text-xs font-light leading-relaxed mt-2 text-theme-muted font-sans">{st.desc}</p>
         </div>
       </div>
     </section>

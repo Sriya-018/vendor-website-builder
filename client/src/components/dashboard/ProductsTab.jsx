@@ -253,16 +253,16 @@ function ProductsTab({ businessId, websites }) {
 
   if (!websites || websites.length === 0) {
     return (
-      <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
+      <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
         <FaGlobe className="text-5xl text-slate-700 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">No Stores Found</h2>
-        <p className="text-slate-450 mb-6">Create a store from the Overview tab before managing products.</p>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Stores Found</h2>
+        <p className="text-slate-600 dark:text-slate-450 mb-6">Create a store from the Overview tab before managing products.</p>
       </div>
     );
   }
 
   if (isLoading) {
-    return <div className="p-8 text-center text-slate-500">Loading products...</div>;
+    return <div className="p-8 text-center text-slate-600 dark:text-slate-500">Loading products...</div>;
   }
 
   return (
@@ -271,14 +271,14 @@ function ProductsTab({ businessId, websites }) {
         const websiteProducts = products.filter(p => p.websiteId === website._id);
         
         return (
-          <div key={website._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden">
-            <div className="p-6 border-b border-slate-800/60 flex justify-between items-center bg-slate-900/40">
+          <div key={website._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden">
+            <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-900/40">
               <div>
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <FaGlobe className="text-indigo-400" />
-                  Store: <span className="font-medium text-slate-350">{website.storeName || website.slug}</span>
+                  Store: <span className="font-medium text-slate-600 dark:text-slate-400">{website.storeName || website.slug}</span>
                 </h2>
-                <p className="text-sm text-slate-400">Manage products for this specific website</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Manage products for this specific website</p>
               </div>
               <button
                 onClick={() => handleAddClick(website._id)}
@@ -289,15 +289,15 @@ function ProductsTab({ businessId, websites }) {
             </div>
 
             {websiteProducts.length === 0 ? (
-              <div className="p-12 text-center text-slate-500 flex flex-col items-center">
+              <div className="p-12 text-center text-slate-600 dark:text-slate-500 flex flex-col items-center">
                 <div className="w-16 h-16 bg-purple-600/10 rounded-2xl flex items-center justify-center text-purple-400 mb-4 text-2xl border border-purple-500/20">
                   <FaImage />
                 </div>
-                <p className="text-lg font-medium text-white">No products yet</p>
-                <p className="mt-1 mb-6 text-slate-450">Add products to display them on {website.slug}.</p>
+                <p className="text-lg font-medium text-slate-900 dark:text-white">No products yet</p>
+                <p className="mt-1 mb-6 text-slate-600 dark:text-slate-450">Add products to display them on {website.slug}.</p>
                 <button
                   onClick={() => handleAddClick(website._id)}
-                  className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition-colors shadow-sm"
+                  className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 transition-colors shadow-sm"
                 >
                   <FaPlus /> Add Product
                 </button>
@@ -306,7 +306,7 @@ function ProductsTab({ businessId, websites }) {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                    <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
                       <th className="px-6 py-4 font-semibold">Product</th>
                       <th className="px-6 py-4 font-semibold">Price</th>
                       <th className="px-6 py-4 font-semibold">Category</th>
@@ -316,14 +316,14 @@ function ProductsTab({ businessId, websites }) {
                   </thead>
                   <tbody className="divide-y divide-slate-800/60 text-sm">
                     {websiteProducts.map(product => (
-                      <tr key={product._id} className="hover:bg-slate-800/20 transition-colors">
+                      <tr key={product._id} className="hover:bg-slate-50 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/20 transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-4">
                             {product.imageUrl ? (
                               <img 
                                 src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} 
                                 alt={product.name} 
-                                className="w-12 h-12 rounded object-cover border border-slate-800/60"
+                                className="w-12 h-12 rounded object-cover border border-slate-200 dark:border-slate-800/60"
                               />
                             ) : (
                               <div className="w-12 h-12 bg-purple-600/10 rounded flex items-center justify-center text-purple-400 border border-purple-500/20">
@@ -331,12 +331,12 @@ function ProductsTab({ businessId, websites }) {
                               </div>
                             )}
                             <div>
-                              <div className="font-medium text-white">{product.name}</div>
-                              <div className="text-xs text-slate-450 truncate max-w-[200px]">{product.description}</div>
+                              <div className="font-medium text-slate-900 dark:text-white">{product.name}</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-450 truncate max-w-[200px]">{product.description}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 font-medium text-white">₹{product.price.toLocaleString()}</td>
+                        <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">₹{product.price.toLocaleString()}</td>
                         <td className="px-6 py-4">
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 capitalize">
                             {product.category || 'General'}
@@ -373,18 +373,18 @@ function ProductsTab({ businessId, websites }) {
 
       {/* Unassigned / Legacy Products */}
       {products.filter(p => !p.websiteId).length > 0 && (
-        <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden mt-8">
-          <div className="p-6 border-b border-slate-800/60 bg-slate-900/40">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden mt-8">
+          <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-900/40">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <FaImage className="text-purple-400" />
               Unassigned Products
             </h2>
-            <p className="text-sm text-slate-400">Older products that are not assigned to a specific store.</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Older products that are not assigned to a specific store.</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
                   <th className="px-6 py-4 font-semibold">Product</th>
                   <th className="px-6 py-4 font-semibold">Price</th>
                   <th className="px-6 py-4 font-semibold">Category</th>
@@ -393,11 +393,11 @@ function ProductsTab({ businessId, websites }) {
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-sm">
                 {products.filter(p => !p.websiteId).map(product => (
-                  <tr key={product._id} className="hover:bg-slate-800/20 transition-colors">
+                  <tr key={product._id} className="hover:bg-slate-50 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/20 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         {product.imageUrl ? (
-                          <div className="w-12 h-12 rounded bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-800/60" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
+                          <div className="w-12 h-12 rounded bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-800/60" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
                             <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} alt={product.name} className="w-full h-full object-contain" />
                           </div>
                         ) : (
@@ -406,12 +406,12 @@ function ProductsTab({ businessId, websites }) {
                           </div>
                         )}
                         <div>
-                          <div className="font-medium text-white">{product.name}</div>
-                          <div className="text-xs text-slate-450 truncate max-w-[200px]">{product.description}</div>
+                          <div className="font-medium text-slate-900 dark:text-white">{product.name}</div>
+                          <div className="text-xs text-slate-600 dark:text-slate-450 truncate max-w-[200px]">{product.description}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-medium text-white">₹{product.price.toLocaleString()}</td>
+                    <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">₹{product.price.toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 capitalize">
                         {product.category || 'General'}
@@ -434,17 +434,17 @@ function ProductsTab({ businessId, websites }) {
       )}      {/* Add/Edit Product 2-Column Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#13121A] border border-slate-800/60 rounded-2xl w-full max-w-6xl shadow-2xl max-h-[95vh] overflow-hidden flex flex-col md:flex-row relative">
+          <div className="bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800/60 rounded-2xl w-full max-w-6xl shadow-2xl max-h-[95vh] overflow-hidden flex flex-col md:flex-row relative">
             <button 
               onClick={resetForm} 
-              className="absolute top-6 right-6 text-slate-500 hover:text-slate-350 bg-[#13121A] hover:bg-slate-800 rounded-full p-2 z-10 transition-colors shadow-sm border border-slate-800/60"
+              className="absolute top-6 right-6 text-slate-600 dark:text-slate-500 hover:text-slate-600 dark:text-slate-400 bg-white dark:bg-[#13121A] hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 rounded-full p-2 z-10 transition-colors shadow-sm border border-slate-200 dark:border-slate-800/60"
             >
               <FaTimes className="text-xl" />
             </button>
             
             {/* Left Column: Form */}
-            <div className="w-full md:w-1/2 p-8 border-r border-slate-800/60 overflow-y-auto max-h-[95vh] bg-[#13121A]">
-              <h3 className="text-2xl font-bold text-white flex items-center gap-2 mb-6">
+            <div className="w-full md:w-1/2 p-8 border-r border-slate-200 dark:border-slate-800/60 overflow-y-auto max-h-[95vh] bg-white dark:bg-[#13121A]">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
                 <FaPlus className="text-purple-400" />
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h3>
@@ -476,7 +476,7 @@ function ProductsTab({ businessId, websites }) {
                     <button 
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold border-2 border-dashed border-slate-800/60 text-slate-400 hover:text-slate-250 hover:border-slate-600 hover:bg-slate-800/40 transition-all"
+                      className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl font-bold border-2 border-dashed border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 hover:text-slate-250 hover:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/40 transition-all"
                     >
                       <FaUpload className="text-2xl mb-1" />
                       <span className="text-xs">Upload File</span>
@@ -492,7 +492,7 @@ function ProductsTab({ businessId, websites }) {
 
                   {/* Camera / Image Preview Area */}
                   {(isCameraActive || formData.imagePreview) && (
-                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-800/60 bg-white relative flex items-center justify-center min-h-[150px]" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
+                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800/60 bg-white relative flex items-center justify-center min-h-[150px]" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
                       {isCameraActive ? (
                         <>
                           <video ref={videoRef} autoPlay playsInline className="w-full max-h-[250px] object-contain bg-black"></video>
@@ -517,7 +517,7 @@ function ProductsTab({ businessId, websites }) {
                           <button 
                             type="button" 
                             onClick={() => setFormData({...formData, image: null, imagePreview: null, processedImageUrl: null})}
-                            className="absolute top-2 right-2 bg-[#13121A]/85 text-slate-200 p-2 rounded-full shadow hover:bg-[#13121A] transition-colors border border-slate-800/60"
+                            className="absolute top-2 right-2 bg-white dark:bg-[#13121A]/85 text-slate-200 p-2 rounded-full shadow hover:bg-white dark:bg-[#13121A] transition-colors border border-slate-200 dark:border-slate-800/60"
                           >
                             <FaTimes />
                           </button>
@@ -532,7 +532,7 @@ function ProductsTab({ businessId, websites }) {
                     <input 
                       type="text" required name="name" 
                       value={formData.name} onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-slate-50 dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 dark:bg-[#0D0C14] transition-all text-slate-900 dark:text-slate-200 outline-none placeholder-slate-650" 
                       placeholder="Product Name *"
                     />
                   </div>
@@ -540,12 +540,12 @@ function ProductsTab({ businessId, websites }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <span className="text-slate-500 font-medium">₹</span>
+                        <span className="text-slate-600 dark:text-slate-500 font-medium">₹</span>
                       </div>
                       <input 
                         type="number" required min="0" step="0.01" name="price" 
                         value={formData.price} onChange={handleInputChange}
-                        className="w-full pl-8 pr-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
+                        className="w-full pl-8 pr-4 py-3 border border-slate-300 dark:border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-slate-50 dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 dark:bg-[#0D0C14] transition-all text-slate-900 dark:text-slate-200 outline-none placeholder-slate-650" 
                         placeholder="Price *"
                       />
                     </div>
@@ -553,7 +553,7 @@ function ProductsTab({ businessId, websites }) {
                       <input 
                         type="text" name="category" 
                         value={formData.category} onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
+                        className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-slate-50 dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 dark:bg-[#0D0C14] transition-all text-slate-900 dark:text-slate-200 outline-none placeholder-slate-650" 
                         placeholder="Category"
                       />
                     </div>
@@ -563,13 +563,13 @@ function ProductsTab({ businessId, websites }) {
                     <textarea 
                       name="description" rows="3"
                       value={formData.description} onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none font-medium bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none placeholder-slate-650" 
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none font-medium bg-slate-50 dark:bg-[#09080E] focus:bg-white dark:focus:bg-slate-900 dark:bg-[#0D0C14] transition-all text-slate-900 dark:text-slate-200 outline-none placeholder-slate-650" 
                       placeholder="Product Description"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 py-1">
-                    <label className="flex items-center gap-2.5 cursor-pointer p-3.5 bg-[#09080E] hover:bg-[#0D0C14] border border-slate-700/60 rounded-lg transition-all select-none">
+                    <label className="flex items-center gap-2.5 cursor-pointer p-3.5 bg-slate-50 dark:bg-[#09080E] hover:bg-white dark:bg-[#0D0C14] border border-slate-300 dark:border-slate-700/60 rounded-lg transition-all select-none">
                       <input 
                         type="checkbox" 
                         name="inStock"
@@ -584,7 +584,7 @@ function ProductsTab({ businessId, websites }) {
                         }}
                         className="w-4 h-4 accent-purple-500 cursor-pointer" 
                       />
-                      <span className="text-sm font-bold text-slate-350">📦 In Stock</span>
+                      <span className="text-sm font-bold text-slate-600 dark:text-slate-400">📦 In Stock</span>
                     </label>
                     <div>
                       <input 
@@ -600,7 +600,7 @@ function ProductsTab({ businessId, websites }) {
                             inStock: val > 0
                           }));
                         }}
-                        className="w-full px-4 py-3.5 border border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium text-sm bg-[#09080E] focus:bg-[#0D0C14] transition-all text-slate-200 outline-none" 
+                        className="w-full px-4 py-3.5 border border-slate-300 dark:border-slate-700/60 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium text-sm bg-slate-50 dark:bg-[#09080E] focus:bg-white dark:bg-[#0D0C14] transition-all text-slate-200 outline-none" 
                         placeholder="Quantity in Stock"
                       />
                     </div>
@@ -610,7 +610,7 @@ function ProductsTab({ businessId, websites }) {
                 <div className="flex gap-3 pt-6">
                   <button 
                     type="button" onClick={resetForm}
-                    className="flex-1 px-4 py-3 bg-[#09080E] border border-slate-700/60 text-slate-350 rounded-xl font-bold hover:bg-slate-800 transition-colors"
+                    className="flex-1 px-4 py-3 bg-slate-50 dark:bg-[#09080E] border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 rounded-xl font-bold hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 transition-colors"
                   >
                     Cancel
                   </button>
@@ -626,9 +626,9 @@ function ProductsTab({ businessId, websites }) {
             </div>
 
             {/* Right Column: Your Products */}
-            <div className="w-full md:w-1/2 p-8 bg-[#0D0C14] overflow-y-auto max-h-[95vh]">
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800/60">
-                <h3 className="text-xl font-bold text-white">Your Products</h3>
+            <div className="w-full md:w-1/2 p-8 bg-white dark:bg-[#0D0C14] overflow-y-auto max-h-[95vh]">
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800/60">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Your Products</h3>
                 <span className="bg-purple-500/10 text-purple-300 border border-purple-500/20 py-1 px-3 rounded-full text-sm font-bold">
                   {products.filter(p => p.websiteId === activeWebsiteId).length} items
                 </span>
@@ -636,17 +636,17 @@ function ProductsTab({ businessId, websites }) {
               
               <div className="space-y-4">
                 {products.filter(p => p.websiteId === activeWebsiteId).length === 0 ? (
-                  <div className="border-2 border-dashed border-slate-800/60 rounded-2xl p-12 text-center bg-[#13121A] flex flex-col items-center justify-center">
+                  <div className="border-2 border-dashed border-slate-200 dark:border-slate-800/60 rounded-2xl p-12 text-center bg-white dark:bg-[#13121A] flex flex-col items-center justify-center">
                     <FaImage className="text-5xl text-slate-655 mb-4" />
                     <h4 className="text-slate-455 font-medium mb-1">No products added yet</h4>
-                    <p className="text-slate-500 text-sm">Fill the form and click "Add Product"</p>
+                    <p className="text-slate-600 dark:text-slate-500 text-sm">Fill the form and click "Add Product"</p>
                   </div>
                 ) : (
                   products.filter(p => p.websiteId === activeWebsiteId).reverse().map(product => (
-                    <div key={product._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 p-4 shadow-sm flex items-center justify-between group hover:border-purple-500/40 transition-colors">
+                    <div key={product._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 p-4 shadow-sm flex items-center justify-between group hover:border-purple-500/40 transition-colors">
                       <div className="flex items-center gap-4 flex-1">
                         {product.imageUrl ? (
-                          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-700/50" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
+                          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-300 dark:border-slate-700/50" style={{ backgroundImage: 'conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%), conic-gradient(#cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px' }}>
                             <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`} alt={product.name} className="w-full h-full object-contain" />
                           </div>
                         ) : (
@@ -655,15 +655,15 @@ function ProductsTab({ businessId, websites }) {
                           </div>
                         )}
                         <div>
-                          <div className="font-bold text-white text-lg leading-tight">{product.name}</div>
+                          <div className="font-bold text-slate-900 dark:text-white text-lg leading-tight">{product.name}</div>
                           <div className="font-bold text-purple-400 mt-1">₹{product.price.toLocaleString()}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => handleEdit(product)} className="p-3 text-purple-400 hover:bg-slate-800 rounded-full transition-colors">
+                        <button onClick={() => handleEdit(product)} className="p-3 text-purple-400 hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 rounded-full transition-colors">
                           <FaEdit />
                         </button>
-                        <button onClick={() => handleDelete(product._id)} className="p-3 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors">
+                        <button onClick={() => handleDelete(product._id)} className="p-3 text-slate-600 dark:text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors">
                           <FaTrash />
                         </button>
                       </div>

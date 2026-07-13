@@ -254,7 +254,7 @@ export default function TemplateBistro({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-[#1E1E1C] border border-amber-300 text-white rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-[#1E1E1C] border border-amber-300 text-white rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                   style={{ borderColor: accentColor }}
                 >
                   🎨 Edit Hero Background
@@ -280,7 +280,7 @@ export default function TemplateBistro({
                 <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                   <button 
                     onClick={() => changePage('shop')}
-                    className="inline-block px-10 py-4 text-[#1E1E1C] rounded-none font-bold text-sm tracking-wider uppercase hover:opacity-90 transition-opacity shadow-xl flex items-center gap-2"
+                    className="inline-block px-10 py-4 text-[#1E1E1C] rounded-none font-bold text-sm tracking-wider uppercase hover:opacity-90 transition-opacity shadow-theme flex items-center gap-2"
                     style={{ backgroundColor: accentColor }}
                   >
                     <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'See Our Menu'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -392,7 +392,7 @@ export default function TemplateBistro({
                         )}
                         {product.inStock === false && (
                           <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
-                            <span className="px-4 py-2 border border-red-500 text-red-500 font-serif text-xs uppercase tracking-widest bg-red-950/20">
+                            <span className="px-4 py-2 border border-red-500 text-theme-primary font-serif text-xs uppercase tracking-widest bg-red-950/20">
                               Unavailable Today
                             </span>
                           </div>
@@ -407,7 +407,7 @@ export default function TemplateBistro({
                           tagName="h4"
                           className="text-lg font-serif uppercase tracking-wide truncate group-hover:text-[#C5A880] transition-colors"
                         />
-                        <p className="text-xs text-gray-500 mt-2 font-light leading-relaxed line-clamp-2">
+                        <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed line-clamp-2">
                           {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                         </p>
                       </div>
@@ -440,7 +440,7 @@ export default function TemplateBistro({
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-4 py-1.5 bg-white/5 text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider border border-transparent hover:border-white/10"
+                          className="w-full mt-4 py-1.5 bg-theme-surface/5 text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider border border-transparent hover:border-white/10"
                         >
                           ⚙️ Edit Dish Parameters
                         </button>
@@ -529,7 +529,7 @@ export default function TemplateBistro({
                   const isOpen = activeFaq === idx;
                   return (
                     <div key={item.id || idx} className="bg-black/20 border border-white/5 overflow-hidden transition-all">
-                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-serif uppercase tracking-wider text-gray-250 flex items-center justify-between hover:bg-white/5 transition-colors">
+                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-serif uppercase tracking-wider text-gray-250 flex items-center justify-between hover:bg-theme-surface/5 transition-colors">
                         <EditableText
                           isEditable={isEditable}
                           value={item.q}
@@ -619,7 +619,7 @@ export default function TemplateBistro({
                             onUpdateConfig('testimonials', 'items', updated);
                           }}
                           tagName="span"
-                          className="text-[10px] text-gray-500 tracking-wide font-light"
+                          className="text-[10px] text-theme-muted tracking-wide font-light"
                         />
                       </div>
                     </div>
@@ -706,7 +706,7 @@ export default function TemplateBistro({
                   </div>
                 </div>
 
-                <div className="bg-[#1E1E1C] p-8 border border-[#C5A880]/20 rounded-none shadow-2xl relative">
+                <div className="bg-[#1E1E1C] p-8 border border-[#C5A880]/20 rounded-none shadow-theme relative">
                   {formSubmitted ? (
                     <div className="text-center py-12 text-[#C5A880] space-y-4">
                       <FaPaperPlane size={36} className="mx-auto" />
@@ -719,7 +719,7 @@ export default function TemplateBistro({
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Guests Limit</label>
+                          <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Guests Limit</label>
                           <select 
                             value={reservationDetails.guests}
                             onChange={(e) => setReservationDetails({...reservationDetails, guests: e.target.value})}
@@ -734,7 +734,7 @@ export default function TemplateBistro({
                         </div>
 
                         <div>
-                          <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Desired Date</label>
+                          <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Desired Date</label>
                           <input 
                             type="date"
                             value={reservationDetails.date}
@@ -746,7 +746,7 @@ export default function TemplateBistro({
 
                       <div className="grid grid-cols-1 gap-4">
                         <div>
-                          <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Preferred Time</label>
+                          <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Preferred Time</label>
                           <input 
                             type="time"
                             value={reservationDetails.time}
@@ -757,7 +757,7 @@ export default function TemplateBistro({
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
+                        <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Your Name</label>
                         <input 
                           type="text"
                           required
@@ -769,7 +769,7 @@ export default function TemplateBistro({
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Email Address</label>
+                        <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Email Address</label>
                         <input 
                           type="email"
                           required
@@ -781,7 +781,7 @@ export default function TemplateBistro({
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-widest text-gray-500 mb-1.5">Special Notes / Requests</label>
+                        <label className="block text-[9px] uppercase tracking-widest text-theme-muted mb-1.5">Special Notes / Requests</label>
                         <textarea 
                           rows={3}
                           required
@@ -905,7 +905,7 @@ export default function TemplateBistro({
                     )}
                     {product.inStock === false && (
                       <div className="absolute inset-0 bg-black/75 flex items-center justify-center">
-                        <span className="px-4 py-2 border border-red-500 text-red-500 font-serif text-xs uppercase tracking-widest bg-red-950/20">
+                        <span className="px-4 py-2 border border-red-500 text-theme-primary font-serif text-xs uppercase tracking-widest bg-red-950/20">
                           Unavailable
                         </span>
                       </div>
@@ -920,7 +920,7 @@ export default function TemplateBistro({
                       tagName="h4"
                       className="text-lg font-serif uppercase tracking-wide truncate group-hover:text-[#C5A880] transition-colors"
                     />
-                    <p className="text-xs text-gray-500 mt-2 font-light leading-relaxed">
+                    <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed">
                       {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                     </p>
                   </div>
@@ -957,7 +957,7 @@ export default function TemplateBistro({
         </main>
 
         {/* Simple Footer */}
-        <footer className="py-8 text-center text-xs text-gray-500 border-t border-white/5 bg-black/20">
+        <footer className="py-8 text-center text-xs text-theme-muted border-t border-white/5 bg-black/20">
           <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
         </footer>
       </div>
@@ -970,7 +970,7 @@ export default function TemplateBistro({
       className="w-full h-full overflow-y-auto relative bg-[#1E1E1C] flex flex-col justify-between font-sans text-gray-200"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#1E1E1C]/95 border-b border-[#C5A880]/10 shadow-lg' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#1E1E1C]/95 border-b border-[#C5A880]/10 shadow-theme' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -1003,7 +1003,7 @@ export default function TemplateBistro({
       </div>
 
       {/* Footer */}
-      <footer className="bg-black/60 py-12 px-8 border-t border-[#C5A880]/10 text-center text-xs text-gray-500 font-light">
+      <footer className="bg-black/60 py-12 px-8 border-t border-[#C5A880]/10 text-center text-xs text-theme-muted font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-serif text-[#C5A880] uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. All Culinary Delights Reserved.</p>
@@ -1016,7 +1016,7 @@ export default function TemplateBistro({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 border border-[#C5A880]/40 shadow-2xl relative text-left">
+            <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 border border-[#C5A880]/40 shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1031,7 +1031,7 @@ export default function TemplateBistro({
               <div className="space-y-4 font-sans text-xs text-gray-300">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Dish Name</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Dish Name</label>
                     <input 
                       type="text"
                       value={product.name}
@@ -1041,7 +1041,7 @@ export default function TemplateBistro({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Price (₹)</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
@@ -1053,7 +1053,7 @@ export default function TemplateBistro({
 
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Course / Category</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Course / Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
@@ -1065,7 +1065,7 @@ export default function TemplateBistro({
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Ingredients & Details</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Ingredients & Details</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Provide menu description, ingredient listings, allergy info."
@@ -1107,7 +1107,7 @@ export default function TemplateBistro({
 
                 {/* Daily Portions */}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Daily Portions Available</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Daily Portions Available</label>
                   <input 
                     type="number"
                     min="0"
@@ -1124,7 +1124,7 @@ export default function TemplateBistro({
 
                 {/* Presentation Image */}
                 <div className="p-4 border border-white/10 bg-black/25 space-y-3">
-                  <span className="block text-[10px] uppercase tracking-wider text-gray-500">Dish Presentation Image</span>
+                  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Dish Presentation Image</span>
                   <div className="flex gap-4 items-center">
                     <div className="w-20 h-20 border border-white/10 shrink-0">
                       <img 
@@ -1135,7 +1135,7 @@ export default function TemplateBistro({
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1187,7 +1187,7 @@ export default function TemplateBistro({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 shadow-2xl border border-[#C5A880]/30 relative text-left">
+          <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 shadow-theme border border-[#C5A880]/30 relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1197,18 +1197,18 @@ export default function TemplateBistro({
             <h3 className="text-xl font-serif uppercase tracking-widest text-[#C5A880] mb-1">
               Bistro Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a fine dining preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a fine dining preset or generate using AI.</p>
 
             <div className="flex border-b border-white/10 mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#C5A880] text-[#C5A880]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#C5A880] text-[#C5A880]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#C5A880] text-[#C5A880]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#C5A880] text-[#C5A880]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 AI Generator
               </button>
@@ -1242,7 +1242,7 @@ export default function TemplateBistro({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your dining backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your dining backdrop</label>
                   <textarea 
                     placeholder="e.g. elegant restaurant interior with mood lighting, gold decorations and white table cloth"
                     value={aiPrompt}
@@ -1254,7 +1254,7 @@ export default function TemplateBistro({
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}

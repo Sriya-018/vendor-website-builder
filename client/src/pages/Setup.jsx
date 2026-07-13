@@ -165,12 +165,12 @@ function Setup({ token, businessId, setBusinessId }) {
   const steps = ['Business Type', 'Details', 'Photos', 'Launch'];
 
   return (
-    <div className="min-h-screen bg-[#09080E] font-sans text-slate-200 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#09080E] font-sans text-slate-200 flex flex-col">
       {/* Top Navbar / Stepper */}
-      <div className="bg-[#0D0C14] border-b border-slate-800/60 sticky top-0 z-10 px-4 py-4 md:py-6 shadow-xl shadow-black/30">
+      <div className="bg-white dark:bg-[#0D0C14] border-b border-slate-200 dark:border-slate-800/60 sticky top-0 z-10 px-4 py-4 md:py-6 shadow-xl shadow-black/30">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-slate-800 z-0 hidden sm:block"></div>
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-slate-100 dark:bg-slate-800 z-0 hidden sm:block"></div>
             {steps.map((label, index) => {
               const stepNumber = index + 1;
               const isActive = step === stepNumber;
@@ -180,7 +180,7 @@ function Setup({ token, businessId, setBusinessId }) {
                 <div key={index} className="relative z-10 flex flex-col items-center flex-1 sm:flex-none">
                   <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-base border-2 transition-all ${
                     isActive ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-500/30' : 
-                    isCompleted ? 'bg-[#13121A] border-indigo-500 text-indigo-400' : 'bg-[#13121A] border-slate-700 text-slate-600'
+                    isCompleted ? 'bg-white dark:bg-[#13121A] border-indigo-500 text-indigo-400' : 'bg-white dark:bg-[#13121A] border-slate-300 dark:border-slate-700 text-slate-600'
                   }`}>
                     {isCompleted ? <FaCheck /> : stepNumber}
                   </div>
@@ -200,8 +200,8 @@ function Setup({ token, businessId, setBusinessId }) {
         {step === 1 && (
           <div className="animate-fade-in-up">
             <div className="text-center mb-8 md:mb-10">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">What kind of business are you building?</h1>
-              <p className="text-slate-500">Select an industry to help us tailor your experience.</p>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">What kind of business are you building?</h1>
+              <p className="text-slate-600 dark:text-slate-500">Select an industry to help us tailor your experience.</p>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
@@ -212,8 +212,8 @@ function Setup({ token, businessId, setBusinessId }) {
                     setBusinessData({ ...businessData, category: type.id });
                     setStep(2);
                   }}
-                  className={`bg-[#13121A] border-2 rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center text-center transition-all duration-255 hover:-translate-y-1 hover:shadow-xl ${
-                    businessData.category === type.id ? 'border-purple-500 shadow-lg shadow-purple-500/20 ring-2 ring-purple-500/20 scale-[1.01]' : 'border-slate-800/60 hover:border-purple-500/40'
+                  className={`bg-white dark:bg-[#13121A] border-2 rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center text-center transition-all duration-255 hover:-translate-y-1 hover:shadow-xl ${
+                    businessData.category === type.id ? 'border-purple-500 shadow-lg shadow-purple-500/20 ring-2 ring-purple-500/20 scale-[1.01]' : 'border-slate-200 dark:border-slate-800/60 hover:border-purple-500/40'
                   }`}
                 >
                   {type.icon}
@@ -227,7 +227,7 @@ function Setup({ token, businessId, setBusinessId }) {
                 <button
                   onClick={handleVoiceSetup}
                   disabled={loading}
-                  className="flex items-center gap-3 px-6 py-3.5 bg-[#13121A] border border-slate-800/60 text-slate-300 rounded-xl hover:bg-slate-800 hover:border-slate-700 transition-colors shadow-sm font-semibold"
+                  className="flex items-center gap-3 px-6 py-3.5 bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 hover:border-slate-300 dark:border-slate-700 transition-colors shadow-sm font-semibold"
                 >
                   {isRecording ? (
                     <>
@@ -236,7 +236,7 @@ function Setup({ token, businessId, setBusinessId }) {
                     </>
                   ) : (
                     <>
-                      <FaMicrophone className="text-slate-400" />
+                      <FaMicrophone className="text-slate-600 dark:text-slate-400" />
                       Describe with voice instead
                     </>
                   )}
@@ -248,46 +248,46 @@ function Setup({ token, businessId, setBusinessId }) {
         )}
 
         {step === 2 && (
-          <div className="animate-fade-in-up bg-[#13121A] p-6 md:p-10 rounded-2xl shadow-xl border border-slate-800/60">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Business Details</h2>
-            <p className="text-slate-500 mb-8">Provide some basic information to get started.</p>
+          <div className="animate-fade-in-up bg-white dark:bg-[#13121A] p-6 md:p-10 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800/60">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Business Details</h2>
+            <p className="text-slate-600 dark:text-slate-500 mb-8">Provide some basic information to get started.</p>
             
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Business Name</label>
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Business Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Acme Corporation"
                   value={businessData.businessName}
                   onChange={(e) => setBusinessData({ ...businessData, businessName: e.target.value })}
-                  className="w-full border border-slate-700/60 bg-[#09080E] rounded-xl p-3.5 text-slate-200 placeholder-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
+                  className="w-full border border-slate-300 dark:border-slate-700/60 bg-white dark:bg-[#09080E] rounded-xl p-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Location</label>
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Location</label>
                 <input
                   type="text"
                   placeholder="e.g. New York, NY"
                   value={businessData.location}
                   onChange={(e) => setBusinessData({ ...businessData, location: e.target.value })}
-                  className="w-full border border-slate-700/60 bg-[#09080E] rounded-xl p-3.5 text-slate-200 placeholder-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
+                  className="w-full border border-slate-300 dark:border-slate-700/60 bg-white dark:bg-[#09080E] rounded-xl p-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Description</label>
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Description</label>
                 <textarea
                   placeholder="Tell us a bit about what you do..."
                   value={businessData.description}
                   onChange={(e) => setBusinessData({ ...businessData, description: e.target.value })}
-                  className="w-full border border-slate-700/60 bg-[#09080E] rounded-xl p-3.5 text-slate-200 placeholder-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium resize-none"
+                  className="w-full border border-slate-300 dark:border-slate-700/60 bg-white dark:bg-[#09080E] rounded-xl p-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium resize-none"
                   rows="4"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Key Services or Products</label>
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Key Services or Products</label>
                 <input
                   type="text"
                   placeholder="e.g. Consulting, Design, Marketing"
@@ -296,7 +296,7 @@ function Setup({ token, businessId, setBusinessId }) {
                     ...businessData, 
                     services: e.target.value.split(',').map(s => s.trim()).filter(s => s)
                   })}
-                  className="w-full border border-slate-700/60 bg-[#09080E] rounded-xl p-3.5 text-slate-200 placeholder-slate-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
+                  className="w-full border border-slate-300 dark:border-slate-700/60 bg-white dark:bg-[#09080E] rounded-xl p-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all font-medium"
                 />
                 <p className="text-xs text-slate-600 mt-2">Separate multiple items with a comma.</p>
               </div>
@@ -305,7 +305,7 @@ function Setup({ token, businessId, setBusinessId }) {
             <div className="mt-10 flex justify-between">
               <button
                 onClick={() => setStep(1)}
-                className="px-6 py-3 border border-slate-800/60 text-slate-400 rounded-xl hover:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
+                className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
               >
                 Back
               </button>
@@ -321,20 +321,20 @@ function Setup({ token, businessId, setBusinessId }) {
         )}
 
         {step === 3 && (
-          <div className="animate-fade-in-up bg-[#13121A] p-6 md:p-10 rounded-2xl shadow-xl border border-slate-800/60">
-             <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Add Media</h2>
-             <p className="text-slate-500 mb-8">Upload photos to make your website stand out.</p>
+          <div className="animate-fade-in-up bg-white dark:bg-[#13121A] p-6 md:p-10 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800/60">
+             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Add Media</h2>
+             <p className="text-slate-600 dark:text-slate-500 mb-8">Upload photos to make your website stand out.</p>
              
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
-                { type: 'shop_front', label: 'Store or Banner', icon: <FaImage className="text-3xl text-slate-450 mb-3" /> },
-                { type: 'product', label: 'Product Highlights', icon: <FaCamera className="text-3xl text-slate-450 mb-3" /> },
-                { type: 'owner', label: 'Team or Owner', icon: <FaIdBadge className="text-3xl text-slate-450 mb-3" /> },
-                { type: 'price_list', label: 'Menus or Pricing', icon: <FaListAlt className="text-3xl text-slate-450 mb-3" /> }
+                { type: 'shop_front', label: 'Store or Banner', icon: <FaImage className="text-3xl text-slate-600 dark:text-slate-450 mb-3" /> },
+                { type: 'product', label: 'Product Highlights', icon: <FaCamera className="text-3xl text-slate-600 dark:text-slate-450 mb-3" /> },
+                { type: 'owner', label: 'Team or Owner', icon: <FaIdBadge className="text-3xl text-slate-600 dark:text-slate-450 mb-3" /> },
+                { type: 'price_list', label: 'Menus or Pricing', icon: <FaListAlt className="text-3xl text-slate-600 dark:text-slate-450 mb-3" /> }
               ].map((item) => (
                 <label
                   key={item.type}
-                  className="flex flex-col items-center justify-center border-2 border-dashed border-slate-800/60 rounded-2xl p-8 text-center cursor-pointer hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all group"
+                  className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800/60 rounded-2xl p-8 text-center cursor-pointer hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all group"
                 >
                   <input
                     type="file"
@@ -345,7 +345,7 @@ function Setup({ token, businessId, setBusinessId }) {
                   <div className="group-hover:scale-110 transition-transform duration-200">
                     {item.icon}
                   </div>
-                  <div className="font-semibold text-slate-300">{item.label}</div>
+                  <div className="font-semibold text-slate-700 dark:text-slate-300">{item.label}</div>
                   <div className="text-sm text-indigo-400 font-bold mt-2">Browse Files</div>
                 </label>
               ))}
@@ -354,7 +354,7 @@ function Setup({ token, businessId, setBusinessId }) {
             <div className="mt-10 flex justify-between">
               <button
                 onClick={() => setStep(2)}
-                className="px-6 py-3 border border-slate-800/60 text-slate-400 rounded-xl hover:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
+                className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
               >
                 Back
               </button>
@@ -369,12 +369,12 @@ function Setup({ token, businessId, setBusinessId }) {
         )}
 
         {step === 4 && (
-          <div className="animate-fade-in-up text-center bg-[#13121A] p-10 md:p-16 rounded-2xl shadow-xl border border-slate-800/60 max-w-xl mx-auto w-full">
+          <div className="animate-fade-in-up text-center bg-white dark:bg-[#13121A] p-10 md:p-16 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800/60 max-w-xl mx-auto w-full">
             <div className="w-20 h-20 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-indigo-500/30">
               <FaStore className="text-indigo-400 text-3xl" />
             </div>
-            <h2 className="text-3xl font-extrabold text-white mb-4">You're all set!</h2>
-            <p className="text-slate-500 mb-10 text-lg">
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-4">You're all set!</h2>
+            <p className="text-slate-600 dark:text-slate-500 mb-10 text-lg">
               We have everything we need to construct a beautiful, professional website for {businessData.businessName || 'your business'}.
             </p>
             <button

@@ -244,7 +244,7 @@ export default function TemplateSlate({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="px-7 py-3 rounded-lg font-extrabold text-[#0f172a] hover:opacity-85 transition-opacity flex items-center gap-2"
+                      className="px-7 py-3 rounded-theme font-extrabold text-[#0f172a] hover:opacity-85 transition-opacity flex items-center gap-2"
                       style={{ backgroundColor: accentColor }}
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Browse Catalog'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -255,21 +255,21 @@ export default function TemplateSlate({
                         href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-7 py-3 bg-slate-800 border border-slate-700 text-slate-100 rounded-lg font-bold hover:border-slate-500 transition-colors flex items-center"
+                        className="px-7 py-3 bg-slate-800 border border-slate-700 text-slate-100 rounded-theme font-bold hover:border-slate-500 transition-colors flex items-center"
                       >
-                        <FaWhatsapp className="mr-2 text-green-500" /> WhatsApp
+                        <FaWhatsapp className="mr-2 text-theme-primary" /> WhatsApp
                       </a>
                     )}
                   </div>
                 </div>
                 <div className="flex justify-center relative">
-                  <div className="w-full max-w-sm aspect-square rounded-2xl overflow-hidden border-2 border-slate-800" style={{ boxShadow: `0 0 60px ${accentColor}26` }}>
+                  <div className="w-full max-w-sm aspect-square rounded-theme overflow-hidden border-2 border-slate-800" style={{ boxShadow: `0 0 60px ${accentColor}26` }}>
                     <img src={heroImage} className="w-full h-full object-cover" alt="Hero" />
                   </div>
                   {isEditable && (
                     <button 
                       onClick={() => setShowBgModal(true)}
-                      className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-100 hover:text-white rounded font-bold text-[10px] shadow-md transition-all font-mono"
+                      className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-100 hover:text-white rounded font-bold text-[10px] shadow-theme transition-all font-mono"
                     >
                       🤖 Edit Hero Image / AI
                     </button>
@@ -295,7 +295,7 @@ export default function TemplateSlate({
                   />
                   <div className="w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }}></div>
                 </div>
-                <span className="text-sm text-slate-500 font-bold">{products.length} items</span>
+                <span className="text-sm text-theme-muted font-bold">{products.length} items</span>
               </div>
               
               <div 
@@ -309,7 +309,7 @@ export default function TemplateSlate({
                 {products.slice(0, 4).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden group hover:-translate-y-1.5 transition-transform flex flex-col justify-between"
+                    className="bg-slate-800 border border-slate-700 rounded-theme overflow-hidden group hover:-translate-y-1.5 transition-transform flex flex-col justify-between"
                     style={{ borderRadius: 'var(--radius)' }}
                   >
                     <div>
@@ -350,7 +350,7 @@ export default function TemplateSlate({
                           data-product-name={product.name}
                           data-product-price={product.price}
                           data-product-image={product.img || `https://picsum.photos/seed/${product.name}${i}/600/600`}
-                          className="text-[#0f172a] px-4 py-2 rounded-md font-bold text-xs hover:opacity-85 transition-opacity"
+                          className="text-[#0f172a] px-4 py-2 rounded-theme font-bold text-xs hover:opacity-85 transition-opacity"
                           style={{ backgroundColor: accentColor }}
                         >
                           Buy Now
@@ -363,7 +363,7 @@ export default function TemplateSlate({
               <div className="text-center mt-12">
                 <button 
                   onClick={() => changePage('shop')}
-                  className="px-8 py-3 bg-transparent border border-slate-700 hover:border-slate-500 text-slate-200 rounded-lg font-bold transition-colors"
+                  className="px-8 py-3 bg-transparent border border-slate-700 hover:border-slate-500 text-slate-200 rounded-theme font-bold transition-colors"
                 >
                   Explore Collection
                 </button>
@@ -390,7 +390,7 @@ export default function TemplateSlate({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-xl overflow-hidden group shadow-sm border border-slate-800 bg-slate-950">
+                  <div key={idx} className="relative aspect-square rounded-theme overflow-hidden group shadow-theme border border-slate-800 bg-slate-950">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-slate-950/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -437,7 +437,7 @@ export default function TemplateSlate({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-sm transition-all">
+                    <div key={item.id || idx} className="bg-slate-800 border border-slate-700 rounded-theme overflow-hidden shadow-theme transition-all">
                       <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-slate-200 flex items-center justify-between hover:bg-slate-700/50 transition-colors">
                         <EditableText
                           isEditable={isEditable}
@@ -491,7 +491,7 @@ export default function TemplateSlate({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div key={item.id || idx} className="bg-slate-800 border border-slate-700 rounded-theme p-6 shadow-theme flex flex-col justify-between">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -502,7 +502,7 @@ export default function TemplateSlate({
                                 const updated = testimonialList.map(t => t.id === item.id ? { ...t, rating: starIdx + 1 } : t);
                                 onUpdateConfig('testimonials', 'list', updated);
                               }}
-                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-amber-400' : 'text-slate-600'}`}
+                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-amber-400' : 'text-theme-muted'}`}
                             >
                               ★
                             </button>
@@ -538,7 +538,7 @@ export default function TemplateSlate({
                             onUpdateConfig('testimonials', 'list', updated);
                           }}
                           tagName="span"
-                          className="text-slate-500 text-xs font-semibold block mt-0.5"
+                          className="text-theme-muted text-xs font-semibold block mt-0.5"
                         />
                       </div>
                     </div>
@@ -555,7 +555,7 @@ export default function TemplateSlate({
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section className="bg-slate-950/20 py-20 px-8">
-              <div className="max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-3xl p-8 md:p-12 shadow-sm">
+              <div className="max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-theme p-8 md:p-12 shadow-theme">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
@@ -614,9 +614,9 @@ export default function TemplateSlate({
                     { label: 'Min', val: timeLeft.minutes },
                     { label: 'Sec', val: timeLeft.seconds }
                   ].map((col, idx) => (
-                    <div key={idx} className="flex flex-col items-center bg-slate-800 px-4 py-3 rounded-xl min-w-[70px] border border-slate-700 shadow-md">
+                    <div key={idx} className="flex flex-col items-center bg-slate-800 px-4 py-3 rounded-theme min-w-[70px] border border-slate-700 shadow-theme">
                       <span className="text-2xl font-black text-slate-100">{String(col.val).padStart(2, '0')}</span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">{col.label}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-theme-muted mt-1">{col.label}</span>
                     </div>
                   ))}
                 </div>
@@ -631,9 +631,9 @@ export default function TemplateSlate({
             <section id="contact" className="bg-[#020617] py-16 px-8 mt-16">
               <div className="max-w-3xl mx-auto text-center">
                 <h3 className="text-2xl font-extrabold text-slate-100 mb-2">Get in Touch</h3>
-                <p className="text-slate-500 mb-8">Questions? We're always online.</p>
+                <p className="text-theme-muted mb-8">Questions? We're always online.</p>
                 
-                <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 text-left leading-loose max-w-md mx-auto">
+                <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 text-left leading-loose max-w-md mx-auto">
                   <div className="space-y-4">
                     {phoneNumber && (
                       <p className="flex items-center gap-3">
@@ -724,7 +724,7 @@ export default function TemplateSlate({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-24 animate-fade-in">
           {/* Catalog Filters Header */}
-          <div className="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-sm mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-3xl font-extrabold text-slate-100" style={{ color: accentColor }}>Products Catalog</h2>
               <p className="text-slate-400 text-sm mt-1">Explore all premium products available in our shop</p>
@@ -739,7 +739,7 @@ export default function TemplateSlate({
                   placeholder="Search products..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 transition-all"
                 />
               </div>
 
@@ -748,7 +748,7 @@ export default function TemplateSlate({
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="pl-4 pr-10 py-3 bg-slate-900 border border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm cursor-pointer appearance-none font-semibold text-slate-300"
+                  className="pl-4 pr-10 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm cursor-pointer appearance-none font-semibold text-slate-300"
                 >
                   <option value="default">Bestselling</option>
                   <option value="price-low">Price: Low to High</option>
@@ -765,7 +765,7 @@ export default function TemplateSlate({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'bg-sky-500 text-slate-900 shadow-md' : 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'}`}
+                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'bg-sky-500 text-theme-text shadow-theme' : 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'}`}
                 style={{ backgroundColor: selectedCategory === cat ? accentColor : '' }}
               >
                 {cat}
@@ -775,10 +775,10 @@ export default function TemplateSlate({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-slate-800 rounded-3xl border border-slate-700 shadow-sm">
+            <div className="text-center py-20 bg-slate-800 rounded-theme border border-slate-700 shadow-theme">
               <div className="text-4xl mb-3">🔍</div>
               <h3 className="font-extrabold text-slate-200 text-lg">No products found</h3>
-              <p className="text-slate-500 text-sm mt-1">Try matching another search query or category filter</p>
+              <p className="text-theme-muted text-sm mt-1">Try matching another search query or category filter</p>
             </div>
           ) : (
             <div 
@@ -792,7 +792,7 @@ export default function TemplateSlate({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden group hover:-translate-y-1.5 transition-transform flex flex-col justify-between animate-fade-in relative"
+                  className="bg-slate-800 border border-slate-700 rounded-theme overflow-hidden group hover:-translate-y-1.5 transition-transform flex flex-col justify-between animate-fade-in relative"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div>
@@ -803,11 +803,11 @@ export default function TemplateSlate({
                         className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-red-600/90 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-theme-primary text-white/90 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Out of Stock
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-sky-500 text-slate-900 text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20" style={{ backgroundColor: accentColor, color: '#0f172a' }}>
+                        <span className="absolute top-3 left-3 bg-sky-500 text-theme-text text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor, color: '#0f172a' }}>
                           ⭐ Bestseller
                         </span>
                       ) : null}
@@ -817,7 +817,7 @@ export default function TemplateSlate({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-slate-800/95 border border-slate-700 hover:bg-white hover:text-black p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-slate-800/95 border border-slate-700 hover:bg-theme-surface hover:text-black p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -868,9 +868,9 @@ export default function TemplateSlate({
                           data-product-price={product.price}
                           data-product-image={getProductImageUrl(product, i)}
                           disabled={product.inStock === false}
-                          className={`px-4 py-2 rounded-md font-bold text-xs transition-opacity ${
+                          className={`px-4 py-2 rounded-theme font-bold text-xs transition-opacity ${
                             product.inStock === false 
-                              ? 'bg-slate-700 text-slate-500 cursor-not-allowed' 
+                              ? 'bg-slate-700 text-theme-muted cursor-not-allowed' 
                               : 'text-[#0f172a] hover:opacity-85'
                           }`}
                           style={{ backgroundColor: product.inStock !== false ? accentColor : undefined }}
@@ -894,12 +894,12 @@ export default function TemplateSlate({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-slate-800/40 border-2 border-dashed border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-sky-500 hover:bg-sky-500/5 transition-all duration-300 min-h-[300px]"
+                  className="bg-slate-800/40 border-2 border-dashed border-slate-700 rounded-theme p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-sky-500 hover:bg-sky-500/5 transition-all duration-300 min-h-[300px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div className="w-12 h-12 rounded-full bg-slate-800 text-sky-400 border border-slate-700 flex items-center justify-center text-xl font-bold mb-3">+</div>
                   <h4 className="font-extrabold text-slate-300">Add New Product</h4>
-                  <p className="text-xs text-slate-500 mt-1 max-w-[180px]">Quickly create a new product card in your catalog</p>
+                  <p className="text-xs text-theme-muted mt-1 max-w-[180px]">Quickly create a new product card in your catalog</p>
                 </div>
               )}
             </div>
@@ -919,28 +919,28 @@ export default function TemplateSlate({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {phoneNumber && (
-                  <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
+                  <div className="bg-slate-800 border border-slate-700 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Call Us</div>
+                      <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Call Us</div>
                       <div className="font-bold text-slate-200 text-sm break-all">{phoneNumber}</div>
                     </div>
                   </div>
                 )}
                 {email && (
-                  <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
+                  <div className="bg-slate-800 border border-slate-700 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email Us</div>
+                      <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Email Us</div>
                       <div className="font-bold text-slate-200 text-sm break-all">{email}</div>
                     </div>
                   </div>
                 )}
                 {address && (
-                  <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-sm flex items-center gap-4 sm:col-span-2">
-                    <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
+                  <div className="bg-slate-800 border border-slate-700 rounded-theme p-6 shadow-theme flex items-center gap-4 sm:col-span-2">
+                    <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
                     <div>
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Visit Store</div>
+                      <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Visit Store</div>
                       <div className="font-bold text-slate-200 text-sm">{address}</div>
                     </div>
                   </div>
@@ -948,7 +948,7 @@ export default function TemplateSlate({
               </div>
 
               {/* Hours panel */}
-              <div className="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-sm">
+              <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 shadow-theme">
                 <h3 className="font-extrabold text-slate-100 text-xl mb-4">{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
@@ -962,7 +962,7 @@ export default function TemplateSlate({
             </div>
 
             {/* Contact Inquiry Form */}
-            <div className="bg-slate-800 border border-slate-700 rounded-3xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
               <h3 className="text-2xl font-extrabold text-slate-100 mb-6">Send an Inquiry</h3>
               
               {formSubmitted ? (
@@ -981,7 +981,7 @@ export default function TemplateSlate({
                     placeholder="Enter your name" 
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
+                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
                   />
                 </div>
                 <div>
@@ -991,7 +991,7 @@ export default function TemplateSlate({
                     placeholder="Enter your email address" 
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
+                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
                   />
                 </div>
                 <div>
@@ -1001,13 +1001,13 @@ export default function TemplateSlate({
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all resize-none"
+                    className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all resize-none"
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-4 rounded-xl text-[#0f172a] font-extrabold shadow-md hover:opacity-95 transition-opacity"
+                  className="w-full py-4 rounded-theme text-[#0f172a] font-extrabold shadow-theme hover:opacity-95 transition-opacity"
                   style={{ backgroundColor: accentColor }}
                 >
                   Submit Form
@@ -1018,14 +1018,14 @@ export default function TemplateSlate({
         </div>
       )}
 
-      <footer className="bg-[#020617] border-t border-slate-800 p-8 text-center text-slate-500 text-sm">
+      <footer className="bg-[#020617] border-t border-slate-800 p-8 text-center text-theme-muted text-sm">
         <p>© 2026 {storeName}. Powered by <span style={{ color: accentColor, fontWeight: 'bold' }}>VendorBuild</span></p>
       </footer>
 
       {/* Tech Specs Modal */}
       {activeSpecsProduct && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
-          <div className="bg-slate-900 rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-800 relative font-sans text-slate-200 text-left animate-fade-in">
+          <div className="bg-slate-900 rounded-theme max-w-md w-full p-8 shadow-theme border border-slate-800 relative font-sans text-slate-200 text-left animate-fade-in">
             <button 
               onClick={() => setActiveSpecsProduct(null)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
@@ -1035,9 +1035,9 @@ export default function TemplateSlate({
             <h3 className="text-xl font-extrabold text-slate-100 mb-1">
               📊 Technical Specifications
             </h3>
-            <p className="text-xs text-slate-500 mb-6">{activeSpecsProduct.name}</p>
+            <p className="text-xs text-theme-muted mb-6">{activeSpecsProduct.name}</p>
             
-            <div className="border border-slate-800 rounded-2xl overflow-hidden mb-6">
+            <div className="border border-slate-800 rounded-theme overflow-hidden mb-6">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-950 text-slate-400 font-bold uppercase border-b border-slate-800">
@@ -1061,14 +1061,14 @@ export default function TemplateSlate({
               </table>
             </div>
 
-            <div className="p-4 bg-slate-950 rounded-2xl border border-slate-850 text-xs leading-relaxed text-slate-400">
+            <div className="p-4 bg-slate-950 rounded-theme border border-slate-850 text-xs leading-relaxed text-slate-400">
               <strong className="text-slate-300 block mb-1">📦 What's in the Box:</strong>
               {activeSpecsProduct.material || "Main unit, User manual, and charging accessories."}
             </div>
             
             <button 
               onClick={() => setActiveSpecsProduct(null)}
-              className="w-full mt-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold rounded-xl transition-colors text-sm text-center border border-slate-700"
+              className="w-full mt-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold rounded-theme transition-colors text-sm text-center border border-slate-700"
             >
               Close Specs Sheet
             </button>
@@ -1082,7 +1082,7 @@ export default function TemplateSlate({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-slate-900 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative border border-slate-800 font-sans text-slate-200 text-left animate-fade-in">
+            <div className="bg-slate-900 rounded-theme max-w-lg w-full p-8 shadow-theme relative border border-slate-800 font-sans text-slate-200 text-left animate-fade-in">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
@@ -1092,7 +1092,7 @@ export default function TemplateSlate({
               <h3 className="text-xl font-extrabold text-slate-100 mb-1">
                 Edit Product Settings
               </h3>
-              <p className="text-xs text-slate-500 mb-6">Modify details, configure technical specifications, or upload custom images.</p>
+              <p className="text-xs text-theme-muted mb-6">Modify details, configure technical specifications, or upload custom images.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 <div>
@@ -1101,7 +1101,7 @@ export default function TemplateSlate({
                     type="text"
                     value={product.name}
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
                   />
                 </div>
 
@@ -1112,7 +1112,7 @@ export default function TemplateSlate({
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+                      className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
                     />
                   </div>
 
@@ -1123,7 +1123,7 @@ export default function TemplateSlate({
                       value={product.category || ''}
                       placeholder="e.g. Laptops, Mobiles"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+                      className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
                     />
                   </div>
                 </div>
@@ -1135,7 +1135,7 @@ export default function TemplateSlate({
                     placeholder="Provide overview of key product highlights, benefits, and components."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 resize-none"
+                    className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 resize-none"
                   />
                 </div>
 
@@ -1153,7 +1153,7 @@ export default function TemplateSlate({
                             updated[idx] = e.target.value;
                             onUpdateProduct(product._id || product.id, 'specs', updated);
                           }}
-                          className="flex-1 px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-xs text-slate-200 outline-none focus:border-slate-700"
+                          className="flex-1 px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-theme text-xs text-slate-200 outline-none focus:border-slate-700"
                         />
                         <button 
                           type="button"
@@ -1161,7 +1161,7 @@ export default function TemplateSlate({
                             const updated = (product.specs || []).filter((_, sIdx) => sIdx !== idx);
                             onUpdateProduct(product._id || product.id, 'specs', updated);
                           }}
-                          className="px-2.5 py-1.5 bg-red-950/65 text-red-400 hover:bg-red-950 border border-red-900 rounded-lg text-xs font-bold"
+                          className="px-2.5 py-1.5 bg-red-950/65 text-red-400 hover:bg-red-950 border border-red-900 rounded-theme text-xs font-bold"
                         >
                           Delete
                         </button>
@@ -1173,7 +1173,7 @@ export default function TemplateSlate({
                         const updated = [...(product.specs || []), 'Processor: Quad-Core i5'];
                         onUpdateProduct(product._id || product.id, 'specs', updated);
                       }}
-                      className="w-full py-2 bg-slate-950 border border-dashed border-slate-800 hover:border-slate-700 text-xs font-bold text-slate-400 rounded-lg transition-colors"
+                      className="w-full py-2 bg-slate-950 border border-dashed border-slate-800 hover:border-slate-700 text-xs font-bold text-slate-400 rounded-theme transition-colors"
                     >
                       + Add Specification Row
                     </button>
@@ -1188,12 +1188,12 @@ export default function TemplateSlate({
                     value={product.material || ''}
                     placeholder="e.g. Device, Charging Adapter, USB-C Cable"
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'material', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-800 bg-slate-950 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-800 bg-slate-950 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1205,7 +1205,7 @@ export default function TemplateSlate({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-800 bg-slate-950 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-800 bg-slate-950 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1234,17 +1234,17 @@ export default function TemplateSlate({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium text-slate-100"
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium text-slate-100"
                     placeholder="Quantity in Stock"
                   />
                 </div>
 
                 {/* Product Image Section */}
-                <div className="p-4 border border-slate-800 rounded-2xl bg-slate-950/40 space-y-3">
+                <div className="p-4 border border-slate-800 rounded-theme bg-slate-950/40 space-y-3">
                   <span className="block text-xs font-bold text-slate-300 uppercase">Product Image</span>
                   
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-slate-950 border border-slate-850 shrink-0">
+                    <div className="w-20 h-20 rounded-theme overflow-hidden bg-slate-950 border border-slate-850 shrink-0">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1254,7 +1254,7 @@ export default function TemplateSlate({
 
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs cursor-pointer shadow-sm transition-all text-center border border-slate-700">
+                        <label className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center border border-slate-700">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1270,7 +1270,7 @@ export default function TemplateSlate({
                         value={product.img || ''} 
                         placeholder="Or paste external Image URL" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-[#0f172a] border border-slate-800 rounded-lg text-xs outline-none focus:ring-1 focus:ring-sky-500 text-slate-200" 
+                        className="w-full px-3 py-1.5 bg-[#0f172a] border border-slate-800 rounded-theme text-xs outline-none focus:ring-1 focus:ring-sky-500 text-slate-200" 
                       />
                     </div>
                   </div>
@@ -1287,13 +1287,13 @@ export default function TemplateSlate({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-950/40 hover:bg-red-950 text-red-400 border border-red-900 rounded-full font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-950/40 hover:bg-red-950 text-red-400 border border-red-900 rounded-full font-bold text-xs shadow-theme transition-all"
                   >
                     Delete Product
                   </button>
                   <button 
                     onClick={() => setActiveEditProductId(null)}
-                    className="px-6 py-2.5 bg-white hover:bg-slate-100 text-slate-900 rounded-full font-bold text-xs shadow transition-all"
+                    className="px-6 py-2.5 bg-theme-surface hover:bg-slate-100 text-theme-text rounded-full font-bold text-xs shadow transition-all"
                   >
                     Done
                   </button>
@@ -1307,7 +1307,7 @@ export default function TemplateSlate({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-[#0f172a] rounded-lg max-w-lg w-full p-6 shadow-2xl relative font-sans text-slate-200 border border-slate-800 text-left animate-fade-in">
+          <div className="bg-[#0f172a] rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-slate-200 border border-slate-800 text-left animate-fade-in">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
@@ -1317,18 +1317,18 @@ export default function TemplateSlate({
             <h3 className="text-xl font-extrabold text-slate-100 mb-1 font-mono">
               // HERO_IMAGE_SETTINGS
             </h3>
-            <p className="text-xs text-slate-500 mb-6 font-mono">Select a tech preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6 font-mono">Select a tech preset or generate using AI.</p>
 
             <div className="flex border-b border-slate-800 mb-6 font-semibold font-mono text-xs">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-sky-500 text-sky-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-sky-500 text-sky-400' : 'border-transparent text-theme-muted hover:text-slate-300'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-sky-500 text-sky-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-sky-500 text-sky-400' : 'border-transparent text-theme-muted hover:text-slate-300'}`}
               >
                 AI Generator
               </button>
@@ -1350,7 +1350,7 @@ export default function TemplateSlate({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border border-transparent hover:border-sky-500 transition-all bg-slate-900"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border border-transparent hover:border-sky-500 transition-all bg-slate-900"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">

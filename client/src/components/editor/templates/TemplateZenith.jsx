@@ -258,7 +258,7 @@ export default function TemplateZenith({
             <header className="py-28 px-8 text-white animate-fade-in bg-[#0B0F19] border-b border-white/5">
               <div className={`max-w-7xl mx-auto grid ${devicePreview === 'desktop' ? 'grid-cols-2' : 'grid-cols-1'} gap-16 items-center`}>
                 <div style={{ textAlign: config.header.heroAlign }}>
-                  <div className="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded text-xs font-bold uppercase tracking-widest text-[#6366F1] mb-6">
+                  <div className="inline-block px-3 py-1 bg-theme-primary text-white/10 border border-indigo-500/30 rounded text-xs font-bold uppercase tracking-widest text-[#6366F1] mb-6">
                     Aviation & Space Digital Era
                   </div>
                   <EditableText
@@ -279,7 +279,7 @@ export default function TemplateZenith({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="px-8 py-3.5 bg-indigo-600 rounded text-white font-bold hover:bg-indigo-700 transition-colors uppercase tracking-wider text-xs shadow-lg shadow-indigo-600/30 flex items-center gap-2"
+                      className="px-8 py-3.5 bg-theme-primary text-white rounded text-white font-bold hover:bg-theme-primary text-white transition-colors uppercase tracking-wider text-xs shadow-theme shadow-indigo-600/30 flex items-center gap-2"
                       style={{ backgroundColor: accentColor }}
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Explore Packages'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -288,7 +288,7 @@ export default function TemplateZenith({
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <div className="w-full max-w-sm aspect-square rounded overflow-hidden bg-white/5 border border-white/10 p-1.5 relative group">
+                  <div className="w-full max-w-sm aspect-square rounded overflow-hidden bg-theme-surface/5 border border-white/10 p-1.5 relative group">
                     <img src={heroImage} className="w-full h-full object-cover" alt="Hero" />
                     {isEditable && (
                       <button 
@@ -332,7 +332,7 @@ export default function TemplateZenith({
                             onClick={() => setCalcService(s.val)}
                             className={`py-2 text-[10px] uppercase tracking-wider font-bold border transition-colors ${
                               calcService === s.val 
-                                ? 'bg-indigo-600 text-white border-indigo-600' 
+                                ? 'bg-theme-primary text-white text-white border-indigo-600' 
                                 : 'bg-black/30 text-gray-400 border-white/10 hover:border-indigo-600'
                             }`}
                           >
@@ -354,7 +354,7 @@ export default function TemplateZenith({
                         max="12"
                         value={calcDuration}
                         onChange={(e) => setCalcDuration(parseInt(e.target.value))}
-                        className="w-full h-1 bg-black/40 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                        className="w-full h-1 bg-black/40 rounded-theme appearance-none cursor-pointer accent-indigo-500"
                       />
                     </div>
 
@@ -393,7 +393,7 @@ export default function TemplateZenith({
 
                   <div className="h-full bg-black/40 border border-white/5 p-8 flex flex-col justify-between items-center text-center">
                     <div>
-                      <FaCalculator className="text-gray-500 mb-4 mx-auto" size={24} />
+                      <FaCalculator className="text-theme-muted mb-4 mx-auto" size={24} />
                       <span className="text-[10px] uppercase tracking-widest text-gray-400">Total Estimate</span>
                       <div className="text-4xl font-black text-indigo-400 mt-2 tracking-wider">
                         ₹{getEstimatedBudget().toLocaleString()}
@@ -415,7 +415,7 @@ Please reach out to discuss implementation.`
                         const section = document.getElementById('contact');
                         if (section) section.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="mt-6 w-full py-3 bg-indigo-600 text-white font-bold uppercase tracking-wider text-[10px] hover:bg-indigo-700 transition-colors"
+                      className="mt-6 w-full py-3 bg-theme-primary text-white text-white font-bold uppercase tracking-wider text-[10px] hover:bg-theme-primary text-white transition-colors"
                     >
                       Lock In Estimate & Inquire
                     </button>
@@ -439,7 +439,7 @@ Please reach out to discuss implementation.`
                   className="text-3xl font-black uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-16 h-[2px] mx-auto mt-4 bg-indigo-600"></div>
+                <div className="w-16 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
               </div>
               
               <div 
@@ -464,7 +464,7 @@ Please reach out to discuss implementation.`
                         />
                         {product.inStock === false && (
                           <div className="absolute inset-0 bg-black/85 flex items-center justify-center">
-                            <span className="px-3 py-1.5 border border-red-500 text-red-500 font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
+                            <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
                               Fully Booked
                             </span>
                           </div>
@@ -501,7 +501,7 @@ Please reach out to discuss implementation.`
                           data-product-price={product.price}
                           data-product-image={product.img || `https://picsum.photos/seed/service${i}/600/600`}
                           disabled={product.inStock === false}
-                          className="text-white px-4 py-2 bg-indigo-600 hover:bg-indigo-700 font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+                          className="text-white px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
                         >
                           Enquire
                         </button>
@@ -509,7 +509,7 @@ Please reach out to discuss implementation.`
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-3 py-1.5 bg-white/5 text-[9px] font-bold text-gray-500 hover:text-white uppercase tracking-widest"
+                          className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-white uppercase tracking-widest"
                         >
                           ⚙️ Setup Details
                         </button>
@@ -521,7 +521,7 @@ Please reach out to discuss implementation.`
               <div className="text-center mt-16">
                 <button 
                   onClick={() => changePage('shop')}
-                  className="px-8 py-3.5 border border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white font-bold text-xs uppercase tracking-widest transition-all"
+                  className="px-8 py-3.5 border border-indigo-600 text-indigo-400 hover:bg-theme-primary text-white hover:text-white font-bold text-xs uppercase tracking-widest transition-all"
                 >
                   Explore All Capabilities
                 </button>
@@ -545,7 +545,7 @@ Please reach out to discuss implementation.`
                   className="text-3xl font-black uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-[2px] mx-auto mt-4 bg-indigo-600"></div>
+                <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
@@ -591,7 +591,7 @@ Please reach out to discuss implementation.`
                   className="text-3xl font-black uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-[2px] mx-auto mt-4 bg-indigo-600"></div>
+                <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
               </div>
               <div className="space-y-4">
                 {faqList.map((item, idx) => {
@@ -649,7 +649,7 @@ Please reach out to discuss implementation.`
                     className="text-3xl font-black uppercase tracking-wider"
                     style={{ color: accentColor }}
                   />
-                  <div className="w-12 h-[2px] mx-auto mt-4 bg-indigo-600"></div>
+                  <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                   {testList.map((item, idx) => (
@@ -687,7 +687,7 @@ Please reach out to discuss implementation.`
                             onUpdateConfig('testimonials', 'items', updated);
                           }}
                           tagName="span"
-                          className="text-[9px] text-gray-500 tracking-wider font-semibold"
+                          className="text-[9px] text-theme-muted tracking-wider font-semibold"
                         />
                       </div>
                     </div>
@@ -713,7 +713,7 @@ Please reach out to discuss implementation.`
                   className="text-xl font-bold uppercase tracking-wider"
                   style={{ color: accentColor }}
                 />
-                <div className="w-12 h-[2px] mx-auto mt-4 bg-indigo-600"></div>
+                <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
               </div>
               <div className="divide-y divide-white/5 border-t border-b border-white/5 py-4">
                 {hoursDays.map((item, idx) => (
@@ -774,12 +774,12 @@ Please reach out to discuss implementation.`
                   </div>
                 </div>
 
-                <div className="bg-[#0B0F19] p-8 border border-white/5 shadow-2xl relative">
+                <div className="bg-[#0B0F19] p-8 border border-white/5 shadow-theme relative">
                   {formSubmitted ? (
                     <div className="text-center py-12 text-indigo-400 space-y-4 font-sans">
                       <FaPaperPlane size={36} className="mx-auto" />
                       <h4 className="text-xl font-bold uppercase tracking-wider">Inquiry Scoped</h4>
-                      <p className="text-xs text-gray-500 font-light">Our lead scoping engineer will reach out shortly.</p>
+                      <p className="text-xs text-theme-muted font-light">Our lead scoping engineer will reach out shortly.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleContactSubmit} className="space-y-5">
@@ -787,7 +787,7 @@ Please reach out to discuss implementation.`
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Launch Date</label>
+                          <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Launch Date</label>
                           <input 
                             type="date"
                             value={appointmentDetails.date}
@@ -797,7 +797,7 @@ Please reach out to discuss implementation.`
                         </div>
 
                         <div>
-                          <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Scope Area</label>
+                          <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Scope Area</label>
                           <select 
                             value={appointmentDetails.serviceType}
                             onChange={(e) => setAppointmentDetails({...appointmentDetails, serviceType: e.target.value})}
@@ -812,7 +812,7 @@ Please reach out to discuss implementation.`
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Business Name / Name</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Business Name / Name</label>
                         <input 
                           type="text"
                           required
@@ -824,7 +824,7 @@ Please reach out to discuss implementation.`
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Contact Email Address</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Contact Email Address</label>
                         <input 
                           type="email"
                           required
@@ -836,7 +836,7 @@ Please reach out to discuss implementation.`
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Project Scope Summary</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Project Scope Summary</label>
                         <textarea 
                           rows={3}
                           required
@@ -849,7 +849,7 @@ Please reach out to discuss implementation.`
 
                       <button 
                         type="submit"
-                        className="w-full py-3.5 bg-indigo-600 text-white font-bold uppercase tracking-wider text-xs hover:bg-indigo-700 transition-colors"
+                        className="w-full py-3.5 bg-theme-primary text-white text-white font-bold uppercase tracking-wider text-xs hover:bg-theme-primary text-white transition-colors"
                       >
                         Request Project Scope Scrutiny
                       </button>
@@ -889,7 +889,7 @@ Please reach out to discuss implementation.`
           )}
           <button 
             onClick={() => changePage('home')}
-            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-white/5"
+            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
           >
             ← Back To Agency
           </button>
@@ -953,13 +953,13 @@ Please reach out to discuss implementation.`
                       className="w-full h-full object-cover"
                     />
                     {product.isBestseller && (
-                      <span className="absolute top-4 left-4 px-3 py-1 bg-indigo-600 text-white font-bold text-[9px] uppercase tracking-widest">
+                      <span className="absolute top-4 left-4 px-3 py-1 bg-theme-primary text-white text-white font-bold text-[9px] uppercase tracking-widest">
                         Most Popular
                       </span>
                     )}
                     {product.inStock === false && (
                       <div className="absolute inset-0 bg-black/85 flex items-center justify-center">
-                        <span className="px-3 py-1.5 border border-red-500 text-red-500 font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
+                        <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
                           Fully Booked
                         </span>
                       </div>
@@ -974,7 +974,7 @@ Please reach out to discuss implementation.`
                       tagName="h4"
                       className="text-lg font-black uppercase tracking-wide truncate group-hover:text-indigo-400 transition-colors"
                     />
-                    <p className="text-xs text-gray-500 mt-2 font-light leading-relaxed">
+                    <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed">
                       {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                     </p>
                   </div>
@@ -999,7 +999,7 @@ Please reach out to discuss implementation.`
                       data-product-price={product.price}
                       data-product-image={getProductImageUrl(product, i)}
                       disabled={product.inStock === false}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+                      className="px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
                     >
                       Enquire
                     </button>
@@ -1024,7 +1024,7 @@ Please reach out to discuss implementation.`
       className="w-full h-full overflow-y-auto relative bg-[#0B0F19] flex flex-col justify-between font-sans text-gray-200"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#0B0F19]/95 border-b border-white/5 shadow-lg' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#0B0F19]/95 border-b border-white/5 shadow-theme' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -1043,7 +1043,7 @@ Please reach out to discuss implementation.`
           <div className="flex items-center gap-6">
             <button 
               onClick={() => changePage('shop')} 
-              className="px-5 py-2 border border-indigo-500/40 hover:bg-indigo-600 text-xs font-bold uppercase tracking-wider text-white transition-colors"
+              className="px-5 py-2 border border-indigo-500/40 hover:bg-theme-primary text-white text-xs font-bold uppercase tracking-wider text-white transition-colors"
             >
               Get Scoped
             </button>
@@ -1057,7 +1057,7 @@ Please reach out to discuss implementation.`
       </div>
 
       {/* Footer */}
-      <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-gray-500 font-light">
+      <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-theme-muted font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-black text-[#6366F1] uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. High-Performance Creative Scoping.</p>
@@ -1070,7 +1070,7 @@ Please reach out to discuss implementation.`
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 border border-indigo-600/30 shadow-2xl relative text-left">
+            <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 border border-indigo-600/30 shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1085,7 +1085,7 @@ Please reach out to discuss implementation.`
               <div className="space-y-4 font-sans text-xs text-gray-300">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Package Name</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Package Name</label>
                     <input 
                       type="text"
                       value={product.name}
@@ -1095,7 +1095,7 @@ Please reach out to discuss implementation.`
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Price (₹)</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
@@ -1107,7 +1107,7 @@ Please reach out to discuss implementation.`
 
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Category</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
@@ -1119,7 +1119,7 @@ Please reach out to discuss implementation.`
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Deliverables Scope Details</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Deliverables Scope Details</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe scope, mockups timeline and hours of engagement included."
@@ -1161,7 +1161,7 @@ Please reach out to discuss implementation.`
 
                 {/* Slots Quantity */}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Available Slots</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Available Slots</label>
                   <input 
                     type="number"
                     min="0"
@@ -1178,7 +1178,7 @@ Please reach out to discuss implementation.`
 
                 {/* Scoping Image */}
                 <div className="p-4 border border-white/10 bg-black/25 space-y-3">
-                  <span className="block text-[10px] uppercase tracking-wider text-gray-500">Package graphic</span>
+                  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Package graphic</span>
                   <div className="flex gap-4 items-center">
                     <div className="w-20 h-20 border border-white/10 shrink-0">
                       <img 
@@ -1189,7 +1189,7 @@ Please reach out to discuss implementation.`
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1241,7 +1241,7 @@ Please reach out to discuss implementation.`
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 shadow-2xl border border-white/10 relative text-left">
+          <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 shadow-theme border border-white/10 relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1251,18 +1251,18 @@ Please reach out to discuss implementation.`
             <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-1">
               Zenith Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a digital agency preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a digital agency preset or generate using AI.</p>
 
             <div className="flex border-b border-white/10 mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#6366F1] text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#6366F1] text-indigo-400' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#6366F1] text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#6366F1] text-indigo-400' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 AI Generator
               </button>
@@ -1296,7 +1296,7 @@ Please reach out to discuss implementation.`
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your scoping backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your scoping backdrop</label>
                   <textarea 
                     placeholder="e.g. futuristic digital agency tech workspace, high performance developer station 3D mockup"
                     value={aiPrompt}
@@ -1308,7 +1308,7 @@ Please reach out to discuss implementation.`
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}

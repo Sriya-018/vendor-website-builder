@@ -244,7 +244,7 @@ export default function TemplateSpark({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-neutral-900 border border-[#10B981]/40 text-[#10B981] rounded font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-neutral-900 border border-[#10B981]/40 text-[#10B981] rounded font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Graphic
                 </button>
@@ -272,7 +272,7 @@ export default function TemplateSpark({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="px-8 py-3.5 bg-emerald-600 rounded text-white font-bold hover:bg-emerald-700 transition-colors uppercase tracking-widest text-[10px] shadow-lg shadow-emerald-600/30 flex items-center gap-2"
+                      className="px-8 py-3.5 bg-emerald-600 rounded text-white font-bold hover:bg-emerald-700 transition-colors uppercase tracking-widest text-[10px] shadow-theme shadow-emerald-600/30 flex items-center gap-2"
                       style={{ backgroundColor: accentColor }}
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Gear'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -319,7 +319,7 @@ export default function TemplateSpark({
                           />
                           <div className="text-xs">
                             <span className="font-bold uppercase tracking-wider text-slate-200 block">{p.name}</span>
-                            <span className="text-[10px] text-gray-500">{p.category || 'Component'}</span>
+                            <span className="text-[10px] text-theme-muted">{p.category || 'Component'}</span>
                           </div>
                         </div>
                         <span className="text-xs font-bold text-[#10B981]">₹{p.price}</span>
@@ -330,7 +330,7 @@ export default function TemplateSpark({
                   {/* Calculations box */}
                   <div className="h-full bg-slate-950 border border-white/5 p-8 flex flex-col justify-between items-center text-center">
                     <div>
-                      <FaMicrochip className="text-gray-500 mb-4 mx-auto animate-pulse" size={28} />
+                      <FaMicrochip className="text-theme-muted mb-4 mx-auto animate-pulse" size={28} />
                       <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Rig Configuration Value</span>
                       <div className="text-4xl font-black text-[#10B981] mt-2 tracking-wider">
                         ₹{getAggregatedSetupCost().toLocaleString()}
@@ -402,7 +402,7 @@ Please contact me to discuss setup assembly.`
                         />
                         {product.inStock === false && (
                           <div className="absolute inset-0 bg-black/85 flex items-center justify-center">
-                            <span className="px-3 py-1.5 border border-red-500 text-red-500 font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
+                            <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
                               Out of Stock
                             </span>
                           </div>
@@ -447,7 +447,7 @@ Please contact me to discuss setup assembly.`
                       {isEditable && (
                         <button 
                           onClick={() => setActiveEditProductId(product._id || product.id)}
-                          className="w-full mt-3 py-1.5 bg-white/5 text-[9px] font-bold text-gray-500 hover:text-white uppercase tracking-widest"
+                          className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-white uppercase tracking-widest"
                         >
                           ⚙️ Tech Specs
                         </button>
@@ -712,17 +712,17 @@ Please contact me to discuss setup assembly.`
                   </div>
                 </div>
 
-                <div className="bg-[#090D16] p-8 border border-[#10B981]/20 shadow-2xl relative animate-fade-in">
+                <div className="bg-[#090D16] p-8 border border-[#10B981]/20 shadow-theme relative animate-fade-in">
                   {formSubmitted ? (
                     <div className="text-center py-12 text-[#10B981] space-y-4 font-sans">
                       <FaPaperPlane size={36} className="mx-auto" />
                       <h4 className="text-xl font-bold uppercase tracking-wider">Rig Config Dropped</h4>
-                      <p className="text-xs text-gray-500 font-light">We will check compatibility and send aggregate quotes.</p>
+                      <p className="text-xs text-theme-muted font-light">We will check compatibility and send aggregate quotes.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleContactSubmit} className="space-y-5 font-sans">
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Your Name</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Your Name</label>
                         <input 
                           type="text"
                           required
@@ -734,7 +734,7 @@ Please contact me to discuss setup assembly.`
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Email Address</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Email Address</label>
                         <input 
                           type="email"
                           required
@@ -746,7 +746,7 @@ Please contact me to discuss setup assembly.`
                       </div>
 
                       <div>
-                        <label className="block text-[9px] uppercase tracking-wider text-gray-500 mb-1.5">Spec Details Request</label>
+                        <label className="block text-[9px] uppercase tracking-wider text-theme-muted mb-1.5">Spec Details Request</label>
                         <textarea 
                           rows={3}
                           required
@@ -799,7 +799,7 @@ Please contact me to discuss setup assembly.`
           )}
           <button 
             onClick={() => changePage('home')}
-            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-white/5"
+            className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
           >
             ← Back To Store
           </button>
@@ -863,13 +863,13 @@ Please contact me to discuss setup assembly.`
                       className="w-full h-full object-cover"
                     />
                     {product.isBestseller && (
-                      <span className="absolute top-4 left-4 px-3 py-1 bg-white text-black font-bold text-[9px] uppercase tracking-widest">
+                      <span className="absolute top-4 left-4 px-3 py-1 bg-theme-surface text-black font-bold text-[9px] uppercase tracking-widest">
                         Hot Drop
                       </span>
                     )}
                     {product.inStock === false && (
                       <div className="absolute inset-0 bg-black/85 flex items-center justify-center">
-                        <span className="px-3 py-1.5 border border-red-500 text-red-500 font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
+                        <span className="px-3 py-1.5 border border-red-500 text-theme-primary font-bold text-[10px] uppercase tracking-wider bg-red-950/20">
                           Sold Out
                         </span>
                       </div>
@@ -906,7 +906,7 @@ Please contact me to discuss setup assembly.`
                       data-product-price={product.price}
                       data-product-image={getProductImageUrl(product, i)}
                       disabled={product.inStock === false}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+                      className="px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
                     >
                       Enquire
                     </button>
@@ -931,7 +931,7 @@ Please contact me to discuss setup assembly.`
       className="w-full h-full overflow-y-auto relative bg-[#090D16] flex flex-col justify-between font-sans text-gray-200"
     >
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#090D16]/95 border-b border-white/5 shadow-lg' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#090D16]/95 border-b border-white/5 shadow-theme' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {isEditable ? (
             <EditableText
@@ -964,7 +964,7 @@ Please contact me to discuss setup assembly.`
       </div>
 
       {/* Footer */}
-      <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-gray-500 font-light">
+      <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-theme-muted font-light">
         <div className="max-w-7xl mx-auto space-y-4">
           <p className="font-black text-[#10B981] uppercase tracking-widest text-sm">{businessName}</p>
           <p>© {new Date().getFullYear()} {businessName}. High-Performance Gaming Rig Scoping.</p>
@@ -977,7 +977,7 @@ Please contact me to discuss setup assembly.`
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-[#090D16] rounded-none max-w-lg w-full p-6 border border-[#10B981]/30 shadow-2xl relative text-left">
+            <div className="bg-[#090D16] rounded-none max-w-lg w-full p-6 border border-[#10B981]/30 shadow-theme relative text-left">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -992,7 +992,7 @@ Please contact me to discuss setup assembly.`
               <div className="space-y-4 font-sans text-xs text-gray-300">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Component Name</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Component Name</label>
                     <input 
                       type="text"
                       value={product.name}
@@ -1002,7 +1002,7 @@ Please contact me to discuss setup assembly.`
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Component Price (₹)</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Component Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
@@ -1014,7 +1014,7 @@ Please contact me to discuss setup assembly.`
 
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Category</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
@@ -1026,7 +1026,7 @@ Please contact me to discuss setup assembly.`
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Tech Specifications</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Tech Specifications</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe technical specs, clock speeds, warranty timeline."
@@ -1067,7 +1067,7 @@ Please contact me to discuss setup assembly.`
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1.5">Stock Capacity</label>
+                  <label className="block text-[10px] uppercase tracking-wider text-theme-muted mb-1.5">Stock Capacity</label>
                   <input 
                     type="number"
                     min="0"
@@ -1084,7 +1084,7 @@ Please contact me to discuss setup assembly.`
 
                 {/* Scoping Image */}
                 <div className="p-4 border border-white/10 bg-black/25 space-y-3">
-                  <span className="block text-[10px] uppercase tracking-wider text-gray-500">Component Presentation Image</span>
+                  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Component Presentation Image</span>
                   <div className="flex gap-4 items-center">
                     <div className="w-20 h-20 border border-white/10 shrink-0">
                       <img 
@@ -1095,7 +1095,7 @@ Please contact me to discuss setup assembly.`
                     </div>
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1132,7 +1132,7 @@ Please contact me to discuss setup assembly.`
                   </button>
                   <button 
                     onClick={() => setActiveEditProductId(null)}
-                    className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-white hover:bg-emerald-500 hover:text-white"
+                    className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-theme-surface hover:bg-emerald-500 hover:text-white"
                   >
                     Done
                   </button>
@@ -1146,7 +1146,7 @@ Please contact me to discuss setup assembly.`
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-2xl border border-white/10 relative text-left">
+          <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-theme border border-white/10 relative text-left">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
@@ -1156,18 +1156,18 @@ Please contact me to discuss setup assembly.`
             <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-1">
               Spark Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a cyberpunk hardware preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a cyberpunk hardware preset or generate using AI.</p>
 
             <div className="flex border-b border-white/10 mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-gray-500 hover:text-gray-400'}`}
+                className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
               >
                 AI Generator
               </button>
@@ -1201,7 +1201,7 @@ Please contact me to discuss setup assembly.`
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your hardware backdrop</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your hardware backdrop</label>
                   <textarea 
                     placeholder="e.g. cyber desk gaming rig setup with glowing liquid cooling components and green led"
                     value={aiPrompt}
@@ -1213,7 +1213,7 @@ Please contact me to discuss setup assembly.`
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
@@ -1231,7 +1231,7 @@ Please contact me to discuss setup assembly.`
                 <button 
                   onClick={handleGenerateAiBg}
                   disabled={isGenerating}
-                  className="w-full py-3.5 hover:opacity-90 text-black font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center gap-2 bg-white hover:bg-[#10B981] hover:text-black"
+                  className="w-full py-3.5 hover:opacity-90 text-black font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center gap-2 bg-theme-surface hover:bg-[#10B981] hover:text-black"
                 >
                   {isGenerating ? (
                     <>

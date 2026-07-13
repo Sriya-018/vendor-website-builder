@@ -271,13 +271,13 @@ export default function TemplatePixel({
                 </div>
 
                 <div className="flex justify-center relative">
-                  <div className="w-full max-w-md aspect-video rounded-lg overflow-hidden border-2 border-[#1e293b] bg-[#020617] p-2">
+                  <div className="w-full max-w-md aspect-video rounded-theme overflow-hidden border-2 border-[#1e293b] bg-[#020617] p-2">
                     <img src={heroImage} className="w-full h-full object-cover rounded border border-[#1e293b]" alt="Hero Setup" />
                   </div>
                   {isEditable && (
                     <button 
                       onClick={() => setShowBgModal(true)}
-                      className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-[#020617] border border-[#1e293b] text-slate-100 hover:text-white rounded font-bold text-[10px] shadow-md transition-all font-mono"
+                      className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-[#020617] border border-[#1e293b] text-slate-100 hover:text-white rounded font-bold text-[10px] shadow-theme transition-all font-mono"
                     >
                       🤖 Edit Hero Image / AI
                     </button>
@@ -320,7 +320,7 @@ export default function TemplatePixel({
                 {products.slice(0, 4).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-[#0f172a] border border-[#1e293b] rounded-lg overflow-hidden hover:border-emerald-500 transition-colors group flex flex-col justify-between"
+                    className="bg-[#0f172a] border border-[#1e293b] rounded-theme overflow-hidden hover:border-emerald-500 transition-colors group flex flex-col justify-between"
                     style={{ borderRadius: 'var(--radius)' }}
                   >
                     <div>
@@ -515,7 +515,7 @@ export default function TemplatePixel({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-[#020617] border border-[#1e293b] rounded-lg p-5 flex flex-col justify-between">
+                    <div key={item.id || idx} className="bg-[#020617] border border-[#1e293b] rounded-theme p-5 flex flex-col justify-between">
                       <div>
                         <div className="flex gap-1 mb-3">
                           {[...Array(5)].map((_, starIdx) => (
@@ -581,7 +581,7 @@ export default function TemplatePixel({
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section className="bg-[#020617] py-16 px-8">
-              <div className="max-w-xl mx-auto bg-[#0f172a] border border-[#1e293b] rounded-lg p-8">
+              <div className="max-w-xl mx-auto bg-[#0f172a] border border-[#1e293b] rounded-theme p-8">
                 <div className="text-center mb-6">
                   <EditableText
                     isEditable={isEditable}
@@ -660,7 +660,7 @@ export default function TemplatePixel({
                 <h3 className="text-2xl font-bold tracking-wider text-slate-100 mb-2" style={{ fontFamily: "'Share Tech Mono', monospace" }}>GET_IN_TOUCH</h3>
                 <p className="text-slate-400 text-xs mb-10">// PING_VENDORS_FOR_MORE_INFO</p>
                 
-                <div className="bg-[#020617] border border-[#1e293b] rounded-lg p-6 leading-[2.2] text-[#94a3b8] font-mono text-xs text-left max-w-md mx-auto space-y-2">
+                <div className="bg-[#020617] border border-[#1e293b] rounded-theme p-6 leading-[2.2] text-[#94a3b8] font-mono text-xs text-left max-w-md mx-auto space-y-2">
                   {phoneNumber && <p><strong style={{ color: accentColor }}>PHONE:</strong> "{phoneNumber}"</p>}
                   {email && <p><strong style={{ color: accentColor }}>EMAIL:</strong> "{email}"</p>}
                   {address && <p><strong style={{ color: accentColor }}>LOCATION:</strong> "{address}"</p>}
@@ -735,7 +735,7 @@ export default function TemplatePixel({
                 <button 
                   key={page} 
                   onClick={() => changePage(page.toLowerCase())}
-                  className={`transition-colors py-1 border-b ${currentPage === page.toLowerCase() ? 'text-[#10B981] border-[#10B981]' : 'text-slate-500 border-transparent hover:text-emerald-500'}`}
+                  className={`transition-colors py-1 border-b ${currentPage === page.toLowerCase() ? 'text-[#10B981] border-[#10B981]' : 'text-theme-muted border-transparent hover:text-emerald-500'}`}
                 >
                   {page}
                 </button>
@@ -774,7 +774,7 @@ export default function TemplatePixel({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-20 animate-fade-in">
           {/* Catalog Filter Panel */}
-          <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="bg-[#0f172a] border border-[#1e293b] rounded-theme p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
               <h2 className="text-xl font-bold text-slate-100" style={{ fontFamily: "'Share Tech Mono', monospace" }}>// STORE_CATALOG</h2>
               <p className="text-slate-400 text-xs mt-1">High-performance custom inventory modules.</p>
@@ -822,7 +822,7 @@ export default function TemplatePixel({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-[#0f172a] border border-[#1e293b] rounded-lg">
+            <div className="text-center py-20 bg-[#0f172a] border border-[#1e293b] rounded-theme">
               <div className="text-3xl mb-2">👾</div>
               <h3 className="font-bold text-[#e2e8f0] text-sm" style={{ fontFamily: "'Share Tech Mono', monospace" }}>[!] NO_RESULTS_FOUND</h3>
               <p className="text-[#64748b] text-xs mt-1">Refine your search queries or category filters.</p>
@@ -839,7 +839,7 @@ export default function TemplatePixel({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-[#0f172a] border border-[#1e293b] rounded-lg overflow-hidden hover:border-emerald-500 transition-colors group flex flex-col justify-between relative"
+                  className="bg-[#0f172a] border border-[#1e293b] rounded-theme overflow-hidden hover:border-emerald-500 transition-colors group flex flex-col justify-between relative"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div>
@@ -850,11 +850,11 @@ export default function TemplatePixel({
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-red-600/90 text-white text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded shadow-sm z-20 font-mono">
+                        <span className="absolute top-3 left-3 bg-theme-primary text-white/90 text-white text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded shadow-theme z-20 font-mono">
                           OUT_OF_STOCK
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-emerald-500 text-[#020617] text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded shadow-sm z-20 font-mono" style={{ backgroundColor: accentColor }}>
+                        <span className="absolute top-3 left-3 bg-emerald-500 text-[#020617] text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded shadow-theme z-20 font-mono" style={{ backgroundColor: accentColor }}>
                           ⭐ BESTSELLER
                         </span>
                       ) : null}
@@ -864,7 +864,7 @@ export default function TemplatePixel({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-[#0f172a]/95 border border-[#1e293b] hover:bg-white hover:text-black p-1.5 rounded shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-xs"
+                          className="absolute top-3 right-3 bg-[#0f172a]/95 border border-[#1e293b] hover:bg-theme-surface hover:text-black p-1.5 rounded shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-xs"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -872,7 +872,7 @@ export default function TemplatePixel({
                       )}
                     </div>
                     <div className="p-4">
-                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] mb-1 text-slate-500 uppercase">
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] mb-1 text-theme-muted uppercase">
                         {product.category || 'Hardware'}
                       </div>
                       <EditableText
@@ -919,7 +919,7 @@ export default function TemplatePixel({
                           disabled={product.inStock === false}
                           className={`border px-3 py-1.5 rounded text-[0.78rem] font-bold transition-all ${
                             product.inStock === false 
-                              ? 'bg-slate-900 border-[#1e293b] text-slate-600 cursor-not-allowed' 
+                              ? 'bg-slate-900 border-[#1e293b] text-theme-muted cursor-not-allowed' 
                               : 'bg-transparent hover:bg-emerald-500 hover:text-[#020617]'
                           }`}
                           style={{ 
@@ -933,7 +933,7 @@ export default function TemplatePixel({
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveSpecsProduct(product)}
-                            className="text-[9px] text-slate-500 hover:text-white transition-colors underline"
+                            className="text-[9px] text-theme-muted hover:text-white transition-colors underline"
                           >
                             [view_specs]
                           </button>
@@ -947,7 +947,7 @@ export default function TemplatePixel({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-[#020617] border border-dashed border-[#1e293b] rounded-lg p-5 flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:bg-[#0f172a]/50 transition-all min-h-[250px]"
+                  className="bg-[#020617] border border-dashed border-[#1e293b] rounded-theme p-5 flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:bg-[#0f172a]/50 transition-all min-h-[250px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div className="w-10 h-10 rounded-full border border-dashed border-[#1e293b] text-emerald-500 flex items-center justify-center font-bold mb-3">+</div>
@@ -970,7 +970,7 @@ export default function TemplatePixel({
                 <p className="text-slate-400 text-xs mt-1">Global contact records and system operating hours.</p>
               </div>
 
-              <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-6 space-y-4">
+              <div className="bg-[#0f172a] border border-[#1e293b] rounded-theme p-6 space-y-4">
                 {phoneNumber && (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 border border-[#1e293b] rounded flex items-center justify-center text-emerald-500 shrink-0"><FaPhoneAlt /></div>
@@ -1001,7 +1001,7 @@ export default function TemplatePixel({
               </div>
 
               {/* Operating hours */}
-              <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-6">
+              <div className="bg-[#0f172a] border border-[#1e293b] rounded-theme p-6">
                 <h3 className="font-bold text-slate-200 mb-4" style={{ fontFamily: "'Share Tech Mono', monospace" }}>// OPERATIONAL_SHEDULE</h3>
                 <div className="space-y-2">
                   {(config.hours?.days || []).map((item, idx) => (
@@ -1015,14 +1015,14 @@ export default function TemplatePixel({
             </div>
 
             {/* Inquiry Form */}
-            <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-6 md:p-8 relative overflow-hidden">
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-theme p-6 md:p-8 relative overflow-hidden">
               <h3 className="text-lg font-bold text-slate-100 mb-6" style={{ fontFamily: "'Share Tech Mono', monospace" }}>// SUBMIT_INQUIRY_SHEET</h3>
               
               {formSubmitted && (
                 <div className="absolute inset-0 bg-[#020617]/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
                   <div className="w-12 h-12 border border-emerald-500 rounded text-emerald-500 flex items-center justify-center text-xl mb-4 animate-pulse"><FaPaperPlane /></div>
                   <h4 className="font-bold text-[#e2e8f0] text-sm" style={{ fontFamily: "'Share Tech Mono', monospace" }}>INQUIRY_SENT_SUCCESSFULLY</h4>
-                  <p className="text-slate-500 text-[10px] mt-1">Remote host queue received contact payload.</p>
+                  <p className="text-theme-muted text-[10px] mt-1">Remote host queue received contact payload.</p>
                 </div>
               )}
 
@@ -1129,7 +1129,7 @@ export default function TemplatePixel({
       {/* Tech Specs Modal */}
       {activeSpecsProduct && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
-          <div className="bg-[#0f172a] rounded-lg max-w-md w-full p-8 shadow-2xl border border-emerald-500/30 relative font-mono text-slate-200 text-left animate-fade-in">
+          <div className="bg-[#0f172a] rounded-theme max-w-md w-full p-8 shadow-theme border border-emerald-500/30 relative font-mono text-slate-200 text-left animate-fade-in">
             <button 
               onClick={() => setActiveSpecsProduct(null)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
@@ -1139,7 +1139,7 @@ export default function TemplatePixel({
             <h3 className="text-lg font-bold text-emerald-500 mb-1" style={{ color: accentColor }}>
               // TECHNICAL_SPECIFICATION_SHEET
             </h3>
-            <p className="text-[10px] text-slate-500 mb-6">&gt; Item: {activeSpecsProduct.name}</p>
+            <p className="text-[10px] text-theme-muted mb-6">&gt; Item: {activeSpecsProduct.name}</p>
             
             <div className="border border-[#1e293b] rounded overflow-hidden mb-6">
               <table className="w-full text-[10px] text-left border-collapse">
@@ -1187,7 +1187,7 @@ export default function TemplatePixel({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-[#0f172a] rounded-lg max-w-lg w-full p-8 shadow-2xl border border-[#1e293b] relative font-mono text-slate-200 text-left animate-fade-in">
+            <div className="bg-[#0f172a] rounded-theme max-w-lg w-full p-8 shadow-theme border border-[#1e293b] relative font-mono text-slate-200 text-left animate-fade-in">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
@@ -1197,7 +1197,7 @@ export default function TemplatePixel({
               <h3 className="text-lg font-bold text-slate-100 mb-1" style={{ color: accentColor }}>
                 // EDIT_HARDWARE_PARAMETERS
               </h3>
-              <p className="text-[10px] text-slate-500 mb-6">Modify local inventory record payload values.</p>
+              <p className="text-[10px] text-theme-muted mb-6">Modify local inventory record payload values.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 <div>
@@ -1359,7 +1359,7 @@ export default function TemplatePixel({
 
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-[#020617] hover:bg-slate-800 text-slate-200 font-bold rounded text-xs cursor-pointer shadow-sm transition-all text-center border border-[#1e293b]">
+                        <label className="inline-block px-4 py-2 bg-[#020617] hover:bg-slate-800 text-slate-200 font-bold rounded text-xs cursor-pointer shadow-theme transition-all text-center border border-[#1e293b]">
                           📁 LOAD_FILE
                           <input 
                             type="file" 
@@ -1392,7 +1392,7 @@ export default function TemplatePixel({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-950/40 hover:bg-red-950 text-red-400 border border-red-900 rounded font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-950/40 hover:bg-red-950 text-red-400 border border-red-900 rounded font-bold text-xs shadow-theme transition-all"
                   >
                     DELETE_RECORD
                   </button>
@@ -1413,7 +1413,7 @@ export default function TemplatePixel({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-[#0f172a] rounded-lg max-w-lg w-full p-6 shadow-2xl relative font-sans text-slate-200 border border-[#1e293b] text-left animate-fade-in">
+          <div className="bg-[#0f172a] rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-slate-200 border border-[#1e293b] text-left animate-fade-in">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
@@ -1423,18 +1423,18 @@ export default function TemplatePixel({
             <h3 className="text-xl font-extrabold text-slate-100 mb-1 font-mono">
               // HERO_IMAGE_SETTINGS
             </h3>
-            <p className="text-xs text-slate-500 mb-6 font-mono">Select a gamer tech preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6 font-mono">Select a gamer tech preset or generate using AI.</p>
 
             <div className="flex border-b border-slate-800 mb-6 font-semibold font-mono text-xs">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-theme-muted hover:text-slate-300'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                className={`flex-1 py-2 font-bold text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-theme-muted hover:text-slate-300'}`}
               >
                 AI Generator
               </button>
@@ -1456,7 +1456,7 @@ export default function TemplatePixel({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border border-transparent hover:border-emerald-500 transition-all bg-[#020617]"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border border-transparent hover:border-emerald-500 transition-all bg-[#020617]"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">

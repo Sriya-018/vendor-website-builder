@@ -9,13 +9,23 @@ const API_URL = 'http://localhost:5000/api';
 
 const DEFAULT_CONFIG = {
   template: 't1',
-  themeColor: '#2563eb', // Blue
+  theme: {
+    primary: '#2563eb', // Blue
+    secondary: '#4f46e5', // Indigo
+    accent: '#f59e0b', // Amber
+    background: '#ffffff',
+    surface: '#f9fafb',
+    text: '#111827',
+    muted: '#6b7280',
+    border: '#e5e7eb',
+  },
   typography: {
     headingFont: 'sans',
     bodyFont: 'sans',
     baseSize: 16,
     lineHeight: 'normal',
     letterSpacing: 'normal',
+    fontWeight: 'normal',
   },
   navbar: {
     position: 'top',
@@ -25,6 +35,10 @@ const DEFAULT_CONFIG = {
     showSearch: true,
     searchPosition: 'right',
     links: [{ id: '1', label: 'Home', url: '/' }, { id: '2', label: 'Products', url: '/products' }],
+    sticky: true,
+    menuAlignment: 'center',
+    height: 'normal',
+    hoverStyle: 'underline',
   },
   header: {
     announcement: { show: false, text: 'Free shipping on orders over ₹50!', color: '#2563eb', dismissible: true },
@@ -36,11 +50,21 @@ const DEFAULT_CONFIG = {
     bgColor: '#f3f4f6',
     parallax: false,
     slider: false,
+    heroHeight: 'large',
+    overlayOpacity: '40',
+    buttonStyle: 'filled',
+    titleSize: 'large',
+    subtitleSize: 'medium',
+    ctaPosition: 'bottom',
   },
   spacing: {
-    borderRadius: 'rounded',
+    borderRadius: '8px',
     maxWidth: 'normal',
     padding: 'comfortable',
+    sectionSpacing: 'normal',
+    cardSpacing: 'normal',
+    gridGap: 'normal',
+    containerWidth: 'large',
   },
   products: {
     sectionTitle: 'Featured Products',
@@ -54,6 +78,13 @@ const DEFAULT_CONFIG = {
     wishlistPosition: 'top-right',
     badgeStyle: 'sale', // sale, new, none
     hoverEffect: 'zoom', // none, zoom, second-image
+    cardRadius: '8px',
+    shadow: 'medium',
+    imageRatio: 'square',
+    imagePosition: 'top',
+    border: 'true',
+    buttonPosition: 'bottom',
+    priceStyle: 'bold',
   },
   buttons: {
     primaryStyle: 'filled',
@@ -61,6 +92,11 @@ const DEFAULT_CONFIG = {
     size: 'medium',
     fullWidthMobile: false,
     addToCartLabel: 'Add to Cart',
+    radius: '8px',
+    padding: 'normal',
+    hoverAnimation: 'scale',
+    shadow: 'none',
+    iconPosition: 'left',
   },
   media: {
     aspectRatio: 'square', // square, portrait, landscape
@@ -75,7 +111,37 @@ const DEFAULT_CONFIG = {
     textColor: '#f9fafb',
     social: { instagram: true, facebook: true, twitter: false, tiktok: false },
     showSocialFeed: false,
+    layout: 'standard',
+    socialIconStyle: 'outlined',
+    copyrightAlignment: 'center',
   },
+  forms: {
+    inputRadius: '8px',
+    border: 'true',
+    focusColor: '#3b82f6',
+    labelStyle: 'bold',
+    placeholderColor: '#9ca3af',
+  },
+  animations: {
+    pageAnimation: 'fade',
+    fade: true,
+    zoom: false,
+    slide: false,
+    hoverEffects: 'subtle',
+  },
+  shadows: {
+    globalStyle: 'medium', // light, medium, heavy, none
+  },
+  icons: {
+    style: 'outlined', // outlined, filled, rounded
+  },
+  images: {
+    borderRadius: '8px',
+    overlay: false,
+    brightness: 100,
+    aspectRatio: 'auto',
+  },
+  customCss: '',
   trust: {
     badges: { secure: true, returns: true, support: false },
     testimonials: { show: false, layout: 'grid', showStars: true },
@@ -107,7 +173,10 @@ const DEFAULT_CONFIG = {
     faq: true,
     testimonials: true,
     hours: true,
-    contact: true
+    contact: true,
+    about: true,
+    newsletter: true,
+    footer: true
   },
   beauty: {
     ingredients: [
@@ -226,7 +295,6 @@ function WebsiteEditor() {
       
       // Apply root level properties from the legacy generation
       if (siteData.template) mergedConfig.template = siteData.template;
-      if (siteData.theme) mergedConfig.themeColor = typeof siteData.theme === 'object' ? siteData.theme.primaryColor : siteData.theme;
       
       // Initialize default logoText based on template storeName
       mergedConfig.navbar = {
@@ -418,7 +486,7 @@ function WebsiteEditor() {
               {business?.businessName?.charAt(0).toUpperCase() || 'B'}
             </div>
             <div>
-              <div className="text-xs text-slate-500 font-semibold">Editing store:</div>
+              <div className="text-xs text-slate-600 dark:text-slate-500 font-semibold">Editing store:</div>
               <div className="font-extrabold text-slate-900 leading-tight">{website.slug}</div>
             </div>
           </div>
@@ -428,21 +496,21 @@ function WebsiteEditor() {
           <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
             <button 
               onClick={() => setDevicePreview('desktop')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'desktop' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'desktop' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
               title="Desktop"
             >
               <FaDesktop />
             </button>
             <button 
               onClick={() => setDevicePreview('tablet')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'tablet' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'tablet' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
               title="Tablet"
             >
               <FaTabletAlt />
             </button>
             <button 
               onClick={() => setDevicePreview('mobile')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'mobile' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'mobile' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
               title="Mobile"
             >
               <FaMobileAlt />
@@ -452,7 +520,7 @@ function WebsiteEditor() {
           <div className="h-6 w-px bg-slate-250"></div>
           
           {lastSaved && (
-            <div className="text-xs text-slate-500 font-semibold">
+            <div className="text-xs text-slate-600 dark:text-slate-500 font-semibold">
               Saved {lastSaved.toLocaleTimeString()}
             </div>
           )}

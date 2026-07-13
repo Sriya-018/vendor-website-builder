@@ -229,7 +229,7 @@ export default function TemplateVogue({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white text-black border border-black uppercase tracking-widest text-[9px] font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface text-black border border-black uppercase tracking-widest text-[9px] font-bold shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
@@ -248,7 +248,7 @@ export default function TemplateVogue({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-black font-bold text-[0.85rem] tracking-[0.08em] uppercase hover:bg-gray-100 transition-colors"
+                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-theme-surface text-black font-bold text-[0.85rem] tracking-[0.08em] uppercase hover:bg-gray-100 transition-colors"
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Collection'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
                       <FaArrowRight />
@@ -273,12 +273,12 @@ export default function TemplateVogue({
                   className="text-[1.75rem] font-semibold"
                   style={{ fontFamily: "'Bodoni Moda', serif" }}
                 />
-                <span className="text-[0.8rem] text-gray-500">{products.length} pieces</span>
+                <span className="text-[0.8rem] text-theme-muted">{products.length} pieces</span>
               </div>
               
               <div className="max-w-7xl mx-auto px-8">
                 <div 
-                  className="grid gap-[1px] bg-gray-200 border border-gray-200"
+                  className="grid gap-[1px] bg-gray-200 border border-theme-border"
                   style={{ 
                     gridTemplateColumns: devicePreview === 'mobile' ? `repeat(${config.products.columnsMobile || 1}, minmax(0, 1fr))` 
                       : devicePreview === 'tablet' ? 'repeat(2, minmax(0, 1fr))' 
@@ -288,7 +288,7 @@ export default function TemplateVogue({
                   {products.slice(0, 4).map((product, i) => (
                     <div 
                       key={product._id || product.id || i}
-                      className="bg-white border-b-2 border-transparent hover:border-black transition-colors group relative flex flex-col justify-between"
+                      className="bg-theme-surface border-b-2 border-transparent hover:border-black transition-colors group relative flex flex-col justify-between"
                     >
                       <div>
                         <div className="h-[300px] overflow-hidden bg-gray-100 relative">
@@ -298,11 +298,11 @@ export default function TemplateVogue({
                             className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                           />
                           {product.inStock === false ? (
-                            <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                            <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                               Out of Stock
                             </span>
                           ) : product.isBestseller ? (
-                            <span className="absolute top-3 left-3 bg-black text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                            <span className="absolute top-3 left-3 bg-black text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                               ⭐ Bestseller
                             </span>
                           ) : null}
@@ -312,7 +312,7 @@ export default function TemplateVogue({
                                 e.stopPropagation();
                                 setActiveEditProductId(product._id || product.id);
                               }}
-                              className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-gray-200 hover:bg-black hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                              className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                               title="Edit Product Settings"
                             >
                               ⚙️
@@ -320,7 +320,7 @@ export default function TemplateVogue({
                           )}
                         </div>
                         <div className="p-5">
-                          <div className="text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-1.5 text-gray-500">
+                          <div className="text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-1.5 text-theme-muted">
                             {product.category || 'Apparel'}
                           </div>
                           <EditableText
@@ -334,7 +334,7 @@ export default function TemplateVogue({
                           {product.sizes && product.sizes.length > 0 && (
                             <div className="flex gap-1 mb-2 flex-wrap justify-start">
                               {product.sizes.map(sz => (
-                                <span key={sz} className="text-[8px] font-bold border border-gray-200 px-1 py-0.5 rounded bg-gray-50 text-gray-400 uppercase">
+                                <span key={sz} className="text-[8px] font-bold border border-theme-border px-1 py-0.5 rounded bg-theme-bg text-gray-400 uppercase">
                                   {sz}
                                 </span>
                               ))}
@@ -366,7 +366,7 @@ export default function TemplateVogue({
                               disabled={product.inStock === false}
                               className={`px-3.5 py-1.5 text-[0.78rem] font-bold tracking-[0.05em] uppercase transition-all border ${
                                 product.inStock === false 
-                                  ? 'opacity-65 cursor-not-allowed bg-gray-200 text-gray-400 border-gray-200' 
+                                  ? 'opacity-65 cursor-not-allowed bg-gray-200 text-gray-400 border-theme-border' 
                                   : 'bg-black text-white hover:bg-gray-800 border-black'
                               }`}
                             >
@@ -404,7 +404,7 @@ export default function TemplateVogue({
         const galleryImages = config.gallery?.images || [];
         return (
           <SectionWrapper key="gallery" isEditable={isEditable} sectionKey="gallery" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="max-w-7xl mx-auto px-8 py-20 border-t border-b border-gray-200">
+            <section className="max-w-7xl mx-auto px-8 py-20 border-t border-b border-theme-border">
               <div className="text-center mb-12">
                 <EditableText
                   isEditable={isEditable}
@@ -418,10 +418,10 @@ export default function TemplateVogue({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-[1px] bg-gray-200 border border-gray-250">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square overflow-hidden group bg-white">
+                  <div key={idx} className="relative aspect-square overflow-hidden group bg-theme-surface">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-550" />
                     {isEditable && (
-                      <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 border border-black">
+                      <div className="absolute inset-0 bg-theme-surface/90 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 border border-black">
                         <input
                           type="text"
                           defaultValue={img}
@@ -466,8 +466,8 @@ export default function TemplateVogue({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border-b border-black rounded-none overflow-hidden shadow-none transition-all">
-                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full py-4 text-left font-bold text-black flex items-center justify-between hover:bg-gray-50/50 transition-colors uppercase tracking-[0.05em] text-xs">
+                    <div key={item.id || idx} className="bg-theme-surface border-b border-black rounded-none overflow-hidden shadow-none transition-all">
+                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full py-4 text-left font-bold text-black flex items-center justify-between hover:bg-theme-bg/50 transition-colors uppercase tracking-[0.05em] text-xs">
                         <EditableText
                           isEditable={isEditable}
                           value={item.question}
@@ -481,7 +481,7 @@ export default function TemplateVogue({
                         <span className="text-xl">{isOpen ? '−' : '+'}</span>
                       </button>
                       {isOpen && (
-                        <div className="py-4 text-gray-600 leading-relaxed text-sm">
+                        <div className="py-4 text-theme-muted leading-relaxed text-sm">
                           <EditableText
                             isEditable={isEditable}
                             value={item.answer}
@@ -506,7 +506,7 @@ export default function TemplateVogue({
         const testimonialList = config.testimonials?.list || [];
         return (
           <SectionWrapper key="testimonials" isEditable={isEditable} sectionKey="testimonials" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="bg-gray-50 border-t border-b border-gray-200 py-20 px-8">
+            <section className="bg-theme-bg border-t border-b border-theme-border py-20 px-8">
               <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                   <EditableText
@@ -521,7 +521,7 @@ export default function TemplateVogue({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-none p-6 shadow-none border border-gray-200 flex flex-col justify-between">
+                    <div key={item.id || idx} className="bg-theme-surface rounded-none p-6 shadow-none border border-theme-border flex flex-col justify-between">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -546,7 +546,7 @@ export default function TemplateVogue({
                             onUpdateConfig('testimonials', 'list', updated);
                           }}
                           tagName="p"
-                          className="text-gray-600 text-sm italic leading-relaxed mb-6"
+                          className="text-theme-muted text-sm italic leading-relaxed mb-6"
                         />
                       </div>
                       <div>
@@ -584,8 +584,8 @@ export default function TemplateVogue({
         const hoursDays = config.hours?.days || [];
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="py-20 px-8 bg-white">
-              <div className="max-w-2xl mx-auto bg-gray-50 border border-gray-250 rounded-none p-8 md:p-12 shadow-none">
+            <section className="py-20 px-8 bg-theme-surface">
+              <div className="max-w-2xl mx-auto bg-theme-bg border border-gray-250 rounded-none p-8 md:p-12 shadow-none">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
@@ -600,7 +600,7 @@ export default function TemplateVogue({
                 <div className="space-y-4">
                   {hoursDays.map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center border-b border-gray-250 pb-3 last:border-b-0 last:pb-0 font-medium text-xs tracking-wider uppercase">
-                      <span className="text-gray-500">{item.day}</span>
+                      <span className="text-theme-muted">{item.day}</span>
                       <EditableText
                         isEditable={isEditable}
                         value={item.hours}
@@ -658,7 +658,7 @@ export default function TemplateVogue({
       case 'contact':
         return (
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section id="contact" className="bg-gray-50 py-16 px-8 text-center border-t border-gray-200 mt-8">
+            <section id="contact" className="bg-theme-bg py-16 px-8 text-center border-t border-theme-border mt-8">
               <h3 className="text-[2rem] font-bold mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>Contact & Stockists</h3>
               <div className="inline-block text-left min-w-[280px] leading-[2.2] text-gray-700">
                 <div className="space-y-4">
@@ -710,7 +710,7 @@ export default function TemplateVogue({
       </div>
 
       {/* NAV */}
-      <nav className="sticky top-0 z-50 bg-white border-b-2 border-black transition-all px-8">
+      <nav className="sticky top-0 z-50 bg-theme-surface border-b-2 border-black transition-all px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-[4.5rem]">
           {isEditable ? (
             <EditableText
@@ -756,10 +756,10 @@ export default function TemplateVogue({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-24 animate-fade-in">
           {/* Catalog Filters Header */}
-          <div className="bg-white border-b-2 border-black p-8 mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="bg-theme-surface border-b-2 border-black p-8 mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="text-4xl font-bold uppercase tracking-tight" style={{ fontFamily: "'Bodoni Moda', serif" }}>The Catalog</h2>
-              <p className="text-gray-500 text-sm mt-1">Browse our seasonal fashion collections</p>
+              <p className="text-theme-muted text-sm mt-1">Browse our seasonal fashion collections</p>
             </div>
             
             <div className="flex flex-col md:flex-row gap-4 flex-1 max-w-xl md:justify-end">
@@ -771,7 +771,7 @@ export default function TemplateVogue({
                   placeholder="Search catalog..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-neutral-300 rounded-none outline-none focus:border-black text-sm transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-theme-bg border border-neutral-300 rounded-none outline-none focus:border-black text-sm transition-all"
                 />
               </div>
 
@@ -780,7 +780,7 @@ export default function TemplateVogue({
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="pl-4 pr-10 py-3 bg-gray-50 border border-neutral-300 rounded-none outline-none focus:border-black text-sm cursor-pointer appearance-none uppercase font-bold tracking-widest text-black"
+                  className="pl-4 pr-10 py-3 bg-theme-bg border border-neutral-300 rounded-none outline-none focus:border-black text-sm cursor-pointer appearance-none uppercase font-bold tracking-widest text-black"
                 >
                   <option value="default">Popularity</option>
                   <option value="price-low">Price: Low-High</option>
@@ -797,7 +797,7 @@ export default function TemplateVogue({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-6 py-2.5 rounded-none font-bold text-xs uppercase tracking-widest transition-all ${selectedCategory === cat ? 'bg-black text-white' : 'bg-white border border-gray-300 text-black hover:border-black'}`}
+                className={`px-6 py-2.5 rounded-none font-bold text-xs uppercase tracking-widest transition-all ${selectedCategory === cat ? 'bg-black text-white' : 'bg-theme-surface border border-theme-border text-black hover:border-black'}`}
               >
                 {cat}
               </button>
@@ -806,14 +806,14 @@ export default function TemplateVogue({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-white border border-gray-200">
+            <div className="text-center py-20 bg-theme-surface border border-theme-border">
               <div className="text-4xl mb-3">🔍</div>
               <h3 className="font-bold text-black text-lg uppercase tracking-wider" style={{ fontFamily: "'Bodoni Moda', serif" }}>No pieces found</h3>
-              <p className="text-gray-500 text-sm mt-1">Try another search keyword or category category</p>
+              <p className="text-theme-muted text-sm mt-1">Try another search keyword or category category</p>
             </div>
           ) : (
             <div 
-              className="grid gap-[1px] bg-gray-200 border border-gray-200"
+              className="grid gap-[1px] bg-gray-200 border border-theme-border"
               style={{ 
                 gridTemplateColumns: devicePreview === 'mobile' ? `repeat(${config.products.columnsMobile || 1}, minmax(0, 1fr))` 
                   : devicePreview === 'tablet' ? 'repeat(2, minmax(0, 1fr))' 
@@ -823,7 +823,7 @@ export default function TemplateVogue({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-white border-b-2 border-transparent hover:border-black transition-colors group relative flex flex-col justify-between animate-fade-in"
+                  className="bg-theme-surface border-b-2 border-transparent hover:border-black transition-colors group relative flex flex-col justify-between animate-fade-in"
                 >
                   <div>
                     <div className="h-[300px] overflow-hidden bg-gray-100 relative">
@@ -833,11 +833,11 @@ export default function TemplateVogue({
                         className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Out of Stock
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-black text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-black text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           ⭐ Bestseller
                         </span>
                       ) : null}
@@ -847,7 +847,7 @@ export default function TemplateVogue({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-gray-200 hover:bg-black hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -855,7 +855,7 @@ export default function TemplateVogue({
                       )}
                     </div>
                     <div className="p-5">
-                      <div className="text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-1.5 text-gray-500">
+                      <div className="text-[0.65rem] font-bold tracking-[0.2em] uppercase mb-1.5 text-theme-muted">
                         {product.category || 'Apparel'}
                       </div>
                       <EditableText
@@ -869,7 +869,7 @@ export default function TemplateVogue({
                       {product.sizes && product.sizes.length > 0 && (
                         <div className="flex gap-1 mb-2 flex-wrap justify-start">
                           {product.sizes.map(sz => (
-                            <span key={sz} className="text-[8px] font-bold border border-gray-200 px-1 py-0.5 rounded bg-gray-50 text-gray-500 uppercase">
+                            <span key={sz} className="text-[8px] font-bold border border-theme-border px-1 py-0.5 rounded bg-theme-bg text-theme-muted uppercase">
                               {sz}
                             </span>
                           ))}
@@ -901,7 +901,7 @@ export default function TemplateVogue({
                           disabled={product.inStock === false}
                           className={`px-3.5 py-1.5 text-[0.78rem] font-bold tracking-[0.05em] uppercase transition-all border ${
                             product.inStock === false 
-                              ? 'opacity-65 cursor-not-allowed bg-gray-200 text-gray-400 border-gray-200' 
+                              ? 'opacity-65 cursor-not-allowed bg-gray-200 text-gray-400 border-theme-border' 
                               : 'bg-black text-white hover:bg-gray-800 border-black'
                           }`}
                         >
@@ -924,7 +924,7 @@ export default function TemplateVogue({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-white border-2 border-dashed border-gray-300 rounded-none p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-black transition-all duration-300 min-h-[300px]"
+                  className="bg-theme-surface border-2 border-dashed border-theme-border rounded-none p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-black transition-all duration-300 min-h-[300px]"
                 >
                   <div className="w-12 h-12 rounded-none bg-neutral-100 text-black border border-black flex items-center justify-center text-xl font-bold mb-3">+</div>
                   <h4 className="font-extrabold text-black uppercase tracking-widest text-xs">Add Fashion Piece</h4>
@@ -943,12 +943,12 @@ export default function TemplateVogue({
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-extrabold uppercase tracking-tight" style={{ fontFamily: "'Bodoni Moda', serif" }}>Stockists & Contact</h2>
-                <p className="text-gray-500 text-sm mt-1">Get in touch directly or visit our boutique showrooms.</p>
+                <p className="text-theme-muted text-sm mt-1">Get in touch directly or visit our boutique showrooms.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 border-t border-b border-black py-8">
                 {phoneNumber && (
-                  <div className="bg-white border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4">
+                  <div className="bg-theme-surface border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4">
                     <div className="w-12 h-12 bg-neutral-100 rounded-none flex items-center justify-center text-xl shrink-0"><FaPhoneAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Call Us</div>
@@ -957,7 +957,7 @@ export default function TemplateVogue({
                   </div>
                 )}
                 {email && (
-                  <div className="bg-white border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4">
+                  <div className="bg-theme-surface border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4">
                     <div className="w-12 h-12 bg-neutral-100 rounded-none flex items-center justify-center text-xl shrink-0"><FaEnvelope /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email</div>
@@ -966,7 +966,7 @@ export default function TemplateVogue({
                   </div>
                 )}
                 {address && (
-                  <div className="bg-white border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4 sm:col-span-2">
+                  <div className="bg-theme-surface border border-neutral-200 rounded-none p-6 shadow-none flex items-center gap-4 sm:col-span-2">
                     <div className="w-12 h-12 bg-neutral-100 rounded-none flex items-center justify-center text-xl shrink-0"><FaMapMarkerAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Boutique Address</div>
@@ -977,12 +977,12 @@ export default function TemplateVogue({
               </div>
 
               {/* Hours panel */}
-              <div className="bg-white border border-neutral-200 rounded-none p-8 shadow-none">
+              <div className="bg-theme-surface border border-neutral-200 rounded-none p-8 shadow-none">
                 <h3 className="font-bold text-black text-xl mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center border-b border-gray-150 pb-2.5 last:border-b-0 last:pb-0">
-                      <span className="font-bold text-gray-500 text-xs uppercase tracking-widest">{item.day}</span>
+                      <span className="font-bold text-theme-muted text-xs uppercase tracking-widest">{item.day}</span>
                       <span className="font-extrabold text-black text-xs uppercase tracking-widest">{item.hours}</span>
                     </div>
                   ))}
@@ -991,14 +991,14 @@ export default function TemplateVogue({
             </div>
 
             {/* Contact Inquiry Form */}
-            <div className="bg-white border border-black rounded-none p-8 md:p-10 shadow-none relative overflow-hidden">
+            <div className="bg-theme-surface border border-black rounded-none p-8 md:p-10 shadow-none relative overflow-hidden">
               <h3 className="text-2xl font-bold mb-6 uppercase tracking-widest text-xs">Customer Service Form</h3>
               
               {formSubmitted ? (
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
+                <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
                   <div className="w-16 h-16 bg-neutral-100 text-black border border-black rounded-none flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
                   <h4 className="font-extrabold text-black text-xl uppercase tracking-widest">Message Received</h4>
-                  <p className="text-gray-500 text-sm mt-1 max-w-[280px]">Our support desk will prioritize your message and respond soon.</p>
+                  <p className="text-theme-muted text-sm mt-1 max-w-[280px]">Our support desk will prioritize your message and respond soon.</p>
                 </div>
               ) : null}
 
@@ -1010,7 +1010,7 @@ export default function TemplateVogue({
                     placeholder="ENTER NAME" 
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all"
+                    className="w-full px-4 py-3 bg-theme-bg border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all"
                   />
                 </div>
                 <div>
@@ -1020,7 +1020,7 @@ export default function TemplateVogue({
                     placeholder="ENTER EMAIL ADDRESS" 
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all"
+                    className="w-full px-4 py-3 bg-theme-bg border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all"
                   />
                 </div>
                 <div>
@@ -1030,7 +1030,7 @@ export default function TemplateVogue({
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-50 border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-neutral-350 rounded-none outline-none focus:border-black text-sm text-black transition-all resize-none"
                   />
                 </div>
 
@@ -1053,7 +1053,7 @@ export default function TemplateVogue({
       {/* Size Guide Modal */}
       {activeSizeGuideProduct && (
         <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
-          <div className="bg-white rounded-none max-w-md w-full p-8 shadow-2xl relative font-sans text-black border border-black text-left animate-fade-in">
+          <div className="bg-theme-surface rounded-none max-w-md w-full p-8 shadow-theme relative font-sans text-black border border-black text-left animate-fade-in">
             <button 
               onClick={() => setActiveSizeGuideProduct(null)}
               className="absolute top-4 right-4 text-black hover:opacity-50 font-light text-3xl w-8 h-8 flex items-center justify-center"
@@ -1109,7 +1109,7 @@ export default function TemplateVogue({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-none max-w-lg w-full p-8 shadow-2xl relative font-sans text-black text-left animate-fade-in border border-black">
+            <div className="bg-theme-surface rounded-none max-w-lg w-full p-8 shadow-theme relative font-sans text-black text-left animate-fade-in border border-black">
               <button 
                 onClick={() => setActiveEditProductId(null)}
                 className="absolute top-4 right-4 text-black hover:opacity-50 font-light text-3xl w-8 h-8 flex items-center justify-center"
@@ -1185,7 +1185,7 @@ export default function TemplateVogue({
                           className={`px-4 py-2 text-xs font-bold uppercase tracking-widest transition-all border rounded-none ${
                             hasSize 
                               ? 'bg-black border-black text-white' 
-                              : 'bg-white border-neutral-300 text-black hover:border-black'
+                              : 'bg-theme-surface border-neutral-300 text-black hover:border-black'
                           }`}
                         >
                           {sz}
@@ -1298,7 +1298,7 @@ export default function TemplateVogue({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-bold uppercase tracking-widest text-[9px]"
+                    className="px-4 py-2.5 border border-red-200 bg-red-50 hover:bg-red-100 text-theme-primary font-bold uppercase tracking-widest text-[9px]"
                   >
                     Delete Product
                   </button>
@@ -1318,7 +1318,7 @@ export default function TemplateVogue({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-none max-w-lg w-full p-6 shadow-2xl relative font-sans text-black border border-black text-left animate-fade-in">
+          <div className="bg-theme-surface rounded-none max-w-lg w-full p-6 shadow-theme relative font-sans text-black border border-black text-left animate-fade-in">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-black hover:opacity-50 font-light text-3xl w-8 h-8 flex items-center justify-center"
@@ -1389,7 +1389,7 @@ export default function TemplateVogue({
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-neutral-50 border border-neutral-200 rounded-none outline-none focus:ring-1 focus:ring-black text-xs font-bold bg-white"
+                      className="w-full p-3 bg-neutral-50 border border-neutral-200 rounded-none outline-none focus:ring-1 focus:ring-black text-xs font-bold bg-theme-surface"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

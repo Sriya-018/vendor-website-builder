@@ -41,10 +41,10 @@ function InquiriesTab({ businessId, websites }) {
 
   if (!websites || websites.length === 0) {
     return (
-      <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
+      <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
         <FaGlobe className="text-5xl text-slate-700 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">No Stores Found</h2>
-        <p className="text-slate-450 mb-6">Create a store from the Overview tab before viewing messages.</p>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Stores Found</h2>
+        <p className="text-slate-600 dark:text-slate-450 mb-6">Create a store from the Overview tab before viewing messages.</p>
       </div>
     );
   }
@@ -53,12 +53,12 @@ function InquiriesTab({ businessId, websites }) {
     <div className="space-y-8">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Customer Inquiries</h1>
-          <p className="text-slate-400 text-sm">Read and manage messages sent through your website's contact forms.</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-1">Customer Inquiries</h1>
+          <p className="text-slate-600 dark:text-slate-400 text-sm">Read and manage messages sent through your website's contact forms.</p>
         </div>
         <button 
           onClick={fetchInquiries} 
-          className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" 
+          className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" 
           title="Refresh Messages"
         >
           <FaSync className={isLoading ? 'animate-spin text-purple-400' : 'text-gray-500'} /> Refresh Messages
@@ -66,20 +66,20 @@ function InquiriesTab({ businessId, websites }) {
       </div>
 
       {isLoading && inquiries.length === 0 ? (
-        <div className="p-8 text-center text-slate-500">Loading messages...</div>
+        <div className="p-8 text-center text-slate-600 dark:text-slate-500">Loading messages...</div>
       ) : (
         websites.map((website) => {
           const storeInquiries = inquiries.filter(i => i.websiteId === website._id);
 
           return (
-            <div key={website._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden mb-6">
-              <div className="p-6 border-b border-slate-800/60 flex justify-between items-center bg-slate-900/40">
+            <div key={website._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden mb-6">
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-900/40">
                 <div>
-                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <FaGlobe className="text-indigo-400" />
-                    Store: <span className="font-medium text-slate-350">{website.storeName || website.slug}</span>
+                    Store: <span className="font-medium text-slate-600 dark:text-slate-400">{website.storeName || website.slug}</span>
                   </h2>
-                  <p className="text-sm text-slate-400">Messages sent via {website.slug}.localhost</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Messages sent via {website.slug}.localhost</p>
                 </div>
                 <div className="bg-purple-500/10 text-purple-300 border border-purple-500/20 py-1 px-3 rounded-full text-sm font-bold flex items-center gap-1.5">
                   <FaEnvelope /> {storeInquiries.length} Message{storeInquiries.length !== 1 ? 's' : ''}
@@ -87,18 +87,18 @@ function InquiriesTab({ businessId, websites }) {
               </div>
 
               {storeInquiries.length === 0 ? (
-                <div className="p-12 text-center text-slate-500 flex flex-col items-center">
+                <div className="p-12 text-center text-slate-600 dark:text-slate-500 flex flex-col items-center">
                   <div className="w-16 h-16 bg-purple-600/10 rounded-2xl flex items-center justify-center text-purple-400 mb-4 border border-purple-500/20 text-2xl">
                     <FaEnvelopeOpen />
                   </div>
-                  <p className="text-lg font-medium text-white">No messages yet</p>
-                  <p className="mt-1 text-slate-450">When customers fill out the Contact page form, their messages will appear here.</p>
+                  <p className="text-lg font-medium text-slate-900 dark:text-white">No messages yet</p>
+                  <p className="mt-1 text-slate-600 dark:text-slate-450">When customers fill out the Contact page form, their messages will appear here.</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                      <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
                         <th className="px-6 py-4 font-semibold w-1/4">Sender Details</th>
                         <th className="px-6 py-4 font-semibold w-1/2">Message</th>
                         <th className="px-6 py-4 font-semibold w-1/6">Date</th>
@@ -107,18 +107,18 @@ function InquiriesTab({ businessId, websites }) {
                     </thead>
                     <tbody className="divide-y divide-slate-800/60 text-sm">
                       {storeInquiries.map(inquiry => (
-                        <tr key={inquiry._id} className="hover:bg-slate-800/20 transition-colors">
+                        <tr key={inquiry._id} className="hover:bg-slate-50 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/20 transition-colors">
                           <td className="px-6 py-4">
-                            <div className="font-bold text-white flex items-center gap-1.5">
-                              <FaUser className="text-slate-400 text-xs" />
+                            <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                              <FaUser className="text-slate-600 dark:text-slate-400 text-xs" />
                               {inquiry.name}
                             </div>
-                            <div className="text-xs text-slate-500 break-all">{inquiry.email}</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-500 break-all">{inquiry.email}</div>
                           </td>
-                          <td className="px-6 py-4 text-slate-300 whitespace-pre-wrap leading-relaxed max-w-md break-words">
+                          <td className="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-w-md break-words">
                             {inquiry.message}
                           </td>
-                          <td className="px-6 py-4 text-slate-450 text-xs">
+                          <td className="px-6 py-4 text-slate-600 dark:text-slate-450 text-xs">
                             {new Date(inquiry.createdAt).toLocaleString()}
                           </td>
                           <td className="px-6 py-4 text-center">

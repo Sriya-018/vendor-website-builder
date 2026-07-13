@@ -22,17 +22,17 @@ export default function TemplateFoodNew(props) {
       layoutClass: 'bg-[#FAF6F2] text-[#3E2723]',
       fontClass: 'font-serif',
       logoTextClass: 'text-[#3E2723] font-bold text-xl uppercase tracking-widest',
-      navbarClass: 'bg-[#FAF6F2]/95 border-b border-[#3E2723]/10 shadow-sm py-4',
+      navbarClass: 'bg-[#FAF6F2]/95 border-b border-[#3E2723]/10 shadow-theme py-4',
       heroClass: 'min-h-[80vh] bg-[#3E2723] text-white',
       heroHeadingClass: 'font-serif text-5xl md:text-7xl font-light italic text-white',
       ctaButtonClass: 'bg-[#8D6E63] text-white hover:bg-[#6D4C41] rounded-none py-3 px-8 uppercase font-bold text-xs tracking-wider',
       catalogSectionClass: 'bg-[#FAF6F2] text-[#3E2723]',
       sectionHeadingClass: 'font-serif text-3xl font-bold text-[#3E2723]',
-      productCardClass: 'bg-white rounded-none border border-[#3E2723]/10 hover:border-[#8D6E63] shadow-sm duration-200',
+      productCardClass: 'bg-theme-surface rounded-none border border-[#3E2723]/10 hover:border-[#8D6E63] shadow-theme duration-200',
       gallerySectionClass: 'bg-[#FAF6F2] border-t border-[#3E2723]/10',
-      faqSectionClass: 'bg-white border-t border-[#3E2723]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#3E2723]/10',
       testimonialsSectionClass: 'bg-[#FAF6F2] border-t border-[#3E2723]/10',
-      hoursSectionClass: 'bg-white border-t border-[#3E2723]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#3E2723]/10',
       contactSectionClass: 'bg-[#FAF6F2] border-t border-[#3E2723]/10',
       primaryColor: '#3E2723',
       accentColor: '#8D6E63',
@@ -41,20 +41,20 @@ export default function TemplateFoodNew(props) {
   } else if (templateId === 't26') {
     // Slice - Pizzeria
     themeConfig = {
-      layoutClass: 'bg-white text-slate-800',
+      layoutClass: 'bg-theme-surface text-theme-text',
       fontClass: 'font-sans font-bold',
       logoTextClass: 'text-[#B91C1C] font-black text-2xl uppercase tracking-tighter italic',
-      navbarClass: 'bg-white border-b-4 border-[#B91C1C] py-4',
+      navbarClass: 'bg-theme-surface border-b-4 border-[#B91C1C] py-4',
       heroClass: 'min-h-[80vh] bg-[#B91C1C] text-white italic',
       heroHeadingClass: 'font-black text-6xl md:text-8xl tracking-tight uppercase text-white',
       ctaButtonClass: 'bg-[#F59E0B] text-black hover:bg-[#D97706] rounded-none py-4 px-10 font-black border-2 border-black uppercase text-xs',
-      catalogSectionClass: 'bg-white text-slate-800',
-      sectionHeadingClass: 'font-black text-4xl uppercase tracking-tight text-slate-900',
-      productCardClass: 'bg-white border-4 border-black rounded-none shadow-[4px_4px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 duration-200',
+      catalogSectionClass: 'bg-theme-surface text-theme-text',
+      sectionHeadingClass: 'font-black text-4xl uppercase tracking-tight text-theme-text',
+      productCardClass: 'bg-theme-surface border-4 border-black rounded-none shadow-[4px_4px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 duration-200',
       gallerySectionClass: 'bg-red-50/30 border-t-4 border-black',
-      faqSectionClass: 'bg-white border-t-4 border-black',
+      faqSectionClass: 'bg-theme-surface border-t-4 border-black',
       testimonialsSectionClass: 'bg-red-50/30 border-t-4 border-black',
-      hoursSectionClass: 'bg-white border-t-4 border-black',
+      hoursSectionClass: 'bg-theme-surface border-t-4 border-black',
       contactSectionClass: 'bg-red-50/30 border-t-4 border-black',
       primaryColor: '#B91C1C',
       accentColor: '#F59E0B',
@@ -69,15 +69,15 @@ export default function TemplateFoodNew(props) {
       navbarClass: 'bg-[#1A1813] text-white border-b border-amber-900/10 py-5',
       heroClass: 'min-h-[85vh] bg-[#1A1813] text-white',
       heroHeadingClass: 'font-extrabold text-5xl md:text-7xl leading-tight text-white uppercase tracking-tight',
-      ctaButtonClass: 'bg-[#D97706] text-black hover:bg-[#C2410C] rounded-lg py-3 px-8 font-bold uppercase text-xs tracking-wider',
+      ctaButtonClass: 'bg-[#D97706] text-black hover:bg-[#C2410C] rounded-theme py-3 px-8 font-bold uppercase text-xs tracking-wider',
       catalogSectionClass: 'bg-[#FAF9F6] text-[#1A1813]',
       sectionHeadingClass: 'font-extrabold text-3xl text-[#1A1813] uppercase tracking-wide',
-      productCardClass: 'bg-white rounded-xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-amber-500/25 duration-250',
-      gallerySectionClass: 'bg-[#FAF9F6] border-t border-slate-200/40',
-      faqSectionClass: 'bg-white border-t border-slate-200/40',
-      testimonialsSectionClass: 'bg-[#FAF9F6] border-t border-slate-200/40',
-      hoursSectionClass: 'bg-white border-t border-slate-200/40',
-      contactSectionClass: 'bg-[#FAF9F6] border-t border-slate-200/40',
+      productCardClass: 'bg-theme-surface rounded-theme border border-theme-border/60 shadow-theme hover:shadow-theme hover:border-amber-500/25 duration-250',
+      gallerySectionClass: 'bg-[#FAF9F6] border-t border-theme-border/40',
+      faqSectionClass: 'bg-theme-surface border-t border-theme-border/40',
+      testimonialsSectionClass: 'bg-[#FAF9F6] border-t border-theme-border/40',
+      hoursSectionClass: 'bg-theme-surface border-t border-theme-border/40',
+      contactSectionClass: 'bg-[#FAF9F6] border-t border-theme-border/40',
       primaryColor: '#1A1813',
       accentColor: '#D97706',
       defaultHeroImage: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=1200&q=80'
@@ -88,17 +88,17 @@ export default function TemplateFoodNew(props) {
       layoutClass: 'bg-[#F5FFFA] text-[#2F4F4F]',
       fontClass: 'font-sans font-light',
       logoTextClass: 'text-[#2F4F4F] font-bold text-lg uppercase tracking-wider',
-      navbarClass: 'bg-white border-b border-[#2F4F4F]/10 py-4 shadow-sm',
+      navbarClass: 'bg-theme-surface border-b border-[#2F4F4F]/10 py-4 shadow-theme',
       heroClass: 'min-h-[80vh] bg-[#2F4F4F] text-white',
       heroHeadingClass: 'font-light text-5xl md:text-7xl leading-tight text-white',
       ctaButtonClass: 'bg-[#8FBC8F] text-white hover:bg-[#778899] rounded-full py-3 px-8 font-bold uppercase text-xs',
       catalogSectionClass: 'bg-[#F5FFFA] text-[#2F4F4F]',
       sectionHeadingClass: 'font-bold text-3xl tracking-tight text-[#2F4F4F]',
-      productCardClass: 'bg-white border border-[#2F4F4F]/10 rounded-2xl shadow-sm hover:shadow-md duration-200',
+      productCardClass: 'bg-theme-surface border border-[#2F4F4F]/10 rounded-theme shadow-theme hover:shadow-theme duration-200',
       gallerySectionClass: 'bg-[#F5FFFA] border-t border-[#2F4F4F]/10',
-      faqSectionClass: 'bg-white border-t border-[#2F4F4F]/10',
+      faqSectionClass: 'bg-theme-surface border-t border-[#2F4F4F]/10',
       testimonialsSectionClass: 'bg-[#F5FFFA] border-t border-[#2F4F4F]/10',
-      hoursSectionClass: 'bg-white border-t border-[#2F4F4F]/10',
+      hoursSectionClass: 'bg-theme-surface border-t border-[#2F4F4F]/10',
       contactSectionClass: 'bg-[#F5FFFA] border-t border-[#2F4F4F]/10',
       primaryColor: '#2F4F4F',
       accentColor: '#8FBC8F',
@@ -157,11 +157,11 @@ function BrewRoastEstimator({ accentColor }) {
 
   return (
     <section className="py-20 px-8 bg-[#FAF6F2] border-t border-b border-[#3E2723]/10 text-[#3E2723] text-left font-serif">
-      <div className="max-w-xl mx-auto border border-[#3E2723]/15 p-8 bg-white rounded-none shadow-sm">
+      <div className="max-w-xl mx-auto border border-[#3E2723]/15 p-8 bg-theme-surface rounded-none shadow-theme">
         <div className="text-center mb-8 uppercase">
           <FaCoffee size={30} className="mx-auto mb-3 text-[#8D6E63]" />
           <h2 className="text-2xl font-bold">Roast Strength Estimator</h2>
-          <p className="text-xs text-slate-500 lowercase mt-1.5">Adjust roast dial to check flavor parameters</p>
+          <p className="text-xs text-theme-muted lowercase mt-1.5">Adjust roast dial to check flavor parameters</p>
         </div>
 
         <div className="space-y-6">
@@ -184,7 +184,7 @@ function BrewRoastEstimator({ accentColor }) {
           <div className="mt-8 p-6 bg-[#FAF6F2] border border-[#3E2723]/10">
             <span className="text-[10px] uppercase tracking-widest font-bold text-[#8D6E63]">{r.temp}</span>
             <h4 className="text-base font-bold text-[#3E2723] mt-1">{r.name}</h4>
-            <p className="text-xs font-light leading-relaxed mt-2 text-slate-600">{r.notes}</p>
+            <p className="text-xs font-light leading-relaxed mt-2 text-theme-muted">{r.notes}</p>
           </div>
         </div>
       </div>
@@ -217,12 +217,12 @@ function SliceToppingsBuilder({ accentColor }) {
   };
 
   return (
-    <section className="py-20 px-8 bg-white border-t-4 border-b-4 border-black text-black text-left font-sans tracking-tight">
-      <div className="max-w-xl mx-auto border-4 border-black p-8 bg-white shadow-[4px_4px_0px_#000]">
+    <section className="py-20 px-8 bg-theme-surface border-t-4 border-b-4 border-black text-black text-left font-sans tracking-tight">
+      <div className="max-w-xl mx-auto border-4 border-black p-8 bg-theme-surface shadow-[4px_4px_0px_#000]">
         <div className="text-center mb-8 font-black uppercase italic">
           <FaUtensils size={30} className="mx-auto mb-3 text-[#B91C1C]" />
           <h2 className="text-3xl leading-none">Craft Your Slice</h2>
-          <p className="text-[10px] tracking-wider text-gray-500 mt-2 italic font-bold">Select ingredients additions to check cost upgrade</p>
+          <p className="text-[10px] tracking-wider text-theme-muted mt-2 italic font-bold">Select ingredients additions to check cost upgrade</p>
         </div>
 
         <div className="space-y-3 mb-8">
@@ -236,7 +236,7 @@ function SliceToppingsBuilder({ accentColor }) {
               key={top.id}
               onClick={() => toggleTopping(top.id)}
               className={`flex items-center justify-between p-4 border-2 border-black cursor-pointer font-bold text-xs select-none transition-colors ${
-                toppings[top.id] ? 'bg-[#F59E0B]/10 border-[#F59E0B]' : 'bg-white hover:bg-slate-50'
+                toppings[top.id] ? 'bg-[#F59E0B]/10 border-[#F59E0B]' : 'bg-theme-surface hover:bg-theme-bg'
               }`}
             >
               <span>{top.name}</span>
@@ -280,12 +280,12 @@ function HopsBeerPairing({ accentColor }) {
   const p = pairings[meal];
 
   return (
-    <section className="py-20 px-8 bg-[#FAF9F6] border-t border-b border-slate-200/40 text-[#1A1813] text-left font-sans">
-      <div className="max-w-xl mx-auto border border-slate-200 rounded-xl p-8 bg-white shadow-sm">
+    <section className="py-20 px-8 bg-[#FAF9F6] border-t border-b border-theme-border/40 text-[#1A1813] text-left font-sans">
+      <div className="max-w-xl mx-auto border border-theme-border rounded-theme p-8 bg-theme-surface shadow-theme">
         <div className="text-center mb-8 uppercase font-extrabold">
           <FaBeer size={30} className="mx-auto mb-3 text-[#D97706]" />
           <h2 className="text-2xl">Craft Beer Pairing Guide</h2>
-          <p className="text-xs font-light text-slate-500 mt-1.5 lowercase">Select your dish to find the perfect draft pour</p>
+          <p className="text-xs font-light text-theme-muted mt-1.5 lowercase">Select your dish to find the perfect draft pour</p>
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-8">
@@ -297,10 +297,10 @@ function HopsBeerPairing({ accentColor }) {
             <button
               key={m.id}
               onClick={() => setMeal(m.id)}
-              className={`py-3 text-[10px] uppercase font-bold rounded-lg border transition-all ${
+              className={`py-3 text-[10px] uppercase font-bold rounded-theme border transition-all ${
                 meal === m.id 
                   ? 'border-[#D97706] bg-[#D97706]/10 text-[#D97706]' 
-                  : 'border-slate-200 text-slate-600 bg-white hover:border-slate-300'
+                  : 'border-theme-border text-theme-muted bg-theme-surface hover:border-theme-border'
               }`}
             >
               {m.name}
@@ -308,7 +308,7 @@ function HopsBeerPairing({ accentColor }) {
           ))}
         </div>
 
-        <div className="p-6 bg-[#1A1813] text-white rounded-xl">
+        <div className="p-6 bg-[#1A1813] text-white rounded-theme">
           <span className="text-[10px] uppercase tracking-widest font-bold text-[#D97706]">Recommended Draft Pair</span>
           <h4 className="text-base font-bold mt-1">{p.beer}</h4>
           <p className="text-xs text-slate-350 leading-relaxed mt-2.5 font-light">{p.notes}</p>
@@ -355,10 +355,10 @@ function HarvestFarmOrigin({ accentColor }) {
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`p-4 border rounded-xl transition-all text-center text-xs font-bold uppercase tracking-wider ${
+              className={`p-4 border rounded-theme transition-all text-center text-xs font-bold uppercase tracking-wider ${
                 activeTab === key 
-                  ? 'border-[#2F4F4F] bg-white text-[#2F4F4F] shadow-sm' 
-                  : 'border-[#2F4F4F]/10 hover:border-[#2F4F4F]/25 text-slate-500 bg-white'
+                  ? 'border-[#2F4F4F] bg-theme-surface text-[#2F4F4F] shadow-theme' 
+                  : 'border-[#2F4F4F]/10 hover:border-[#2F4F4F]/25 text-theme-muted bg-theme-surface'
               }`}
             >
               {reports[key].title}
@@ -366,7 +366,7 @@ function HarvestFarmOrigin({ accentColor }) {
           ))}
         </div>
 
-        <div className="bg-white p-8 rounded-2xl border border-[#2F4F4F]/10 shadow-sm">
+        <div className="bg-theme-surface p-8 rounded-theme border border-[#2F4F4F]/10 shadow-theme">
           <h4 className="font-bold text-sm tracking-wide text-[#2F4F4F] border-b border-slate-50 pb-3 mb-5 uppercase">
             {r.title} Statement
           </h4>

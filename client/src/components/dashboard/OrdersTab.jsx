@@ -106,16 +106,16 @@ function OrdersTab({ businessId, websites }) {
       case 'ready': return 'bg-purple-500/10 text-purple-300 border border-purple-500/20';
       case 'completed': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
       case 'cancelled': return 'bg-red-500/10 text-red-400 border border-red-500/20';
-      default: return 'bg-slate-800 text-slate-450 border-slate-700';
+      default: return 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-450 border-slate-300 dark:border-slate-700';
     }
   };
 
   if (!websites || websites.length === 0) {
     return (
-      <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
+      <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden p-12 text-center">
         <FaGlobe className="text-5xl text-slate-700 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">No Stores Found</h2>
-        <p className="text-slate-450 mb-6">Create a store from the Overview tab before viewing orders.</p>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Stores Found</h2>
+        <p className="text-slate-600 dark:text-slate-450 mb-6">Create a store from the Overview tab before viewing orders.</p>
       </div>
     );
   }
@@ -126,30 +126,30 @@ function OrdersTab({ businessId, websites }) {
         <button
           type="button"
           onClick={exportOrdersCSV}
-          className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-350 hover:text-white px-4 py-2.5 rounded-xl font-bold transition-all text-sm"
+          className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:text-white px-4 py-2.5 rounded-xl font-bold transition-all text-sm"
         >
-          <FaDownload className="text-slate-400" /> Export CSV Report
+          <FaDownload className="text-slate-600 dark:text-slate-400" /> Export CSV Report
         </button>
-        <button onClick={fetchOrders} className="flex items-center gap-2 bg-[#13121A] border border-slate-700/60 text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" title="Refresh Orders">
-          <FaSync className={isLoading ? 'animate-spin text-purple-400' : 'text-slate-500'} /> Refresh Orders
+        <button onClick={fetchOrders} className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" title="Refresh Orders">
+          <FaSync className={isLoading ? 'animate-spin text-purple-400' : 'text-slate-600 dark:text-slate-500'} /> Refresh Orders
         </button>
       </div>
 
       {isLoading && orders.length === 0 ? (
-        <div className="p-8 text-center text-slate-500">Loading orders...</div>
+        <div className="p-8 text-center text-slate-600 dark:text-slate-500">Loading orders...</div>
       ) : (
         websites.map((website) => {
           const storeOrders = orders.filter(o => o.websiteId === website._id || o.storeName === website.slug);
 
           return (
-            <div key={website._id} className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden">
-              <div className="p-6 border-b border-slate-800/60 flex justify-between items-center bg-slate-900/40">
+            <div key={website._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden">
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-900/40">
                 <div>
-                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <FaGlobe className="text-indigo-400" />
-                    Store: <span className="font-medium text-slate-350">{website.storeName || website.slug}</span>
+                    Store: <span className="font-medium text-slate-600 dark:text-slate-400">{website.storeName || website.slug}</span>
                   </h2>
-                  <p className="text-sm text-slate-400">Manage customer orders placed on this specific website</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Manage customer orders placed on this specific website</p>
                 </div>
                 <div className="bg-purple-500/10 text-purple-300 border border-purple-500/20 py-1 px-3 rounded-full text-sm font-bold">
                   {storeOrders.length} Order{storeOrders.length !== 1 ? 's' : ''}
@@ -157,18 +157,18 @@ function OrdersTab({ businessId, websites }) {
               </div>
 
               {storeOrders.length === 0 ? (
-                <div className="p-12 text-center text-slate-500 flex flex-col items-center">
+                <div className="p-12 text-center text-slate-600 dark:text-slate-500 flex flex-col items-center">
                   <div className="w-16 h-16 bg-purple-600/10 rounded-2xl flex items-center justify-center text-purple-400 mb-4 border border-purple-500/20 text-2xl">
                     <FaBoxOpen />
                   </div>
-                  <p className="text-lg font-medium text-white">No orders yet</p>
-                  <p className="mt-1 text-slate-450">When customers place orders on {website.slug}, they will appear here.</p>
+                  <p className="text-lg font-medium text-slate-900 dark:text-white">No orders yet</p>
+                  <p className="mt-1 text-slate-600 dark:text-slate-450">When customers place orders on {website.slug}, they will appear here.</p>
                 </div>
               ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                        <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
                           <th className="px-6 py-4 font-semibold">Order Details</th>
                           <th className="px-6 py-4 font-semibold">Customer</th>
                           <th className="px-6 py-4 font-semibold">Status & Payment</th>
@@ -177,10 +177,10 @@ function OrdersTab({ businessId, websites }) {
                       </thead>
                       <tbody className="divide-y divide-slate-800/60 text-sm">
                         {storeOrders.map(order => (
-                          <tr key={order._id} className="hover:bg-slate-800/20 transition-colors">
+                          <tr key={order._id} className="hover:bg-slate-50 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/20 transition-colors">
                            <td className="px-6 py-4">
-                              <div className="font-medium text-white mb-1">#{order._id.substring(order._id.length - 6).toUpperCase()}</div>
-                              <div className="text-xs text-slate-450 max-w-[200px]">
+                              <div className="font-medium text-slate-900 dark:text-white mb-1">#{order._id.substring(order._id.length - 6).toUpperCase()}</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-450 max-w-[200px]">
                                 {order.items?.map((i, idx) => (
                                   <div key={idx} className="truncate">{i.quantity}x {i.name}</div>
                                 ))}
@@ -188,8 +188,8 @@ function OrdersTab({ businessId, websites }) {
                               {order.notes && <div className="text-xs text-red-400 mt-1 truncate max-w-[200px]">Note: {order.notes}</div>}
                               <div className="text-xs text-slate-555 mt-1">{new Date(order.createdAt).toLocaleString()}</div>
                             </td>
-                            <td className="px-6 py-4 text-slate-400">
-                              <div className="font-medium text-white">{order.customerName || 'Guest'}</div>
+                            <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                              <div className="font-medium text-slate-900 dark:text-white">{order.customerName || 'Guest'}</div>
                               <div>{order.customerPhone}</div>
                             </td>
                           <td className="px-6 py-4">
@@ -222,10 +222,10 @@ function OrdersTab({ businessId, websites }) {
                             </div>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <div className="font-medium text-white mb-1">
+                            <div className="font-medium text-slate-900 dark:text-white mb-1">
                               ₹{order.totalAmount.toLocaleString()}
                             </div>
-                            <div className="text-xs text-slate-500 uppercase font-medium">
+                            <div className="text-xs text-slate-600 dark:text-slate-500 uppercase font-medium">
                               {order.paymentMethod === 'razorpay' ? 'Online (Razorpay)' : order.paymentMethod === 'pay_on_delivery' ? 'COD' : 'Manual'}
                             </div>
                           </td>
@@ -242,14 +242,14 @@ function OrdersTab({ businessId, websites }) {
 
       {/* Unassigned / Legacy Orders */}
       {orders.filter(o => !websites.some(w => w._id === o.websiteId || w.slug === o.storeName)).length > 0 && (
-        <div className="bg-[#13121A] rounded-xl border border-slate-800/60 shadow-lg overflow-hidden mt-8">
-          <div className="p-6 border-b border-slate-800/60 bg-slate-900/40 flex justify-between items-center">
+        <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden mt-8">
+          <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-900/40 flex justify-between items-center">
             <div>
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <FaBoxOpen className="text-purple-400" />
                 Unassigned Orders
               </h2>
-              <p className="text-sm text-slate-400">Older orders or orders not associated with a specific active store.</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Older orders or orders not associated with a specific active store.</p>
             </div>
             <div className="bg-purple-500/10 text-purple-300 border border-purple-500/20 py-1 px-3 rounded-full text-sm font-bold">
               {orders.filter(o => !websites.some(w => w._id === o.websiteId || w.slug === o.storeName)).length} Order(s)
@@ -258,7 +258,7 @@ function OrdersTab({ businessId, websites }) {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-900/60 border-b border-slate-800/60 text-xs uppercase text-slate-500 tracking-wider font-semibold">
+                <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
                   <th className="px-6 py-4 font-semibold">Order Details</th>
                   <th className="px-6 py-4 font-semibold">Store Name</th>
                   <th className="px-6 py-4 font-semibold">Customer</th>
@@ -268,24 +268,24 @@ function OrdersTab({ businessId, websites }) {
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-sm">
                 {orders.filter(o => !websites.some(w => w._id === o.websiteId || w.slug === o.storeName)).map(order => (
-                  <tr key={order._id} className="hover:bg-slate-800/20 transition-colors">
+                  <tr key={order._id} className="hover:bg-slate-50 dark:hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-slate-800/20 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-white mb-1">#{order._id.substring(order._id.length - 6).toUpperCase()}</div>
-                      <div className="text-xs text-slate-450 max-w-[200px]">
+                      <div className="font-medium text-slate-900 dark:text-white mb-1">#{order._id.substring(order._id.length - 6).toUpperCase()}</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-450 max-w-[200px]">
                         {order.items?.map((i, idx) => (
                           <div key={idx} className="truncate">{i.quantity}x {i.name}</div>
                         ))}
                       </div>
                       {order.notes && <div className="text-xs text-red-400 mt-1 truncate max-w-[200px]">Note: {order.notes}</div>}
-                      <div className="text-xs text-slate-500 mt-1">{new Date(order.createdAt).toLocaleString()}</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-500 mt-1">{new Date(order.createdAt).toLocaleString()}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">
                         {order.storeName || 'Main Store'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-slate-400">
-                      <div className="font-medium text-white">{order.customerName || 'Guest'}</div>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                      <div className="font-medium text-slate-900 dark:text-white">{order.customerName || 'Guest'}</div>
                       <div>{order.customerPhone}</div>
                     </td>
                     <td className="px-6 py-4">
@@ -318,7 +318,7 @@ function OrdersTab({ businessId, websites }) {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="font-medium text-white mb-1">
+                      <div className="font-medium text-slate-900 dark:text-white mb-1">
                         ₹{order.totalAmount.toLocaleString()}
                       </div>
                       <div className="text-xs text-slate-550 uppercase font-medium">

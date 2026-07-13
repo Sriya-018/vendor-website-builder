@@ -234,13 +234,13 @@ export default function TemplateAurora({
               {isEditable && (
                 <button 
                   onClick={() => setShowBgModal(true)}
-                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-white/95 backdrop-blur border border-slate-200 text-slate-900 rounded-full font-bold text-xs shadow-md hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+                  className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-theme-surface/95 backdrop-blur border border-theme-border text-theme-text rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
                 >
                   🎨 Edit Hero Background
                 </button>
               )}
               <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full" style={{ textAlign: config.header.heroAlign }}>
-                <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/15 border border-white/30 text-white text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-theme-surface/15 border border-white/30 text-white text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm">
                   <FaStar className="mr-2" style={{ color: accentColor }} /> Welcome
                 </span>
                 <EditableText
@@ -261,7 +261,7 @@ export default function TemplateAurora({
                 <div className="flex flex-wrap gap-4" style={{ justifyContent: config.header.heroAlign === 'center' ? 'center' : config.header.heroAlign === 'right' ? 'flex-end' : 'flex-start' }}>
                   <button 
                     onClick={() => changePage('shop')}
-                    className="px-8 py-4 bg-white text-gray-900 rounded-xl font-extrabold shadow-lg hover:scale-105 transition-transform flex items-center gap-2"
+                    className="px-8 py-4 bg-theme-surface text-theme-text rounded-theme font-extrabold shadow-theme hover:scale-105 transition-transform flex items-center gap-2"
                   >
                     <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Now'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
                     <FaArrowRight />
@@ -271,7 +271,7 @@ export default function TemplateAurora({
                       href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-8 py-4 bg-green-600 text-white rounded-xl font-extrabold shadow-lg hover:scale-105 transition-transform flex items-center"
+                      className="px-8 py-4 bg-theme-primary text-white text-white rounded-theme font-extrabold shadow-theme hover:scale-105 transition-transform flex items-center"
                     >
                       <FaWhatsapp className="mr-2 text-lg" /> Chat on WhatsApp
                     </a>
@@ -292,10 +292,10 @@ export default function TemplateAurora({
                   value={config.products.sectionTitle || 'Featured Products'}
                   onChange={(val) => onUpdateConfig('products', 'sectionTitle', val)}
                   tagName="h2"
-                  className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3"
+                  className="text-3xl md:text-4xl font-extrabold text-theme-text mb-3"
                 />
                 <div className="w-20 h-1.5 rounded-full mx-auto mb-4" style={{ backgroundColor: accentColor }}></div>
-                <p className="text-gray-500 text-lg">Handpicked selections guaranteed to elevate your lifestyle.</p>
+                <p className="text-theme-muted text-lg">Handpicked selections guaranteed to elevate your lifestyle.</p>
               </div>
               
               <div 
@@ -309,22 +309,22 @@ export default function TemplateAurora({
                 {products.slice(0, 6).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between"
+                    className="bg-theme-surface rounded-theme overflow-hidden border border-theme-border shadow-theme hover:shadow-theme hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between"
                     style={{ borderRadius: 'var(--radius)' }}
                   >
                     <div>
-                      <div className="relative aspect-square overflow-hidden bg-gray-50">
+                      <div className="relative aspect-square overflow-hidden bg-theme-bg">
                         <img 
                           src={getProductImageUrl(product, i)}
                           alt={product.name}
                           className={`w-full h-full object-${config.media.fitMode || 'cover'} transition-transform duration-700 ${config.products.hoverEffect === 'zoom' ? 'group-hover:scale-110' : ''}`}
                         />
                         {product.inStock === false ? (
-                          <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                          <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                             Out of Stock
                           </span>
                         ) : product.isBestseller ? (
-                          <span className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                          <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                             ⭐ Bestseller
                           </span>
                         ) : null}
@@ -334,7 +334,7 @@ export default function TemplateAurora({
                               e.stopPropagation();
                               setActiveEditProductId(product._id || product.id);
                             }}
-                            className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-gray-200 hover:bg-gray-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                            className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-gray-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                             title="Edit Product Settings"
                           >
                             ⚙️
@@ -350,18 +350,18 @@ export default function TemplateAurora({
                           value={product.name}
                           onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                           tagName="h4"
-                          className="text-lg font-extrabold text-gray-900 mb-1 truncate"
+                          className="text-lg font-extrabold text-theme-text mb-1 truncate"
                         />
                         {product.sizes && product.sizes.length > 0 && (
                           <div className="flex justify-center gap-1.5 mb-3 flex-wrap">
                             {product.sizes.map(sz => (
-                              <span key={sz} className="text-[9px] font-bold border border-gray-200 px-1.5 py-0.5 rounded bg-gray-50 text-gray-500 uppercase">
+                              <span key={sz} className="text-[9px] font-bold border border-theme-border px-1.5 py-0.5 rounded bg-theme-bg text-theme-muted uppercase">
                                 {sz}
                               </span>
                             ))}
                           </div>
                         )}
-                        <div className="text-xl font-extrabold text-gray-900 mb-2 flex items-center justify-center gap-0.5">
+                        <div className="text-xl font-extrabold text-theme-text mb-2 flex items-center justify-center gap-0.5">
                           <span>₹</span>
                           <EditableText
                             isEditable={isEditable}
@@ -376,7 +376,7 @@ export default function TemplateAurora({
                         {product.sizes && product.sizes.length > 0 && (
                           <button 
                             onClick={() => setActiveSizeGuideProduct(product)}
-                            className="text-[10px] font-bold text-gray-400 hover:text-gray-600 transition-colors underline flex items-center gap-1 justify-center mx-auto mb-2"
+                            className="text-[10px] font-bold text-gray-400 hover:text-theme-muted transition-colors underline flex items-center gap-1 justify-center mx-auto mb-2"
                           >
                             📏 View Size Guide
                           </button>
@@ -391,7 +391,7 @@ export default function TemplateAurora({
                         data-product-price={product.price}
                         data-product-image={getProductImageUrl(product, i)}
                         disabled={product.inStock === false}
-                        className={`w-full py-3 rounded-xl font-extrabold text-white flex items-center justify-center transition-all ${
+                        className={`w-full py-3 rounded-theme font-extrabold text-white flex items-center justify-center transition-all ${
                           product.inStock === false 
                             ? 'opacity-60 cursor-not-allowed bg-gray-400 text-white' 
                             : 'hover:opacity-90 active:scale-[0.98]'
@@ -407,7 +407,7 @@ export default function TemplateAurora({
               <div className="text-center mt-12">
                 <button 
                   onClick={() => changePage('shop')}
-                  className="px-8 py-3.5 border-2 rounded-xl font-extrabold hover:bg-gray-100 transition-colors"
+                  className="px-8 py-3.5 border-2 rounded-theme font-extrabold hover:bg-gray-100 transition-colors"
                   style={{ color: primaryColor, borderColor: primaryColor }}
                 >
                   View All Products
@@ -429,13 +429,13 @@ export default function TemplateAurora({
                   value={galleryTitle}
                   onChange={(val) => onUpdateConfig('gallery', 'title', val)}
                   tagName="h2"
-                  className="text-3xl font-extrabold text-gray-900 mb-3"
+                  className="text-3xl font-extrabold text-theme-text mb-3"
                 />
                 <div className="w-12 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: accentColor }}></div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden group shadow-sm">
+                  <div key={idx} className="relative aspect-square rounded-theme overflow-hidden group shadow-theme">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -451,7 +451,7 @@ export default function TemplateAurora({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-1.5 bg-white/90 backdrop-blur rounded text-xs text-gray-800 outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-1.5 bg-theme-surface/90 backdrop-blur rounded text-xs text-theme-text outline-none focus:ring-2 focus:ring-blue-500"
                         />
                       </div>
                     )}
@@ -474,7 +474,7 @@ export default function TemplateAurora({
                   value={faqTitle}
                   onChange={(val) => onUpdateConfig('faq', 'title', val)}
                   tagName="h2"
-                  className="text-3xl font-extrabold text-gray-900 mb-3"
+                  className="text-3xl font-extrabold text-theme-text mb-3"
                 />
                 <div className="w-12 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: accentColor }}></div>
               </div>
@@ -482,8 +482,8 @@ export default function TemplateAurora({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm transition-all">
-                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-gray-800 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+                    <div key={item.id || idx} className="bg-theme-surface border border-theme-border rounded-theme overflow-hidden shadow-theme transition-all">
+                      <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-theme-text flex items-center justify-between hover:bg-theme-bg/50 transition-colors">
                         <EditableText
                           isEditable={isEditable}
                           value={item.question}
@@ -497,7 +497,7 @@ export default function TemplateAurora({
                         <span className="text-xl text-gray-400">{isOpen ? '−' : '+'}</span>
                       </button>
                       {isOpen && (
-                        <div className="px-6 py-4 bg-gray-50/30 border-t border-gray-100 text-gray-600 leading-relaxed text-sm">
+                        <div className="px-6 py-4 bg-theme-bg/30 border-t border-theme-border text-theme-muted leading-relaxed text-sm">
                           <EditableText
                             isEditable={isEditable}
                             value={item.answer}
@@ -530,13 +530,13 @@ export default function TemplateAurora({
                     value={testimonialTitle}
                     onChange={(val) => onUpdateConfig('testimonials', 'title', val)}
                     tagName="h2"
-                    className="text-3xl font-extrabold text-gray-900 mb-3"
+                    className="text-3xl font-extrabold text-theme-text mb-3"
                   />
                   <div className="w-12 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: accentColor }}></div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div key={item.id || idx} className="bg-theme-surface rounded-theme p-6 shadow-theme border border-theme-border flex flex-col justify-between">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -561,7 +561,7 @@ export default function TemplateAurora({
                             onUpdateConfig('testimonials', 'list', updated);
                           }}
                           tagName="p"
-                          className="text-gray-600 text-sm italic leading-relaxed mb-6"
+                          className="text-theme-muted text-sm italic leading-relaxed mb-6"
                         />
                       </div>
                       <div>
@@ -573,7 +573,7 @@ export default function TemplateAurora({
                             onUpdateConfig('testimonials', 'list', updated);
                           }}
                           tagName="h5"
-                          className="font-bold text-gray-900 text-sm"
+                          className="font-bold text-theme-text text-sm"
                         />
                         <EditableText
                           isEditable={isEditable}
@@ -599,21 +599,21 @@ export default function TemplateAurora({
         const hoursDays = config.hours?.days || [];
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="bg-white border-t border-b border-gray-100 py-20 px-6">
-              <div className="max-w-2xl mx-auto bg-gray-50 border border-gray-100 rounded-3xl p-8 md:p-12 shadow-sm">
+            <section className="bg-theme-surface border-t border-b border-theme-border py-20 px-6">
+              <div className="max-w-2xl mx-auto bg-theme-bg border border-theme-border rounded-theme p-8 md:p-12 shadow-theme">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
                     value={hoursTitle}
                     onChange={(val) => onUpdateConfig('hours', 'title', val)}
                     tagName="h3"
-                    className="text-2xl font-extrabold text-gray-900 mb-2"
+                    className="text-2xl font-extrabold text-theme-text mb-2"
                   />
                   <div className="w-12 h-1 rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
                 </div>
                 <div className="space-y-4">
                   {hoursDays.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center border-b border-gray-200/60 pb-3 last:border-b-0 last:pb-0">
+                    <div key={idx} className="flex justify-between items-center border-b border-theme-border/60 pb-3 last:border-b-0 last:pb-0">
                       <span className="font-bold text-gray-700">{item.day}</span>
                       <EditableText
                         isEditable={isEditable}
@@ -623,7 +623,7 @@ export default function TemplateAurora({
                           onUpdateConfig('hours', 'days', updated);
                         }}
                         tagName="span"
-                        className="font-bold text-gray-900 text-sm"
+                        className="font-bold text-theme-text text-sm"
                       />
                     </div>
                   ))}
@@ -658,7 +658,7 @@ export default function TemplateAurora({
                     { label: 'Min', val: timeLeft.minutes },
                     { label: 'Sec', val: timeLeft.seconds }
                   ].map((col, idx) => (
-                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-xl min-w-[70px] backdrop-blur-sm border border-white/10">
+                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] backdrop-blur-sm border border-white/10">
                       <span className="text-2xl font-black">{String(col.val).padStart(2, '0')}</span>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-white/70 mt-1">{col.label}</span>
                     </div>
@@ -674,26 +674,26 @@ export default function TemplateAurora({
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="contact" className="bg-gray-100 py-24 px-6">
               <div className="max-w-4xl mx-auto text-center">
-                <h3 className="text-3xl font-extrabold text-gray-900 mb-2" style={{ fontFamily: 'var(--heading-font)' }}>Get in Touch</h3>
-                <p className="text-gray-500 text-lg mb-10">We'd love to hear from you. Reach out anytime!</p>
+                <h3 className="text-3xl font-extrabold text-theme-text mb-2" style={{ fontFamily: 'var(--heading-font)' }}>Get in Touch</h3>
+                <p className="text-theme-muted text-lg mb-10">We'd love to hear from you. Reach out anytime!</p>
                 
-                <div className="bg-white rounded-3xl p-10 shadow-sm border border-gray-200">
+                <div className="bg-theme-surface rounded-theme p-10 shadow-theme border border-theme-border">
                   <div className="flex flex-wrap gap-8 justify-center items-start">
                     {phoneNumber && (
                       <div className="flex flex-col items-center gap-3 min-w-[140px]">
-                        <div className="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl"><FaPhoneAlt /></div>
+                        <div className="w-14 h-14 bg-green-50 text-theme-primary rounded-full flex items-center justify-center text-2xl"><FaPhoneAlt /></div>
                         <div>
                           <div className="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">Call Us</div>
-                          <div className="font-bold text-gray-900">{phoneNumber}</div>
+                          <div className="font-bold text-theme-text">{phoneNumber}</div>
                         </div>
                       </div>
                     )}
                     {email && (
                       <div className="flex flex-col items-center gap-3 min-w-[140px]">
-                        <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl"><FaEnvelope /></div>
+                        <div className="w-14 h-14 bg-blue-50 text-theme-primary rounded-full flex items-center justify-center text-2xl"><FaEnvelope /></div>
                         <div>
                           <div className="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">Email Us</div>
-                          <div className="font-bold text-gray-900">{email}</div>
+                          <div className="font-bold text-theme-text">{email}</div>
                         </div>
                       </div>
                     )}
@@ -702,7 +702,7 @@ export default function TemplateAurora({
                         <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center text-2xl"><FaMapMarkerAlt /></div>
                         <div>
                           <div className="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">Visit Us</div>
-                          <div className="font-bold text-gray-900">{address}</div>
+                          <div className="font-bold text-theme-text">{address}</div>
                         </div>
                       </div>
                     )}
@@ -721,7 +721,7 @@ export default function TemplateAurora({
   return (
     <div 
       id="preview-scroll-container"
-      className="w-full h-full overflow-y-auto bg-gray-50 text-gray-900 relative"
+      className="w-full h-full overflow-y-auto bg-theme-bg text-theme-text relative"
       style={{
         fontFamily: 'var(--body-font)',
         fontSize: 'var(--base-size)',
@@ -737,22 +737,22 @@ export default function TemplateAurora({
       )}
 
       {/* NAV */}
-      <nav className={`sticky top-0 z-40 w-full transition-all duration-300 border-b border-transparent ${(scrolled || currentPage !== 'home') ? 'bg-white/95 backdrop-blur-md shadow-sm border-gray-200' : 'bg-transparent'}`}>
+      <nav className={`sticky top-0 z-40 w-full transition-all duration-300 border-b border-transparent ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 backdrop-blur-md shadow-theme border-theme-border' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {isEditable ? (
               <>
                 {fullLogoUrl ? (
-                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-md" style={{background:'transparent'}} />
+                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
                 ) : (
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+                  <div className="w-10 h-10 rounded-theme flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
                 )}
                 <EditableText
                   isEditable={true}
                   value={businessName}
                   onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
                   tagName="span"
-                  className={`font-extrabold text-xl tracking-tight transition-colors cursor-text ${(scrolled || currentPage !== 'home') ? 'text-gray-900' : 'text-white'}`}
+                  className={`font-extrabold text-xl tracking-tight transition-colors cursor-text ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
                   style={{ fontFamily: 'var(--heading-font)' }}
                 />
               </>
@@ -762,12 +762,12 @@ export default function TemplateAurora({
                 className="flex items-center gap-3 text-left focus:outline-none hover:opacity-85 transition-opacity"
               >
                 {fullLogoUrl ? (
-                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-md" style={{background:'transparent'}} />
+                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
                 ) : (
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+                  <div className="w-10 h-10 rounded-theme flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
                 )}
                 <span 
-                  className={`font-extrabold text-xl tracking-tight transition-colors ${(scrolled || currentPage !== 'home') ? 'text-gray-900' : 'text-white'}`}
+                  className={`font-extrabold text-xl tracking-tight transition-colors ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
                   style={{ fontFamily: 'var(--heading-font)' }}
                 >
                   {businessName}
@@ -787,20 +787,20 @@ export default function TemplateAurora({
                 <button 
                   key={item.id} 
                   onClick={() => changePage(item.id)}
-                  className={`font-bold transition-all border-b-2 hover:opacity-100 ${currentPage === item.id ? 'opacity-100 border-blue-500 scale-105' : 'opacity-60 border-transparent hover:border-gray-300'} ${(scrolled || currentPage !== 'home') ? 'text-gray-900' : 'text-white'}`}
+                  className={`font-bold transition-all border-b-2 hover:opacity-100 ${currentPage === item.id ? 'opacity-100 border-blue-500 scale-105' : 'opacity-60 border-transparent hover:border-theme-border'} ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
                 >
                   {item.label}
                 </button>
               ))}
             </div>
           ) : (
-            <button onClick={() => setMenuOpen(!menuOpen)} className={`text-xl ${(scrolled || currentPage !== 'home') ? 'text-gray-900' : 'text-white'}`}><FaBars /></button>
+            <button onClick={() => setMenuOpen(!menuOpen)} className={`text-xl ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}><FaBars /></button>
           )}
         </div>
 
         {/* Mobile Menu */}
         {devicePreview !== 'desktop' && (
-          <div className={`overflow-hidden transition-all bg-white border-t border-gray-100 ${menuOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
+          <div className={`overflow-hidden transition-all bg-theme-surface border-t border-theme-border ${menuOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
             <div className="p-4 flex flex-col gap-2">
               {[
                 { label: 'Home', id: 'home' },
@@ -814,7 +814,7 @@ export default function TemplateAurora({
                     changePage(item.id);
                     setMenuOpen(false);
                   }}
-                  className="p-3 text-gray-900 font-bold hover:bg-gray-50 rounded-lg text-left w-full"
+                  className="p-3 text-theme-text font-bold hover:bg-theme-bg rounded-theme text-left w-full"
                 >
                   {item.label}
                 </button>
@@ -845,10 +845,10 @@ export default function TemplateAurora({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-6 py-24 animate-fade-in">
           {/* Catalog Search & Filters Header */}
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="bg-theme-surface rounded-theme p-8 border border-theme-border shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-3xl font-extrabold text-gray-900" style={{ fontFamily: 'var(--heading-font)' }}>Products Catalog</h2>
-              <p className="text-gray-500 text-sm mt-1">Explore all premium products available in our shop</p>
+              <h2 className="text-3xl font-extrabold text-theme-text" style={{ fontFamily: 'var(--heading-font)' }}>Products Catalog</h2>
+              <p className="text-theme-muted text-sm mt-1">Explore all premium products available in our shop</p>
             </div>
             
             <div className="flex flex-col md:flex-row gap-4 flex-1 max-w-xl md:justify-end">
@@ -860,7 +860,7 @@ export default function TemplateAurora({
                   placeholder="Search products..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
                 />
               </div>
 
@@ -869,7 +869,7 @@ export default function TemplateAurora({
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="pl-4 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer appearance-none font-semibold text-gray-700"
+                  className="pl-4 pr-10 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer appearance-none font-semibold text-gray-700"
                 >
                   <option value="default">Bestselling</option>
                   <option value="price-low">Price: Low to High</option>
@@ -886,7 +886,7 @@ export default function TemplateAurora({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'bg-blue-600 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'}`}
+                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'bg-theme-primary text-white text-white shadow-theme' : 'bg-theme-surface border border-theme-border text-gray-700 hover:bg-theme-bg'}`}
               >
                 {cat}
               </button>
@@ -895,9 +895,9 @@ export default function TemplateAurora({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">
+            <div className="text-center py-20 bg-theme-surface rounded-theme border border-theme-border shadow-theme">
               <div className="text-4xl mb-3">🔍</div>
-              <h3 className="font-extrabold text-gray-800 text-lg">No products found</h3>
+              <h3 className="font-extrabold text-theme-text text-lg">No products found</h3>
               <p className="text-gray-400 text-sm mt-1">Try matching another search query or category filter</p>
             </div>
           ) : (
@@ -912,22 +912,22 @@ export default function TemplateAurora({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between animate-fade-in"
+                  className="bg-theme-surface rounded-theme overflow-hidden border border-theme-border shadow-theme hover:shadow-theme hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between animate-fade-in"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div>
-                    <div className="relative aspect-square overflow-hidden bg-gray-50">
+                    <div className="relative aspect-square overflow-hidden bg-theme-bg">
                       <img 
                         src={getProductImageUrl(product, i)}
                         alt={product.name}
                         className={`w-full h-full object-${config.media.fitMode || 'cover'} transition-transform duration-700 ${config.products.hoverEffect === 'zoom' ? 'group-hover:scale-110' : ''}`}
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Out of Stock
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           ⭐ Bestseller
                         </span>
                       ) : null}
@@ -937,7 +937,7 @@ export default function TemplateAurora({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-white/95 backdrop-blur border border-gray-200 hover:bg-gray-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-gray-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -953,18 +953,18 @@ export default function TemplateAurora({
                         value={product.name}
                         onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                         tagName="h4"
-                        className="text-lg font-extrabold text-gray-900 mb-1 truncate"
+                        className="text-lg font-extrabold text-theme-text mb-1 truncate"
                       />
                       {product.sizes && product.sizes.length > 0 && (
                         <div className="flex justify-center gap-1.5 mb-3 flex-wrap">
                           {product.sizes.map(sz => (
-                            <span key={sz} className="text-[9px] font-bold border border-gray-200 px-1.5 py-0.5 rounded bg-gray-50 text-gray-500 uppercase">
+                            <span key={sz} className="text-[9px] font-bold border border-theme-border px-1.5 py-0.5 rounded bg-theme-bg text-theme-muted uppercase">
                               {sz}
                             </span>
                           ))}
                         </div>
                       )}
-                      <div className="text-xl font-extrabold text-gray-900 mb-2 flex items-center justify-center gap-0.5">
+                      <div className="text-xl font-extrabold text-theme-text mb-2 flex items-center justify-center gap-0.5">
                         <span>₹</span>
                         <EditableText
                           isEditable={isEditable}
@@ -979,7 +979,7 @@ export default function TemplateAurora({
                       {product.sizes && product.sizes.length > 0 && (
                         <button 
                           onClick={() => setActiveSizeGuideProduct(product)}
-                          className="text-[10px] font-bold text-gray-400 hover:text-gray-600 transition-colors underline flex items-center gap-1 justify-center mx-auto mb-2"
+                          className="text-[10px] font-bold text-gray-400 hover:text-theme-muted transition-colors underline flex items-center gap-1 justify-center mx-auto mb-2"
                         >
                           📏 View Size Guide
                         </button>
@@ -994,7 +994,7 @@ export default function TemplateAurora({
                       data-product-price={product.price}
                       data-product-image={getProductImageUrl(product, i)}
                       disabled={product.inStock === false}
-                      className={`w-full py-3 rounded-xl font-extrabold text-white flex items-center justify-center transition-all ${
+                      className={`w-full py-3 rounded-theme font-extrabold text-white flex items-center justify-center transition-all ${
                         product.inStock === false 
                           ? 'opacity-60 cursor-not-allowed bg-gray-400 text-white' 
                           : 'hover:opacity-90 active:scale-[0.98]'
@@ -1010,10 +1010,10 @@ export default function TemplateAurora({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/10 transition-all duration-300 min-h-[300px]"
+                  className="bg-theme-surface border-2 border-dashed border-theme-border rounded-theme p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/10 transition-all duration-300 min-h-[300px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
-                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mb-3">+</div>
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-theme-primary flex items-center justify-center text-xl font-bold mb-3">+</div>
                   <h4 className="font-extrabold text-gray-700">Add New Product</h4>
                   <p className="text-xs text-gray-400 mt-1 max-w-[180px]">Quickly create a new product card in your catalog</p>
                 </div>
@@ -1029,48 +1029,48 @@ export default function TemplateAurora({
             {/* Contact Details & Hours */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-extrabold text-gray-900" style={{ fontFamily: 'var(--heading-font)' }}>Contact Information</h2>
-                <p className="text-gray-500 text-sm mt-1">Have any questions or need custom arrangements? Contact our team.</p>
+                <h2 className="text-3xl font-extrabold text-theme-text" style={{ fontFamily: 'var(--heading-font)' }}>Contact Information</h2>
+                <p className="text-theme-muted text-sm mt-1">Have any questions or need custom arrangements? Contact our team.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {phoneNumber && (
-                  <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center text-xl shrink-0"><FaPhoneAlt /></div>
+                  <div className="bg-theme-surface border border-theme-border rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-green-50 text-theme-primary rounded-theme flex items-center justify-center text-xl shrink-0"><FaPhoneAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Call Us</div>
-                      <div className="font-bold text-gray-800 text-sm break-all">{phoneNumber}</div>
+                      <div className="font-bold text-theme-text text-sm break-all">{phoneNumber}</div>
                     </div>
                   </div>
                 )}
                 {email && (
-                  <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl shrink-0"><FaEnvelope /></div>
+                  <div className="bg-theme-surface border border-theme-border rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-50 text-theme-primary rounded-theme flex items-center justify-center text-xl shrink-0"><FaEnvelope /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email Us</div>
-                      <div className="font-bold text-gray-800 text-sm break-all">{email}</div>
+                      <div className="font-bold text-theme-text text-sm break-all">{email}</div>
                     </div>
                   </div>
                 )}
                 {address && (
-                  <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex items-center gap-4 sm:col-span-2">
-                    <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-xl shrink-0"><FaMapMarkerAlt /></div>
+                  <div className="bg-theme-surface border border-theme-border rounded-theme p-6 shadow-theme flex items-center gap-4 sm:col-span-2">
+                    <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-theme flex items-center justify-center text-xl shrink-0"><FaMapMarkerAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Visit Store</div>
-                      <div className="font-bold text-gray-800 text-sm">{address}</div>
+                      <div className="font-bold text-theme-text text-sm">{address}</div>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Hours panel inside contact page */}
-              <div className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm">
-                <h3 className="font-extrabold text-gray-900 text-xl mb-4" style={{ fontFamily: 'var(--heading-font)' }}>{config.hours?.title || 'Business Hours'}</h3>
+              <div className="bg-theme-surface border border-theme-border rounded-theme p-8 shadow-theme">
+                <h3 className="font-extrabold text-theme-text text-xl mb-4" style={{ fontFamily: 'var(--heading-font)' }}>{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center border-b border-gray-100 pb-2.5 last:border-b-0 last:pb-0">
-                      <span className="font-bold text-gray-600 text-sm">{item.day}</span>
-                      <span className="font-extrabold text-gray-800 text-sm">{item.hours}</span>
+                    <div key={idx} className="flex justify-between items-center border-b border-theme-border pb-2.5 last:border-b-0 last:pb-0">
+                      <span className="font-bold text-theme-muted text-sm">{item.day}</span>
+                      <span className="font-extrabold text-theme-text text-sm">{item.hours}</span>
                     </div>
                   ))}
                 </div>
@@ -1078,13 +1078,13 @@ export default function TemplateAurora({
             </div>
 
             {/* Contact Inquiry Form */}
-            <div className="bg-white border border-gray-200 rounded-3xl p-8 md:p-10 shadow-sm relative overflow-hidden">
-              <h3 className="text-2xl font-extrabold text-gray-900 mb-6" style={{ fontFamily: 'var(--heading-font)' }}>Send an Inquiry</h3>
+            <div className="bg-theme-surface border border-theme-border rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
+              <h3 className="text-2xl font-extrabold text-theme-text mb-6" style={{ fontFamily: 'var(--heading-font)' }}>Send an Inquiry</h3>
               
               {formSubmitted ? (
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
-                  <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
-                  <h4 className="font-extrabold text-gray-800 text-xl">Inquiry Submitted!</h4>
+                <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
+                  <div className="w-16 h-16 bg-green-50 text-theme-primary rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
+                  <h4 className="font-extrabold text-theme-text text-xl">Inquiry Submitted!</h4>
                   <p className="text-gray-400 text-sm mt-1 max-w-[280px]">Thank you for reaching out. We will get back to you shortly.</p>
                 </div>
               ) : null}
@@ -1097,7 +1097,7 @@ export default function TemplateAurora({
                     placeholder="Enter your name" 
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
                   />
                 </div>
                 <div>
@@ -1107,7 +1107,7 @@ export default function TemplateAurora({
                     placeholder="Enter your email address" 
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all"
                   />
                 </div>
                 <div>
@@ -1117,13 +1117,13 @@ export default function TemplateAurora({
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all resize-none"
                   />
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full py-4 rounded-xl text-white font-extrabold shadow-md hover:opacity-95 transition-opacity"
+                  className="w-full py-4 rounded-theme text-white font-extrabold shadow-theme hover:opacity-95 transition-opacity"
                   style={{ backgroundColor: accentColor }}
                 >
                   Submit Form
@@ -1141,9 +1141,9 @@ export default function TemplateAurora({
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 {fullLogoUrl ? (
-                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-md" style={{background:'transparent'}} />
+                  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
                 ) : (
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+                  <div className="w-10 h-10 rounded-theme flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
                 )}
                 <span className="font-extrabold text-xl text-white tracking-tight" style={{ fontFamily: 'var(--heading-font)' }}>{storeName}</span>
               </div>
@@ -1195,29 +1195,29 @@ export default function TemplateAurora({
       {/* Size Guide Modal */}
       {activeSizeGuideProduct && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left">
+          <div className="bg-theme-surface rounded-theme max-w-md w-full p-6 shadow-theme relative font-sans text-theme-text text-left">
             <button 
               onClick={() => setActiveSizeGuideProduct(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+              className="absolute top-4 right-4 text-gray-400 hover:text-theme-muted font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
             >
               ×
             </button>
-            <h3 className="text-xl font-extrabold text-gray-900 mb-1">
+            <h3 className="text-xl font-extrabold text-theme-text mb-1">
               📏 Fit & Size Guide
             </h3>
-            <p className="text-xs text-gray-500 mb-6">{activeSizeGuideProduct.name}</p>
+            <p className="text-xs text-theme-muted mb-6">{activeSizeGuideProduct.name}</p>
             
-            <div className="border border-gray-100 rounded-2xl overflow-hidden mb-6">
+            <div className="border border-theme-border rounded-theme overflow-hidden mb-6">
               <table className="w-full text-sm text-left border-collapse">
                 <thead>
-                  <tr className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b border-gray-100">
+                  <tr className="bg-theme-bg text-gray-700 font-bold text-xs uppercase border-b border-theme-border">
                     <th className="p-3">Size</th>
                     <th className="p-3">Chest (in)</th>
                     <th className="p-3">Waist (in)</th>
                     <th className="p-3">Hips (in)</th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-600 divide-y divide-gray-100">
+                <tbody className="text-theme-muted divide-y divide-gray-100">
                   {['S', 'M', 'L', 'XL', 'XXL'].map((sz, idx) => (
                     <tr key={sz} className={activeSizeGuideProduct.sizes?.includes(sz) ? 'bg-blue-50/30 font-semibold text-blue-900' : ''}>
                       <td className="p-3">{sz}</td>
@@ -1230,14 +1230,14 @@ export default function TemplateAurora({
               </table>
             </div>
 
-            <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-xs leading-relaxed text-gray-500">
+            <div className="p-4 bg-theme-bg rounded-theme border border-theme-border text-xs leading-relaxed text-theme-muted">
               <strong className="text-gray-700 block mb-1">Fabric & Care Notes:</strong>
               {activeSizeGuideProduct.material || "Refer to description: " + activeSizeGuideProduct.description}
             </div>
             
             <button 
               onClick={() => setActiveSizeGuideProduct(null)}
-              className="w-full mt-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-xl shadow-md transition-colors text-sm text-center"
+              className="w-full mt-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-theme shadow-theme transition-colors text-sm text-center"
             >
               Close Guide
             </button>
@@ -1251,70 +1251,70 @@ export default function TemplateAurora({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-gray-100">
+            <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-theme-border">
               <button 
                 onClick={() => setActiveEditProductId(null)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                className="absolute top-4 right-4 text-gray-400 hover:text-theme-muted font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
               >
                 ×
               </button>
-              <h3 className="text-xl font-extrabold text-gray-900 mb-1">
+              <h3 className="text-xl font-extrabold text-theme-text mb-1">
                 Edit Product Settings
               </h3>
-              <p className="text-xs text-gray-500 mb-6">Modify product details, upload/change local image, or delete this product.</p>
+              <p className="text-xs text-theme-muted mb-6">Modify product details, upload/change local image, or delete this product.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 {/* Product Name */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Product Name</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Product Name</label>
                   <input 
                     type="text"
                     value={product.name}
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* Price */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Price (₹)</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                     />
                   </div>
 
                   {/* Category */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Category</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
                       placeholder="e.g. Shirts, Tops, Accessories"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                     />
                   </div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Description</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Description</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe product materials, fitting details, style, etc."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"
                   />
                 </div>
 
                 {/* Sizes Selection (Fashion specific) */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Available Sizes</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Available Sizes</label>
                   <div className="flex gap-2 flex-wrap">
                     {['S', 'M', 'L', 'XL', 'XXL'].map(sz => {
                       const hasSize = (product.sizes || []).includes(sz);
@@ -1329,10 +1329,10 @@ export default function TemplateAurora({
                               : [...currentSizes, sz];
                             onUpdateProduct(product._id || product.id, 'sizes', newSizes);
                           }}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                          className={`px-4 py-2 rounded-theme text-xs font-bold transition-all border ${
                             hasSize 
-                              ? 'bg-blue-600 border-blue-600 text-white shadow-sm' 
-                              : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                              ? 'bg-theme-primary text-white border-blue-600 text-white shadow-theme' 
+                              : 'bg-theme-surface border-theme-border text-gray-700 hover:bg-theme-bg'
                           }`}
                         >
                           {sz}
@@ -1344,19 +1344,19 @@ export default function TemplateAurora({
 
                 {/* Fabric Care Notes (mapped to material field in product model) */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Fabric & Care Instructions</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Fabric & Care Instructions</label>
                   <input 
                     type="text"
                     value={product.material || ''}
                     placeholder="e.g. 100% Linen. Gentle hand wash only."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'material', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
                   {/* Bestseller Badge */}
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-blue-50/20 hover:bg-blue-50/45 border border-blue-100/60 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-blue-50/20 hover:bg-blue-50/45 border border-blue-100/60 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1369,7 +1369,7 @@ export default function TemplateAurora({
                   </label>
 
                   {/* In Stock Toggle */}
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-blue-50/20 hover:bg-blue-50/45 border border-blue-100/60 rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-blue-50/20 hover:bg-blue-50/45 border border-blue-100/60 rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1388,7 +1388,7 @@ export default function TemplateAurora({
 
                 {/* Stock Quantity */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1.5">Stock Quantity (Items Left)</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Stock Quantity (Items Left)</label>
                   <input 
                     type="number"
                     min="0"
@@ -1398,17 +1398,17 @@ export default function TemplateAurora({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+                    className="w-full px-4 py-2.5 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
                     placeholder="Quantity in Stock"
                   />
                 </div>
 
                 {/* Product Image Section */}
-                <div className="p-4 border border-blue-100 rounded-2xl bg-blue-50/20 space-y-3">
+                <div className="p-4 border border-blue-100 rounded-theme bg-blue-50/20 space-y-3">
                   <span className="block text-xs font-bold text-blue-900 uppercase">Product Image</span>
                   
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-200 shrink-0">
+                    <div className="w-20 h-20 rounded-theme overflow-hidden bg-theme-bg border border-theme-border shrink-0">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1419,7 +1419,7 @@ export default function TemplateAurora({
                     <div className="flex-1 space-y-2">
                       {/* Local File Upload */}
                       <div>
-                        <label className="inline-block px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold rounded-xl text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image from PC
                           <input 
                             type="file" 
@@ -1436,14 +1436,14 @@ export default function TemplateAurora({
                         value={product.img || ''} 
                         placeholder="Or paste external Image URL" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-gray-200 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" 
+                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-theme-border rounded-theme text-xs outline-none focus:ring-1 focus:ring-blue-500" 
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3 pt-4 border-t border-gray-100 justify-between items-center">
+                <div className="flex gap-3 pt-4 border-t border-theme-border justify-between items-center">
                   <button 
                     onClick={() => {
                       if (onDeleteProduct) {
@@ -1453,7 +1453,7 @@ export default function TemplateAurora({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-full font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-theme-primary rounded-full font-bold text-xs shadow-theme transition-all"
                   >
                     Delete Product
                   </button>
@@ -1473,7 +1473,7 @@ export default function TemplateAurora({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-slate-100">
+          <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-theme-border">
             <button 
               onClick={() => setShowBgModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -1483,18 +1483,18 @@ export default function TemplateAurora({
             <h3 className="text-xl font-extrabold text-slate-955 mb-1">
               Header Background Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a hand-picked fashion preset or generate an image using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a hand-picked fashion preset or generate an image using AI.</p>
 
-            <div className="flex border-b border-gray-200 mb-6 font-semibold">
+            <div className="flex border-b border-theme-border mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-gray-900 text-theme-text' : 'border-transparent text-gray-400 hover:text-theme-muted'}`}
               >
                 Curated Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-gray-900 text-theme-text' : 'border-transparent text-gray-400 hover:text-theme-muted'}`}
               >
                 AI Background Generator
               </button>
@@ -1516,7 +1516,7 @@ export default function TemplateAurora({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border-2 border-transparent hover:border-gray-900 transition-all bg-gray-100"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border-2 border-transparent hover:border-gray-900 transition-all bg-gray-100"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1528,23 +1528,23 @@ export default function TemplateAurora({
             ) : (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your background image</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your background image</label>
                   <textarea 
                     placeholder="e.g. minimalist clothes rack backdrop, fashion boutique shop interior, apparel textures"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-250 rounded-2xl outline-none focus:ring-2 focus:ring-gray-900 text-sm resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-gray-250 rounded-theme outline-none focus:ring-2 focus:ring-gray-900 text-sm resize-none"
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-gray-50 border border-gray-250 rounded-2xl outline-none focus:ring-2 focus:ring-gray-900 text-sm font-bold bg-white"
+                      className="w-full p-3 bg-theme-bg border border-gray-250 rounded-theme outline-none focus:ring-2 focus:ring-gray-900 text-sm font-bold bg-theme-surface"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>

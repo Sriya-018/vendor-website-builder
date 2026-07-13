@@ -238,7 +238,7 @@ export default function TemplateNexus({
             <header className="py-24 px-8 text-white animate-fade-in" style={{ background: `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)` }}>
               <div className={`max-w-7xl mx-auto grid ${devicePreview === 'desktop' ? 'grid-cols-2' : 'grid-cols-1'} gap-16 items-center`}>
                 <div style={{ textAlign: config.header.heroAlign }}>
-                  <div className="inline-block px-3.5 py-1 bg-white/15 border border-white/25 rounded-full text-xs font-bold tracking-[0.1em] uppercase mb-6 backdrop-blur-sm">
+                  <div className="inline-block px-3.5 py-1 bg-theme-surface/15 border border-white/25 rounded-full text-xs font-bold tracking-[0.1em] uppercase mb-6 backdrop-blur-sm">
                     Trusted Business
                   </div>
                   <EditableText
@@ -259,7 +259,7 @@ export default function TemplateNexus({
                   <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
                     <button 
                       onClick={() => changePage('shop')}
-                      className="px-7 py-3.5 bg-white rounded-lg font-extrabold hover:opacity-90 transition-opacity flex items-center gap-2"
+                      className="px-7 py-3.5 bg-theme-surface rounded-theme font-extrabold hover:opacity-90 transition-opacity flex items-center gap-2"
                       style={{ color: primaryColor }}
                     >
                       <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Our Services'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -268,12 +268,12 @@ export default function TemplateNexus({
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <div className="w-full max-w-sm aspect-square rounded-2xl overflow-hidden bg-white/10 border border-white/20 p-2 relative group">
-                    <img src={heroImage} className="w-full h-full object-cover rounded-xl" alt="Hero" />
+                  <div className="w-full max-w-sm aspect-square rounded-theme overflow-hidden bg-theme-surface/10 border border-white/20 p-2 relative group">
+                    <img src={heroImage} className="w-full h-full object-cover rounded-theme" alt="Hero" />
                     {isEditable && (
                       <button 
                         onClick={() => setShowBgModal(true)}
-                        className="absolute bottom-4 right-4 z-20 px-3.5 py-1.5 bg-white/95 border border-slate-200 text-slate-800 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-md hover:scale-105 transition-transform flex items-center gap-1 font-sans"
+                        className="absolute bottom-4 right-4 z-20 px-3.5 py-1.5 bg-theme-surface/95 border border-theme-border text-theme-text rounded-full font-bold text-[10px] uppercase tracking-wider shadow-theme hover:scale-105 transition-transform flex items-center gap-1 font-sans"
                       >
                         🎨 Edit Hero Graphic
                       </button>
@@ -312,7 +312,7 @@ export default function TemplateNexus({
                 {products.slice(0, 3).map((product, i) => (
                   <div 
                     key={product._id || product.id || i}
-                    className="bg-white rounded-xl overflow-hidden border border-blue-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                    className="bg-theme-surface rounded-theme overflow-hidden border border-blue-50 shadow-theme hover:shadow-theme hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                     style={{ borderRadius: 'var(--radius)' }}
                   >
                     <div>
@@ -354,7 +354,7 @@ export default function TemplateNexus({
                           data-product-name={product.name}
                           data-product-price={product.price}
                           data-product-image={product.img || `https://picsum.photos/seed/service${i}/600/600`}
-                          className="text-white px-4 py-2 rounded-md font-bold text-sm hover:opacity-90 transition-opacity"
+                          className="text-white px-4 py-2 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
                           style={{ backgroundColor: accentColor }}
                         >
                           Get Quote
@@ -367,7 +367,7 @@ export default function TemplateNexus({
               <div className="text-center mt-12">
                 <button 
                   onClick={() => changePage('shop')}
-                  className="px-8 py-3.5 border-2 rounded-lg font-bold transition-colors"
+                  className="px-8 py-3.5 border-2 rounded-theme font-bold transition-colors"
                   style={{ color: primaryColor, borderColor: primaryColor }}
                 >
                   Explore All Services
@@ -396,7 +396,7 @@ export default function TemplateNexus({
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {galleryImages.map((img, idx) => (
-                  <div key={idx} className="relative aspect-square rounded-xl overflow-hidden group shadow-sm border border-blue-100 bg-white">
+                  <div key={idx} className="relative aspect-square rounded-theme overflow-hidden group shadow-theme border border-blue-100 bg-theme-surface">
                     <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     {isEditable && (
                       <div className="absolute inset-0 bg-[#1E3A8A]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -412,7 +412,7 @@ export default function TemplateNexus({
                               onUpdateConfig('gallery', 'images', updated);
                             }
                           }}
-                          className="w-full px-3 py-1.5 bg-white rounded text-xs outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-1.5 bg-theme-surface rounded text-xs outline-none focus:ring-2 focus:ring-blue-500"
                         />
                       </div>
                     )}
@@ -444,7 +444,7 @@ export default function TemplateNexus({
                 {faqList.map((item, idx) => {
                   const isOpen = activeFaq === idx;
                   return (
-                    <div key={item.id || idx} className="bg-white border border-blue-100 rounded-xl overflow-hidden shadow-sm transition-all animate-fade-in">
+                    <div key={item.id || idx} className="bg-theme-surface border border-blue-100 rounded-theme overflow-hidden shadow-theme transition-all animate-fade-in">
                       <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-[#1E3A8A] flex items-center justify-between hover:bg-blue-50/20 transition-colors">
                         <EditableText
                           isEditable={isEditable}
@@ -499,7 +499,7 @@ export default function TemplateNexus({
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {testimonialList.map((item, idx) => (
-                    <div key={item.id || idx} className="bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-between border border-blue-100">
+                    <div key={item.id || idx} className="bg-theme-surface rounded-theme p-6 shadow-theme flex flex-col justify-between border border-blue-100">
                       <div>
                         <div className="flex gap-1 mb-4">
                           {[...Array(5)].map((_, starIdx) => (
@@ -510,7 +510,7 @@ export default function TemplateNexus({
                                 const updated = testimonialList.map(t => t.id === item.id ? { ...t, rating: starIdx + 1 } : t);
                                 onUpdateConfig('testimonials', 'list', updated);
                               }}
-                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-amber-500' : 'text-gray-200'}`}
+                              className={`text-lg transition-colors ${starIdx < item.rating ? 'text-theme-primary' : 'text-gray-200'}`}
                             >
                               ★
                             </button>
@@ -562,8 +562,8 @@ export default function TemplateNexus({
         const hoursDays = config.hours?.days || [];
         return (
           <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
-            <section className="py-20 px-8 bg-white">
-              <div className="max-w-2xl mx-auto bg-blue-50/50 border border-blue-100 rounded-3xl p-8 md:p-12 shadow-sm">
+            <section className="py-20 px-8 bg-theme-surface">
+              <div className="max-w-2xl mx-auto bg-blue-50/50 border border-blue-100 rounded-theme p-8 md:p-12 shadow-theme">
                 <div className="text-center mb-8">
                   <EditableText
                     isEditable={isEditable}
@@ -622,7 +622,7 @@ export default function TemplateNexus({
                     { label: 'Min', val: timeLeft.minutes },
                     { label: 'Sec', val: timeLeft.seconds }
                   ].map((col, idx) => (
-                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-2xl min-w-[70px] border border-white/10 shadow-md">
+                    <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-white/10 shadow-theme">
                       <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-blue-200 mt-1">{col.label}</span>
                     </div>
@@ -638,7 +638,7 @@ export default function TemplateNexus({
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="contact" className="bg-blue-50 py-16 px-8 text-center border-t border-blue-100">
               <h3 className="text-3xl font-extrabold mb-8" style={{ color: primaryColor }}>Contact Us</h3>
-              <div className="inline-block bg-white rounded-xl p-8 text-left shadow-[0_4px_16px_rgba(37,99,235,0.07)] border border-blue-50 min-w-[300px]">
+              <div className="inline-block bg-theme-surface rounded-theme p-8 text-left shadow-[0_4px_16px_rgba(37,99,235,0.07)] border border-blue-50 min-w-[300px]">
                 <div className="space-y-4">
                   {phoneNumber && (
                     <p className="flex items-center gap-3">
@@ -684,7 +684,7 @@ export default function TemplateNexus({
     >
       {/* NAV */}
       <nav 
-        className="sticky top-0 z-50 bg-white border-b border-blue-50 transition-shadow px-8" 
+        className="sticky top-0 z-50 bg-theme-surface border-b border-blue-50 transition-shadow px-8" 
         style={{ boxShadow: scrolled ? '0 4px 12px rgba(37,99,235,0.08)' : 'none' }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
@@ -712,12 +712,12 @@ export default function TemplateNexus({
             )}
           </div>
           {devicePreview === 'desktop' && (
-            <div className="flex gap-8 text-sm font-bold text-slate-500">
+            <div className="flex gap-8 text-sm font-bold text-theme-muted">
               {['Home', 'Shop', 'Contact'].map(page => (
                 <button 
                   key={page} 
                   onClick={() => changePage(page.toLowerCase())}
-                  className={`font-semibold hover:text-blue-600 transition-colors ${currentPage === page.toLowerCase() ? 'text-blue-600 underline underline-offset-4' : 'text-slate-500'}`}
+                  className={`font-semibold hover:text-theme-primary transition-colors ${currentPage === page.toLowerCase() ? 'text-theme-primary underline underline-offset-4' : 'text-theme-muted'}`}
                 >
                   {page}
                 </button>
@@ -737,10 +737,10 @@ export default function TemplateNexus({
       {currentPage === 'shop' && (
         <div className="max-w-7xl mx-auto px-8 py-24 animate-fade-in">
           {/* Catalog Filters Header */}
-          <div className="bg-white border border-blue-50 rounded-3xl p-8 shadow-sm mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="bg-theme-surface border border-blue-50 rounded-theme p-8 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-3xl font-extrabold" style={{ color: primaryColor }}>Services catalog</h2>
-              <p className="text-slate-500 text-sm mt-1">Select and reserve options directly</p>
+              <p className="text-theme-muted text-sm mt-1">Select and reserve options directly</p>
             </div>
             
             <div className="flex flex-col md:flex-row gap-4 flex-1 max-w-xl md:justify-end">
@@ -752,7 +752,7 @@ export default function TemplateNexus({
                   placeholder="Search services..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-blue-50/20 border border-blue-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all text-blue-950"
+                  className="w-full pl-10 pr-4 py-3 bg-blue-50/20 border border-blue-100 rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all text-blue-950"
                 />
               </div>
 
@@ -761,13 +761,13 @@ export default function TemplateNexus({
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="pl-4 pr-10 py-3 bg-blue-50/20 border border-blue-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer appearance-none font-semibold text-blue-900"
+                  className="pl-4 pr-10 py-3 bg-blue-50/20 border border-blue-100 rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer appearance-none font-semibold text-blue-900"
                 >
                   <option value="default">Default Sort</option>
                   <option value="price-low">Price: Low to High</option>
                   <option value="price-high">Price: High to Low</option>
                 </select>
-                <FaSortAmountDown className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 pointer-events-none" />
+                <FaSortAmountDown className="absolute right-4 top-1/2 -translate-y-1/2 text-theme-primary pointer-events-none" />
               </div>
             </div>
           </div>
@@ -778,7 +778,7 @@ export default function TemplateNexus({
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'text-white shadow-md' : 'bg-white border border-blue-100 text-blue-800 hover:bg-blue-50'}`}
+                className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition-all ${selectedCategory === cat ? 'text-white shadow-theme' : 'bg-theme-surface border border-blue-100 text-blue-800 hover:bg-blue-50'}`}
                 style={{ backgroundColor: selectedCategory === cat ? accentColor : '' }}
               >
                 {cat}
@@ -788,10 +788,10 @@ export default function TemplateNexus({
 
           {/* Catalog Grid */}
           {sortedFilteredProducts.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-blue-50 shadow-sm">
+            <div className="text-center py-20 bg-theme-surface rounded-theme border border-blue-50 shadow-theme">
               <div className="text-4xl mb-3">🔍</div>
               <h3 className="font-extrabold text-blue-900 text-lg">No services found</h3>
-              <p className="text-slate-500 text-sm mt-1">Try matching another search query or category filter</p>
+              <p className="text-theme-muted text-sm mt-1">Try matching another search query or category filter</p>
             </div>
           ) : (
             <div 
@@ -805,7 +805,7 @@ export default function TemplateNexus({
               {sortedFilteredProducts.map((product, i) => (
                 <div 
                   key={product._id || product.id || i}
-                  className="bg-white rounded-xl overflow-hidden border border-blue-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between animate-fade-in relative"
+                  className="bg-theme-surface rounded-theme overflow-hidden border border-blue-50 shadow-theme hover:shadow-theme hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between animate-fade-in relative"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
                   <div>
@@ -816,11 +816,11 @@ export default function TemplateNexus({
                         className="w-full h-full object-cover"
                       />
                       {product.inStock === false ? (
-                        <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20">
+                        <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
                           Fully Booked
                         </span>
                       ) : product.isBestseller ? (
-                        <span className="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm z-20" style={{ backgroundColor: accentColor }}>
+                        <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
                           ⭐ Popular
                         </span>
                       ) : null}
@@ -830,7 +830,7 @@ export default function TemplateNexus({
                             e.stopPropagation();
                             setActiveEditProductId(product._id || product.id);
                           }}
-                          className="absolute top-3 right-3 bg-white/95 border border-blue-150 hover:bg-blue-900 hover:text-white p-2 rounded-full shadow-md transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+                          className="absolute top-3 right-3 bg-theme-surface/95 border border-blue-150 hover:bg-blue-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
                           title="Edit Product Settings"
                         >
                           ⚙️
@@ -882,7 +882,7 @@ export default function TemplateNexus({
                           data-product-price={product.price}
                           data-product-image={getProductImageUrl(product, i)}
                           disabled={product.inStock === false}
-                          className={`text-white px-4 py-2 rounded-md font-bold text-sm transition-all ${
+                          className={`text-white px-4 py-2 rounded-theme font-bold text-sm transition-all ${
                             product.inStock === false 
                               ? 'bg-blue-100 text-blue-400 cursor-not-allowed border border-blue-200' 
                               : 'hover:opacity-90'
@@ -894,7 +894,7 @@ export default function TemplateNexus({
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveFeaturesProduct(product)}
-                            className="text-[10px] font-semibold text-blue-600 hover:text-blue-800 transition-colors underline"
+                            className="text-[10px] font-semibold text-theme-primary hover:text-blue-800 transition-colors underline"
                           >
                             Service Details
                           </button>
@@ -908,10 +908,10 @@ export default function TemplateNexus({
               {isEditable && (
                 <div 
                   onClick={onAddProduct}
-                  className="bg-white border-2 border-dashed border-blue-300 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/10 transition-all duration-300 min-h-[300px]"
+                  className="bg-theme-surface border-2 border-dashed border-blue-300 rounded-theme p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/10 transition-all duration-300 min-h-[300px]"
                   style={{ borderRadius: 'var(--radius)' }}
                 >
-                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mb-3">+</div>
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-theme-primary flex items-center justify-center text-xl font-bold mb-3">+</div>
                   <h4 className="font-extrabold text-gray-700">Add New Service</h4>
                   <p className="text-xs text-gray-400 mt-1 max-w-[180px]">Quickly create a new product card in your catalog</p>
                 </div>
@@ -928,13 +928,13 @@ export default function TemplateNexus({
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-extrabold" style={{ color: primaryColor }}>Contact Us</h2>
-                <p className="text-slate-500 text-sm mt-1">Our offices are always available to help you.</p>
+                <p className="text-theme-muted text-sm mt-1">Our offices are always available to help you.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {phoneNumber && (
-                  <div className="bg-white border border-blue-50 rounded-xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
+                  <div className="bg-theme-surface border border-blue-50 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Call Us</div>
                       <div className="font-bold text-blue-900 text-sm break-all">{phoneNumber}</div>
@@ -942,8 +942,8 @@ export default function TemplateNexus({
                   </div>
                 )}
                 {email && (
-                  <div className="bg-white border border-blue-50 rounded-xl p-6 shadow-sm flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
+                  <div className="bg-theme-surface border border-blue-50 rounded-theme p-6 shadow-theme flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
                     <div>
                       <div className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Email Us</div>
                       <div className="font-bold text-blue-900 text-sm break-all">{email}</div>
@@ -951,8 +951,8 @@ export default function TemplateNexus({
                   </div>
                 )}
                 {address && (
-                  <div className="bg-white border border-blue-50 rounded-xl p-6 shadow-sm flex items-center gap-4 sm:col-span-2">
-                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
+                  <div className="bg-theme-surface border border-blue-50 rounded-theme p-6 shadow-theme flex items-center gap-4 sm:col-span-2">
+                    <div className="w-12 h-12 bg-blue-50 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
                     <div>
                       <div className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Address</div>
                       <div className="font-bold text-blue-900 text-sm">{address}</div>
@@ -962,7 +962,7 @@ export default function TemplateNexus({
               </div>
 
               {/* Hours panel */}
-              <div className="bg-white border border-[#fde68a] rounded-xl p-8 shadow-sm">
+              <div className="bg-theme-surface border border-[#fde68a] rounded-theme p-8 shadow-theme">
                 <h3 className="font-bold text-blue-950 text-xl mb-4">{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
@@ -976,20 +976,20 @@ export default function TemplateNexus({
             </div>
 
             {/* Contact Inquiry Form */}
-            <div className="bg-white border border-blue-100 rounded-xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="bg-theme-surface border border-blue-100 rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
               <h3 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>Consultation Inquiry</h3>
               
               {formSubmitted ? (
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
-                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
+                <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
+                  <div className="w-16 h-16 bg-blue-50 text-theme-primary rounded-full flex items-center justify-center text-3xl mb-4 animate-bounce"><FaPaperPlane /></div>
                   <h4 className="font-extrabold text-blue-950 text-xl">Consultation Requested!</h4>
-                  <p className="text-slate-500 text-sm mt-1 max-w-[280px]">Our representatives will email you soon.</p>
+                  <p className="text-theme-muted text-sm mt-1 max-w-[280px]">Our representatives will email you soon.</p>
                 </div>
               ) : null}
 
               <form onSubmit={handleContactSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Name</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Name</label>
                   <input 
                     type="text" 
                     placeholder="Enter your name" 
@@ -999,7 +999,7 @@ export default function TemplateNexus({
                   />
                 </div>
                      <div>
-                  <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Email</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Email</label>
                   <input 
                     type="email" 
                     placeholder="Enter your email" 
@@ -1010,7 +1010,7 @@ export default function TemplateNexus({
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Date</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Date</label>
                     <input 
                       type="date" 
                       value={appointmentDetails.date}
@@ -1019,7 +1019,7 @@ export default function TemplateNexus({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Time</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Time</label>
                     <input 
                       type="time" 
                       value={appointmentDetails.time}
@@ -1028,7 +1028,7 @@ export default function TemplateNexus({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Service</label>
+                    <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Service</label>
                     <select 
                       value={appointmentDetails.serviceType}
                       onChange={(e) => setAppointmentDetails({ ...appointmentDetails, serviceType: e.target.value })}
@@ -1042,7 +1042,7 @@ export default function TemplateNexus({
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Consultation Details</label>
+                  <label className="block text-xs font-bold text-theme-primary uppercase tracking-widest mb-2">Consultation Details</label>
                   <textarea 
                     placeholder="Briefly describe your requirements or scheduling details..." 
                     value={contactForm.message}
@@ -1054,7 +1054,7 @@ export default function TemplateNexus({
 
                 <button 
                   type="submit"
-                  className="w-full py-4 rounded text-white font-semibold shadow-md hover:opacity-95 transition-opacity"
+                  className="w-full py-4 rounded text-white font-semibold shadow-theme hover:opacity-95 transition-opacity"
                   style={{ backgroundColor: accentColor }}
                 >
                   Book Appointment / Send Inquiry
@@ -1072,19 +1072,19 @@ export default function TemplateNexus({
       {/* Service features details sheet modal */}
       {activeFeaturesProduct && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-8 border border-blue-50 shadow-2xl relative font-sans text-blue-950 text-left animate-fade-in">
+          <div className="bg-theme-surface rounded-theme max-w-md w-full p-8 border border-blue-50 shadow-theme relative font-sans text-blue-950 text-left animate-fade-in">
             <button 
               onClick={() => setActiveFeaturesProduct(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-theme-bg"
             >
               ×
             </button>
             <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor }}>
               📋 Service Plan Specifications
             </h3>
-            <p className="text-xs text-slate-500 mb-6">{activeFeaturesProduct.name}</p>
+            <p className="text-xs text-theme-muted mb-6">{activeFeaturesProduct.name}</p>
             
-            <div className="border border-blue-50 rounded-2xl overflow-hidden mb-6">
+            <div className="border border-blue-50 rounded-theme overflow-hidden mb-6">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
                   <tr className="bg-blue-50/50 text-blue-900 font-bold uppercase border-b border-blue-100">
@@ -1092,7 +1092,7 @@ export default function TemplateNexus({
                     <th className="p-3">Specification Details</th>
                   </tr>
                 </thead>
-                <tbody className="text-slate-800 divide-y divide-blue-50">
+                <tbody className="text-theme-text divide-y divide-blue-50">
                   {(activeFeaturesProduct.specs || []).map((sp, idx) => {
                     const parts = sp.split(':');
                     const key = parts[0] || '';
@@ -1108,14 +1108,14 @@ export default function TemplateNexus({
               </table>
             </div>
 
-            <div className="p-4 bg-blue-50/20 rounded-2xl border border-blue-50 text-xs leading-relaxed text-slate-600">
+            <div className="p-4 bg-blue-50/20 rounded-theme border border-blue-50 text-xs leading-relaxed text-theme-muted">
               <strong className="text-blue-950 block mb-1">💼 Tier / Terms Description:</strong>
               {activeFeaturesProduct.description || "Refer to service coordinator details for contract details."}
             </div>
             
             <button 
               onClick={() => setActiveFeaturesProduct(null)}
-              className="w-full mt-6 py-3 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow-md transition-colors text-sm text-center"
+              className="w-full mt-6 py-3 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-theme shadow-theme transition-colors text-sm text-center"
               style={{ backgroundColor: primaryColor }}
             >
               Close Service Details
@@ -1130,66 +1130,66 @@ export default function TemplateNexus({
         if (!product) return null;
         return (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative border border-blue-50 font-sans text-blue-950 text-left animate-fade-in">
+            <div className="bg-theme-surface rounded-theme max-w-lg w-full p-8 shadow-theme relative border border-blue-50 font-sans text-blue-950 text-left animate-fade-in">
               <button 
                 onClick={() => setActiveEditProductId(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-50"
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-650 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-theme-bg"
               >
                 ×
               </button>
               <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor }}>
                 Edit Service Settings
               </h3>
-              <p className="text-xs text-slate-500 mb-6">Modify price, descriptions, capacity booking slots, or plan attributes.</p>
+              <p className="text-xs text-theme-muted mb-6">Modify price, descriptions, capacity booking slots, or plan attributes.</p>
 
               <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1.5">Service Name</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Service Name</label>
                   <input 
                     type="text"
                     value={product.name}
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1.5">Price (₹)</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Price (₹)</label>
                     <input 
                       type="number"
                       value={product.price}
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1.5">Service Category</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Service Category</label>
                     <input 
                       type="text"
                       value={product.category || ''}
                       placeholder="e.g. Consultations, Agency Plans"
                       onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
+                      className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1.5">Service Details Overview</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Service Details Overview</label>
                   <textarea 
                     value={product.description || ''}
                     placeholder="Describe consulting parameters, team delivery, terms and timeline of package."
                     onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950 resize-none"
+                    className="w-full px-4 py-3 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm text-blue-950 resize-none"
                   />
                 </div>
 
                 {/* Plan Specifications Features List (Nexus Services Specific) */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Service Plan Features (Format: Feature: Detail)</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Service Plan Features (Format: Feature: Detail)</label>
                   <div className="space-y-2">
                     {(product.specs || []).map((sp, idx) => (
                       <div key={idx} className="flex gap-2 items-center">
@@ -1201,7 +1201,7 @@ export default function TemplateNexus({
                             updated[idx] = e.target.value;
                             onUpdateProduct(product._id || product.id, 'specs', updated);
                           }}
-                          className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded text-xs text-blue-950 outline-none focus:border-blue-400"
+                          className="flex-1 px-3 py-1.5 bg-theme-surface border border-theme-border rounded text-xs text-blue-950 outline-none focus:border-blue-400"
                         />
                         <button 
                           type="button"
@@ -1221,7 +1221,7 @@ export default function TemplateNexus({
                         const updated = [...(product.specs || []), 'Dedicated Manager: 24/7'];
                         onUpdateProduct(product._id || product.id, 'specs', updated);
                       }}
-                      className="w-full py-2 bg-white border border-dashed border-slate-200 hover:border-slate-400 text-xs font-bold text-slate-600 rounded transition-colors"
+                      className="w-full py-2 bg-theme-surface border border-dashed border-theme-border hover:border-slate-400 text-xs font-bold text-theme-muted rounded transition-colors"
                     >
                       + Add Service Feature Row
                     </button>
@@ -1229,7 +1229,7 @@ export default function TemplateNexus({
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 py-1.5">
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-250 bg-white rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-250 bg-theme-surface rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={!!product.isBestseller}
@@ -1241,7 +1241,7 @@ export default function TemplateNexus({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-250 bg-white rounded-2xl transition-all">
+                  <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-250 bg-theme-surface rounded-theme transition-all">
                     <input 
                       type="checkbox"
                       checked={product.inStock !== false}
@@ -1260,7 +1260,7 @@ export default function TemplateNexus({
 
                 {/* Stock Quantity / Slots Limit */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1.5">Capacity Limit (Available Slots)</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-1.5">Capacity Limit (Available Slots)</label>
                   <input 
                     type="number"
                     min="0"
@@ -1270,17 +1270,17 @@ export default function TemplateNexus({
                       onUpdateProduct(product._id || product.id, 'stockQuantity', val);
                       onUpdateProduct(product._id || product.id, 'inStock', val > 0);
                     }}
-                    className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium text-blue-950"
+                    className="w-full px-4 py-2.5 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium text-blue-950"
                     placeholder="Available Slots Limit"
                   />
                 </div>
 
                 {/* Product Image Section */}
-                <div className="p-4 border border-slate-200 rounded-2xl bg-blue-50/25 space-y-3">
+                <div className="p-4 border border-theme-border rounded-theme bg-blue-50/25 space-y-3">
                   <span className="block text-xs font-bold text-slate-650 uppercase">Service Image</span>
                   
                   <div className="flex gap-4 items-center">
-                    <div className="w-20 h-20 rounded-xl overflow-hidden bg-white border border-slate-200 shrink-0">
+                    <div className="w-20 h-20 rounded-theme overflow-hidden bg-theme-surface border border-theme-border shrink-0">
                       <img 
                         src={getProductImageUrl(product, 0)} 
                         className="w-full h-full object-cover" 
@@ -1290,7 +1290,7 @@ export default function TemplateNexus({
 
                     <div className="flex-1 space-y-2">
                       <div>
-                        <label className="inline-block px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-950 font-bold rounded-xl text-xs cursor-pointer shadow-sm transition-all text-center">
+                        <label className="inline-block px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-950 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center">
                           📁 Upload Image
                           <input 
                             type="file" 
@@ -1306,14 +1306,14 @@ export default function TemplateNexus({
                         value={product.img || ''} 
                         placeholder="Paste image link" 
                         onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
-                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-slate-250 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500 text-blue-950" 
+                        className="w-full px-3 py-1.5 bg-[#ffffff] border border-slate-250 rounded-theme text-xs outline-none focus:ring-1 focus:ring-blue-500 text-blue-950" 
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3 pt-4 border-t border-slate-200 justify-between items-center">
+                <div className="flex gap-3 pt-4 border-t border-theme-border justify-between items-center">
                   <button 
                     onClick={() => {
                       if (onDeleteProduct) {
@@ -1323,7 +1323,7 @@ export default function TemplateNexus({
                         alert("Delete callback not registered.");
                       }
                     }}
-                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-full font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-full font-bold text-xs shadow-theme transition-all"
                   >
                     Delete Service
                   </button>
@@ -1343,28 +1343,28 @@ export default function TemplateNexus({
       {/* Background Editor Modal */}
       {showBgModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative font-sans text-gray-800 text-left animate-fade-in border border-slate-100">
+          <div className="bg-theme-surface rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-theme-text text-left animate-fade-in border border-theme-border">
             <button 
               onClick={() => setShowBgModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+              className="absolute top-4 right-4 text-gray-400 hover:text-theme-muted font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
             >
               ×
             </button>
-            <h3 className="text-xl font-bold mb-1 text-slate-900">
+            <h3 className="text-xl font-bold mb-1 text-theme-text">
               Hero Graphic Settings
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Select a corporate preset or generate using AI.</p>
+            <p className="text-xs text-theme-muted mb-6">Select a corporate preset or generate using AI.</p>
 
-            <div className="flex border-b border-slate-200 mb-6 font-semibold">
+            <div className="flex border-b border-theme-border mb-6 font-semibold">
               <button 
                 onClick={() => setActiveTab('presets')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-blue-600 text-blue-700' : 'border-transparent text-gray-400 hover:text-gray-650'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-blue-600 text-theme-primary' : 'border-transparent text-gray-400 hover:text-gray-650'}`}
               >
                 Presets
               </button>
               <button 
                 onClick={() => setActiveTab('ai')}
-                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-blue-600 text-blue-700' : 'border-transparent text-gray-400 hover:text-gray-650'}`}
+                className={`flex-1 py-2 font-bold text-sm text-center border-b-2 transition-colors ${activeTab === 'ai' ? 'border-blue-600 text-theme-primary' : 'border-transparent text-gray-400 hover:text-gray-650'}`}
               >
                 AI Generator
               </button>
@@ -1386,7 +1386,7 @@ export default function TemplateNexus({
                       onUpdateConfig('header', 'heroImage', item.url);
                       setShowBgModal(false);
                     }}
-                    className="cursor-pointer group relative aspect-video rounded-xl overflow-hidden border-2 border-transparent hover:border-blue-600 transition-all bg-slate-50"
+                    className="cursor-pointer group relative aspect-video rounded-theme overflow-hidden border-2 border-transparent hover:border-blue-600 transition-all bg-theme-bg"
                   >
                     <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
                     <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1398,23 +1398,23 @@ export default function TemplateNexus({
             ) : (
               <div className="space-y-4 font-sans">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Describe your service graphic</label>
+                  <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Describe your service graphic</label>
                   <textarea 
                     placeholder="e.g. modern tech office workspace with desk plants and dual monitors"
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-600 text-sm text-slate-900 resize-none"
+                    className="w-full px-4 py-3 bg-theme-bg border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-600 text-sm text-theme-text resize-none"
                   />
                 </div>
 
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Aesthetic Style</label>
+                    <label className="block text-xs font-bold text-theme-muted uppercase mb-2">Aesthetic Style</label>
                     <select 
                       value={aiStyle} 
                       onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full p-3 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-600 text-sm font-bold text-slate-900"
+                      className="w-full p-3 bg-theme-surface border border-theme-border rounded-theme outline-none focus:ring-2 focus:ring-blue-600 text-sm font-bold text-theme-text"
                     >
                       <option value="realistic">Realistic Photo</option>
                       <option value="abstract">Abstract Art</option>
