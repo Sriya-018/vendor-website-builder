@@ -6,7 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
 
 const API_URL = 'http://localhost:5000/api';
-
+//Admin Dashboard
 function AdminDashboard() {
   const { theme } = useTheme();
   const [data, setData] = useState({ stats: null, vendors: [] });
@@ -36,7 +36,7 @@ function AdminDashboard() {
 
   const filteredVendors = data.vendors.filter(v => {
     const searchMatch = (v.businessName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        (v.vendorPhone || '').includes(searchTerm);
+      (v.vendorPhone || '').includes(searchTerm);
     if (!searchMatch) return false;
     // Note: since we changed from website to websites array, we must update filter logic:
     if (filter === 'published') return v.websites && v.websites.some(w => w.published);
@@ -110,7 +110,7 @@ function AdminDashboard() {
       </nav>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className={`text-2xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : ''}`}>Platform Overview</h1>
@@ -129,7 +129,7 @@ function AdminDashboard() {
               <FaStore className="text-xl" />
             </div>
           </div>
-          
+
           <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
             <div>
               <p className={`text-sm font-medium mb-1 ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'}`}>Published Websites</p>
@@ -158,7 +158,7 @@ function AdminDashboard() {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input 
+                <input
                   type="text"
                   placeholder="Search business or phone..."
                   value={searchTerm}
@@ -166,7 +166,7 @@ function AdminDashboard() {
                   className="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-colors w-64"
                 />
               </div>
-              <select 
+              <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white cursor-pointer"
@@ -255,9 +255,9 @@ function AdminDashboard() {
                             {vendor.websites.map(site => (
                               <div key={site._id} className="py-1">
                                 {site.published ? (
-                                  <a 
-                                    href={`/website/${site.slug}`} 
-                                    target="_blank" 
+                                  <a
+                                    href={`/website/${site.slug}`}
+                                    target="_blank"
                                     rel="noreferrer"
                                     className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm"
                                   >
