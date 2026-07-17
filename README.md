@@ -4,12 +4,29 @@ Vendor Website Builder is a full-stack platform that empowers vendors and small 
 
 ## 🚀 Features
 
-- **AI-Powered Generation:** Instantly generate a fully functional website tailored to a business category with a single click.
-- **Dynamic Themes & Templates:** Choose from beautifully crafted templates (Aurora, Slate, Bloom, Crave, Haven, Nexus, Pixel, Glow, Vogue) with customizable primary, secondary, and accent colors.
-- **Live Preview Editor:** See your changes in real-time as you tweak your business information, store name, theme, and logo.
-- **Global & Store-Specific Settings:** Manage global defaults for your business and seamlessly cascade them down to individual stores, or override them per store.
-- **Product Management:** Upload product images with automatic background removal, set prices, and categorize items.
-- **Dashboard & Analytics:** Track website views, recent orders, and overall revenue directly from the central dashboard.
+### 🤖 AI Capabilities
+- **AI-Powered Generation:** Instantly generate a fully functional website tailored to your business category with a single click.
+- **AI Web Scraper & Importer:** Paste any existing website URL to automatically crawl, analyze, and recreate the layout and content in our builder.
+- **AI Copilot Editor:** Inline AI assistant in the design panel to instantly generate catchy headlines, descriptions, and FAQs.
+- **AI Logo Maker:** Generate professional logos and brand assets natively inside the dashboard.
+- **Intelligent Assistant:** Built-in AI Chatbot to guide users, recommend templates, and answer queries.
+
+### 🎨 Design & Customization
+- **35+ Premium Templates:** Beautifully crafted, industry-specific templates spanning Fashion, Food & Beverage, Tech, Beauty, Home Decor, and Services.
+- **Dynamic Content Sourcing:** Automatically injects relevant high-quality stock photography (Unsplash) and default content matching your chosen theme.
+- **Live Preview Editor:** Edit your store and see layout, typography, and color palette changes update instantly across Mobile, Tablet, and Desktop views.
+- **Full Dark Mode:** Complete dark theme support for both the builder dashboard and generated stores.
+
+### 💼 Store Management
+- **Product Management:** Upload products, set prices, and categorize items. Includes **automatic background removal** for clean product imagery.
+- **Order Tracking:** Comprehensive order lifecycle management (Pending -> Processing -> Dispatched -> Delivered) with SMS tracking links.
+- **Dashboard & Live Analytics:** Track daily views, revenue, active orders, and visitor metrics in real-time.
+- **Customer Inquiries:** Built-in messaging center to read and respond to direct messages submitted from your store's contact form.
+- **Global Settings:** Manage business information centrally and cascade it down to multiple stores.
+
+### 🛡️ Admin & Security
+- **Super Admin Panel:** Dedicated pin-protected dashboard to manage all vendors, review businesses, and track platform-wide revenue.
+- **Multi-factor Auth:** Secure login flows utilizing OTP SMS (via Message Central) and Email (via Nodemailer).
 
 ## 🛠️ Technology Stack
 
@@ -56,11 +73,37 @@ vendor-website-builder/
 ```bash
 cd server
 npm install
+```
 
-# Create a .env file and add your MongoDB URI and port
-# MONGO_URI=mongodb://127.0.0.1:27017/vendorDB
-# PORT=5000
+**Environment Variables Configuration:**
+You must create a `.env` file inside the `server/` directory and configure the following variables for all features to work correctly.
 
+Create `server/.env` with the following contents:
+```env
+# Server Configuration
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/vendorDB
+
+# Admin Panel Authentication
+ADMIN_PIN=12345
+
+# AI Features (Chatbot, Recommendations, Website Generation)
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Image Processing
+REMOVE_BG_API_KEY=your_remove_bg_api_key_here
+
+# Email Notifications (Optional)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+
+# SMS OTP Authentication (Message Central - Optional)
+MESSAGE_CENTRAL_CUSTOMER_ID=your_customer_id
+MESSAGE_CENTRAL_PASSWORD=your_password
+```
+
+After setting up the `.env` file, start the backend server:
+```bash
 node server.js
 ```
 
@@ -79,5 +122,4 @@ npm run dev
 - Navigate to the **Design & Theme** page to generate a new store website.
 - Use the **Dashboard** to manage your store logo, products, and incoming orders!
 
-## 📝 License
-This project is proprietary and built for the VendorBuild platform.
+
