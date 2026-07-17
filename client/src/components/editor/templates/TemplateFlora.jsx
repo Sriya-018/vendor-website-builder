@@ -58,8 +58,8 @@ export default function TemplateFlora({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#1F2937'; // Heavy dark gray
-  const accentColor = config.themeColor || '#4B5E52'; // Botanical Sage Green
+  const primaryColor = config.theme?.primary || '#1F2937'; // Heavy dark gray
+  const accentColor = config.theme?.accent || '#4B5E52'; // Botanical Sage Green
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -375,6 +375,7 @@ export default function TemplateFlora({
                         </div>
                         <h4 className="font-bold text-sm uppercase text-theme-text">{quizResult.name}</h4>
                         <span className="text-[#4B5E52] font-bold text-sm" style={{ color: accentColor }}>₹{quizResult.price}</span>
+                        {config.products?.showAddToCart !== false && (
                         <button
                           data-cart-add="true"
                           data-product-name={quizResult.name}
@@ -384,6 +385,7 @@ export default function TemplateFlora({
                         >
                           Add Routine Combo
                         </button>
+                        )}
                       </div>
                     ) : (
                       <div className="py-16 text-gray-400 text-xs font-light space-y-2">
@@ -451,10 +453,12 @@ export default function TemplateFlora({
                           tagName="h4"
                           className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
+                        {config.products?.showPrices !== false && (
                         <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -467,6 +471,8 @@ export default function TemplateFlora({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -478,6 +484,7 @@ export default function TemplateFlora({
                         >
                           Select
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -870,7 +877,9 @@ export default function TemplateFlora({
               onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
               tagName="span"
               className="font-bold text-xl uppercase tracking-wider text-[#4B5E52] cursor-text"
-              style={{ color: accentColor }}
+              style={{
+        '--primary': primaryColor,
+        '--accent': accentColor, color: accentColor }}
             />
           ) : (
             <button onClick={() => changePage('home')} className="font-bold text-xl uppercase tracking-wider text-[#4B5E52]" style={{ color: accentColor }}>
@@ -959,10 +968,12 @@ export default function TemplateFlora({
                       tagName="h4"
                       className="font-bold text-sm truncate uppercase tracking-wider text-slate-805"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                   </div>
                 </div>
                 <div className="p-5 pt-0">
                   <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
+                    {config.products?.showPrices !== false && (
                     <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
                       <span>₹</span>
                       <EditableText
@@ -975,6 +986,8 @@ export default function TemplateFlora({
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -986,6 +999,7 @@ export default function TemplateFlora({
                     >
                       Select
                     </button>
+                    )}
                   </div>
                 </div>
               </div>

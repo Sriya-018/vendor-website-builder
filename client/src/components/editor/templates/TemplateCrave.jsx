@@ -54,8 +54,8 @@ export default function TemplateCrave({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#7C2D12'; // Orange 900
-  const accentColor = config.themeColor || '#F97316'; // Orange 500
+  const primaryColor = config.theme?.primary || '#7C2D12'; // Orange 900
+  const accentColor = config.theme?.accent || '#F97316'; // Orange 500
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -330,10 +330,12 @@ export default function TemplateCrave({
                           className="text-xl mb-2 truncate"
                           style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-6 pt-0">
                       <div className="flex items-center justify-between mt-4">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -346,6 +348,8 @@ export default function TemplateCrave({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -356,6 +360,7 @@ export default function TemplateCrave({
                         >
                           Order Now
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -671,6 +676,8 @@ export default function TemplateCrave({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#fffbeb', // Amber 50
         color: '#451a03', // Amber 900
         fontFamily: "'Inter', sans-serif",
@@ -751,7 +758,7 @@ export default function TemplateCrave({
           {/* Catalog Filters Header */}
           <div className="bg-theme-surface rounded-theme p-8 border border-amber-200 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-4xl" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Our Menu</h2>
+              <h2 className="text-4xl" style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Lobster', cursive" }}>Our Menu</h2>
               <p className="text-theme-primary text-sm mt-1">Order fresh food catalog options directly</p>
             </div>
             
@@ -859,8 +866,9 @@ export default function TemplateCrave({
                         onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                         tagName="h4"
                         className="text-xl mb-1 truncate"
-                        style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}
+                        style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Lobster', cursive" }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.dietary && product.dietary.length > 0 && (
                         <div className="flex gap-1.5 mt-2 flex-wrap">
                           {product.dietary.map(d => (
@@ -874,6 +882,7 @@ export default function TemplateCrave({
                   </div>
                   <div className="p-6 pt-0">
                     <div className="flex items-center justify-between mt-4">
+                      {config.products?.showPrices !== false && (
                       <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -886,6 +895,8 @@ export default function TemplateCrave({
                           tagName="span"
                         />
                       </div>
+                      )}
+                      {config.products?.showAddToCart !== false && (
                       <button 
                         data-cart-add={product.inStock !== false ? "true" : undefined}
                         data-product-id={product._id || product.id}
@@ -902,6 +913,7 @@ export default function TemplateCrave({
                       >
                         {product.inStock === false ? 'Sold Out' : 'Order Now'}
                       </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -929,7 +941,7 @@ export default function TemplateCrave({
             {/* Contact Details & Hours */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-extrabold" style={{ color: primaryColor, fontFamily: "'Lobster', cursive" }}>Where to Find Us</h2>
+                <h2 className="text-3xl font-extrabold" style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Lobster', cursive" }}>Where to Find Us</h2>
                 <p className="text-theme-primary text-sm mt-1">Stop by our place or contact us for reservations/orders.</p>
               </div>
 

@@ -51,7 +51,7 @@ export default function TemplateSlate({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const accentColor = config.themeColor || '#38BDF8';
+  const accentColor = config.theme?.accent || '#38BDF8';
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80';
 
   // Ticking countdown timer logic
@@ -329,10 +329,12 @@ export default function TemplateSlate({
                           tagName="h4"
                           className="font-extrabold text-slate-100 text-base mb-1 truncate"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between mt-4">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-lg flex items-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -345,6 +347,8 @@ export default function TemplateSlate({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -355,6 +359,7 @@ export default function TemplateSlate({
                         >
                           Buy Now
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -670,6 +675,8 @@ export default function TemplateSlate({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto text-slate-200 relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#0f172a',
         fontFamily: "'Space Grotesk', sans-serif",
         fontSize: 'var(--base-size)',
@@ -835,6 +842,7 @@ export default function TemplateSlate({
                         tagName="h4"
                         className="font-extrabold text-slate-100 text-base mb-1 truncate"
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.specs && product.specs.length > 0 && (
                         <div className="flex gap-1 mt-2 flex-wrap">
                           {product.specs.map((sp, idx) => (
@@ -848,6 +856,7 @@ export default function TemplateSlate({
                   </div>
                   <div className="p-5 pt-0">
                     <div className="flex items-center justify-between mt-4">
+                      {config.products?.showPrices !== false && (
                       <div className="font-extrabold text-lg flex items-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -860,7 +869,9 @@ export default function TemplateSlate({
                           tagName="span"
                         />
                       </div>
+                      )}
                       <div className="flex flex-col items-end gap-1.5">
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -877,6 +888,7 @@ export default function TemplateSlate({
                         >
                           {product.inStock === false ? 'Sold Out' : 'Buy Now'}
                         </button>
+                        )}
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveSpecsProduct(product)}

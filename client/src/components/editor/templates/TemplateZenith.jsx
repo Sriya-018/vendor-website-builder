@@ -57,8 +57,8 @@ export default function TemplateZenith({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#0B0F19'; // Luxury dark space
-  const accentColor = config.themeColor || '#6366F1'; // Cyber Indigo
+  const primaryColor = config.theme?.primary || '#0B0F19'; // Luxury dark space
+  const accentColor = config.theme?.accent || '#6366F1'; // Cyber Indigo
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80';
 
   // Ticking countdown timer logic
@@ -479,10 +479,12 @@ Please reach out to discuss implementation.`
                           tagName="h4"
                           className="font-black text-lg mb-4 truncate uppercase tracking-wider"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-6 pt-0">
                       <div className="flex items-center justify-between mt-2">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-xl flex items-center gap-0.5 text-indigo-400">
                           <span>₹</span>
                           <EditableText
@@ -495,6 +497,8 @@ Please reach out to discuss implementation.`
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -505,6 +509,7 @@ Please reach out to discuss implementation.`
                         >
                           Enquire
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -974,6 +979,7 @@ Please reach out to discuss implementation.`
                       tagName="h4"
                       className="text-lg font-black uppercase tracking-wide truncate group-hover:text-indigo-400 transition-colors"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                     <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed">
                       {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                     </p>
@@ -981,6 +987,7 @@ Please reach out to discuss implementation.`
                 </div>
                 <div className="p-6 pt-0">
                   <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                    {config.products?.showPrices !== false && (
                     <div className="font-extrabold text-lg text-indigo-400">
                       <span>₹</span>
                       <EditableText
@@ -993,6 +1000,8 @@ Please reach out to discuss implementation.`
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -1003,6 +1012,7 @@ Please reach out to discuss implementation.`
                     >
                       Enquire
                     </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1227,7 +1237,9 @@ Please reach out to discuss implementation.`
                   <button 
                     onClick={() => setActiveEditProductId(null)}
                     className="px-6 py-2.5 text-white font-bold uppercase tracking-wider text-xs shadow transition-all"
-                    style={{ backgroundColor: accentColor }}
+                    style={{
+        '--primary': primaryColor,
+        '--accent': accentColor, backgroundColor: accentColor }}
                   >
                     Done
                   </button>

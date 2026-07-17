@@ -5,6 +5,33 @@ import {
 , FaClock, FaDesktop} from 'react-icons/fa';
 import AICopilot from './AICopilot';
 
+const AccordionContext = React.createContext();
+
+const Section = ({ id, title, icon: Icon, children }) => {
+  const { openSection, setOpenSection } = React.useContext(AccordionContext);
+  const isOpen = openSection === id;
+  return (
+    <div className="border-b border-gray-100 dark:border-slate-800/60 last:border-b-0">
+      <button 
+        type="button"
+        onClick={() => setOpenSection(isOpen ? null : id)}
+        className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-[#13121A] dark:bg-[#13121A] transition-colors"
+      >
+        <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-slate-200">
+          {Icon && <Icon className="text-gray-400 dark:text-slate-500 text-lg" />}
+          {title}
+        </div>
+        {isOpen ? <FaChevronUp className="text-gray-400 dark:text-slate-500 text-sm" /> : <FaChevronDown className="text-gray-400 dark:text-slate-500 text-sm" />}
+      </button>
+      {isOpen && (
+        <div className="p-5 pt-0 bg-white dark:bg-[#09080E] animate-fade-in space-y-5">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const THEMES = [
   { name: 'Blue', color: '#2563eb' },
   { name: 'Red', color: '#dc2626' },
@@ -15,42 +42,42 @@ const THEMES = [
 ];
 
 const TEMPLATES = [
-  { id: 't1', name: 'Aurora', desc: 'Clean fashion, light, minimal' },
-  { id: 't2', name: 'Slate', desc: 'Dark, tech, electronics' },
-  { id: 't3', name: 'Bloom', desc: 'Soft pink, beauty, cosmetics' },
-  { id: 't4', name: 'Crave', desc: 'Warm, food, restaurant' },
-  { id: 't5', name: 'Haven', desc: 'Home, cozy, interior' },
-  { id: 't6', name: 'Nexus', desc: 'Modern, corporate, bold' },
-  { id: 't7', name: 'Vogue', desc: 'High-end fashion, luxury' },
-  { id: 't8', name: 'Pixel', desc: 'Tech, retro, gaming' },
-  { id: 't9', name: 'Glow', desc: 'Neon, nightlife, fitness' },
-  { id: 't10', name: 'Bistro', desc: 'Elegant dark, food, cafe' },
-  { id: 't11', name: 'Loft', desc: 'Scandinavian, cozy, design' },
-  { id: 't12', name: 'Zenith', desc: 'Corporate tech, services' },
-  { id: 't13', name: 'Trend', desc: 'Chic fashion, rose, minimal' },
-  { id: 't14', name: 'Spark', desc: 'Sleek dark, tech, hardware' },
-  { id: 't15', name: 'Flora', desc: 'Botanical beauty, organic' },
-  { id: 't16', name: 'Silk', desc: 'Luxurious fashion design, serif typography' },
-  { id: 't17', name: 'Active', desc: 'Bold high-contrast athletic activewear' },
-  { id: 't18', name: 'Vintage', desc: 'Retro thrift style, sepia, monospace' },
-  { id: 't19', name: 'Quantum', desc: 'Deep violet neon glow gaming hardware' },
-  { id: 't20', name: 'Aero', desc: 'Light, clean modern specs sheets layout' },
-  { id: 't21', name: 'RetroTech', desc: '8-bit themed layout with classic console beep sound' },
-  { id: 't22', name: 'Onyx', desc: 'Luxury matte black beauty & cosmetics' },
-  { id: 't23', name: 'Mist', desc: 'Fresh water themed spa & skincare' },
-  { id: 't24', name: 'Petal', desc: 'Royal floral botanical perfumery layout' },
-  { id: 't25', name: 'Brew', desc: 'Cozy espresso styling & roast estimator' },
-  { id: 't26', name: 'Slice', desc: 'Energetic red pizzeria topping builder' },
-  { id: 't27', name: 'Hops', desc: 'Rustic dark industrial craft pub styling' },
-  { id: 't28', name: 'Harvest', desc: 'Earthy farm-to-table veggies and local sourcing' },
-  { id: 't29', name: 'Manor', desc: 'Classic mahogany luxury furniture setups' },
-  { id: 't30', name: 'Patio', desc: 'Sunny garden porch weather rating grids' },
-  { id: 't31', name: 'Urban', desc: 'Concrete industrial steel swatches' },
-  { id: 't32', name: 'Zen', desc: 'Bamboo sand layout feng shui placements' },
-  { id: 't33', name: 'Pulse', desc: 'Gym red high energy fitness training calculator' },
-  { id: 't34', name: 'Scale', desc: 'Navy trustworthy consulting ROI calculator' },
-  { id: 't35', name: 'PixelCraft', desc: 'Creative modern design agency portfolio toggle' },
-  { id: 't36', name: 'Care', desc: 'Calm medical appointment planner layout' }
+  { id: 't1', name: 'Aurora', category: 'Fashion', desc: 'Clean fashion, light, minimal' },
+  { id: 't2', name: 'Slate', category: 'Electronics', desc: 'Dark, tech, electronics' },
+  { id: 't3', name: 'Bloom', category: 'Beauty', desc: 'Soft pink, beauty, cosmetics' },
+  { id: 't4', name: 'Crave', category: 'Food & Beverage', desc: 'Warm, food, restaurant' },
+  { id: 't5', name: 'Haven', category: 'Home Decor', desc: 'Home, cozy, interior' },
+  { id: 't6', name: 'Nexus', category: 'Services', desc: 'Modern, corporate, bold' },
+  { id: 't7', name: 'Vogue', category: 'Fashion', desc: 'High-end fashion, luxury' },
+  { id: 't8', name: 'Pixel', category: 'Electronics', desc: 'Tech, retro, gaming' },
+  { id: 't9', name: 'Glow', category: 'Beauty', desc: 'Neon, nightlife, fitness' },
+  { id: 't10', name: 'Bistro', category: 'Food & Beverage', desc: 'Elegant dark, food, cafe' },
+  { id: 't11', name: 'Loft', category: 'Home Decor', desc: 'Scandinavian, cozy, design' },
+  { id: 't12', name: 'Zenith', category: 'Services', desc: 'Corporate tech, services' },
+  { id: 't13', name: 'Trend', category: 'Fashion', desc: 'Chic fashion, rose, minimal' },
+  { id: 't14', name: 'Spark', category: 'Electronics', desc: 'Sleek dark, tech, hardware' },
+  { id: 't15', name: 'Flora', category: 'Beauty', desc: 'Botanical beauty, organic' },
+  { id: 't16', name: 'Silk', category: 'Fashion', desc: 'Luxurious fashion design, serif typography' },
+  { id: 't17', name: 'Active', category: 'Fashion', desc: 'Bold high-contrast athletic activewear' },
+  { id: 't18', name: 'Vintage', category: 'Fashion', desc: 'Retro thrift style, sepia, monospace' },
+  { id: 't19', name: 'Quantum', category: 'Electronics', desc: 'Deep violet neon glow gaming hardware' },
+  { id: 't20', name: 'Aero', category: 'Electronics', desc: 'Light, clean modern specs sheets layout' },
+  { id: 't21', name: 'RetroTech', category: 'Electronics', desc: '8-bit themed layout with classic console beep sound' },
+  { id: 't22', name: 'Onyx', category: 'Beauty', desc: 'Luxury matte black beauty & cosmetics' },
+  { id: 't23', name: 'Mist', category: 'Beauty', desc: 'Fresh water themed spa & skincare' },
+  { id: 't24', name: 'Petal', category: 'Beauty', desc: 'Royal floral botanical perfumery layout' },
+  { id: 't25', name: 'Brew', category: 'Food & Beverage', desc: 'Cozy espresso styling & roast estimator' },
+  { id: 't26', name: 'Slice', category: 'Food & Beverage', desc: 'Energetic red pizzeria topping builder' },
+  { id: 't27', name: 'Hops', category: 'Food & Beverage', desc: 'Rustic dark industrial craft pub styling' },
+  { id: 't28', name: 'Harvest', category: 'Food & Beverage', desc: 'Earthy farm-to-table veggies and local sourcing' },
+  { id: 't29', name: 'Manor', category: 'Home Decor', desc: 'Classic mahogany luxury furniture setups' },
+  { id: 't30', name: 'Patio', category: 'Home Decor', desc: 'Sunny garden porch weather rating grids' },
+  { id: 't31', name: 'Urban', category: 'Home Decor', desc: 'Concrete industrial steel swatches' },
+  { id: 't32', name: 'Zen', category: 'Home Decor', desc: 'Bamboo sand layout feng shui placements' },
+  { id: 't33', name: 'Pulse', category: 'Services', desc: 'Gym red high energy fitness training calculator' },
+  { id: 't34', name: 'Scale', category: 'Services', desc: 'Navy trustworthy consulting ROI calculator' },
+  { id: 't35', name: 'PixelCraft', category: 'Services', desc: 'Creative modern design agency portfolio toggle' },
+  { id: 't36', name: 'Care', category: 'Services', desc: 'Calm medical appointment planner layout' }
 ];
 
 function EditorControls({ config, setConfig, website }) {
@@ -85,30 +112,8 @@ function EditorControls({ config, setConfig, website }) {
     });
   };
 
-  const Section = ({ id, title, icon: Icon, children }) => {
-    const isOpen = openSection === id;
-    return (
-      <div className="border-b border-gray-100 dark:border-slate-800/60 last:border-b-0">
-        <button 
-          onClick={() => setOpenSection(isOpen ? null : id)}
-          className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-[#13121A] dark:bg-[#13121A] transition-colors"
-        >
-          <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-slate-200">
-            {Icon && <Icon className="text-gray-400 dark:text-slate-500 text-lg" />}
-            {title}
-          </div>
-          {isOpen ? <FaChevronUp className="text-gray-400 dark:text-slate-500 text-sm" /> : <FaChevronDown className="text-gray-400 dark:text-slate-500 text-sm" />}
-        </button>
-        {isOpen && (
-          <div className="p-5 pt-0 bg-white dark:bg-[#09080E] animate-fade-in space-y-5">
-            {children}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
+    <AccordionContext.Provider value={{ openSection, setOpenSection }}>
     <div className="flex flex-col h-full bg-white dark:bg-[#09080E] text-sm">
       <div className="p-5 border-b border-gray-200 dark:border-slate-700/60 bg-gray-50 dark:bg-[#13121A] sticky top-0 z-10 shadow-sm">
         <h2 className="font-black text-gray-900 dark:text-white text-lg">Design Controls</h2>
@@ -119,35 +124,21 @@ function EditorControls({ config, setConfig, website }) {
         
         {/* 1. Layout Template */}
         <Section id="template" title="1. Layout Template" icon={FaGripHorizontal}>
-          {website ? (
-            <div className="bg-gradient-to-r from-pink-50 via-rose-50/50 to-pink-50 border border-pink-100 rounded-2xl p-5 text-left shadow-sm">
-              <span className="inline-block text-[10px] uppercase font-bold text-pink-600 tracking-wider bg-pink-100 px-2 py-0.5 rounded-full mb-2">
-                🔒 Template Locked
-              </span>
-              <h3 className="font-extrabold text-gray-900 dark:text-white text-base">
-                {TEMPLATES.find(t => t.id === config.template)?.name || 'Custom Theme'}
-              </h3>
-              <p className="text-xs text-gray-500 dark:text-slate-400 mt-1 leading-relaxed">
-                {TEMPLATES.find(t => t.id === config.template)?.desc}
-              </p>
-              <div className="mt-4 p-3 bg-white dark:bg-[#09080E] border border-pink-100 rounded-xl text-xs text-pink-900 dark:text-pink-100 leading-relaxed font-medium">
-                Template selection is locked to preserve your custom sections and uploaded catalog data. To try other layouts, please create a new site.
+          <div className="space-y-3">
+            {(website 
+              ? TEMPLATES.filter(t => t.category === (TEMPLATES.find(ct => ct.id === config.template)?.category || 'General'))
+              : TEMPLATES
+            ).map(t => (
+              <div 
+                key={t.id}
+                onClick={() => setConfig(prev => ({ ...prev, template: t.id }))}
+                className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${config.template === t.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-slate-700/60 hover:border-gray-300 dark:hover:border-slate-500 dark:border-slate-600/60'}`}
+              >
+                <div className="font-bold text-gray-900 dark:text-white">{t.name} <span className="ml-2 text-[10px] font-normal px-2 py-0.5 bg-gray-100 dark:bg-slate-800 rounded-full text-gray-500 dark:text-slate-400">{t.category}</span></div>
+                <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">{t.desc}</div>
               </div>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {TEMPLATES.map(t => (
-                <div 
-                  key={t.id}
-                  onClick={() => setConfig(prev => ({ ...prev, template: t.id }))}
-                  className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${config.template === t.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 dark:border-slate-700/60 hover:border-gray-300 dark:hover:border-slate-500 dark:border-slate-600/60'}`}
-                >
-                  <div className="font-bold text-gray-900 dark:text-white">{t.name}</div>
-                  <div className="text-xs text-gray-500 dark:text-slate-400">{t.desc}</div>
-                </div>
-              ))}
-            </div>
-          )}
+            ))}
+          </div>
         </Section>
 
         {/* Layout & Section Designer */}
@@ -410,43 +401,43 @@ function EditorControls({ config, setConfig, website }) {
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Primary Color</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" value={config.theme?.primary || '#2563eb'} onChange={(e) => updateConfig('theme', 'primary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.primary || '#2563eb'}</span>
+                  <input type="color" value={config.theme?.primary || '#000000'} onChange={(e) => updateConfig('theme', 'primary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                  <span className="text-xs uppercase font-mono">{config.theme?.primary || 'Default'}</span>
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Secondary</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" value={config.theme?.secondary || '#4f46e5'} onChange={(e) => updateConfig('theme', 'secondary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.secondary || '#4f46e5'}</span>
+                  <input type="color" value={config.theme?.secondary || '#000000'} onChange={(e) => updateConfig('theme', 'secondary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                  <span className="text-xs uppercase font-mono">{config.theme?.secondary || 'Default'}</span>
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Accent</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" value={config.theme?.accent || '#f59e0b'} onChange={(e) => updateConfig('theme', 'accent', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.accent || '#f59e0b'}</span>
+                  <input type="color" value={config.theme?.accent || '#000000'} onChange={(e) => updateConfig('theme', 'accent', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                  <span className="text-xs uppercase font-mono">{config.theme?.accent || 'Default'}</span>
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Background</label>
                 <div className="flex items-center gap-2">
                   <input type="color" value={config.theme?.background || '#ffffff'} onChange={(e) => updateConfig('theme', 'background', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.background || '#ffffff'}</span>
+                  <span className="text-xs uppercase font-mono">{config.theme?.background || 'Default'}</span>
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Surface</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" value={config.theme?.surface || '#f9fafb'} onChange={(e) => updateConfig('theme', 'surface', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.surface || '#f9fafb'}</span>
+                  <input type="color" value={config.theme?.surface || '#ffffff'} onChange={(e) => updateConfig('theme', 'surface', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                  <span className="text-xs uppercase font-mono">{config.theme?.surface || 'Default'}</span>
                 </div>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Text</label>
                 <div className="flex items-center gap-2">
-                  <input type="color" value={config.theme?.text || '#111827'} onChange={(e) => updateConfig('theme', 'text', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
-                  <span className="text-xs uppercase font-mono">{config.theme?.text || '#111827'}</span>
+                  <input type="color" value={config.theme?.text || '#000000'} onChange={(e) => updateConfig('theme', 'text', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                  <span className="text-xs uppercase font-mono">{config.theme?.text || 'Default'}</span>
                 </div>
               </div>
               <div>
@@ -1616,6 +1607,7 @@ function EditorControls({ config, setConfig, website }) {
         category={website?.storeInfo?.category || 'general'}
       />
     </div>
+    </AccordionContext.Provider>
   );
 }
 

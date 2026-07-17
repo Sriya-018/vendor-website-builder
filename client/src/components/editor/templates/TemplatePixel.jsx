@@ -52,7 +52,7 @@ export default function TemplatePixel({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const accentColor = config.themeColor || '#10B981'; // Emerald/Retro Green
+  const accentColor = config.theme?.accent || '#10B981'; // Emerald/Retro Green
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80';
 
   // Ticking countdown timer logic
@@ -346,11 +346,13 @@ export default function TemplatePixel({
                           className="font-bold text-[#e2e8f0] text-[0.95rem] mb-1 truncate"
                           style={{ fontFamily: "'Share Tech Mono', monospace" }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
 
                     <div className="p-4 pt-0">
                       <div className="flex items-center justify-between mt-2">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}>
                           <span>₹</span>
                           <EditableText
@@ -363,6 +365,8 @@ export default function TemplatePixel({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -373,6 +377,7 @@ export default function TemplatePixel({
                         >
                           BUY_NOW
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -680,6 +685,8 @@ export default function TemplatePixel({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#020617',
         color: '#e2e8f0',
         fontFamily: "'Sora', sans-serif",
@@ -883,6 +890,7 @@ export default function TemplatePixel({
                         className="font-bold text-[#e2e8f0] text-[0.95rem] mb-1 truncate"
                         style={{ fontFamily: "'Share Tech Mono', monospace" }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.specs && product.specs.length > 0 && (
                         <div className="flex gap-1 mt-2 flex-wrap font-mono">
                           {product.specs.map((sp, idx) => (
@@ -897,6 +905,7 @@ export default function TemplatePixel({
 
                   <div className="p-4 pt-0">
                     <div className="flex items-center justify-between mt-2">
+                      {config.products?.showPrices !== false && (
                       <div className="font-extrabold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}>
                         <span>₹</span>
                         <EditableText
@@ -909,7 +918,9 @@ export default function TemplatePixel({
                           tagName="span"
                         />
                       </div>
+                      )}
                       <div className="flex flex-col items-end gap-1 font-mono">
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -930,6 +941,7 @@ export default function TemplatePixel({
                         >
                           {product.inStock === false ? 'SOLD_OUT' : 'BUY_NOW'}
                         </button>
+                        )}
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveSpecsProduct(product)}

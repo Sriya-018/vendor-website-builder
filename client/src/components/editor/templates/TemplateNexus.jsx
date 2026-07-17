@@ -52,8 +52,8 @@ export default function TemplateNexus({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#1E3A8A'; // Blue 900
-  const accentColor = config.themeColor || '#2563EB'; // Blue 600
+  const primaryColor = config.theme?.primary || '#1E3A8A'; // Blue 900
+  const accentColor = config.theme?.accent || '#2563EB'; // Blue 600
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80';
 
   // Ticking countdown timer logic
@@ -333,10 +333,12 @@ export default function TemplateNexus({
                           className="font-extrabold text-lg mb-4 truncate"
                           style={{ color: primaryColor }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-6 pt-0">
                       <div className="flex items-center justify-between mt-2">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -349,6 +351,8 @@ export default function TemplateNexus({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -359,6 +363,7 @@ export default function TemplateNexus({
                         >
                           Get Quote
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -674,6 +679,8 @@ export default function TemplateNexus({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#f8fafc',
         color: '#1e3a8a',
         fontFamily: "'Manrope', sans-serif",
@@ -699,13 +706,13 @@ export default function TemplateNexus({
                 onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
                 tagName="span"
                 className="font-extrabold text-xl tracking-tight cursor-text"
-                style={{ color: primaryColor }}
+                style={{ color: config.navbar?.textColor || primaryColor }}
               />
             ) : (
               <button 
                 onClick={() => changePage('home')}
                 className="font-extrabold text-xl tracking-tight text-left focus:outline-none hover:opacity-85"
-                style={{ color: primaryColor }}
+                style={{ color: config.navbar?.textColor || primaryColor }}
               >
                 {businessName}
               </button>
@@ -847,8 +854,9 @@ export default function TemplateNexus({
                         onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                         tagName="h4"
                         className="font-extrabold text-lg mb-2 truncate"
-                        style={{ color: primaryColor }}
+                        style={{ color: config.navbar?.textColor || primaryColor }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.specs && product.specs.length > 0 && (
                         <div className="flex gap-1.5 mt-2 flex-wrap">
                           {product.specs.map((sp, idx) => (
@@ -862,6 +870,7 @@ export default function TemplateNexus({
                   </div>
                   <div className="p-6 pt-0">
                     <div className="flex items-center justify-between mt-2">
+                      {config.products?.showPrices !== false && (
                       <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -874,7 +883,9 @@ export default function TemplateNexus({
                           tagName="span"
                         />
                       </div>
+                      )}
                       <div className="flex flex-col items-end gap-1.5">
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -891,6 +902,7 @@ export default function TemplateNexus({
                         >
                           {product.inStock === false ? 'No Slots' : 'Get Quote'}
                         </button>
+                        )}
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveFeaturesProduct(product)}

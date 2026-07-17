@@ -54,8 +54,8 @@ export default function TemplateTrend({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#000000'; // High contrast black
-  const accentColor = config.themeColor || '#F43F5E'; // Bold rose pink
+  const primaryColor = config.theme?.primary || '#000000'; // High contrast black
+  const accentColor = config.theme?.accent || '#F43F5E'; // Bold rose pink
   const heroBg = config.header.heroImage || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -333,6 +333,7 @@ export default function TemplateTrend({
                           <p className="text-xs text-gray-400 leading-relaxed font-light">
                             {product.description || "Premium streetwear piece made of heavy fleece, dropped shoulders, and loose style fit details."}
                           </p>
+                          {config.products?.showAddToCart !== false && (
                           <button
                             data-cart-add="true"
                             data-product-name={product.name}
@@ -342,6 +343,7 @@ export default function TemplateTrend({
                           >
                             Add This Piece
                           </button>
+                          )}
                         </div>
                       );
                     })() : (
@@ -410,11 +412,13 @@ export default function TemplateTrend({
                           tagName="h4"
                           className="font-extrabold text-sm truncate uppercase tracking-wider group-hover:text-[#F43F5E] transition-colors"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
 
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-md text-[#F43F5E]">
                           <span>₹</span>
                           <EditableText
@@ -427,6 +431,8 @@ export default function TemplateTrend({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -437,6 +443,7 @@ export default function TemplateTrend({
                         >
                           Bag
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -878,10 +885,12 @@ export default function TemplateTrend({
                       tagName="h4"
                       className="font-extrabold text-sm truncate uppercase tracking-wider"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                   </div>
                 </div>
                 <div className="p-5 pt-0">
                   <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-2">
+                    {config.products?.showPrices !== false && (
                     <div className="font-extrabold text-md text-[#F43F5E]">
                       <span>₹</span>
                       <EditableText
@@ -894,6 +903,8 @@ export default function TemplateTrend({
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -904,6 +915,7 @@ export default function TemplateTrend({
                     >
                       Bag
                     </button>
+                    )}
                   </div>
                 </div>
               </div>

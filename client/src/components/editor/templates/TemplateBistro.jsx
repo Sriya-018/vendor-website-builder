@@ -54,8 +54,8 @@ export default function TemplateBistro({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#1E1E1C'; // Elegant charcoal
-  const accentColor = config.themeColor || '#C5A880'; // Rich gold
+  const primaryColor = config.theme?.primary || '#1E1E1C'; // Elegant charcoal
+  const accentColor = config.theme?.accent || '#C5A880'; // Rich gold
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -319,6 +319,7 @@ export default function TemplateBistro({
                       </p>
                       <div className="flex justify-between items-center">
                         <span className="text-2xl font-serif text-[#C5A880]">₹{bestSellers[0].price}</span>
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={bestSellers[0].name}
@@ -328,6 +329,7 @@ export default function TemplateBistro({
                         >
                           Book Experience
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -407,6 +409,7 @@ export default function TemplateBistro({
                           tagName="h4"
                           className="text-lg font-serif uppercase tracking-wide truncate group-hover:text-[#C5A880] transition-colors"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                         <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed line-clamp-2">
                           {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                         </p>
@@ -414,6 +417,7 @@ export default function TemplateBistro({
                     </div>
                     <div className="p-6 pt-0">
                       <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                        {config.products?.showPrices !== false && (
                         <div className="font-serif text-lg text-[#C5A880]">
                           <span>₹</span>
                           <EditableText
@@ -426,6 +430,8 @@ export default function TemplateBistro({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -436,6 +442,7 @@ export default function TemplateBistro({
                         >
                           Order
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -889,7 +896,9 @@ export default function TemplateBistro({
               <div 
                 key={product._id || product.id || i}
                 className="bg-black/20 border border-white/5 hover:border-[#C5A880]/30 group flex flex-col justify-between"
-                style={{ borderRadius: 'var(--radius)' }}
+                style={{
+        '--primary': primaryColor,
+        '--accent': accentColor, borderRadius: 'var(--radius)' }}
               >
                 <div>
                   <div className="h-56 overflow-hidden relative">
@@ -920,6 +929,7 @@ export default function TemplateBistro({
                       tagName="h4"
                       className="text-lg font-serif uppercase tracking-wide truncate group-hover:text-[#C5A880] transition-colors"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                     <p className="text-xs text-theme-muted mt-2 font-light leading-relaxed">
                       {product.description || "Indulge in this beautifully presented signature dish prepared by our master chef."}
                     </p>
@@ -927,6 +937,7 @@ export default function TemplateBistro({
                 </div>
                 <div className="p-6 pt-0">
                   <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                    {config.products?.showPrices !== false && (
                     <div className="font-serif text-lg text-[#C5A880]">
                       <span>₹</span>
                       <EditableText
@@ -939,6 +950,8 @@ export default function TemplateBistro({
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -949,6 +962,7 @@ export default function TemplateBistro({
                     >
                       Add To Order
                     </button>
+                    )}
                   </div>
                 </div>
               </div>

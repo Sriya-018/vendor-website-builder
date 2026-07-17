@@ -51,8 +51,8 @@ export default function TemplateHaven({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#451A03'; // Amber 900
-  const accentColor = config.themeColor || '#D97706'; // Amber 600
+  const primaryColor = config.theme?.primary || '#451A03'; // Amber 900
+  const accentColor = config.theme?.accent || '#D97706'; // Amber 600
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -244,7 +244,7 @@ export default function TemplateHaven({
                     onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
                     tagName="h1"
                     className="text-5xl md:text-7xl font-bold leading-[1.15] mb-5 text-[#fef3c7]"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    style={{ fontFamily: 'var(--heading-font)' }}
                   />
                   <EditableText
                     isEditable={isEditable}
@@ -284,7 +284,7 @@ export default function TemplateHaven({
         return (
           <SectionWrapper key="products" isEditable={isEditable} sectionKey="products" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="products" className="max-w-7xl mx-auto px-8 py-24">
-              <h2 className="text-[2.5rem] font-bold mb-2 text-center" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="text-[2.5rem] font-bold mb-2 text-center" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>
                 <EditableText
                   isEditable={isEditable}
                   value={config.products.sectionTitle || 'Our Collection'}
@@ -323,12 +323,14 @@ export default function TemplateHaven({
                           onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                           tagName="h4"
                           className="text-lg font-bold mb-1 truncate"
-                          style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                          style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between mt-4">
+                        {config.products?.showPrices !== false && (
                         <div className="font-bold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -341,6 +343,8 @@ export default function TemplateHaven({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -351,6 +355,7 @@ export default function TemplateHaven({
                         >
                           Shop Now
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -381,7 +386,7 @@ export default function TemplateHaven({
                   onChange={(val) => onUpdateConfig('gallery', 'title', val)}
                   tagName="h2"
                   className="text-[2rem] font-bold mb-2"
-                  style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                  style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}
                 />
                 <div className="w-12 h-[3px] rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
               </div>
@@ -427,7 +432,7 @@ export default function TemplateHaven({
                   onChange={(val) => onUpdateConfig('faq', 'title', val)}
                   tagName="h2"
                   className="text-3xl font-bold mb-2"
-                  style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                  style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}
                 />
                 <div className="w-12 h-1 rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
               </div>
@@ -484,7 +489,7 @@ export default function TemplateHaven({
                     onChange={(val) => onUpdateConfig('testimonials', 'title', val)}
                     tagName="h2"
                     className="text-3xl font-bold mb-2"
-                    style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                    style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}
                   />
                   <div className="w-12 h-1 rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
                 </div>
@@ -562,7 +567,7 @@ export default function TemplateHaven({
                     onChange={(val) => onUpdateConfig('hours', 'title', val)}
                     tagName="h3"
                     className="text-2xl font-bold mb-2"
-                    style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                    style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}
                   />
                   <div className="w-12 h-1 rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
                 </div>
@@ -628,7 +633,7 @@ export default function TemplateHaven({
         return (
           <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
             <section id="contact" className="bg-[#fef3c7] py-16 px-8 text-center">
-              <h3 className="text-[2rem] font-bold mb-6" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>Get in Touch</h3>
+              <h3 className="text-[2rem] font-bold mb-6" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>Get in Touch</h3>
               <div className="inline-block bg-[#fffbf0] rounded-theme p-8 text-left shadow-theme min-w-[300px] border border-[#fde68a]">
                 <div className="space-y-4">
                   {phoneNumber && (
@@ -665,9 +670,11 @@ export default function TemplateHaven({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#fefce8',
         color: '#451a03',
-        fontFamily: "'Jost', sans-serif",
+        fontFamily: 'var(--body-font)',
         fontSize: 'var(--base-size)',
         lineHeight: 'var(--line-height)',
         letterSpacing: 'var(--letter-spacing)'
@@ -677,7 +684,7 @@ export default function TemplateHaven({
       <nav 
         className="sticky top-0 z-50 transition-all px-8 border-b-2" 
         style={{ 
-          backgroundColor: '#fef3c7',
+          backgroundColor: config.navbar?.backgroundColor || '#fef3c7',
           borderColor: '#fde68a',
           boxShadow: scrolled ? '0 4px 12px rgba(69,26,3,0.05)' : 'none'
         }}
@@ -690,19 +697,19 @@ export default function TemplateHaven({
               onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
               tagName="span"
               className="font-bold text-[1.6rem] cursor-text"
-              style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+              style={{ color: config.navbar?.textColor || primaryColor, fontFamily: 'var(--heading-font)' }}
             />
           ) : (
             <button 
               onClick={() => changePage('home')}
               className="font-bold text-[1.6rem] text-left focus:outline-none hover:opacity-85"
-              style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+              style={{ color: config.navbar?.textColor || primaryColor, fontFamily: 'var(--heading-font)' }}
             >
               {businessName}
             </button>
           )}
           {devicePreview === 'desktop' && (
-            <div className="flex gap-8 text-[0.9rem] font-medium" style={{ color: '#92400e' }}>
+            <div className="flex gap-8 text-[0.9rem] font-medium" style={{ color: config.navbar?.textColor || '#92400e' }}>
               {['Home', 'Shop', 'Contact'].map(page => (
                 <button 
                   key={page} 
@@ -729,7 +736,7 @@ export default function TemplateHaven({
           {/* Catalog Filters Header */}
           <div className="bg-theme-surface rounded-theme p-8 border border-amber-200 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-3xl font-bold" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>Product Catalog</h2>
+              <h2 className="text-3xl font-bold" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>Product Catalog</h2>
               <p className="text-theme-primary text-sm mt-1">Explore and filter our dynamic products inventory</p>
             </div>
             
@@ -837,8 +844,9 @@ export default function TemplateHaven({
                         onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                         tagName="h4"
                         className="text-lg font-bold mb-1 truncate"
-                        style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}
+                        style={{ color: config.navbar?.textColor || primaryColor, fontFamily: 'var(--heading-font)' }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.material && (
                         <div className="text-xs italic text-theme-primary mt-1">
                           Material: {product.material}
@@ -848,6 +856,7 @@ export default function TemplateHaven({
                   </div>
                   <div className="p-5 pt-0">
                     <div className="flex items-center justify-between mt-4">
+                      {config.products?.showPrices !== false && (
                       <div className="font-bold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -860,7 +869,9 @@ export default function TemplateHaven({
                           tagName="span"
                         />
                       </div>
+                      )}
                       <div className="flex flex-col items-end gap-1.5">
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -877,6 +888,7 @@ export default function TemplateHaven({
                         >
                           {product.inStock === false ? 'Sold Out' : 'Shop Now'}
                         </button>
+                        )}
                         {product.specs && product.specs.length > 0 && (
                           <button 
                             onClick={() => setActiveDimensionsProduct(product)}
@@ -913,7 +925,7 @@ export default function TemplateHaven({
             {/* Contact Details & Hours */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-bold" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>Get in Touch</h2>
+                <h2 className="text-3xl font-bold" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>Get in Touch</h2>
                 <p className="text-theme-primary text-sm mt-1">Have any questions? Drop us a message.</p>
               </div>
 
@@ -949,7 +961,7 @@ export default function TemplateHaven({
 
               {/* Hours panel */}
               <div className="bg-theme-surface border border-[#fde68a] rounded-theme p-8 shadow-theme">
-                <h3 className="font-bold text-amber-950 text-xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{config.hours?.title || 'Business Hours'}</h3>
+                <h3 className="font-bold text-amber-950 text-xl mb-4" style={{ fontFamily: 'var(--heading-font)' }}>{config.hours?.title || 'Business Hours'}</h3>
                 <div className="space-y-3">
                   {(config.hours?.days || []).map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center border-b border-amber-100 pb-2.5 last:border-b-0 last:pb-0">
@@ -963,7 +975,7 @@ export default function TemplateHaven({
 
             {/* Contact Inquiry Form */}
             <div className="bg-theme-surface border border-[#fde68a] rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
-              <h3 className="text-2xl font-bold mb-6" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>Send Inquiry</h3>
+              <h3 className="text-2xl font-bold mb-6" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>Send Inquiry</h3>
               
               {formSubmitted ? (
                 <div className="absolute inset-0 bg-theme-surface/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
@@ -1032,7 +1044,7 @@ export default function TemplateHaven({
             >
               ×
             </button>
-            <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>
               📐 Dimensions & Sizing
             </h3>
             <p className="text-xs text-theme-primary mb-6">{activeDimensionsProduct.name}</p>
@@ -1090,7 +1102,7 @@ export default function TemplateHaven({
               >
                 ×
               </button>
-              <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor, fontFamily: "'Cormorant Garamond', serif" }}>
+              <h3 className="text-2xl font-bold mb-1" style={{ color: primaryColor, fontFamily: 'var(--heading-font)' }}>
                 Edit Decor Settings
               </h3>
               <p className="text-xs text-theme-primary mb-6">Modify price, descriptions, crafting material details, or sizing parameters.</p>
@@ -1316,7 +1328,7 @@ export default function TemplateHaven({
              >
               ×
             </button>
-            <h3 className="text-xl font-bold mb-1 text-amber-955" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h3 className="text-xl font-bold mb-1 text-amber-955" style={{ fontFamily: 'var(--heading-font)' }}>
               Header Background Settings
             </h3>
             <p className="text-xs text-theme-muted mb-6">Select a home decor preset or generate using AI.</p>

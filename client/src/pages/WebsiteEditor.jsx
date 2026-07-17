@@ -9,16 +9,7 @@ const API_URL = 'http://localhost:5000/api';
 
 const DEFAULT_CONFIG = {
   template: 't1',
-  theme: {
-    primary: '#2563eb', // Blue
-    secondary: '#4f46e5', // Indigo
-    accent: '#f59e0b', // Amber
-    background: '#ffffff',
-    surface: '#f9fafb',
-    text: '#111827',
-    muted: '#6b7280',
-    border: '#e5e7eb',
-  },
+  theme: {},
   typography: {
     headingFont: 'sans',
     bodyFont: 'sans',
@@ -470,14 +461,14 @@ function WebsiteEditor() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden font-sans">
+    <div className="h-screen flex flex-col bg-gray-100 dark:bg-[#09080E] text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       
       {/* Top Bar */}
-      <div className="h-16 bg-white border-b border-slate-200/80 shadow-sm flex items-center justify-between px-6 shrink-0 z-20">
+      <div className="h-16 bg-white dark:bg-[#13121A] border-b border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center justify-between px-6 shrink-0 z-20">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate('/dashboard')}
-            className="text-slate-600 hover:text-slate-850 transition-colors bg-slate-100 hover:bg-slate-200 p-2 rounded-xl"
+            className="text-slate-600 dark:text-slate-400 hover:text-slate-850 dark:hover:text-white transition-colors bg-slate-100 dark:bg-[#1A1924] hover:bg-slate-200 dark:hover:bg-[#2A2934] p-2 rounded-xl"
           >
             <FaArrowLeft />
           </button>
@@ -487,37 +478,37 @@ function WebsiteEditor() {
             </div>
             <div>
               <div className="text-xs text-slate-600 dark:text-slate-500 font-semibold">Editing store:</div>
-              <div className="font-extrabold text-slate-900 leading-tight">{website.slug}</div>
+              <div className="font-extrabold text-slate-900 dark:text-white leading-tight">{website.slug}</div>
             </div>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+          <div className="flex items-center bg-slate-100 dark:bg-[#09080E] p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
             <button 
               onClick={() => setDevicePreview('desktop')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'desktop' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'desktop' ? 'bg-white dark:bg-[#13121A] shadow-sm text-purple-650 dark:text-purple-400' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               title="Desktop"
             >
               <FaDesktop />
             </button>
             <button 
               onClick={() => setDevicePreview('tablet')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'tablet' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'tablet' ? 'bg-white dark:bg-[#13121A] shadow-sm text-purple-650 dark:text-purple-400' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               title="Tablet"
             >
               <FaTabletAlt />
             </button>
             <button 
               onClick={() => setDevicePreview('mobile')}
-              className={`p-2 rounded-lg transition-colors ${devicePreview === 'mobile' ? 'bg-white shadow-sm text-purple-650' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700'}`}
+              className={`p-2 rounded-lg transition-colors ${devicePreview === 'mobile' ? 'bg-white dark:bg-[#13121A] shadow-sm text-purple-650 dark:text-purple-400' : 'text-slate-600 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               title="Mobile"
             >
               <FaMobileAlt />
             </button>
           </div>
           
-          <div className="h-6 w-px bg-slate-250"></div>
+          <div className="h-6 w-px bg-slate-250 dark:bg-slate-700"></div>
           
           {lastSaved && (
             <div className="text-xs text-slate-600 dark:text-slate-500 font-semibold">
@@ -527,7 +518,7 @@ function WebsiteEditor() {
 
           <button 
             onClick={() => window.open(`/website/${website.slug}`, '_blank')}
-            className="flex items-center gap-2 text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-xl font-bold transition-all text-sm"
+            className="flex items-center gap-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-[#1A1924] px-4 py-2 rounded-xl font-bold transition-all text-sm"
           >
             <FaExternalLinkAlt className="text-xs" /> View Live Site
           </button>
@@ -546,12 +537,12 @@ function WebsiteEditor() {
       <div className="flex-1 flex overflow-hidden">
         
         {/* Left Panel: 40% Width */}
-        <div className="w-[40%] bg-white border-r border-slate-200 flex flex-col overflow-y-auto relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div className="w-[40%] bg-white dark:bg-[#09080E] border-r border-slate-200 dark:border-slate-700/60 flex flex-col overflow-y-auto relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
           <EditorControls config={config} setConfig={setConfig} website={website} />
         </div>
 
         {/* Right Panel: 60% Width */}
-        <div className="w-[60%] bg-slate-50 flex items-center justify-center p-8 overflow-hidden relative">
+        <div className="w-[60%] bg-slate-50 dark:bg-[#1A1924] flex items-center justify-center p-8 overflow-hidden relative">
           <LivePreview 
             config={config} 
             devicePreview={devicePreview} 

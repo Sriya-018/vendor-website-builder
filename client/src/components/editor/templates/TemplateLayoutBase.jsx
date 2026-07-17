@@ -576,7 +576,9 @@ export default function TemplateLayoutBase({
             )}
             <div className="flex items-center gap-6">
               <button onClick={() => changePage('home')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80">Home</button>
-              <button onClick={() => changePage('shop')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80 border-b-2 pb-1" style={{ borderColor: accentColor }}>Catalog</button>
+              <button onClick={() => changePage('shop')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80 border-b-2 pb-1" style={{
+        '--primary': primaryColor,
+        '--accent': accentColor, borderColor: accentColor }}>Catalog</button>
             </div>
           </div>
         </nav>

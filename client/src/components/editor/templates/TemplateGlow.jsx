@@ -52,8 +52,8 @@ export default function TemplateGlow({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#064E3B'; // Emerald 900
-  const accentColor = config.themeColor || '#10B981'; // Emerald 500
+  const primaryColor = config.theme?.primary || '#064E3B'; // Emerald 900
+  const accentColor = config.theme?.accent || '#10B981'; // Emerald 500
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -357,11 +357,13 @@ export default function TemplateGlow({
                           className="font-bold text-lg mb-4 truncate"
                           style={{ color: primaryColor }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
 
                     <div className="p-6 pt-0">
                       <div className="flex items-center justify-between">
+                        {config.products?.showPrices !== false && (
                         <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -374,6 +376,8 @@ export default function TemplateGlow({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -390,6 +394,7 @@ export default function TemplateGlow({
                         >
                           {product.inStock === false ? 'Out of Stock' : 'Add to Cart'}
                         </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -689,6 +694,8 @@ export default function TemplateGlow({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#f0fdf4',
         color: '#064e3b',
         fontFamily: "'Nunito', sans-serif",
@@ -898,11 +905,13 @@ export default function TemplateGlow({
                         className="font-bold text-lg mb-4 truncate"
                         style={{ color: primaryColor }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                     </div>
                   </div>
 
                   <div className="p-6 pt-0">
                     <div className="flex items-center justify-between">
+                      {config.products?.showPrices !== false && (
                       <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -915,6 +924,8 @@ export default function TemplateGlow({
                           tagName="span"
                         />
                       </div>
+                      )}
+                      {config.products?.showAddToCart !== false && (
                       <button 
                         data-cart-add={product.inStock !== false ? "true" : undefined}
                         data-product-id={product._id || product.id}
@@ -931,6 +942,7 @@ export default function TemplateGlow({
                       >
                         {product.inStock === false ? 'Out of Stock' : 'Add to Cart'}
                       </button>
+                      )}
                     </div>
                   </div>
                 </div>

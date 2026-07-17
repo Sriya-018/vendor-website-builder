@@ -51,8 +51,8 @@ export default function TemplateVogue({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#000000'; 
-  const accentColor = config.themeColor || '#6B7280'; // Gray 500
+  const primaryColor = config.theme?.primary || '#000000'; 
+  const accentColor = config.theme?.accent || '#6B7280'; // Gray 500
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -331,6 +331,7 @@ export default function TemplateVogue({
                             className="text-[1.05rem] font-semibold mb-2 truncate tracking-[0.02em]"
                             style={{ fontFamily: "'Bodoni Moda', serif" }}
                           />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                           {product.sizes && product.sizes.length > 0 && (
                             <div className="flex gap-1 mb-2 flex-wrap justify-start">
                               {product.sizes.map(sz => (
@@ -344,6 +345,7 @@ export default function TemplateVogue({
                       </div>
                       <div className="p-5 pt-0">
                         <div className="flex items-center justify-between">
+                          {config.products?.showPrices !== false && (
                           <div className="font-bold text-[1.1rem] flex items-center gap-0.5">
                             <span>₹</span>
                             <EditableText
@@ -356,7 +358,9 @@ export default function TemplateVogue({
                               tagName="span"
                             />
                           </div>
+                          )}
                           <div className="flex flex-col items-end gap-1.5">
+                            {config.products?.showAddToCart !== false && (
                             <button 
                               data-cart-add={product.inStock !== false ? "true" : undefined}
                               data-product-id={product._id || product.id}
@@ -372,6 +376,7 @@ export default function TemplateVogue({
                             >
                               {product.inStock === false ? 'Out' : 'Add to Bag'}
                             </button>
+                            )}
                             {product.sizes && product.sizes.length > 0 && (
                               <button 
                                 onClick={() => setActiveSizeGuideProduct(product)}
@@ -696,6 +701,8 @@ export default function TemplateVogue({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         backgroundColor: '#ffffff',
         color: '#000000',
         fontFamily: "'DM Sans', sans-serif",
@@ -866,6 +873,7 @@ export default function TemplateVogue({
                         className="text-[1.05rem] font-semibold mb-2 truncate tracking-[0.02em]"
                         style={{ fontFamily: "'Bodoni Moda', serif" }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.sizes && product.sizes.length > 0 && (
                         <div className="flex gap-1 mb-2 flex-wrap justify-start">
                           {product.sizes.map(sz => (
@@ -879,6 +887,7 @@ export default function TemplateVogue({
                   </div>
                   <div className="p-5 pt-0">
                     <div className="flex items-center justify-between">
+                      {config.products?.showPrices !== false && (
                       <div className="font-bold text-[1.1rem] flex items-center gap-0.5">
                         <span>₹</span>
                         <EditableText
@@ -891,7 +900,9 @@ export default function TemplateVogue({
                           tagName="span"
                         />
                       </div>
+                      )}
                       <div className="flex flex-col items-end gap-1.5">
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add={product.inStock !== false ? "true" : undefined}
                           data-product-id={product._id || product.id}
@@ -907,6 +918,7 @@ export default function TemplateVogue({
                         >
                           {product.inStock === false ? 'Out' : 'Add to Bag'}
                         </button>
+                        )}
                         {product.sizes && product.sizes.length > 0 && (
                           <button 
                             onClick={() => setActiveSizeGuideProduct(product)}

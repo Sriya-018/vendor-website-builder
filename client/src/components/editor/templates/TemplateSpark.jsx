@@ -53,8 +53,8 @@ export default function TemplateSpark({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#090D16'; // Deep space obsidian
-  const accentColor = config.themeColor || '#10B981'; // Cyber Emerald Neon Green
+  const primaryColor = config.theme?.primary || '#090D16'; // Deep space obsidian
+  const accentColor = config.theme?.accent || '#10B981'; // Cyber Emerald Neon Green
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -417,10 +417,12 @@ Please contact me to discuss setup assembly.`
                           tagName="h4"
                           className="font-bold text-sm truncate uppercase tracking-wider"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       </div>
                     </div>
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                        {config.products?.showPrices !== false && (
                         <div className="font-bold text-md text-[#10B981]">
                           <span>₹</span>
                           <EditableText
@@ -433,6 +435,8 @@ Please contact me to discuss setup assembly.`
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -443,6 +447,7 @@ Please contact me to discuss setup assembly.`
                         >
                           Buy
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -884,10 +889,12 @@ Please contact me to discuss setup assembly.`
                       tagName="h4"
                       className="text-sm font-bold truncate uppercase tracking-wider"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                   </div>
                 </div>
                 <div className="p-5 pt-0">
                   <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                    {config.products?.showPrices !== false && (
                     <div className="font-bold text-md text-[#10B981]">
                       <span>₹</span>
                       <EditableText
@@ -900,6 +907,8 @@ Please contact me to discuss setup assembly.`
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -910,6 +919,7 @@ Please contact me to discuss setup assembly.`
                     >
                       Enquire
                     </button>
+                    )}
                   </div>
                 </div>
               </div>

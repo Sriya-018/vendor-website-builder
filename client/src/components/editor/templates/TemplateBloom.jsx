@@ -55,8 +55,8 @@ export default function TemplateBloom({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#500724'; // Deep rose-burgundy for high-contrast luxury feel
-  const accentColor = config.themeColor || '#EC4899'; // Pink 500
+  const primaryColor = config.theme?.primary || '#500724'; // Deep rose-burgundy for high-contrast luxury feel
+  const accentColor = config.theme?.accent || '#EC4899'; // Pink 500
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80';
 
   const getProductImageUrl = (product, i) => {
@@ -555,6 +555,8 @@ export default function TemplateBloom({
                           className="text-lg font-bold mb-1 truncate"
                           style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
+                        {config.products?.showPrices !== false && (
                         <div className="font-bold text-lg mb-4 flex items-center justify-center gap-0.5" style={{ color: accentColor }}>
                           <span>₹</span>
                           <EditableText
@@ -567,9 +569,11 @@ export default function TemplateBloom({
                             tagName="span"
                           />
                         </div>
+                        )}
                       </div>
                     </div>
                     <div className="p-6 pt-0 text-center">
+                      {config.products?.showAddToCart !== false && (
                       <button 
                         data-cart-add={product.inStock !== false ? "true" : undefined}
                         data-product-id={product._id || product.id}
@@ -586,6 +590,7 @@ export default function TemplateBloom({
                       >
                         {product.inStock === false ? 'Out of Stock' : 'Add to Bag'}
                       </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -1040,6 +1045,8 @@ export default function TemplateBloom({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto animate-fade-in"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         background: 'linear-gradient(to bottom, #fff5f6 0%, #fff1f4 20%, #ffeef2 50%, #fff1f4 80%, #fff5f6 100%)',
         color: '#3d1a27',
         fontFamily: "'Lato', sans-serif",
@@ -1138,7 +1145,7 @@ export default function TemplateBloom({
           {/* Filters Bar */}
           <div className="bg-theme-surface/95 backdrop-blur-sm border border-pink-100 rounded-theme p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-theme">
             <div>
-              <h2 className="text-2xl font-extrabold" style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}>Botanical Store</h2>
+              <h2 className="text-2xl font-extrabold" style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Playfair Display', serif" }}>Botanical Store</h2>
               <p className="text-rose-700/60 text-xs mt-1">Ethically formulated clean skin/body catalog.</p>
             </div>
             
@@ -1257,8 +1264,10 @@ export default function TemplateBloom({
                         onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
                         tagName="h4"
                         className="text-lg font-bold mb-1 truncate"
-                        style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}
+                        style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Playfair Display', serif" }}
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
+                      {config.products?.showPrices !== false && (
                       <div className="font-bold text-lg mb-4 flex items-center justify-center gap-0.5" style={{ color: accentColor }}>
                         <span>₹</span>
                         <EditableText
@@ -1271,10 +1280,12 @@ export default function TemplateBloom({
                           tagName="span"
                         />
                       </div>
+                      )}
                     </div>
                   </div>
 
                   <div className="p-6 pt-0 text-center">
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add={product.inStock !== false ? "true" : undefined}
                       data-product-id={product._id || product.id}
@@ -1291,6 +1302,7 @@ export default function TemplateBloom({
                     >
                       {product.inStock === false ? 'Out of Stock' : 'Add to Bag'}
                     </button>
+                    )}
                   </div>
                 </div>
               ))}

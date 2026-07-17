@@ -56,8 +56,8 @@ export default function TemplateLoft({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#2E302F'; // Charcoal Slate
-  const accentColor = config.themeColor || '#8E9A86'; // Sage Green
+  const primaryColor = config.theme?.primary || '#2E302F'; // Charcoal Slate
+  const accentColor = config.theme?.accent || '#8E9A86'; // Sage Green
   const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -349,6 +349,7 @@ export default function TemplateLoft({
                           tagName="h4"
                           className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                         
                         {/* Specifications list (Loft materials) */}
                         <div className="mt-2 text-[10px] text-theme-muted font-light">
@@ -364,6 +365,7 @@ export default function TemplateLoft({
 
                     <div className="p-5 pt-0">
                       <div className="flex items-center justify-between border-t border-theme-border pt-4 mt-2">
+                        {config.products?.showPrices !== false && (
                         <div className="font-bold text-md text-[#2E302F]">
                           <span>₹</span>
                           <EditableText
@@ -376,6 +378,8 @@ export default function TemplateLoft({
                             tagName="span"
                           />
                         </div>
+                        )}
+                        {config.products?.showAddToCart !== false && (
                         <button 
                           data-cart-add="true"
                           data-product-name={product.name}
@@ -386,6 +390,7 @@ export default function TemplateLoft({
                         >
                           Select
                         </button>
+                        )}
                       </div>
                       {isEditable && (
                         <button 
@@ -819,10 +824,12 @@ export default function TemplateLoft({
                       tagName="h4"
                       className="font-bold text-sm truncate uppercase tracking-wider text-theme-text"
                     />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                   </div>
                 </div>
                 <div className="p-5 pt-0">
                   <div className="flex items-center justify-between border-t border-theme-border pt-4 mt-2">
+                    {config.products?.showPrices !== false && (
                     <div className="font-bold text-md text-[#2E302F]">
                       <span>₹</span>
                       <EditableText
@@ -835,6 +842,8 @@ export default function TemplateLoft({
                         tagName="span"
                       />
                     </div>
+                    )}
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add="true"
                       data-product-name={product.name}
@@ -845,6 +854,7 @@ export default function TemplateLoft({
                     >
                       Select
                     </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1216,7 +1226,9 @@ export default function TemplateLoft({
                   onClick={handleGenerateAiBg}
                   disabled={isGenerating}
                   className="w-full py-3.5 hover:opacity-90 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
-                  style={{ backgroundColor: primaryColor }}
+                  style={{
+        '--primary': primaryColor,
+        '--accent': accentColor, backgroundColor: primaryColor }}
                 >
                   {isGenerating ? (
                     <>

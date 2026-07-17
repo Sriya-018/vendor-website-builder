@@ -55,8 +55,8 @@ export default function TemplateAurora({
   const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
   const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
   
-  const primaryColor = '#111827';
-  const accentColor = config.themeColor || '#3B82F6';
+  const primaryColor = config.theme?.primary || '#111827';
+  const accentColor = config.theme?.accent || '#3B82F6';
   const heroBg = config.header.heroImage || 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&q=80';
 
   // Ticking countdown timer logic
@@ -352,6 +352,7 @@ export default function TemplateAurora({
                           tagName="h4"
                           className="text-lg font-extrabold text-theme-text mb-1 truncate"
                         />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                         {product.sizes && product.sizes.length > 0 && (
                           <div className="flex justify-center gap-1.5 mb-3 flex-wrap">
                             {product.sizes.map(sz => (
@@ -361,6 +362,7 @@ export default function TemplateAurora({
                             ))}
                           </div>
                         )}
+                        {config.products?.showPrices !== false && (
                         <div className="text-xl font-extrabold text-theme-text mb-2 flex items-center justify-center gap-0.5">
                           <span>₹</span>
                           <EditableText
@@ -373,6 +375,7 @@ export default function TemplateAurora({
                             tagName="span"
                           />
                         </div>
+                        )}
                         {product.sizes && product.sizes.length > 0 && (
                           <button 
                             onClick={() => setActiveSizeGuideProduct(product)}
@@ -384,6 +387,7 @@ export default function TemplateAurora({
                       </div>
                     </div>
                     <div className="p-6 pt-0">
+                      {config.products?.showAddToCart !== false && (
                       <button 
                         data-cart-add={product.inStock !== false ? "true" : undefined}
                         data-product-id={product._id || product.id}
@@ -400,6 +404,7 @@ export default function TemplateAurora({
                       >
                         <FaShoppingCart className="mr-2" /> {product.inStock === false ? 'Out of Stock' : 'Add to Cart'}
                       </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -723,6 +728,8 @@ export default function TemplateAurora({
       id="preview-scroll-container"
       className="w-full h-full overflow-y-auto bg-theme-bg text-theme-text relative"
       style={{
+        '--primary': primaryColor,
+        '--accent': accentColor,
         fontFamily: 'var(--body-font)',
         fontSize: 'var(--base-size)',
         lineHeight: 'var(--line-height)',
@@ -737,7 +744,7 @@ export default function TemplateAurora({
       )}
 
       {/* NAV */}
-      <nav className={`sticky top-0 z-40 w-full transition-all duration-300 border-b border-transparent ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 backdrop-blur-md shadow-theme border-theme-border' : 'bg-transparent'}`}>
+      <nav className={`sticky top-0 z-40 w-full transition-all duration-300 border-b border-transparent ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 backdrop-blur-md shadow-theme border-theme-border' : 'bg-transparent'}`} style={{ backgroundColor: config.navbar?.backgroundColor || (scrolled || currentPage !== 'home' ? 'var(--surface)' : 'transparent') }}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {isEditable ? (
@@ -753,7 +760,7 @@ export default function TemplateAurora({
                   onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
                   tagName="span"
                   className={`font-extrabold text-xl tracking-tight transition-colors cursor-text ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
-                  style={{ fontFamily: 'var(--heading-font)' }}
+                  style={{ fontFamily: 'var(--heading-font)', color: config.navbar?.textColor }}
                 />
               </>
             ) : (
@@ -768,7 +775,7 @@ export default function TemplateAurora({
                 )}
                 <span 
                   className={`font-extrabold text-xl tracking-tight transition-colors ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
-                  style={{ fontFamily: 'var(--heading-font)' }}
+                  style={{ fontFamily: 'var(--heading-font)', color: config.navbar?.textColor }}
                 >
                   {businessName}
                 </span>
@@ -955,6 +962,7 @@ export default function TemplateAurora({
                         tagName="h4"
                         className="text-lg font-extrabold text-theme-text mb-1 truncate"
                       />
+                        <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
                       {product.sizes && product.sizes.length > 0 && (
                         <div className="flex justify-center gap-1.5 mb-3 flex-wrap">
                           {product.sizes.map(sz => (
@@ -964,6 +972,7 @@ export default function TemplateAurora({
                           ))}
                         </div>
                       )}
+                      {config.products?.showPrices !== false && (
                       <div className="text-xl font-extrabold text-theme-text mb-2 flex items-center justify-center gap-0.5">
                         <span>₹</span>
                         <EditableText
@@ -976,6 +985,7 @@ export default function TemplateAurora({
                           tagName="span"
                         />
                       </div>
+                      )}
                       {product.sizes && product.sizes.length > 0 && (
                         <button 
                           onClick={() => setActiveSizeGuideProduct(product)}
@@ -987,6 +997,7 @@ export default function TemplateAurora({
                     </div>
                   </div>
                   <div className="p-6 pt-0">
+                    {config.products?.showAddToCart !== false && (
                     <button 
                       data-cart-add={product.inStock !== false ? "true" : undefined}
                       data-product-id={product._id || product.id}
@@ -1003,6 +1014,7 @@ export default function TemplateAurora({
                     >
                       <FaShoppingCart className="mr-2" /> {product.inStock === false ? 'Out of Stock' : 'Add to Cart'}
                     </button>
+                    )}
                   </div>
                 </div>
               ))}
