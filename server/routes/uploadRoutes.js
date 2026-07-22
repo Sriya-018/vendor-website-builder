@@ -6,6 +6,7 @@ const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
 const Photo = require('../models/Photo');
+const Image = require('../models/Image');
 const { exec } = require('child_process');
 const util = require('util');
 const execPromise = util.promisify(exec);
@@ -65,13 +66,17 @@ router.post('/product-image', diskUpload.single('image'), async (req, res) => {
 
     console.log('File received:', req.file.filename);
     
+    let imageToReadPath = req.file.path;
     let finalImageUrl = `/uploads/${req.file.filename}`;
+    let bgRemovedPath = null;
     
     // Attempt local OpenCV background removal
     console.log('Attempting local OpenCV background removal...');
     try {
       const removedBgPath = await removeBackground(req.file.path);
       if (removedBgPath) {
+        imageToReadPath = removedBgPath;
+        bgRemovedPath = removedBgPath;
         finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
         console.log('Background removed successfully:', finalImageUrl);
       }
@@ -79,14 +84,45 @@ router.post('/product-image', diskUpload.single('image'), async (req, res) => {
       console.error('Background removal failed:', bgError);
     }
 
+    // Read the final file from disk
+    const imageBuffer = fs.readFileSync(imageToReadPath);
+    
+    // Store in MongoDB
+    const imageDoc = await Image.create({
+      data: imageBuffer,
+      contentType: req.file.mimetype
+    });
+    
+    // Clean up temporary files from disk
+    try {
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+      if (bgRemovedPath && fs.existsSync(bgRemovedPath)) fs.unlinkSync(bgRemovedPath);
+    } catch (cleanupError) {
+      console.error('Failed to clean up temporary files:', cleanupError);
+    }
+
     res.json({ 
       success: true,
-      url: finalImageUrl,
-      filename: path.basename(finalImageUrl),
+      url: `/api/upload/image/${imageDoc._id}`,
+      filename: imageDoc._id.toString(),
       originalName: req.file.originalname
     });
   } catch (error) {
     console.error('Upload error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get image by ID
+router.get('/image/:id', async (req, res) => {
+  try {
+    const image = await Image.findById(req.params.id);
+    if (!image) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+    res.set('Content-Type', image.contentType);
+    res.send(image.data);
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

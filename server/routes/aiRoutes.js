@@ -9,6 +9,7 @@ const FormData = require('form-data');
 const cheerio = require('cheerio');
 const Website = require('../models/Website');
 const Business = require('../models/Business');
+const Image = require('../models/Image');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'demo-key');
 
@@ -633,25 +634,49 @@ router.post('/upload/product-image', upload.single('image'), async (req, res) =>
     if (!req.file) {
       return res.status(400).json({ error: 'No image file uploaded' });
     }
+    
+    let imageToReadPath = req.file.path;
     let finalImageUrl = `/uploads/${req.file.filename}`;
+    let bgRemovedPath = null;
+    
     // Attempt local OpenCV background removal
     console.log('Attempting local OpenCV background removal...');
     try {
       const removedBgPath = await removeBackground(req.file.path);
       if (removedBgPath) {
+        imageToReadPath = removedBgPath;
+        bgRemovedPath = removedBgPath;
         finalImageUrl = `/uploads/${path.basename(removedBgPath)}`;
         console.log('Background removed successfully:', finalImageUrl);
       }
     } catch (bgError) {
       console.error('Background removal failed:', bgError);
     }
+    
+    // Read the final file from disk
+    const imageBuffer = fs.readFileSync(imageToReadPath);
+    
+    // Store in MongoDB
+    const imageDoc = await Image.create({
+      data: imageBuffer,
+      contentType: req.file.mimetype
+    });
+    
+    // Clean up temporary files from disk
+    try {
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+      if (bgRemovedPath && fs.existsSync(bgRemovedPath)) fs.unlinkSync(bgRemovedPath);
+    } catch (cleanupError) {
+      console.error('Failed to clean up temporary files:', cleanupError);
+    }
+
     res.json({
-      url: finalImageUrl,
-      filename: req.file.filename,
+      url: `/api/upload/image/${imageDoc._id}`,
+      filename: imageDoc._id.toString(),
       originalName: req.file.originalname
     });
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Upload Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
