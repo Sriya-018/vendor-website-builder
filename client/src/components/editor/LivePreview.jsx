@@ -129,15 +129,63 @@ function LivePreview({
  specs: p.specs || '',
  dietary: p.dietary || [],
  material: p.material || ''
- })) : (config.template === 't3' || config.template === 't9' || config.template === 't15' || website?.storeInfo?.category === 'beauty' ? [
- { id: 1, _id: 1, name: 'Rosewater Glow Toner', price: 299.00, img: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80', badge: 'sale' },
- { id: 2, _id: 2, name: 'Vitamin C Brightening Serum', price: 499.00, img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80', badge: 'new' },
- { id: 3, _id: 3, name: 'Hydrating Clay Cleanser', price: 349.50, img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' },
- ] : [
- { id: 1, _id: 1, name: 'Premium Wireless Headphones', price: 199.99, img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80', badge: 'sale' },
- { id: 2, _id: 2, name: 'Minimalist Wrist Watch', price: 129.50, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80', badge: 'new' },
- { id: 3, _id: 3, name: 'Smart Home Speaker', price: 89.99, img: 'https://images.unsplash.com/photo-1589492477829-5e65395b66ea?w=500&q=80' },
- ]);
+ })) : (() => {
+    const templateId = config.template;
+    const storeCategory = website?.storeInfo?.category?.toLowerCase() || '';
+
+    const fashionTemplates = ['t1', 't7', 't13', 't16', 't17', 't18'];
+    const beautyTemplates = ['t3', 't9', 't15', 't22', 't23', 't24'];
+    const foodTemplates = ['t4', 't10', 't25', 't26', 't27', 't28'];
+    const decorTemplates = ['t5', 't11', 't29', 't30', 't31', 't32'];
+    const serviceTemplates = ['t6', 't12', 't33', 't34', 't35', 't36'];
+
+    if (fashionTemplates.includes(templateId) || storeCategory === 'fashion') {
+      return [
+        { id: 1, _id: 1, name: 'Classic White T-Shirt', price: 1499.00, img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80', badge: 'sale' },
+        { id: 2, _id: 2, name: 'Denim Jacket', price: 3499.00, img: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600&q=80', badge: 'new' },
+        { id: 3, _id: 3, name: 'Leather Sneakers', price: 4599.00, img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&q=80' },
+      ];
+    }
+    
+    if (foodTemplates.includes(templateId) || storeCategory === 'food' || storeCategory === 'restaurant' || storeCategory === 'beverage') {
+      return [
+        { id: 1, _id: 1, name: 'Spicy Avocado Toast', price: 149.00, img: 'https://images.unsplash.com/photo-1588137378733-fc7f0b5d0382?w=600&q=80', badge: 'sale' },
+        { id: 2, _id: 2, name: 'Artisan Pasta', price: 399.00, img: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=600&q=80', badge: 'new' },
+        { id: 3, _id: 3, name: 'Matcha Latte', price: 129.50, img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&q=80' },
+      ];
+    }
+    
+    if (decorTemplates.includes(templateId) || storeCategory === 'decor' || storeCategory === 'furniture' || storeCategory === 'home') {
+      return [
+        { id: 1, _id: 1, name: 'Minimalist Ceramic Vase', price: 799.00, img: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=600&q=80', badge: 'sale' },
+        { id: 2, _id: 2, name: 'Linen Throw Pillow', price: 499.00, img: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?w=600&q=80', badge: 'new' },
+        { id: 3, _id: 3, name: 'Nordic Table Lamp', price: 1299.50, img: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80' },
+      ];
+    }
+
+    if (serviceTemplates.includes(templateId) || storeCategory === 'services' || storeCategory === 'software') {
+      return [
+        { id: 1, _id: 1, name: 'Basic Consultation', price: 999.00, img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80', badge: 'sale' },
+        { id: 2, _id: 2, name: 'Premium Support Plan', price: 2499.00, img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?w=600&q=80', badge: 'new' },
+        { id: 3, _id: 3, name: 'Full Site Audit', price: 4999.50, img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
+      ];
+    }
+
+    if (beautyTemplates.includes(templateId) || storeCategory === 'beauty') {
+      return [
+        { id: 1, _id: 1, name: 'Rosewater Glow Toner', price: 299.00, img: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80', badge: 'sale' },
+        { id: 2, _id: 2, name: 'Vitamin C Brightening Serum', price: 499.00, img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80', badge: 'new' },
+        { id: 3, _id: 3, name: 'Hydrating Clay Cleanser', price: 349.50, img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' },
+      ];
+    }
+    
+    // Default / Electronics
+    return [
+      { id: 1, _id: 1, name: 'Premium Wireless Headphones', price: 199.99, img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80', badge: 'sale' },
+      { id: 2, _id: 2, name: 'Minimalist Wrist Watch', price: 129.50, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80', badge: 'new' },
+      { id: 3, _id: 3, name: 'Smart Home Speaker', price: 89.99, img: 'https://images.unsplash.com/photo-1589492477829-5e65395b66ea?w=500&q=80' },
+    ];
+  })();
 
  const renderTemplate = () => {
  const props = {
