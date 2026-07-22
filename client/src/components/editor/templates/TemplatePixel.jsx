@@ -52,6 +52,7 @@ export default function TemplatePixel({
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
  
+ const primaryColor = config.theme?.primary || '#111827';
  const accentColor = config.theme?.accent || '#10B981'; // Emerald/Retro Green
  const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80';
 

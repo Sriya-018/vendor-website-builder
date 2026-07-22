@@ -51,6 +51,7 @@ export default function TemplateSlate({
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
  
+ const primaryColor = config.theme?.primary || '#0f172a';
  const accentColor = config.theme?.accent || '#38BDF8';
  const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80';
 

@@ -90,97 +90,97 @@ function AIChatModal({ isOpen, onClose, onBuildTriggered, businessId, storeConte
  };
 
  return (
- <div className="fixed bottom-6 right-6 w-96 h-[32rem] bg-white rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden border border-gray-200 animate-fade-in-up">
- {/* Header */}
- <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 flex items-center justify-between shrink-0 shadow-md z-10">
- <div className="flex items-center gap-3">
- <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
- <FaRobot className="text-xl" />
- </div>
- <div>
- <h3 className="font-bold text-lg">Vendor AI Assistant</h3>
- <p className="text-xs text-blue-100">Always here to help</p>
- </div>
- </div>
- <button 
- onClick={onClose}
- className="text-white hover:bg-white/20 p-2 rounded-full transition-colors"
- >
- <FaTimes />
- </button>
- </div>
+    <div className="fixed bottom-6 right-6 w-96 h-[32rem] bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden border border-gray-800 animate-fade-in-up">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 flex items-center justify-between shrink-0 shadow-md z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <FaRobot className="text-xl" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg">Vendor AI Assistant</h3>
+            <p className="text-xs text-purple-200">Always here to help</p>
+          </div>
+        </div>
+        <button 
+          onClick={onClose}
+          className="text-white hover:bg-white/20 p-2 rounded-full transition-colors"
+        >
+          <FaTimes />
+        </button>
+      </div>
 
- {/* Messages Area */}
- <div className="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-4">
- {messages.map((msg, index) => (
- <div key={index} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
- <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
- msg.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-gray-800 text-white'
- }`}>
- {msg.role === 'user' ? <FaUser className="text-xs" /> : <FaRobot className="text-xs" />}
- </div>
- 
- <div className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
- msg.role === 'user' 
- ? 'bg-blue-600 text-white rounded-tr-sm' 
- : 'bg-white text-gray-800 border border-gray-100 rounded-tl-sm'
- }`}>
- {msg.text.split('\n').map((line, i) => (
- <p key={i} className="mb-1 last:mb-0">{line}</p>
- ))}
- </div>
- </div>
- ))}
- 
- {isLoading && (
- <div className="flex gap-3">
- <div className="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center shrink-0">
- <FaRobot className="text-xs" />
- </div>
- <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2">
- <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
- <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
- <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
- </div>
- </div>
- )}
- <div ref={messagesEndRef} />
- </div>
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto p-4 bg-gray-900 flex flex-col gap-4">
+        {messages.map((msg, index) => (
+          <div key={index} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+              msg.role === 'user' ? 'bg-purple-900/50 text-purple-400' : 'bg-gray-800 text-purple-400'
+            }`}>
+              {msg.role === 'user' ? <FaUser className="text-xs" /> : <FaRobot className="text-xs" />}
+            </div>
+            
+            <div className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
+              msg.role === 'user' 
+                ? 'bg-purple-600 text-white rounded-tr-sm' 
+                : 'bg-gray-800 text-gray-100 border border-gray-700 rounded-tl-sm'
+            }`}>
+              {msg.text.split('\n').map((line, i) => (
+                <p key={i} className="mb-1 last:mb-0">{line}</p>
+              ))}
+            </div>
+          </div>
+        ))}
+        
+        {isLoading && (
+          <div className="flex gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-800 text-purple-400 flex items-center justify-center shrink-0">
+              <FaRobot className="text-xs" />
+            </div>
+            <div className="bg-gray-800 border border-gray-700 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2">
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
- {/* Input Area */}
- <div className="p-4 bg-white border-t border-gray-200 shrink-0">
- <form onSubmit={handleSendMessage} className="flex gap-2 items-center">
- <button 
- type="button"
- onClick={startVoice}
- disabled={isLoading}
- className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0 ${
- isVoiceRecording 
- ? 'bg-red-100 text-red-600 animate-pulse' 
- : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
- }`}
- >
- <FaMicrophone />
- </button>
- <input
- type="text"
- value={inputMessage}
- onChange={(e) => setInputMessage(e.target.value)}
- placeholder={isVoiceRecording ? "Listening..." : "Type your question..."}
- className="flex-1 border border-gray-300 rounded-full px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
- disabled={isLoading || isVoiceRecording}
- />
- <button 
- id="ai-chat-submit-btn"
- type="submit"
- disabled={!inputMessage.trim() || isLoading}
- className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors shadow-md shrink-0"
- >
- <FaPaperPlane className="text-xs ml-0.5" />
- </button>
- </form>
- </div>
- </div>
+      {/* Input Area */}
+      <div className="p-4 bg-gray-900 border-t border-gray-800 shrink-0">
+        <form onSubmit={handleSendMessage} className="flex gap-2 items-center">
+          <button 
+            type="button"
+            onClick={startVoice}
+            disabled={isLoading}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0 ${
+              isVoiceRecording 
+                ? 'bg-red-900/50 text-red-400 animate-pulse' 
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            <FaMicrophone />
+          </button>
+          <input
+            type="text"
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            placeholder={isVoiceRecording ? "Listening..." : "Type your question..."}
+            className="flex-1 bg-gray-800 border border-gray-700 text-white placeholder-gray-400 rounded-full px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-600 focus:border-transparent outline-none transition-all"
+            disabled={isLoading || isVoiceRecording}
+          />
+          <button 
+            id="ai-chat-submit-btn"
+            type="submit"
+            disabled={!inputMessage.trim() || isLoading}
+            className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 transition-colors shadow-md shrink-0"
+          >
+            <FaPaperPlane className="text-xs ml-0.5" />
+          </button>
+        </form>
+      </div>
+    </div>
  );
 }
 

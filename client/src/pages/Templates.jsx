@@ -1847,22 +1847,22 @@ function Templates({ token, businessId }) {
  {/* AI Assistant Chat Widget */}
  <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
  {chatOpen && (
- <div className="bg-white w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-slate-205 flex flex-col overflow-hidden animate-fade-in-up">
+ <div className="bg-white dark:bg-gray-900 w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-slate-200 dark:border-gray-800 flex flex-col overflow-hidden animate-fade-in-up">
  <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 font-bold flex justify-between items-center shadow-sm">
  <span>Vendor AI Assistant ✨</span>
  <button onClick={() => setChatOpen(false)} className="hover:text-slate-200"><FaTimes /></button>
  </div>
- <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50">
+ <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 dark:bg-gray-900">
  {chatHistory.map((msg, i) => (
  <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
- <div className={`max-w-[80%] rounded-xl p-3 text-sm font-medium ${msg.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm'}`}>
+ <div className={`max-w-[80%] rounded-xl p-3 text-sm font-medium ${msg.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-800 dark:text-gray-100 rounded-bl-none shadow-sm'}`}>
  {msg.text}
  </div>
  </div>
  ))}
  {isChatLoading && (
  <div className="flex justify-start">
- <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex gap-1 rounded-bl-none">
+ <div className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl p-3 shadow-sm flex gap-1 rounded-bl-none">
  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
@@ -1870,14 +1870,14 @@ function Templates({ token, businessId }) {
  </div>
  )}
  </div>
- <div className="p-3 bg-white border-t border-slate-200 flex gap-2">
+ <div className="p-3 bg-white dark:bg-gray-900 border-t border-slate-200 dark:border-gray-800 flex gap-2">
  <input
  type="text"
  value={chatMsg}
  onChange={e => setChatMsg(e.target.value)}
  onKeyPress={e => e.key === 'Enter' && handleSendChat()}
  placeholder="Ask me anything..."
- className="flex-1 bg-slate-100 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-500 font-semibold"
+ className="flex-1 bg-slate-100 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 border border-transparent dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-500 font-semibold transition-colors"
  />
  <button
  onClick={handleSendChat}

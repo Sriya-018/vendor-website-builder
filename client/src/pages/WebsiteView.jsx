@@ -685,8 +685,31 @@ function WebsiteView({ forceSlug }) {
  name = name || 'Unknown Product';
  image = image || 'https://via.placeholder.com/150';
 
+ const targetProduct = products.find(p => (productId && p._id === productId) || p.name === name);
+
+ if (targetProduct) {
+ if (!targetProduct.inStock) {
+ alert('Sorry, this product is currently out of stock.');
+ return;
+ }
+ const existingItem = cartItems.find(i => i.name === name);
+ const currentQty = existingItem ? existingItem.quantity : 0;
+ const maxStock = targetProduct.stockQuantity !== undefined ? targetProduct.stockQuantity : 10;
+ if (currentQty + 1 > maxStock) {
+ alert(`Sorry, you can only order up to ${maxStock} of this item.`);
+ return;
+ }
+ }
+
  setCartItems(prev => {
  const existing = prev.findIndex(i => i.name === name);
+ const currentQty = existing > -1 ? prev[existing].quantity : 0;
+ const maxStock = targetProduct && targetProduct.stockQuantity !== undefined ? targetProduct.stockQuantity : 10;
+
+ if (targetProduct && currentQty + 1 > maxStock) {
+ return prev;
+ }
+
  if (existing > -1) {
  const next = [...prev];
  const nextItem = { ...next[existing] };
@@ -703,8 +726,19 @@ function WebsiteView({ forceSlug }) {
  };
 
  const updateQuantity = (index, delta) => {
+ const item = cartItems[index];
+ if (delta > 0 && item) {
+ const targetProduct = products.find(p => (item.productId && p._id === item.productId) || p.name === item.name);
+ const maxStock = targetProduct && targetProduct.stockQuantity !== undefined ? targetProduct.stockQuantity : 10;
+ if (targetProduct && item.quantity + delta > maxStock) {
+ alert(`Sorry, you can only order up to ${maxStock} of this item.`);
+ return;
+ }
+ }
+
  setCartItems(prev => {
  const next = [...prev];
+ if (!next[index]) return prev;
  const nextItem = { ...next[index] };
  nextItem.quantity += delta;
  
@@ -726,6 +760,22 @@ function WebsiteView({ forceSlug }) {
  };
 
  const handleCheckout = async (paymentMethod = 'pay_on_delivery') => {
+ // Validate stock before checkout
+ for (const item of cartItems) {
+ const targetProduct = products.find(p => (item.productId && p._id === item.productId) || p.name === item.name);
+ if (targetProduct) {
+ if (!targetProduct.inStock) {
+ alert(`Sorry, "${item.name}" is currently out of stock. Please remove it from your cart.`);
+ return;
+ }
+ const maxStock = targetProduct.stockQuantity !== undefined ? targetProduct.stockQuantity : 10;
+ if (item.quantity > maxStock) {
+ alert(`Sorry, we only have ${maxStock} of "${item.name}" in stock. Please reduce the quantity.`);
+ return;
+ }
+ }
+ }
+
  const bId = website?.businessId;
  const targetNumber = bId?.contact?.whatsapp || bId?.contact?.phone || bId?.vendorPhone;
 
