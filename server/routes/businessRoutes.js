@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 const Business = require('../models/Business');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
+const Image = require('../models/Image');
 
 // Get business details
 router.get('/:businessId', async (req, res) => {
@@ -84,9 +87,46 @@ router.put('/products/:productId', async (req, res) => {
   }
 });
 
-// Delete product
+// Delete product (and clean up associated image files & MongoDB image document)
 router.delete('/products/:productId', async (req, res) => {
   try {
+    const product = await Product.findById(req.params.productId);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // Delete associated image from MongoDB or disk if present
+    if (product.imageUrl) {
+      const urlStr = product.imageUrl;
+
+      // 1. If stored in Image collection in MongoDB (/api/upload/image/:id)
+      if (urlStr.includes('/api/upload/image/')) {
+        const imageId = urlStr.split('/api/upload/image/')[1]?.split('?')[0];
+        if (imageId) {
+          try {
+            await Image.findByIdAndDelete(imageId);
+          } catch (imgErr) {
+            console.error('Error deleting image document from MongoDB:', imgErr);
+          }
+        }
+      }
+
+      // 2. If stored as static file on disk (/uploads/filename.ext)
+      if (urlStr.includes('/uploads/')) {
+        const filename = urlStr.split('/uploads/')[1]?.split('?')[0];
+        if (filename) {
+          const filePath = path.join(__dirname, '../uploads', filename);
+          try {
+            if (fs.existsSync(filePath)) {
+              fs.unlinkSync(filePath);
+            }
+          } catch (fileErr) {
+            console.error('Error deleting image file from uploads folder:', fileErr);
+          }
+        }
+      }
+    }
+
     await Product.findByIdAndDelete(req.params.productId);
     res.json({ success: true });
   } catch (error) {
