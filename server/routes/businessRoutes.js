@@ -26,7 +26,7 @@ router.put('/:businessId', async (req, res) => {
       { ...req.body, updatedAt: new Date() },
       { new: true }
     );
-    
+
     // If businessName was updated, cascade to all related websites
     if (req.body.businessName) {
       const Website = require('../models/Website');
@@ -35,7 +35,7 @@ router.put('/:businessId', async (req, res) => {
         { $set: { 'storeInfo.businessName': req.body.businessName } }
       );
     }
-    
+
     res.json(business);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -133,7 +133,7 @@ router.delete('/products/:productId', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+//
 // Get orders
 router.get('/:businessId/orders', async (req, res) => {
   try {
@@ -206,7 +206,7 @@ router.post('/:businessId/orders', async (req, res) => {
 router.put('/orders/:orderId', async (req, res) => {
   try {
     const { status, paymentStatus } = req.body;
-    
+
     let updateFields = { updatedAt: new Date() };
     if (status) updateFields.status = status;
     if (paymentStatus) updateFields.paymentStatus = paymentStatus;
@@ -239,11 +239,11 @@ router.post('/:businessId/inquiries', async (req, res) => {
   try {
     const Inquiry = require('../models/Inquiry');
     const { name, email, message, websiteId } = req.body;
-    
+
     if (!name || !email || !message || !websiteId) {
       return res.status(400).json({ error: 'All fields (name, email, message, websiteId) are required.' });
     }
-    
+
     const newInquiry = await Inquiry.create({
       businessId: req.params.businessId,
       websiteId,
@@ -251,7 +251,7 @@ router.post('/:businessId/inquiries', async (req, res) => {
       email,
       message
     });
-    
+
     res.status(201).json(newInquiry);
   } catch (error) {
     res.status(500).json({ error: error.message });
