@@ -216,7 +216,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
  return (
  <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden max-w-4xl">
- <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-900/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+ <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-100 dark:bg-slate-900/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>
  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Settings</h2>
  <p className="text-sm text-slate-600 dark:text-slate-400">Update information and contact details</p>
@@ -234,7 +234,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
  if (setSelectedWebsite) setSelectedWebsite(site);
  }
  }}
- className="w-full px-3 py-2 bg-slate-50 dark:bg-[#09080E] border border-slate-300 dark:border-slate-700/60 rounded-lg text-sm font-medium text-slate-200 focus:ring-2 focus:ring-purple-500 outline-none"
+ className="w-full px-3 py-2 bg-slate-50 dark:bg-[#09080E] border border-slate-300 dark:border-slate-700/60 rounded-lg text-sm font-medium text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-purple-500 outline-none"
  >
  <option value="global">🏢 Global Business Defaults</option>
  {websites && websites.map(site => (
@@ -455,7 +455,7 @@ function SettingsTab({ businessId, businessData, onUpdate, refreshData, websites
 
  {/* SEO (Search Engine Optimization) - Only for individual websites */}
  {selectedWebsite && (
- <section className="bg-slate-900/40 p-6 rounded-xl border border-slate-200 dark:border-slate-800/60">
+ <section className="bg-slate-100 dark:bg-slate-900/40 p-6 rounded-xl border border-slate-200 dark:border-slate-800/60">
  <h3 className="text-lg font-semibold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800/60 pb-2 mb-4 flex items-center gap-2">
  <FaGlobe className="text-purple-400" /> Search Engine Optimization (SEO)
  </h3>

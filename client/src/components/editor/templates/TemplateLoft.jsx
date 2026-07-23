@@ -266,7 +266,7 @@ export default function TemplateLoft({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3.5 text-white rounded-none font-bold hover:opacity-90 transition-opacity flex items-center gap-2 text-xs uppercase tracking-wider"
+ className="px-8 py-3.5 text-slate-900 dark:text-white rounded-none font-bold hover:opacity-90 transition-opacity flex items-center gap-2 text-xs uppercase tracking-wider"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Explore Gallery'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -386,7 +386,7 @@ export default function TemplateLoft({
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-4 py-2 border border-[#2E302F] text-[#2E302F] hover:bg-[#2E302F] hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-4 py-2 border border-[#2E302F] text-[#2E302F] hover:bg-[#2E302F] hover:text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  >
  Select
  </button>
@@ -407,7 +407,7 @@ export default function TemplateLoft({
  <div className="text-center mt-16">
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3 bg-[#2E302F] text-white hover:opacity-90 font-bold text-xs uppercase tracking-widest transition-opacity"
+ className="px-8 py-3 bg-[#2E302F] text-slate-900 dark:text-white hover:opacity-90 font-bold text-xs uppercase tracking-widest transition-opacity"
  >
  Explore Catalog
  </button>
@@ -704,7 +704,7 @@ export default function TemplateLoft({
 
  <button 
  type="submit"
- className="w-full py-3.5 bg-[#2E302F] text-white font-bold uppercase tracking-wider text-xs hover:opacity-90 transition-opacity"
+ className="w-full py-3.5 bg-[#2E302F] text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs hover:opacity-90 transition-opacity"
  >
  Submit Consultation Request
  </button>
@@ -850,7 +850,7 @@ export default function TemplateLoft({
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-3 py-1.5 border border-[#2E302F] text-[#2E302F] hover:bg-[#2E302F] hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-3 py-1.5 border border-[#2E302F] text-[#2E302F] hover:bg-[#2E302F] hover:text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  >
  Select
  </button>
@@ -1126,7 +1126,7 @@ export default function TemplateLoft({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 bg-[#2E302F] text-white font-bold uppercase tracking-wider text-xs shadow transition-all animate-pulse"
+ className="px-6 py-2.5 bg-[#2E302F] text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs shadow transition-all animate-pulse"
  >
  Done
  </button>
@@ -1187,7 +1187,7 @@ export default function TemplateLoft({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[9px] text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
+ <span className="text-[9px] text-slate-900 dark:text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1225,7 +1225,7 @@ export default function TemplateLoft({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
  style={{
  '--primary': primaryColor,
  '--accent': accentColor, backgroundColor: primaryColor }}

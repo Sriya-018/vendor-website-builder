@@ -256,7 +256,7 @@ export default function TemplateHaven({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3.5 text-white rounded font-semibold hover:opacity-85 transition-opacity flex items-center gap-2"
+ className="px-8 py-3.5 text-slate-900 dark:text-white rounded font-semibold hover:opacity-85 transition-opacity flex items-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Browse Collection'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -598,7 +598,7 @@ export default function TemplateHaven({
  const countdownTitle = config.countdown?.title || 'Mega Summer Sale Ending Soon!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-8 text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
+ <section className="w-full py-12 px-8 text-slate-900 dark:text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left md:max-w-md">
  <EditableText
@@ -618,8 +618,8 @@ export default function TemplateHaven({
  { label: 'Min', val: timeLeft.minutes },
  { label: 'Sec', val: timeLeft.seconds }
  ].map((col, idx) => (
- <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-white/10 shadow-theme">
- <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
+ <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-slate-900/10 dark:border-white/10 shadow-theme">
+ <span className="text-2xl font-black text-slate-900 dark:text-white">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-200 mt-1">{col.label}</span>
  </div>
  ))}
@@ -813,11 +813,11 @@ export default function TemplateHaven({
  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-amber-950/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-amber-950/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
+ <span className="absolute top-3 left-3 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
  ⭐ Bestseller
  </span>
  ) : null}
@@ -1019,7 +1019,7 @@ export default function TemplateHaven({
 
  <button 
  type="submit"
- className="w-full py-4 rounded text-white font-semibold shadow-theme hover:opacity-95 transition-opacity"
+ className="w-full py-4 rounded text-slate-900 dark:text-white font-semibold shadow-theme hover:opacity-95 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Submit Form
@@ -1306,7 +1306,7 @@ export default function TemplateHaven({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 text-white rounded-full font-bold text-xs shadow transition-all animate-pulse"
+ className="px-6 py-2.5 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow transition-all animate-pulse"
  style={{ backgroundColor: primaryColor }}
  >
  Done
@@ -1368,7 +1368,7 @@ export default function TemplateHaven({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1406,7 +1406,7 @@ export default function TemplateHaven({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

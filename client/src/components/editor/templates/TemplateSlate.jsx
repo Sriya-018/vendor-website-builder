@@ -232,7 +232,7 @@ export default function TemplateSlate({
  value={config.header.heroHeading || description}
  onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
  tagName="h1"
- className="text-4xl md:text-6xl font-extrabold text-slate-100 leading-tight mb-5 tracking-tight"
+ className="text-4xl md:text-6xl font-extrabold text-slate-800 dark:text-slate-100 leading-tight mb-5 tracking-tight"
  />
  <EditableText
  isEditable={isEditable}
@@ -256,7 +256,7 @@ export default function TemplateSlate({
  href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
  target="_blank"
  rel="noopener noreferrer"
- className="px-7 py-3 bg-slate-800 border border-slate-700 text-slate-100 rounded-theme font-bold hover:border-slate-500 transition-colors flex items-center"
+ className="px-7 py-3 bg-slate-800 border border-slate-700 text-slate-800 dark:text-slate-100 rounded-theme font-bold hover:border-slate-500 transition-colors flex items-center"
  >
  <FaWhatsapp className="mr-2 text-theme-primary" /> WhatsApp
  </a>
@@ -270,7 +270,7 @@ export default function TemplateSlate({
  {isEditable && (
  <button 
  onClick={() => setShowBgModal(true)}
- className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-100 hover:text-white rounded font-bold text-[10px] shadow-theme transition-all font-mono"
+ className="absolute bottom-4 right-4 z-20 px-3.5 py-2 bg-slate-900 border border-slate-700 text-slate-800 dark:text-slate-100 hover:text-slate-900 dark:text-white rounded font-bold text-[10px] shadow-theme transition-all font-mono"
  >
  🤖 Edit Hero Image / AI
  </button>
@@ -292,7 +292,7 @@ export default function TemplateSlate({
  value={config.products.sectionTitle || 'Product Catalog'}
  onChange={(val) => onUpdateConfig('products', 'sectionTitle', val)}
  tagName="h2"
- className="text-3xl font-extrabold text-slate-100 mb-1"
+ className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-1"
  />
  <div className="w-12 h-[3px] rounded-full" style={{ backgroundColor: accentColor }}></div>
  </div>
@@ -328,7 +328,7 @@ export default function TemplateSlate({
  value={product.name}
  onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
  tagName="h4"
- className="font-extrabold text-slate-100 text-base mb-1 truncate"
+ className="font-extrabold text-slate-800 dark:text-slate-100 text-base mb-1 truncate"
  />
  <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
  </div>
@@ -369,7 +369,7 @@ export default function TemplateSlate({
  <div className="text-center mt-12">
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3 bg-transparent border border-slate-700 hover:border-slate-500 text-slate-200 rounded-theme font-bold transition-colors"
+ className="px-8 py-3 bg-transparent border border-slate-700 hover:border-slate-500 text-slate-800 dark:text-slate-200 rounded-theme font-bold transition-colors"
  >
  Explore Collection
  </button>
@@ -390,7 +390,7 @@ export default function TemplateSlate({
  value={galleryTitle}
  onChange={(val) => onUpdateConfig('gallery', 'title', val)}
  tagName="h2"
- className="text-3xl font-extrabold text-slate-100 mb-2"
+ className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2"
  />
  <div className="w-12 h-[3px] rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
  </div>
@@ -412,7 +412,7 @@ export default function TemplateSlate({
  onUpdateConfig('gallery', 'images', updated);
  }
  }}
- className="w-full px-3 py-1.5 bg-slate-800 text-slate-100 rounded text-xs border border-slate-700 outline-none focus:ring-2 focus:ring-sky-500"
+ className="w-full px-3 py-1.5 bg-slate-800 text-slate-800 dark:text-slate-100 rounded text-xs border border-slate-700 outline-none focus:ring-2 focus:ring-sky-500"
  />
  </div>
  )}
@@ -435,7 +435,7 @@ export default function TemplateSlate({
  value={faqTitle}
  onChange={(val) => onUpdateConfig('faq', 'title', val)}
  tagName="h2"
- className="text-3xl font-extrabold text-slate-100 mb-2"
+ className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2"
  />
  <div className="w-12 h-[3px] rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
  </div>
@@ -444,7 +444,7 @@ export default function TemplateSlate({
  const isOpen = activeFaq === idx;
  return (
  <div key={item.id || idx} className="bg-slate-800 border border-slate-700 rounded-theme overflow-hidden shadow-theme transition-all">
- <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-slate-200 flex items-center justify-between hover:bg-slate-700/50 transition-colors">
+ <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between hover:bg-slate-700/50 transition-colors">
  <EditableText
  isEditable={isEditable}
  value={item.question}
@@ -491,7 +491,7 @@ export default function TemplateSlate({
  value={testimonialTitle}
  onChange={(val) => onUpdateConfig('testimonials', 'title', val)}
  tagName="h2"
- className="text-3xl font-extrabold text-slate-100 mb-2"
+ className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2"
  />
  <div className="w-12 h-[3px] rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
  </div>
@@ -534,7 +534,7 @@ export default function TemplateSlate({
  onUpdateConfig('testimonials', 'list', updated);
  }}
  tagName="h5"
- className="font-bold text-slate-200 text-sm"
+ className="font-bold text-slate-800 dark:text-slate-200 text-sm"
  />
  <EditableText
  isEditable={isEditable}
@@ -568,7 +568,7 @@ export default function TemplateSlate({
  value={hoursTitle}
  onChange={(val) => onUpdateConfig('hours', 'title', val)}
  tagName="h3"
- className="text-2xl font-extrabold text-slate-100 mb-2"
+ className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-2"
  />
  <div className="w-12 h-[3px] rounded-full mx-auto" style={{ backgroundColor: accentColor }}></div>
  </div>
@@ -584,7 +584,7 @@ export default function TemplateSlate({
  onUpdateConfig('hours', 'days', updated);
  }}
  tagName="span"
- className="font-bold text-slate-200 text-sm"
+ className="font-bold text-slate-800 dark:text-slate-200 text-sm"
  />
  </div>
  ))}
@@ -599,7 +599,7 @@ export default function TemplateSlate({
  const countdownTitle = config.countdown?.title || 'Mega Summer Sale Ending Soon!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-8 text-slate-100 text-center relative overflow-hidden border-t border-b border-slate-800" style={{ backgroundColor: config.countdown?.bgColor || '#0f172a' }}>
+ <section className="w-full py-12 px-8 text-slate-800 dark:text-slate-100 text-center relative overflow-hidden border-t border-b border-slate-800" style={{ backgroundColor: config.countdown?.bgColor || '#0f172a' }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left md:max-w-md">
  <EditableText
@@ -621,7 +621,7 @@ export default function TemplateSlate({
  { label: 'Sec', val: timeLeft.seconds }
  ].map((col, idx) => (
  <div key={idx} className="flex flex-col items-center bg-slate-800 px-4 py-3 rounded-theme min-w-[70px] border border-slate-700 shadow-theme">
- <span className="text-2xl font-black text-slate-100">{String(col.val).padStart(2, '0')}</span>
+ <span className="text-2xl font-black text-slate-800 dark:text-slate-100">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-theme-muted mt-1">{col.label}</span>
  </div>
  ))}
@@ -636,7 +636,7 @@ export default function TemplateSlate({
  <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
  <section id="contact" className="bg-[#020617] py-16 px-8 mt-16">
  <div className="max-w-3xl mx-auto text-center">
- <h3 className="text-2xl font-extrabold text-slate-100 mb-2">Get in Touch</h3>
+ <h3 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Get in Touch</h3>
  <p className="text-theme-muted mb-8">Questions? We're always online.</p>
  
  <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 text-left leading-loose max-w-md mx-auto">
@@ -644,19 +644,19 @@ export default function TemplateSlate({
  {phoneNumber && (
  <p className="flex items-center gap-3">
  <FaPhoneAlt style={{ color: accentColor }} />
- <span className="font-bold text-slate-200">{phoneNumber}</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200">{phoneNumber}</span>
  </p>
  )}
  {email && (
  <p className="flex items-center gap-3">
  <FaEnvelope style={{ color: accentColor }} />
- <span className="font-bold text-slate-200">{email}</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200">{email}</span>
  </p>
  )}
  {address && (
  <p className="flex items-center gap-3">
  <FaMapMarkerAlt style={{ color: accentColor }} />
- <span className="font-bold text-slate-200">{address}</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200">{address}</span>
  </p>
  )}
  </div>
@@ -674,7 +674,7 @@ export default function TemplateSlate({
  return (
  <div 
  id="preview-scroll-container"
- className="w-full h-full overflow-y-auto text-slate-200 relative"
+ className="w-full h-full overflow-y-auto text-slate-800 dark:text-slate-200 relative"
  style={{
  '--primary': primaryColor,
  '--accent': accentColor,
@@ -734,7 +734,7 @@ export default function TemplateSlate({
  {/* Catalog Filters Header */}
  <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 shadow-theme mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
  <div>
- <h2 className="text-3xl font-extrabold text-slate-100" style={{ color: accentColor }}>Products Catalog</h2>
+ <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100" style={{ color: accentColor }}>Products Catalog</h2>
  <p className="text-slate-400 text-sm mt-1">Explore all premium products available in our shop</p>
  </div>
  
@@ -747,7 +747,7 @@ export default function TemplateSlate({
  placeholder="Search products..." 
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 transition-all"
+ className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100 transition-all"
  />
  </div>
 
@@ -756,7 +756,7 @@ export default function TemplateSlate({
  <select 
  value={sortBy}
  onChange={(e) => setSortBy(e.target.value)}
- className="pl-4 pr-10 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm cursor-pointer appearance-none font-semibold text-slate-300"
+ className="pl-4 pr-10 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm cursor-pointer appearance-none font-semibold text-slate-700 dark:text-slate-300"
  >
  <option value="default">Bestselling</option>
  <option value="price-low">Price: Low to High</option>
@@ -785,7 +785,7 @@ export default function TemplateSlate({
  {sortedFilteredProducts.length === 0 ? (
  <div className="text-center py-20 bg-slate-800 rounded-theme border border-slate-700 shadow-theme">
  <div className="text-4xl mb-3">🔍</div>
- <h3 className="font-extrabold text-slate-200 text-lg">No products found</h3>
+ <h3 className="font-extrabold text-slate-800 dark:text-slate-200 text-lg">No products found</h3>
  <p className="text-theme-muted text-sm mt-1">Try matching another search query or category filter</p>
  </div>
  ) : (
@@ -811,7 +811,7 @@ export default function TemplateSlate({
  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-theme-primary text-white/90 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-theme-primary text-slate-900 dark:text-white/90 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
@@ -841,13 +841,13 @@ export default function TemplateSlate({
  value={product.name}
  onChange={(val) => onUpdateProduct(product._id || product.id, 'name', val)}
  tagName="h4"
- className="font-extrabold text-slate-100 text-base mb-1 truncate"
+ className="font-extrabold text-slate-800 dark:text-slate-100 text-base mb-1 truncate"
  />
  <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
  {product.specs && product.specs.length > 0 && (
  <div className="flex gap-1 mt-2 flex-wrap">
  {product.specs.map((sp, idx) => (
- <span key={idx} className="text-[9px] font-semibold bg-slate-900 border border-slate-750 px-1.5 py-0.5 rounded text-slate-300">
+ <span key={idx} className="text-[9px] font-semibold bg-slate-900 border border-slate-750 px-1.5 py-0.5 rounded text-slate-700 dark:text-slate-300">
  {sp}
  </span>
  ))}
@@ -893,7 +893,7 @@ export default function TemplateSlate({
  {product.specs && product.specs.length > 0 && (
  <button 
  onClick={() => setActiveSpecsProduct(product)}
- className="text-[10px] font-semibold text-slate-400 hover:text-white transition-colors underline"
+ className="text-[10px] font-semibold text-slate-400 hover:text-slate-900 dark:text-white transition-colors underline"
  >
  Specs Sheet
  </button>
@@ -911,7 +911,7 @@ export default function TemplateSlate({
  style={{ borderRadius: 'var(--radius)' }}
  >
  <div className="w-12 h-12 rounded-full bg-slate-800 text-sky-400 border border-slate-700 flex items-center justify-center text-xl font-bold mb-3">+</div>
- <h4 className="font-extrabold text-slate-300">Add New Product</h4>
+ <h4 className="font-extrabold text-slate-700 dark:text-slate-300">Add New Product</h4>
  <p className="text-xs text-theme-muted mt-1 max-w-[180px]">Quickly create a new product card in your catalog</p>
  </div>
  )}
@@ -926,7 +926,7 @@ export default function TemplateSlate({
  {/* Contact Details & Hours */}
  <div className="space-y-8">
  <div>
- <h2 className="text-3xl font-extrabold text-slate-100" style={{ color: accentColor }}>Contact Information</h2>
+ <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100" style={{ color: accentColor }}>Contact Information</h2>
  <p className="text-slate-400 text-sm mt-1">Have any questions? Drop us a message.</p>
  </div>
 
@@ -936,7 +936,7 @@ export default function TemplateSlate({
  <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaPhoneAlt /></div>
  <div>
  <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Call Us</div>
- <div className="font-bold text-slate-200 text-sm break-all">{phoneNumber}</div>
+ <div className="font-bold text-slate-800 dark:text-slate-200 text-sm break-all">{phoneNumber}</div>
  </div>
  </div>
  )}
@@ -945,7 +945,7 @@ export default function TemplateSlate({
  <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaEnvelope /></div>
  <div>
  <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Email Us</div>
- <div className="font-bold text-slate-200 text-sm break-all">{email}</div>
+ <div className="font-bold text-slate-800 dark:text-slate-200 text-sm break-all">{email}</div>
  </div>
  </div>
  )}
@@ -954,7 +954,7 @@ export default function TemplateSlate({
  <div className="w-12 h-12 bg-slate-900 rounded-theme flex items-center justify-center text-xl shrink-0" style={{ color: accentColor }}><FaMapMarkerAlt /></div>
  <div>
  <div className="text-[10px] font-bold text-theme-muted uppercase tracking-widest">Visit Store</div>
- <div className="font-bold text-slate-200 text-sm">{address}</div>
+ <div className="font-bold text-slate-800 dark:text-slate-200 text-sm">{address}</div>
  </div>
  </div>
  )}
@@ -962,12 +962,12 @@ export default function TemplateSlate({
 
  {/* Hours panel */}
  <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 shadow-theme">
- <h3 className="font-extrabold text-slate-100 text-xl mb-4">{config.hours?.title || 'Business Hours'}</h3>
+ <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-xl mb-4">{config.hours?.title || 'Business Hours'}</h3>
  <div className="space-y-3">
  {(config.hours?.days || []).map((item, idx) => (
  <div key={idx} className="flex justify-between items-center border-b border-slate-700 pb-2.5 last:border-b-0 last:pb-0">
  <span className="font-bold text-slate-400 text-sm">{item.day}</span>
- <span className="font-extrabold text-slate-200 text-sm">{item.hours}</span>
+ <span className="font-extrabold text-slate-800 dark:text-slate-200 text-sm">{item.hours}</span>
  </div>
  ))}
  </div>
@@ -976,7 +976,7 @@ export default function TemplateSlate({
 
  {/* Contact Inquiry Form */}
  <div className="bg-slate-800 border border-slate-700 rounded-theme p-8 md:p-10 shadow-theme relative overflow-hidden">
- <h3 className="text-2xl font-extrabold text-slate-100 mb-6">Send an Inquiry</h3>
+ <h3 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-6">Send an Inquiry</h3>
  
  {formSubmitted ? (
  <div className="absolute inset-0 bg-slate-800/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
@@ -994,7 +994,7 @@ export default function TemplateSlate({
  placeholder="Enter your name" 
  value={contactForm.name}
  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
- className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
+ className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-200 transition-all"
  />
  </div>
  <div>
@@ -1004,7 +1004,7 @@ export default function TemplateSlate({
  placeholder="Enter your email address" 
  value={contactForm.email}
  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
- className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all"
+ className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-200 transition-all"
  />
  </div>
  <div>
@@ -1014,7 +1014,7 @@ export default function TemplateSlate({
  value={contactForm.message}
  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
  rows={4}
- className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-200 transition-all resize-none"
+ className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-200 transition-all resize-none"
  />
  </div>
 
@@ -1038,14 +1038,14 @@ export default function TemplateSlate({
  {/* Tech Specs Modal */}
  {activeSpecsProduct && (
  <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[210] flex items-center justify-center p-4">
- <div className="bg-slate-900 rounded-theme max-w-md w-full p-8 shadow-theme border border-slate-800 relative font-sans text-slate-200 text-left animate-fade-in">
+ <div className="bg-slate-900 rounded-theme max-w-md w-full p-8 shadow-theme border border-slate-800 relative font-sans text-slate-800 dark:text-slate-200 text-left animate-fade-in">
  <button 
  onClick={() => setActiveSpecsProduct(null)}
- className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
+ className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 dark:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
  >
  ×
  </button>
- <h3 className="text-xl font-extrabold text-slate-100 mb-1">
+ <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">
  📊 Technical Specifications
  </h3>
  <p className="text-xs text-theme-muted mb-6">{activeSpecsProduct.name}</p>
@@ -1066,7 +1066,7 @@ export default function TemplateSlate({
  return (
  <tr key={idx} className="hover:bg-slate-800/40">
  <td className="p-3 font-semibold text-slate-400">{key.trim()}</td>
- <td className="p-3 font-mono text-slate-200">{val.trim() || 'N/A'}</td>
+ <td className="p-3 font-mono text-slate-800 dark:text-slate-200">{val.trim() || 'N/A'}</td>
  </tr>
  );
  })}
@@ -1075,13 +1075,13 @@ export default function TemplateSlate({
  </div>
 
  <div className="p-4 bg-slate-950 rounded-theme border border-slate-850 text-xs leading-relaxed text-slate-400">
- <strong className="text-slate-300 block mb-1">📦 What's in the Box:</strong>
+ <strong className="text-slate-700 dark:text-slate-300 block mb-1">📦 What's in the Box:</strong>
  {activeSpecsProduct.material || "Main unit, User manual, and charging accessories."}
  </div>
  
  <button 
  onClick={() => setActiveSpecsProduct(null)}
- className="w-full mt-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold rounded-theme transition-colors text-sm text-center border border-slate-700"
+ className="w-full mt-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold rounded-theme transition-colors text-sm text-center border border-slate-700"
  >
  Close Specs Sheet
  </button>
@@ -1095,14 +1095,14 @@ export default function TemplateSlate({
  if (!product) return null;
  return (
  <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
- <div className="bg-slate-900 rounded-theme max-w-lg w-full p-8 shadow-theme relative border border-slate-800 font-sans text-slate-200 text-left animate-fade-in">
+ <div className="bg-slate-900 rounded-theme max-w-lg w-full p-8 shadow-theme relative border border-slate-800 font-sans text-slate-800 dark:text-slate-200 text-left animate-fade-in">
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="absolute top-4 right-4 text-slate-400 hover:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
+ className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 dark:text-white font-light text-3xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-800"
  >
  ×
  </button>
- <h3 className="text-xl font-extrabold text-slate-100 mb-1">
+ <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-1">
  Edit Product Settings
  </h3>
  <p className="text-xs text-theme-muted mb-6">Modify details, configure technical specifications, or upload custom images.</p>
@@ -1114,7 +1114,7 @@ export default function TemplateSlate({
  type="text"
  value={product.name}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
- className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+ className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100"
  />
  </div>
 
@@ -1125,7 +1125,7 @@ export default function TemplateSlate({
  type="number"
  value={product.price}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
- className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+ className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100"
  />
  </div>
 
@@ -1136,7 +1136,7 @@ export default function TemplateSlate({
  value={product.category || ''}
  placeholder="e.g. Laptops, Mobiles"
  onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
- className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+ className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100"
  />
  </div>
  </div>
@@ -1148,7 +1148,7 @@ export default function TemplateSlate({
  placeholder="Provide overview of key product highlights, benefits, and components."
  onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100 resize-none"
+ className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100 resize-none"
  />
  </div>
 
@@ -1166,7 +1166,7 @@ export default function TemplateSlate({
  updated[idx] = e.target.value;
  onUpdateProduct(product._id || product.id, 'specs', updated);
  }}
- className="flex-1 px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-theme text-xs text-slate-200 outline-none focus:border-slate-700"
+ className="flex-1 px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-theme text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-slate-700"
  />
  <button 
  type="button"
@@ -1201,7 +1201,7 @@ export default function TemplateSlate({
  value={product.material || ''}
  placeholder="e.g. Device, Charging Adapter, USB-C Cable"
  onChange={(e) => onUpdateProduct(product._id || product.id, 'material', e.target.value)}
- className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-100"
+ className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 dark:text-slate-100"
  />
  </div>
 
@@ -1247,14 +1247,14 @@ export default function TemplateSlate({
  onUpdateProduct(product._id || product.id, 'stockQuantity', val);
  onUpdateProduct(product._id || product.id, 'inStock', val > 0);
  }}
- className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium text-slate-100"
+ className="w-full px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-theme outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium text-slate-800 dark:text-slate-100"
  placeholder="Quantity in Stock"
  />
  </div>
 
  {/* Product Image Section */}
  <div className="p-4 border border-slate-800 rounded-theme bg-slate-950/40 space-y-3">
- <span className="block text-xs font-bold text-slate-300 uppercase">Product Image</span>
+ <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Product Image</span>
  
  <div className="flex gap-4 items-center">
  <div className="w-20 h-20 rounded-theme overflow-hidden bg-slate-950 border border-slate-850 shrink-0">
@@ -1267,7 +1267,7 @@ export default function TemplateSlate({
 
  <div className="flex-1 space-y-2">
  <div>
- <label className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center border border-slate-700">
+ <label className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-theme text-xs cursor-pointer shadow-theme transition-all text-center border border-slate-700">
  📁 Upload Image
  <input 
  type="file" 
@@ -1283,7 +1283,7 @@ export default function TemplateSlate({
  value={product.img || ''} 
  placeholder="Or paste external Image URL" 
  onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
- className="w-full px-3 py-1.5 bg-[#0f172a] border border-slate-800 rounded-theme text-xs outline-none focus:ring-1 focus:ring-sky-500 text-slate-200" 
+ className="w-full px-3 py-1.5 bg-[#0f172a] border border-slate-800 rounded-theme text-xs outline-none focus:ring-1 focus:ring-sky-500 text-slate-800 dark:text-slate-200" 
  />
  </div>
  </div>
@@ -1320,14 +1320,14 @@ export default function TemplateSlate({
  {/* Background Editor Modal */}
  {showBgModal && (
  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
- <div className="bg-[#0f172a] rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-slate-200 border border-slate-800 text-left animate-fade-in">
+ <div className="bg-[#0f172a] rounded-theme max-w-lg w-full p-6 shadow-theme relative font-sans text-slate-800 dark:text-slate-200 border border-slate-800 text-left animate-fade-in">
  <button 
  onClick={() => setShowBgModal(false)}
- className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
+ className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
  >
  ×
  </button>
- <h3 className="text-xl font-extrabold text-slate-100 mb-1 font-mono">
+ <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-1 font-mono">
  // HERO_IMAGE_SETTINGS
  </h3>
  <p className="text-xs text-theme-muted mb-6 font-mono">Select a tech preset or generate using AI.</p>
@@ -1367,7 +1367,7 @@ export default function TemplateSlate({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1381,7 +1381,7 @@ export default function TemplateSlate({
  value={aiPrompt}
  onChange={(e) => setAiPrompt(e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-[#020617] border border-slate-800 rounded outline-none focus:ring-1 focus:ring-sky-500 text-xs text-white resize-none"
+ className="w-full px-4 py-3 bg-[#020617] border border-slate-800 rounded outline-none focus:ring-1 focus:ring-sky-500 text-xs text-slate-900 dark:text-white resize-none"
  />
  </div>
 
@@ -1391,7 +1391,7 @@ export default function TemplateSlate({
  <select 
  value={aiStyle} 
  onChange={(e) => setAiStyle(e.target.value)}
- className="w-full p-3 bg-[#020617] border border-slate-800 rounded outline-none focus:ring-1 focus:ring-sky-500 text-xs font-bold text-white bg-slate-900"
+ className="w-full p-3 bg-[#020617] border border-slate-800 rounded outline-none focus:ring-1 focus:ring-sky-500 text-xs font-bold text-slate-900 dark:text-white bg-slate-900"
  >
  <option value="realistic">Realistic Photo</option>
  <option value="abstract">Abstract Art</option>

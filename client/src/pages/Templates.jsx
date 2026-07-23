@@ -1116,7 +1116,7 @@ function Templates({ token, businessId }) {
 
  {/* FULL SCREEN PUBLISHING LOADER */}
  {isPublishing && (
- <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex flex-col items-center justify-center text-white">
+ <div className="fixed inset-0 z-[100] bg-gray-900/90 backdrop-blur-sm flex flex-col items-center justify-center text-slate-900 dark:text-white">
  <div className="w-24 h-24 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-8"></div>
  <h2 className="text-3xl font-bold font-jakarta mb-4 animate-pulse">Generating your store...</h2>
  <div className="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -1170,7 +1170,7 @@ function Templates({ token, businessId }) {
  onClick={() => setActiveCategory(category)}
  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${activeCategory === category
  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20 transform scale-105'
- : `${theme === 'dark' ? 'bg-white dark:bg-[#13121A] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800/60 hover:text-slate-200' : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900'} border hover:border-indigo-500/40`
+ : `${theme === 'dark' ? 'bg-white dark:bg-[#13121A] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200' : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900'} border hover:border-indigo-500/40`
  }`}
  >
  {category}
@@ -1200,7 +1200,7 @@ function Templates({ token, businessId }) {
  </button>
  </div>
  <div className="absolute top-4 left-4 flex gap-2">
- <span className="bg-slate-50 dark:bg-[#09080E]/80 backdrop-blur-sm text-slate-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-slate-300 dark:border-slate-700/50">
+ <span className="bg-slate-50 dark:bg-[#09080E]/80 backdrop-blur-sm text-slate-800 dark:text-slate-200 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm border border-slate-300 dark:border-slate-700/50">
  {template.category}
  </span>
  </div>
@@ -1310,7 +1310,7 @@ function Templates({ token, businessId }) {
  {/* Drawer Header */}
  <div className="h-20 border-b border-slate-200 dark:border-slate-800/60 flex items-center justify-between px-6 shrink-0">
  <h2 className="font-jakarta text-xl font-bold text-slate-900 dark:text-white">Setup Your Store</h2>
- <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-200 transition-colors">
+ <button onClick={closeDrawer} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 transition-colors">
  <FaTimes />
  </button>
  </div>
@@ -1561,7 +1561,7 @@ function Templates({ token, businessId }) {
  <img src={newProduct.imagePreview} alt="Preview" className="w-full h-full object-contain" />
  {newProduct.isRemovingBg && (
  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
- <div className="text-center text-white">
+ <div className="text-center text-slate-900 dark:text-white">
  <FaSpinner className="animate-spin text-2xl mx-auto mb-2" />
  <p className="text-xs">Removing background...</p>
  </div>
@@ -1637,7 +1637,7 @@ function Templates({ token, businessId }) {
  <div className="bg-slate-50 dark:bg-[#09080E] rounded-2xl p-5 border border-slate-200 dark:border-slate-800/60">
  <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-200 dark:border-slate-800/60">
  <h4 className="font-bold text-slate-900 dark:text-white">Your Products</h4>
- <span className="text-sm bg-purple-50 dark:bg-purple-500/10 text-purple-750 dark:text-purple-400 px-3 py-1 rounded-full font-bold">
+ <span className="text-sm bg-purple-50 dark:bg-purple-500/10 text-purple-750 dark:text-purple-700 dark:text-purple-400 px-3 py-1 rounded-full font-bold">
  {products.length} {products.length === 1 ? 'item' : 'items'}
  </span>
  </div>
@@ -1850,7 +1850,7 @@ function Templates({ token, businessId }) {
  <div className="bg-white dark:bg-gray-900 w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-slate-200 dark:border-gray-800 flex flex-col overflow-hidden animate-fade-in-up">
  <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 font-bold flex justify-between items-center shadow-sm">
  <span>Vendor AI Assistant ✨</span>
- <button onClick={() => setChatOpen(false)} className="hover:text-slate-200"><FaTimes /></button>
+ <button onClick={() => setChatOpen(false)} className="hover:text-slate-800 dark:text-slate-200"><FaTimes /></button>
  </div>
  <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 dark:bg-gray-900">
  {chatHistory.map((msg, i) => (
@@ -1892,7 +1892,7 @@ function Templates({ token, businessId }) {
  {!chatOpen && (
  <button
  onClick={() => setChatOpen(true)}
- className="w-14 h-14 bg-gray-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform group relative"
+ className="w-14 h-14 bg-gray-900 text-slate-900 dark:text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform group relative"
  >
  <FaStar className="text-2xl group-hover:animate-spin" />
  <span className="absolute -top-10 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded shadow-lg whitespace-nowrap">Need Help?</span>

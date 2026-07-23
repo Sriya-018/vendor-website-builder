@@ -45,14 +45,14 @@ export default function SectionWrapper({
  <div className="absolute inset-0 border-2 border-transparent group-hover/section:border-blue-500/40 pointer-events-none transition-colors z-30 rounded-lg"></div>
  
  {/* Toolbar */}
- <div className="absolute top-3 right-3 bg-slate-900/95 text-white rounded-xl p-1.5 flex items-center gap-1.5 opacity-0 group-hover/section:opacity-100 transition-opacity z-40 shadow-xl pointer-events-auto select-none border border-slate-800">
+ <div className="absolute top-3 right-3 bg-slate-900/95 text-slate-900 dark:text-white rounded-xl p-1.5 flex items-center gap-1.5 opacity-0 group-hover/section:opacity-100 transition-opacity z-40 shadow-xl pointer-events-auto select-none border border-slate-800">
  <span className="text-[10px] font-black px-2 py-0.5 rounded bg-slate-800 uppercase text-gray-300 tracking-wider font-mono">{sectionKey}</span>
  
  {/* Move Up */}
  <button 
  onClick={(e) => { e.preventDefault(); e.stopPropagation(); moveSection('up'); }} 
  disabled={index <= 0}
- className="p-1 hover:bg-slate-800 rounded-md disabled:opacity-20 transition-colors text-white"
+ className="p-1 hover:bg-slate-800 rounded-md disabled:opacity-20 transition-colors text-slate-900 dark:text-white"
  title="Move Up"
  >
  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7"/></svg>
@@ -62,7 +62,7 @@ export default function SectionWrapper({
  <button 
  onClick={(e) => { e.preventDefault(); e.stopPropagation(); moveSection('down'); }} 
  disabled={index >= order.length - 1}
- className="p-1 hover:bg-slate-800 rounded-md disabled:opacity-20 transition-colors text-white"
+ className="p-1 hover:bg-slate-800 rounded-md disabled:opacity-20 transition-colors text-slate-900 dark:text-white"
  title="Move Down"
  >
  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"/></svg>

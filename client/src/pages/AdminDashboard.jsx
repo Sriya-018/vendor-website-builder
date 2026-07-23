@@ -46,20 +46,20 @@ function AdminDashboard() {
 
  if (!isAuthenticated) {
  return (
- <div className={`min-h-screen flex items-center justify-center p-4 transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-slate-50 dark:bg-[#09080E] text-slate-100' : 'bg-gray-50 text-gray-900'}`}>
- <div className={`max-w-md w-full rounded-2xl shadow-xl p-8 border text-center ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-100'}`}>
+ <div className={`min-h-screen flex items-center justify-center p-4 transition-colors duration-300 theme-${theme} bg-slate-50 dark:bg-[#09080E] text-slate-900 dark:text-slate-200 `}>
+ <div className={`max-w-md w-full rounded-2xl shadow-xl p-8 border text-center bg-white dark:bg-[#13121A] border-slate-100 dark:border-slate-800/50 `}>
  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
  <FaStore className="text-blue-600 text-2xl" />
  </div>
- <h2 className={`text-2xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Admin Access</h2>
- <p className={`${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'} mb-6`}>Enter your unique identification number</p>
+ <h2 className={`text-2xl font-bold mb-2 text-slate-900 dark:text-slate-200 dark:text-white`}>Admin Access</h2>
+ <p className={`text-slate-500 dark:text-slate-400 dark:text-slate-600 dark:text-slate-400 mb-6`}>Enter your unique identification number</p>
  <form onSubmit={handleLogin} className="space-y-4">
  <input
  type="password"
  value={pin}
  onChange={(e) => setPin(e.target.value)}
  placeholder="Enter Admin PIN"
- className={`w-full border rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-mono bg-white dark:bg-[#09080E] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500`}
+ className={`w-full border rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-mono bg-white dark:bg-[#13121A] dark:bg-[#09080E] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500`}
  />
  {error && <p className="text-red-500 text-sm">{error}</p>}
  <button
@@ -72,7 +72,7 @@ function AdminDashboard() {
  ) : 'Access Dashboard'}
  </button>
  <div className="mt-4">
- <Link to="/" className="text-sm text-gray-500 hover:text-gray-900 underline">Return Home</Link>
+ <Link to="/" className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-200 underline">Return Home</Link>
  </div>
  </form>
  </div>
@@ -82,16 +82,16 @@ function AdminDashboard() {
 
  if (isLoading) {
  return (
- <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-slate-50 dark:bg-[#09080E]' : 'bg-gray-50'}`}>
+ <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 theme-${theme} bg-slate-50 dark:bg-slate-900/40 dark:bg-slate-50 dark:bg-[#09080E]`}>
  <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full"></div>
  </div>
  );
  }
 
  return (
- <div className={`min-h-screen transition-colors duration-300 theme-${theme} ${theme === 'dark' ? 'bg-slate-50 dark:bg-[#09080E] text-slate-200' : 'bg-gray-50 text-gray-900'}`}>
+ <div className={`min-h-screen transition-colors duration-300 theme-${theme} bg-slate-50 dark:bg-[#09080E] text-slate-900 dark:text-slate-200 `}>
  {/* Navbar */}
- <nav className={`border-b px-6 py-4 flex items-center justify-between sticky top-0 z-20 transition-colors duration-300 ${theme === 'dark' ? 'bg-white dark:bg-[#0D0C14] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
+ <nav className={`border-b px-6 py-4 flex items-center justify-between sticky top-0 z-20 transition-colors duration-300 bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800 `}>
  <div className="flex items-center gap-2">
  <div className="bg-blue-600 text-white w-8 h-8 flex items-center justify-center rounded-lg font-bold shadow-md">
  V
@@ -100,7 +100,7 @@ function AdminDashboard() {
  </div>
  <div className="flex items-center gap-4">
  <ThemeToggle />
- <Link to="/" className={`text-sm font-medium transition-colors ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+ <Link to="/" className={`text-sm font-medium transition-colors text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-200 `}>
  Exit Admin
  </Link>
  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
@@ -114,15 +114,15 @@ function AdminDashboard() {
  <div className="flex items-center justify-between mb-8">
  <div>
  <h1 className={`text-2xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : ''}`}>Platform Overview</h1>
- <p className={`text-sm ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'}`}>Monitor all vendors and their websites</p>
+ <p className={`text-sm text-slate-500 dark:text-slate-400 dark:text-slate-600 dark:text-slate-400`}>Monitor all vendors and their websites</p>
  </div>
  </div>
 
  {/* Stats Cards */}
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
- <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
+ <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800 `}>
  <div>
- <p className={`text-sm font-medium mb-1 ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'}`}>Total Vendors</p>
+ <p className={`text-sm font-medium mb-1 text-slate-500 dark:text-slate-400 dark:text-slate-600 dark:text-slate-400`}>Total Vendors</p>
  <h3 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : ''}`}>{data.stats?.totalVendors || 0}</h3>
  </div>
  <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
@@ -130,9 +130,9 @@ function AdminDashboard() {
  </div>
  </div>
 
- <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
+ <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800 `}>
  <div>
- <p className={`text-sm font-medium mb-1 ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'}`}>Published Websites</p>
+ <p className={`text-sm font-medium mb-1 text-slate-500 dark:text-slate-400 dark:text-slate-600 dark:text-slate-400`}>Published Websites</p>
  <h3 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : ''}`}>{data.stats?.publishedSites || 0}</h3>
  </div>
  <div className="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center">
@@ -140,9 +140,9 @@ function AdminDashboard() {
  </div>
  </div>
 
- <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
+ <div className={`rounded-2xl p-6 border shadow-sm flex items-start justify-between bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800 `}>
  <div>
- <p className={`text-sm font-medium mb-1 ${theme === 'dark' ? 'text-slate-600 dark:text-slate-400' : 'text-gray-500'}`}>Total Page Views</p>
+ <p className={`text-sm font-medium mb-1 text-slate-500 dark:text-slate-400 dark:text-slate-600 dark:text-slate-400`}>Total Page Views</p>
  <h3 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : ''}`}>{data.stats?.totalViews || 0}</h3>
  </div>
  <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
@@ -152,24 +152,24 @@ function AdminDashboard() {
  </div>
 
  {/* Data Table */}
- <div className={`border rounded-2xl shadow-sm overflow-hidden ${theme === 'dark' ? 'bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800' : 'bg-white border-gray-200'}`}>
- <div className={`p-6 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${theme === 'dark' ? 'border-slate-200 dark:border-slate-800' : 'border-gray-200'}`}>
+ <div className={`border rounded-2xl shadow-sm overflow-hidden bg-white dark:bg-[#13121A] border-slate-200 dark:border-slate-800 `}>
+ <div className={`p-6 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-slate-200 dark:border-slate-800 `}>
  <h2 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : ''}`}>Vendor Directory</h2>
  <div className="flex items-center gap-3">
  <div className="relative">
- <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+ <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
  <input
  type="text"
  placeholder="Search business or phone..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
- className="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-colors w-64"
+ className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:bg-[#13121A] transition-colors w-64"
  />
  </div>
  <select
  value={filter}
  onChange={(e) => setFilter(e.target.value)}
- className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white cursor-pointer"
+ className="px-4 py-2 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:bg-[#13121A] cursor-pointer"
  >
  <option value="all">All Vendors</option>
  <option value="published">Published Only</option>
@@ -181,31 +181,31 @@ function AdminDashboard() {
  <div className="overflow-x-auto">
  <table className="w-full text-left border-collapse">
  <thead>
- <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500">
- <th className="px-6 py-4 font-medium">Business</th>
- <th className="px-6 py-4 font-medium">Contact</th>
- <th className="px-6 py-4 font-medium">Status</th>
- <th className="px-6 py-4 font-medium">Template</th>
- <th className="px-6 py-4 font-medium text-right">Actions</th>
+ <tr className="bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider">
+ <th className="px-6 py-4 font-medium text-slate-500 dark:text-slate-400">Business</th>
+ <th className="px-6 py-4 font-medium text-slate-500 dark:text-slate-400">Contact</th>
+ <th className="px-6 py-4 font-medium text-slate-500 dark:text-slate-400">Status</th>
+ <th className="px-6 py-4 font-medium text-slate-500 dark:text-slate-400">Template</th>
+ <th className="px-6 py-4 font-medium text-slate-500 dark:text-slate-400 text-right">Actions</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-gray-100">
+ <tbody className="divide-y divide-gray-100 dark:divide-slate-800/50">
  {filteredVendors.length === 0 ? (
  <tr>
- <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+ <td colSpan="5" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
  No vendors found matching your search.
  </td>
  </tr>
  ) : (
  filteredVendors.map((vendor) => (
- <tr key={vendor._id} className="hover:bg-gray-50/50 transition-colors">
+ <tr key={vendor._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
  <td className="px-6 py-4">
- <div className="font-medium text-gray-900">{vendor.businessName || 'Unnamed Store'}</div>
- <div className="text-xs text-gray-500 capitalize mt-0.5">{vendor.category.replace('_', ' ')}</div>
+ <div className="font-medium text-slate-900 dark:text-slate-200">{vendor.businessName || 'Unnamed Store'}</div>
+ <div className="text-xs text-slate-500 dark:text-slate-400 capitalize mt-0.5">{vendor.category.replace('_', ' ')}</div>
  </td>
  <td className="px-6 py-4">
- <div className="text-sm text-gray-900">{vendor.vendorPhone}</div>
- <div className="text-xs text-gray-500 mt-0.5">Joined {new Date(vendor.createdAt).toLocaleDateString()}</div>
+ <div className="text-sm text-slate-900 dark:text-slate-200">{vendor.vendorPhone}</div>
+ <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Joined {new Date(vendor.createdAt).toLocaleDateString()}</div>
  </td>
  <td className="px-6 py-4">
  {vendor.websites && vendor.websites.length > 0 ? (
@@ -225,7 +225,7 @@ function AdminDashboard() {
  ))}
  </div>
  ) : (
- <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+ <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800">
  No Website
  </span>
  )}
@@ -236,17 +236,17 @@ function AdminDashboard() {
  {vendor.websites.map(site => (
  <div key={site._id} className="py-1">
  <span className="text-sm font-medium capitalize">{site.template}</span>
- <div className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+ <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
  <FaChartBar className="text-[10px]" /> {site.views || 0} views
  </div>
- <div className="text-[10px] text-gray-400 mt-0.5">
+ <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
  {new Date(site.createdAt).toLocaleString()}
  </div>
  </div>
  ))}
  </div>
  ) : (
- <span className="text-sm text-gray-400">-</span>
+ <span className="text-sm text-slate-400 dark:text-slate-500">-</span>
  )}
  </td>
  <td className="px-6 py-4 text-right">
@@ -259,18 +259,18 @@ function AdminDashboard() {
  href={`/website/${site.slug}`}
  target="_blank"
  rel="noreferrer"
- className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm"
+ className="inline-flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors shadow-sm"
  >
  Visit Site <FaExternalLinkAlt className="text-xs" />
  </a>
  ) : (
- <span className="text-sm text-gray-400 italic">Not available</span>
+ <span className="text-sm text-slate-400 dark:text-slate-500 italic">Not available</span>
  )}
  </div>
  ))}
  </div>
  ) : (
- <span className="text-sm text-gray-400 italic">Not available</span>
+ <span className="text-sm text-slate-400 dark:text-slate-500 italic">Not available</span>
  )}
  </td>
  </tr>

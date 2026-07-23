@@ -235,10 +235,10 @@ export default function TemplateNexus({
  case 'hero':
  return (
  <SectionWrapper key="hero" isEditable={isEditable} sectionKey="hero" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <header className="py-24 px-8 text-white animate-fade-in" style={{ background: `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)` }}>
+ <header className="py-24 px-8 text-slate-900 dark:text-white animate-fade-in" style={{ background: `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)` }}>
  <div className={`max-w-7xl mx-auto grid ${devicePreview === 'desktop' ? 'grid-cols-2' : 'grid-cols-1'} gap-16 items-center`}>
  <div style={{ textAlign: config.header.heroAlign }}>
- <div className="inline-block px-3.5 py-1 bg-theme-surface/15 border border-white/25 rounded-full text-xs font-bold tracking-[0.1em] uppercase mb-6 backdrop-blur-sm">
+ <div className="inline-block px-3.5 py-1 bg-theme-surface/15 border border-slate-900/25 dark:border-white/25 rounded-full text-xs font-bold tracking-[0.1em] uppercase mb-6 backdrop-blur-sm">
  Trusted Business
  </div>
  <EditableText
@@ -253,7 +253,7 @@ export default function TemplateNexus({
  value={config.header.heroSubheading || description}
  onChange={(val) => onUpdateConfig('header', 'heroSubheading', val)}
  tagName="p"
- className="text-white/85 text-lg leading-relaxed mb-10 max-w-md"
+ className="text-slate-900 dark:text-white/85 text-lg leading-relaxed mb-10 max-w-md"
  style={{ marginInline: config.header.heroAlign === 'center' ? 'auto' : config.header.heroAlign === 'right' ? '0 0 0 auto' : '0' }}
  />
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
@@ -268,7 +268,7 @@ export default function TemplateNexus({
  </div>
  </div>
  <div className="flex justify-center">
- <div className="w-full max-w-sm aspect-square rounded-theme overflow-hidden bg-theme-surface/10 border border-white/20 p-2 relative group">
+ <div className="w-full max-w-sm aspect-square rounded-theme overflow-hidden bg-theme-surface/10 border border-slate-900/20 dark:border-white/20 p-2 relative group">
  <img src={heroImage} className="w-full h-full object-cover rounded-theme" alt="Hero" />
  {isEditable && (
  <button 
@@ -358,7 +358,7 @@ export default function TemplateNexus({
  data-product-name={product.name}
  data-product-price={product.price}
  data-product-image={product.img || `https://picsum.photos/seed/service${i}/600/600`}
- className="text-white px-4 py-2 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
+ className="text-slate-900 dark:text-white px-4 py-2 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Get Quote
@@ -607,7 +607,7 @@ export default function TemplateNexus({
  const countdownTitle = config.countdown?.title || 'Mega Summer Sale Ending Soon!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-8 text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
+ <section className="w-full py-12 px-8 text-slate-900 dark:text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left md:max-w-md">
  <EditableText
@@ -627,8 +627,8 @@ export default function TemplateNexus({
  { label: 'Min', val: timeLeft.minutes },
  { label: 'Sec', val: timeLeft.seconds }
  ].map((col, idx) => (
- <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-white/10 shadow-theme">
- <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
+ <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-slate-900/10 dark:border-white/10 shadow-theme">
+ <span className="text-2xl font-black text-slate-900 dark:text-white">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-200 mt-1">{col.label}</span>
  </div>
  ))}
@@ -696,7 +696,7 @@ export default function TemplateNexus({
  >
  <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
  <div className="flex items-center gap-3">
- <div className="w-8 h-8 rounded text-white flex items-center justify-center text-sm" style={{ backgroundColor: accentColor }}>
+ <div className="w-8 h-8 rounded text-slate-900 dark:text-white flex items-center justify-center text-sm" style={{ backgroundColor: accentColor }}>
  <FaBriefcase />
  </div>
  {isEditable ? (
@@ -823,11 +823,11 @@ export default function TemplateNexus({
  className="w-full h-full object-cover"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-red-650/95 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Fully Booked
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
+ <span className="absolute top-3 left-3 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
  ⭐ Popular
  </span>
  ) : null}
@@ -1066,7 +1066,7 @@ export default function TemplateNexus({
 
  <button 
  type="submit"
- className="w-full py-4 rounded text-white font-semibold shadow-theme hover:opacity-95 transition-opacity"
+ className="w-full py-4 rounded text-slate-900 dark:text-white font-semibold shadow-theme hover:opacity-95 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Book Appointment / Send Inquiry
@@ -1341,7 +1341,7 @@ export default function TemplateNexus({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 text-white rounded-full font-bold text-xs shadow transition-all"
+ className="px-6 py-2.5 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow transition-all"
  style={{ backgroundColor: accentColor }}
  >
  Done
@@ -1402,7 +1402,7 @@ export default function TemplateNexus({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1440,7 +1440,7 @@ export default function TemplateNexus({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

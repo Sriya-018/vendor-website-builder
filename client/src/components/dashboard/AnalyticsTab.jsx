@@ -277,7 +277,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  }
 
  return (
- <div className="space-y-8 animate-fade-in text-slate-200">
+ <div className="space-y-8 animate-fade-in text-slate-800 dark:text-slate-200">
  
  {/* Top Metric Cards */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -287,7 +287,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <span className="text-slate-600 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Live Browsing</span>
  <div className={`w-2.5 h-2.5 rounded-full ${liveBrowsing > 0 ? 'bg-emerald-500 animate-ping shadow-[0_0_8px_#10b981]' : 'bg-slate-700'}`}></div>
  </div>
- <div className="text-3xl font-black text-white tracking-tight mb-1">{liveBrowsing}</div>
+ <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">{liveBrowsing}</div>
  <div className="text-[11px] text-slate-455 font-medium">Estimated active sessions right now</div>
  </div>
 
@@ -297,7 +297,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <span className="text-slate-600 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Avg Session Duration</span>
  <FaEye className="text-slate-600 dark:text-slate-500 text-sm" />
  </div>
- <div className="text-3xl font-black text-white tracking-tight mb-1">{avgSessionMin}</div>
+ <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">{avgSessionMin}</div>
  <div className="text-[11px] text-slate-600 dark:text-slate-500 font-medium">Time spent browsing products</div>
  </div>
 
@@ -307,7 +307,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <span className="text-slate-600 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Checkout CTR</span>
  <FaShoppingBag className="text-slate-600 dark:text-slate-500 text-sm" />
  </div>
- <div className="text-3xl font-black text-white tracking-tight mb-1">{clickThroughRate}</div>
+ <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">{clickThroughRate}</div>
  <div className="text-[11px] text-slate-550 font-medium">Conversion from view to checkout</div>
  </div>
 
@@ -317,8 +317,8 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <span className="text-slate-600 dark:text-slate-500 text-xs font-bold uppercase tracking-wider">Live Revenue</span>
  <FaMoneyBillWave className="text-slate-600 dark:text-slate-500 text-sm" />
  </div>
- <div className="text-3xl font-black text-white tracking-tight mb-1">₹{totalRevenue.toLocaleString()}</div>
- <div className="text-[11px] text-emerald-400 font-semibold">Total checkout value processed</div>
+ <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">₹{totalRevenue.toLocaleString()}</div>
+ <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">Total checkout value processed</div>
  </div>
  </div>
 
@@ -326,7 +326,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <div className="bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl relative">
  <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
  <div>
- <h3 className="text-lg font-black text-white tracking-wide flex items-center gap-2">
+ <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-wide flex items-center gap-2">
  Live Business Analytics
  </h3>
  <p className="text-slate-600 dark:text-slate-500 text-xs mt-1">Interactive daily visitor, orders, and sales metrics tracking your store performance</p>
@@ -338,21 +338,21 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <button
  type="button"
  onClick={() => setChartMetric('views')}
- className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'views' ? 'bg-indigo-600/20 border border-indigo-500/30 text-indigo-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-200'}`}
+ className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'views' ? 'bg-indigo-100 dark:bg-indigo-600/20 border border-indigo-300 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'}`}
  >
  Pageviews
  </button>
  <button
  type="button"
  onClick={() => setChartMetric('orders')}
- className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'orders' ? 'bg-purple-600/20 border border-purple-500/30 text-purple-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-200'}`}
+ className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'orders' ? 'bg-purple-600/20 border border-purple-500/30 text-purple-700 dark:text-purple-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'}`}
  >
  Orders
  </button>
  <button
  type="button"
  onClick={() => setChartMetric('revenue')}
- className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'revenue' ? 'bg-emerald-600/20 border border-emerald-500/30 text-emerald-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-200'}`}
+ className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${chartMetric === 'revenue' ? 'bg-emerald-100 dark:bg-emerald-600/20 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'}`}
  >
  Revenue
  </button>
@@ -362,7 +362,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <button
  type="button"
  onClick={exportOrdersCSV}
- className="flex items-center gap-2 bg-slate-50 dark:bg-[#09080E] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all"
+ className="flex items-center gap-2 bg-slate-50 dark:bg-[#09080E] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all"
  >
  <FaDownload className="text-slate-600 dark:text-slate-400" /> Export CSV
  </button>
@@ -370,7 +370,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  </div>
 
  {/* SVG Curve Chart */}
- <div className="relative h-64 w-full bg-slate-950/20 border border-slate-200 dark:border-slate-800/40 rounded-2xl overflow-hidden p-2">
+ <div className="relative h-64 w-full bg-slate-50 dark:bg-slate-950/20 border border-slate-200 dark:border-slate-800/40 rounded-2xl overflow-hidden p-2">
  {totalViews > 0 ? (
  <>
  <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -407,7 +407,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  {/* Hover Tooltip Overlay */}
  {hoveredPoint && (
  <div 
- className="absolute bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-2 rounded-xl text-xs shadow-2xl z-20 pointer-events-none"
+ className="absolute bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-2 rounded-xl text-xs shadow-2xl z-20 pointer-events-none"
  style={{ 
  left: `${(hoveredPoint.x / 100) * 88 + 2}%`, 
  top: `${hoveredPoint.y - 18}%` 
@@ -416,17 +416,17 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <p className="font-bold text-slate-900 dark:text-white mb-0.5">{hoveredPoint.day}</p>
  {chartMetric === 'views' && (
  <p className="text-slate-600 dark:text-slate-400 font-medium text-[10px]">
- Pageviews: <span className="text-indigo-400 font-extrabold">{hoveredPoint.views}</span>
+ Pageviews: <span className="text-indigo-700 dark:text-indigo-400 font-extrabold">{hoveredPoint.views}</span>
  </p>
  )}
  {chartMetric === 'orders' && (
  <p className="text-slate-600 dark:text-slate-400 font-medium text-[10px]">
- Orders: <span className="text-purple-400 font-extrabold">{hoveredPoint.orders}</span>
+ Orders: <span className="text-purple-700 dark:text-purple-400 font-extrabold">{hoveredPoint.orders}</span>
  </p>
  )}
  {chartMetric === 'revenue' && (
  <p className="text-slate-600 dark:text-slate-400 font-medium text-[10px]">
- Revenue: <span className="text-emerald-400 font-extrabold">₹{hoveredPoint.revenue.toLocaleString()}</span>
+ Revenue: <span className="text-emerald-700 dark:text-emerald-400 font-extrabold">₹{hoveredPoint.revenue.toLocaleString()}</span>
  </p>
  )}
  </div>
@@ -474,7 +474,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  ))}
  </div>
 
- <div className="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-[11px] text-indigo-300 leading-relaxed font-medium">
+ <div className="p-3 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/30 rounded-xl text-[11px] text-indigo-700 dark:text-indigo-300 leading-relaxed font-medium">
  💡 **Live Insight**: Your site's cart addition rate stands at **{totalViews > 0 ? '28%' : '0%'}**. Customize templates to keep CTA items sticky.
  </div>
  </div>
@@ -490,17 +490,17 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  {sortedProducts.map((p, idx) => (
  <div key={idx} className="py-4 flex justify-between items-center">
  <div className="flex items-center gap-3">
- <div className="w-8 h-8 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+ <div className="w-8 h-8 rounded-lg bg-purple-600/10 border border-purple-300 dark:border-purple-500/20 flex items-center justify-center text-purple-700 dark:text-purple-400">
  <FaFire className="text-xs" />
  </div>
  <div>
- <h4 className="font-bold text-xs text-white max-w-[180px] truncate">{p.name}</h4>
+ <h4 className="font-bold text-xs text-slate-900 dark:text-white max-w-[180px] truncate">{p.name}</h4>
  <span className="text-[10px] text-slate-600 dark:text-slate-500 font-medium">₹{p.price}</span>
  </div>
  </div>
  <div className="text-right">
- <div className="text-xs font-black text-white">{p.orders} sales</div>
- <div className="text-[10px] text-emerald-400 font-bold">₹{p.revenue.toLocaleString()} revenue</div>
+ <div className="text-xs font-black text-slate-900 dark:text-white">{p.orders} sales</div>
+ <div className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">₹{p.revenue.toLocaleString()} revenue</div>
  </div>
  </div>
  ))}
@@ -508,7 +508,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
 
  <button 
  type="button"
- className="w-full py-2.5 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+ className="w-full py-2.5 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
  >
  Manage Product Catalog <FaChevronRight className="text-[9px]" />
  </button>
@@ -519,7 +519,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  <div className="bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 shadow-xl">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
  <div>
- <h3 className="text-lg font-black text-white tracking-wide mb-1">Geographic Traffic Map</h3>
+ <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-wide mb-1">Geographic Traffic Map</h3>
  <p className="text-slate-600 dark:text-slate-500 text-xs mb-6">Visitor demographics and checkout volumes by region across India</p>
 
  <div className="space-y-2.5">
@@ -529,12 +529,12 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  onClick={() => setSelectedRegion(r.name === selectedRegion ? null : r.name)}
  className={`w-full flex items-center justify-between p-3.5 border rounded-2xl text-left text-xs font-semibold transition-all duration-200 ${
  selectedRegion === r.name
- ? 'border-indigo-600 bg-indigo-50/10 text-white shadow-sm'
- : 'border-slate-200 dark:border-slate-800 hover:border-slate-750 bg-slate-900/40 text-slate-600 dark:text-slate-400 hover:text-slate-200'
+ ? 'border-indigo-400 dark:border-indigo-600 bg-indigo-100 dark:bg-indigo-50/10 text-indigo-700 dark:text-white shadow-sm'
+ : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-slate-100 dark:bg-slate-900/40 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
  }`}
  >
  <div className="flex items-center gap-2.5">
- <FaMapMarkerAlt className={selectedRegion === r.name ? 'text-indigo-400' : 'text-slate-600 dark:text-slate-500'} />
+ <FaMapMarkerAlt className={selectedRegion === r.name ? 'text-indigo-700 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-500'} />
  <span>{r.name}</span>
  </div>
  <span className="font-bold text-slate-900 dark:text-white">{r.views} views ({r.orders} orders)</span>
@@ -544,7 +544,7 @@ function AnalyticsTab({ businessId, websites, orders = [] }) {
  </div>
 
  {/* Map Vector Mock */}
- <div className="relative h-[300px] border border-slate-200 dark:border-slate-800/60 bg-slate-950/20 rounded-2xl overflow-hidden flex items-center justify-center group p-4">
+ <div className="relative h-[300px] border border-slate-200 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-950/20 rounded-2xl overflow-hidden flex items-center justify-center group p-4">
  <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] bg-[size:16px_16px] opacity-40"></div>
  
  {/* Custom Indian Map Minimal vector outline */}

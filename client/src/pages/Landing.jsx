@@ -112,7 +112,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
  <FaStore className="text-xl" />
  </div>
- <span className={`font-extrabold text-2xl tracking-tight hover:text-indigo-400 transition-colors ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>VendorBuild</span>
+ <span className={`font-extrabold text-2xl tracking-tight hover:text-indigo-700 dark:text-indigo-400 transition-colors ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>VendorBuild</span>
  </div>
 
  <div className="hidden md:flex space-x-8 items-center">
@@ -174,7 +174,7 @@ function Landing({ token, setToken, setBusinessId }) {
  </button>
  <button
  onClick={() => { setIsMobileMenuOpen(false); navigate('/dashboard'); }}
- className="w-full text-left px-3 py-2 text-base font-medium text-indigo-400 hover:bg-slate-850 rounded-md mt-2"
+ className="w-full text-left px-3 py-2 text-base font-medium text-indigo-700 dark:text-indigo-400 hover:bg-slate-850 rounded-md mt-2"
  >
  Go to Dashboard
  </button>
@@ -189,7 +189,7 @@ function Landing({ token, setToken, setBusinessId }) {
  setIsMobileMenuOpen(false);
  document.getElementById('login').scrollIntoView({ behavior: 'smooth' });
  }}
- className="w-full text-left px-3 py-2 text-base font-medium text-indigo-400 hover:bg-slate-850 rounded-md"
+ className="w-full text-left px-3 py-2 text-base font-medium text-indigo-700 dark:text-indigo-400 hover:bg-slate-850 rounded-md"
  >
  Get Started
  </button>
@@ -203,13 +203,13 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 flex flex-col lg:flex-row items-center gap-16 relative z-10">
  {/* Left side content */}
  <div className="flex-1 text-center lg:text-left">
- <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/40 border border-purple-500/30 text-purple-300 text-sm font-semibold mb-6">
- <FaStar className="text-amber-400 text-xs animate-spin-slow" /> Lavender Haze Edition
+ <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100 dark:bg-purple-950/40 border border-purple-500/30 text-purple-700 dark:text-purple-300 text-sm font-semibold mb-6">
+ <FaStar className="text-amber-600 dark:text-amber-400 text-xs animate-spin-slow" /> Lavender Haze Edition
  </div>
  <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
  Build your online store in <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-450">30 seconds</span>
  </h1>
- <p className="text-lg text-slate-600 dark:text-slate-450 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+ <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
  No complex menus or clunky drag-and-drop. Simply tell our conversational AI builder what you sell, or import details instantly from any existing link to launch your store.
  </p>
 
@@ -222,13 +222,13 @@ function Landing({ token, setToken, setBusinessId }) {
  </a>
  <a 
  href="#how-it-works" 
- className="w-full sm:w-auto bg-white dark:bg-[#13121A]/80 border border-slate-200 dark:border-slate-800 text-slate-200 hover:text-white hover:border-slate-300 dark:border-slate-700 px-8 py-4 rounded-xl font-bold text-lg transition-all text-center shadow-sm hover:scale-[1.02]"
+ className="w-full sm:w-auto bg-white dark:bg-[#13121A]/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:border-slate-700 px-8 py-4 rounded-xl font-bold text-lg transition-all text-center shadow-sm hover:scale-[1.02]"
  >
  How It Works
  </a>
  <a 
  href="#features" 
- className="w-full sm:w-auto text-slate-600 dark:text-slate-450 hover:text-indigo-400 px-6 py-4 rounded-xl font-bold text-base transition-all text-center hover:underline"
+ className="w-full sm:w-auto text-slate-600 dark:text-slate-400 hover:text-indigo-700 dark:text-indigo-400 px-6 py-4 rounded-xl font-bold text-base transition-all text-center hover:underline"
  >
  See Features
  </a>
@@ -246,11 +246,11 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="w-full bg-white dark:bg-[#13121A] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-8 relative overflow-hidden transform transition-all">
  <div className="absolute -top-12 -right-12 w-24 h-24 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
  <div className="text-center mb-6">
- <div className="w-16 h-16 bg-purple-950/40 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
- <FaStore className="text-purple-400 text-2xl" />
+ <div className="w-16 h-16 bg-purple-100 dark:bg-purple-950/40 border border-purple-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+ <FaStore className="text-purple-700 dark:text-purple-400 text-2xl" />
  </div>
  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome back!</h3>
- <p className="text-slate-600 dark:text-slate-450 mt-2">You are currently logged in to your account.</p>
+ <p className="text-slate-600 dark:text-slate-400 mt-2">You are currently logged in to your account.</p>
  </div>
  <button
  onClick={() => navigate('/dashboard')}
@@ -264,7 +264,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="absolute -top-12 -right-12 w-24 h-24 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
  <div className="text-center mb-8">
  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Create your store</h3>
- <p className="text-slate-600 dark:text-slate-450 text-sm">Enter phone or email to log in instantly.</p>
+ <p className="text-slate-600 dark:text-slate-400 text-sm">Enter phone or email to log in instantly.</p>
  </div>
 
  {!showOtp ? (
@@ -273,13 +273,13 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="flex bg-slate-50 dark:bg-[#09080E] border border-slate-200 dark:border-slate-800 p-1 rounded-xl">
  <button 
  onClick={() => setLoginMethod('phone')}
- className={`flex-1 flex justify-center items-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${loginMethod === 'phone' ? 'bg-slate-100 dark:bg-[#181720] text-indigo-400 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+ className={`flex-1 flex justify-center items-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${loginMethod === 'phone' ? 'bg-slate-100 dark:bg-[#181720] text-indigo-700 dark:text-indigo-400 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
  >
  <FaPhone className="text-xs" /> Phone
  </button>
  <button 
  onClick={() => setLoginMethod('email')}
- className={`flex-1 flex justify-center items-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${loginMethod === 'email' ? 'bg-slate-100 dark:bg-[#181720] text-indigo-400 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+ className={`flex-1 flex justify-center items-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${loginMethod === 'email' ? 'bg-slate-100 dark:bg-[#181720] text-indigo-700 dark:text-indigo-400 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
  >
  <FaEnvelope className="text-xs" /> Email
  </button>
@@ -295,7 +295,7 @@ function Landing({ token, setToken, setBusinessId }) {
  value={phone}
  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
  placeholder="98765 43210"
- className="flex-1 px-4 py-3.5 bg-transparent outline-none text-white w-full font-medium"
+ className="flex-1 px-4 py-3.5 bg-transparent outline-none text-slate-900 dark:text-white w-full font-medium"
  />
  </div>
  </div>
@@ -311,7 +311,7 @@ function Landing({ token, setToken, setBusinessId }) {
  value={email}
  onChange={(e) => setEmail(e.target.value)}
  placeholder="you@example.com"
- className="flex-1 px-4 py-3.5 bg-transparent outline-none text-white w-full font-medium"
+ className="flex-1 px-4 py-3.5 bg-transparent outline-none text-slate-900 dark:text-white w-full font-medium"
  />
  </div>
  </div>
@@ -350,13 +350,13 @@ function Landing({ token, setToken, setBusinessId }) {
  value={otp}
  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))}
  placeholder="0 0 0 0"
- className="w-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#09080E] rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white dark:bg-[#13121A] text-white font-mono font-bold"
+ className="w-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#09080E] rounded-xl p-4 text-center text-2xl tracking-[0.5em] outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white dark:bg-[#13121A] text-slate-900 dark:text-white font-mono font-bold"
  />
  <div className="flex justify-between items-center mt-4">
  {loginMethod === 'phone' ? (
- <p className="text-xs text-purple-400 font-semibold">Demo OTP: 1234</p>
+ <p className="text-xs text-purple-700 dark:text-purple-400 font-semibold">Demo OTP: 1234</p>
  ) : (
- <p className="text-xs text-purple-400 font-semibold">Demo OTP: 1234 (Mock)</p>
+ <p className="text-xs text-purple-700 dark:text-purple-400 font-semibold">Demo OTP: 1234 (Mock)</p>
  )}
  <button onClick={() => setShowOtp(false)} className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white underline">
  Change {loginMethod === 'phone' ? 'Number' : 'Email'}
@@ -388,7 +388,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <div id="features" className="py-20 md:py-28 bg-slate-50 dark:bg-[#09080E] border-t border-slate-200 dark:border-slate-850 relative">
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
  <div className="text-center max-w-3xl mx-auto mb-20">
- <span className="text-xs text-purple-400 font-black tracking-widest uppercase bg-purple-950/50 border border-purple-500/20 px-3 py-1 rounded-full">Premium Features</span>
+ <span className="text-xs text-purple-700 dark:text-purple-400 font-black tracking-widest uppercase bg-purple-100 dark:bg-purple-950/50 border border-purple-300 dark:border-purple-500/20 px-3 py-1 rounded-full">Premium Features</span>
  <h2 className="mt-4 text-3xl md:text-4xl leading-9 font-extrabold tracking-tight text-slate-900 dark:text-white">
  Everything you need to succeed online
  </h2>
@@ -404,7 +404,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <FaRobot className="text-lg" />
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">AI-Powered Setup</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Just talk to our AI or paste a link. Tell it what your business does, and it will generate your entire website structure, copy, and catalog automatically.
  </p>
  </div>
@@ -415,7 +415,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <FaPaintBrush className="text-lg" />
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">Premium Layouts</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Access 15+ world-class, premium design templates tailored for local florists, bakeries, salons, tailor boutiques, mechanics, and tea cafes.
  </p>
  </div>
@@ -426,7 +426,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <FaMobileAlt className="text-lg" />
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">Mobile Responsive</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Your storefront is built for lightning-fast speeds and displays flawlessly on mobile screens, tablets, and desktop monitors.
  </p>
  </div>
@@ -438,7 +438,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <div id="how-it-works" className="py-20 md:py-28 bg-white dark:bg-[#0D0C14] border-t border-slate-200 dark:border-slate-850 relative">
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
  <div className="text-center max-w-3xl mx-auto mb-20">
- <span className="text-xs text-indigo-400 font-black tracking-widest uppercase bg-indigo-950/50 border border-indigo-500/20 px-3 py-1 rounded-full">Interactive Process</span>
+ <span className="text-xs text-indigo-700 dark:text-indigo-400 font-black tracking-widest uppercase bg-indigo-100 dark:bg-indigo-950/50 border border-indigo-300 dark:border-indigo-500/20 px-3 py-1 rounded-full">Interactive Process</span>
  <h2 className="mt-4 text-3xl md:text-4xl leading-9 font-extrabold tracking-tight text-slate-900 dark:text-white">
  From Idea to Live Store in 3 Steps
  </h2>
@@ -457,7 +457,7 @@ function Landing({ token, setToken, setBusinessId }) {
  1
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">Provide Store Details</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Input your business name, description, and contact info, or copy-paste any existing website link. Our local scraper automatically extracts products, contact details, and images for you in seconds.
  </p>
  </div>
@@ -468,7 +468,7 @@ function Landing({ token, setToken, setBusinessId }) {
  2
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">Customize Theme & Catalog</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Select from our library of 15+ responsive layout templates. Refine your catalog, upload logos, select colors, re-order section rows, and build custom promo slots within our side-by-side live design sandbox.
  </p>
  </div>
@@ -479,7 +479,7 @@ function Landing({ token, setToken, setBusinessId }) {
  3
  </div>
  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 tracking-wide">Publish and Sell</h3>
- <p className="text-slate-600 dark:text-slate-450 leading-relaxed text-xs">
+ <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
  Deploy your storefront live instantly. Share the generated link, update search engine metadata (SEO), collect customer order details, and interact with buyers via integrated direct-to-WhatsApp messaging.
  </p>
  </div>
@@ -495,7 +495,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <span className="w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_10px_#6366f1]"></span>
  Local Smart Scraping
  </h4>
- <p className="text-slate-600 dark:text-slate-450 text-[11px] leading-relaxed">
+ <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
  When you import an existing URL, our engine fetches the HTML markup. It extracts raw metadata (like site title, OpenGraph tags, contact info) and automatically maps your industry category. Realistic catalog listings are dynamically built based on page text heuristics.
  </p>
  </div>
@@ -504,7 +504,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <span className="w-2.5 h-2.5 bg-purple-500 rounded-full shadow-[0_0_10px_#a855f7]"></span>
  Visual Sandbox Editor
  </h4>
- <p className="text-slate-600 dark:text-slate-450 text-[11px] leading-relaxed">
+ <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
  Your template is configured through an isolated JSON schema holding state properties for typography styles, header hero grids, store branding elements, product columns, and testimonials. Any modifications you make reflect in the iframe canvas instantly.
  </p>
  </div>
@@ -513,7 +513,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <span className="w-2.5 h-2.5 bg-pink-500 rounded-full shadow-[0_0_10px_#ec4899]"></span>
  Direct Messaging Checkout
  </h4>
- <p className="text-slate-600 dark:text-slate-450 text-[11px] leading-relaxed">
+ <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
  Customers select products to create a cart. When they order, a WhatsApp API payload prefilled with order details, product titles, quantities, pricing, and total amounts is generated. This redirects the buyer directly to start a chat with you, ensuring simple order fulfillment.
  </p>
  </div>
@@ -529,7 +529,7 @@ function Landing({ token, setToken, setBusinessId }) {
  <div className="w-8 h-8 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white">
  <FaStore className="text-sm" />
  </div>
- <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white hover:text-indigo-400 transition-colors">VendorBuild</span>
+ <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white hover:text-indigo-700 dark:text-indigo-400 transition-colors">VendorBuild</span>
  </div>
  <div className="text-slate-600 dark:text-slate-500 text-sm">
  &copy; 2026 VendorBuild Inc. All rights reserved.

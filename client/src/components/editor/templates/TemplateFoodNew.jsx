@@ -247,7 +247,7 @@ function SliceToppingsBuilder({ accentColor }) {
  ))}
  </div>
 
- <div className="p-4 border-2 border-black bg-neutral-900 text-white flex justify-between items-center font-black uppercase text-xs">
+ <div className="p-4 border-2 border-black bg-neutral-900 text-slate-900 dark:text-white flex justify-between items-center font-black uppercase text-xs">
  <span>Additions Price Offset</span>
  <span className="text-[#F59E0B] text-sm">+₹{getPriceOffset()}</span>
  </div>
@@ -308,7 +308,7 @@ function HopsBeerPairing({ accentColor }) {
  ))}
  </div>
 
- <div className="p-6 bg-[#1A1813] text-white rounded-theme">
+ <div className="p-6 bg-[#1A1813] text-slate-900 dark:text-white rounded-theme">
  <span className="text-[10px] uppercase tracking-widest font-bold text-[#D97706]">Recommended Draft Pair</span>
  <h4 className="text-base font-bold mt-1">{p.beer}</h4>
  <p className="text-xs text-slate-350 leading-relaxed mt-2.5 font-light">{p.notes}</p>

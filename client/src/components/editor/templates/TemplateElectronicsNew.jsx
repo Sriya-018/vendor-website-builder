@@ -139,7 +139,7 @@ function QuantumComparisonMatrix({ accentColor }) {
  const b = components[deviceB];
 
  return (
- <section className="py-20 px-8 bg-[#1A123C] border-t border-b border-purple-950 text-white font-sans text-left">
+ <section className="py-20 px-8 bg-[#1A123C] border-t border-b border-purple-950 text-slate-900 dark:text-white font-sans text-left">
  <div className="max-w-4xl mx-auto">
  <div className="text-center mb-12">
  <FaExchangeAlt size={30} className="mx-auto mb-3 text-[#C084FC]" />
@@ -153,7 +153,7 @@ function QuantumComparisonMatrix({ accentColor }) {
  <select
  value={deviceA}
  onChange={(e) => setDeviceA(e.target.value)}
- className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-white font-bold"
+ className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-slate-900 dark:text-white font-bold"
  >
  {Object.keys(components).map(k => (
  <option key={k} value={k}>{components[k].name}</option>
@@ -165,7 +165,7 @@ function QuantumComparisonMatrix({ accentColor }) {
  <select
  value={deviceB}
  onChange={(e) => setDeviceB(e.target.value)}
- className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-white font-bold"
+ className="w-full bg-[#0F0926] border border-purple-900/40 rounded-theme px-4 py-3 text-sm focus:outline-none text-slate-900 dark:text-white font-bold"
  >
  {Object.keys(components).map(k => (
  <option key={k} value={k}>{components[k].name}</option>
@@ -186,23 +186,23 @@ function QuantumComparisonMatrix({ accentColor }) {
  <tbody className="divide-y divide-purple-950/25">
  <tr>
  <td className="p-5 font-bold text-slate-400">Processing Speed</td>
- <td className="p-5 text-white">{a.clock}</td>
- <td className="p-5 text-white">{b.clock}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{a.clock}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{b.clock}</td>
  </tr>
  <tr>
  <td className="p-5 font-bold text-slate-400">Thermal Draw (TDP)</td>
- <td className="p-5 text-white">{a.power}</td>
- <td className="p-5 text-white">{b.power}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{a.power}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{b.power}</td>
  </tr>
  <tr>
  <td className="p-5 font-bold text-slate-400">Memory Allocation</td>
- <td className="p-5 text-white">{a.memory}</td>
- <td className="p-5 text-white">{b.memory}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{a.memory}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{b.memory}</td>
  </tr>
  <tr>
  <td className="p-5 font-bold text-slate-400">Total System Bandwidth</td>
- <td className="p-5 text-white">{a.bandwidth}</td>
- <td className="p-5 text-white">{b.bandwidth}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{a.bandwidth}</td>
+ <td className="p-5 text-slate-900 dark:text-white">{b.bandwidth}</td>
  </tr>
  </tbody>
  </table>
@@ -253,7 +253,7 @@ function AeroSpecDrawer({ accentColor }) {
  <div className="text-center mb-12">
  <FaMicrochip size={28} className="mx-auto mb-3 text-theme-primary" />
  <h2 className="text-3xl font-bold tracking-tight text-theme-text">Advanced Specifications Panel</h2>
- <div className="w-12 h-0.5 bg-theme-primary text-white mx-auto mt-4"></div>
+ <div className="w-12 h-0.5 bg-theme-primary text-slate-900 dark:text-white mx-auto mt-4"></div>
  </div>
 
  <div className="grid md:grid-cols-3 gap-3 mb-8">

@@ -223,7 +223,7 @@ function EditorControls({ config, setConfig, website }) {
  onChange={toggleVisibility} 
  className="w-4 h-4 accent-indigo-600 cursor-pointer" 
  />
- <span className="font-bold text-gray-700 dark:text-slate-300 capitalize text-xs tracking-wide">{key} Section</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 capitalize text-xs tracking-wide">{key} Section</span>
  </div>
  <div className="flex items-center gap-1">
  <button 
@@ -399,56 +399,56 @@ function EditorControls({ config, setConfig, website }) {
  <div className="space-y-4">
  <div className="grid grid-cols-2 gap-3">
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Primary Color</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Primary Color</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.primary || '#000000'} onChange={(e) => updateConfig('theme', 'primary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.primary || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Secondary</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Secondary</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.secondary || '#000000'} onChange={(e) => updateConfig('theme', 'secondary', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.secondary || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Accent</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Accent</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.accent || '#000000'} onChange={(e) => updateConfig('theme', 'accent', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.accent || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Background</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Background</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.background || '#ffffff'} onChange={(e) => updateConfig('theme', 'background', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.background || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Surface</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Surface</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.surface || '#ffffff'} onChange={(e) => updateConfig('theme', 'surface', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.surface || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Text</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Text</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.text || '#000000'} onChange={(e) => updateConfig('theme', 'text', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.text || 'Default'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Muted Text</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Muted Text</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.muted || '#6b7280'} onChange={(e) => updateConfig('theme', 'muted', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.muted || '#6b7280'}</span>
  </div>
  </div>
  <div>
- <label className="text-xs font-bold text-gray-700 dark:text-slate-300">Border</label>
+ <label className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Border</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.theme?.border || '#e5e7eb'} onChange={(e) => updateConfig('theme', 'border', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase font-mono">{config.theme?.border || '#e5e7eb'}</span>
@@ -462,7 +462,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="typography" title="3. Typography" icon={FaFont}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Heading Font</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Heading Font</label>
  <select 
  value={config.typography.headingFont} 
  onChange={(e) => updateConfig('typography', 'headingFont', e.target.value)}
@@ -490,7 +490,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Body Font</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Body Font</label>
  <select 
  value={config.typography.bodyFont} 
  onChange={(e) => updateConfig('typography', 'bodyFont', e.target.value)}
@@ -512,7 +512,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Base Font Size: {config.typography.baseSize}px</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Base Font Size: {config.typography.baseSize}px</label>
  <input 
  type="range" min="12" max="20" 
  value={config.typography.baseSize} 
@@ -522,7 +522,7 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  <div className="flex gap-2">
  <div className="flex-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Line Height</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Line Height</label>
  <select value={config.typography.lineHeight} onChange={(e) => updateConfig('typography', 'lineHeight', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="compact">Compact</option>
  <option value="normal">Normal</option>
@@ -530,7 +530,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div className="flex-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Letter Spacing</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Letter Spacing</label>
  <select value={config.typography.letterSpacing} onChange={(e) => updateConfig('typography', 'letterSpacing', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="tight">Tight</option>
  <option value="normal">Normal</option>
@@ -545,7 +545,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="navbar" title="4. Navigation Bar" icon={FaBars}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Store Name / Logo Text</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Store Name / Logo Text</label>
  <input 
  type="text" value={config.navbar.logoText} 
  onChange={(e) => updateConfig('navbar', 'logoText', e.target.value)}
@@ -556,14 +556,14 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  <div className="flex gap-4">
  <div className="flex-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Background</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Background</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.navbar.backgroundColor} onChange={(e) => updateConfig('navbar', 'backgroundColor', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase">{config.navbar.backgroundColor}</span>
  </div>
  </div>
  <div className="flex-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Text Color</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Text Color</label>
  <div className="flex items-center gap-2">
  <input type="color" value={config.navbar.textColor} onChange={(e) => updateConfig('navbar', 'textColor', e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
  <span className="text-xs uppercase">{config.navbar.textColor}</span>
@@ -571,14 +571,14 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Position</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Position</label>
  <select value={config.navbar.position} onChange={(e) => updateConfig('navbar', 'position', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="top">Top Header</option>
  <option value="side">Side Menu</option>
  </select>
  </div>
  <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-lg">
- <span className="font-bold text-gray-700 dark:text-slate-300">Show Search Bar</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Show Search Bar</span>
  <input type="checkbox" checked={config.navbar.showSearch} onChange={(e) => updateConfig('navbar', 'showSearch', e.target.checked)} className="w-4 h-4 accent-purple-600" />
  </div>
  </div>
@@ -589,7 +589,7 @@ function EditorControls({ config, setConfig, website }) {
  <div className="space-y-4">
  <div className="p-3 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-lg space-y-3">
  <div className="flex items-center justify-between">
- <span className="font-bold text-gray-700 dark:text-slate-300">Announcement Bar</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Announcement Bar</span>
  <input type="checkbox" checked={config.header.announcement.show} onChange={(e) => updateConfig('header', 'announcement', {...config.header.announcement, show: e.target.checked})} className="w-4 h-4 accent-indigo-600" />
  </div>
  {config.header.announcement.show && (
@@ -615,7 +615,7 @@ function EditorControls({ config, setConfig, website }) {
 
  <div>
  <div className="flex justify-between items-center mb-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Hero Heading</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Hero Heading</label>
  <button
  type="button"
  onClick={() => openCopilot('heroHeading', (text) => updateConfig('header', 'heroHeading', text))}
@@ -628,7 +628,7 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  <div>
  <div className="flex justify-between items-center mb-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Hero Subheading</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Hero Subheading</label>
  <button
  type="button"
  onClick={() => openCopilot('heroTagline', (text) => updateConfig('header', 'heroSubheading', text))}
@@ -640,11 +640,11 @@ function EditorControls({ config, setConfig, website }) {
  <textarea value={config.header.heroSubheading} onChange={(e) => updateConfig('header', 'heroSubheading', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md text-xs" rows={2} />
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">CTA Label</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">CTA Label</label>
  <input type="text" value={config.header.ctaLabel} onChange={(e) => updateConfig('header', 'ctaLabel', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md" />
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Alignment</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Alignment</label>
  <select value={config.header.heroAlign} onChange={(e) => updateConfig('header', 'heroAlign', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="left">Left</option>
  <option value="center">Center</option>
@@ -658,7 +658,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="spacing" title="6. Spacing & Layout" icon={FaGripHorizontal}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Border Radius</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Border Radius</label>
  <select value={config.spacing.borderRadius} onChange={(e) => updateConfig('spacing', 'borderRadius', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="sharp">Sharp (0px)</option>
  <option value="rounded">Rounded (8px)</option>
@@ -666,7 +666,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Container Width</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Container Width</label>
  <select value={config.spacing.maxWidth} onChange={(e) => updateConfig('spacing', 'maxWidth', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="narrow">Narrow (960px)</option>
  <option value="normal">Normal (1200px)</option>
@@ -674,7 +674,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Section Padding</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Section Padding</label>
  <select value={config.spacing.padding} onChange={(e) => updateConfig('spacing', 'padding', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="compact">Compact</option>
  <option value="comfortable">Comfortable</option>
@@ -688,7 +688,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="products" title="8. Product Cards" icon={FaMousePointer}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Grid Columns (Desktop)</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Grid Columns (Desktop)</label>
  <select value={config.products.columnsDesktop} onChange={(e) => updateConfig('products', 'columnsDesktop', Number(e.target.value))} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="2">2 Columns</option>
  <option value="3">3 Columns</option>
@@ -714,7 +714,7 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Hover Effect</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Hover Effect</label>
  <select value={config.products.hoverEffect} onChange={(e) => updateConfig('products', 'hoverEffect', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="none">None</option>
  <option value="zoom">Zoom Image</option>
@@ -728,7 +728,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="buttons" title="9. Buttons" icon={FaMousePointer}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Primary Style</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Primary Style</label>
  <select value={config.buttons.primaryStyle} onChange={(e) => updateConfig('buttons', 'primaryStyle', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="filled">Filled Solid</option>
  <option value="outlined">Outlined</option>
@@ -736,7 +736,7 @@ function EditorControls({ config, setConfig, website }) {
  </select>
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Size</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Size</label>
  <select value={config.buttons.size} onChange={(e) => updateConfig('buttons', 'size', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md">
  <option value="small">Small</option>
  <option value="medium">Medium</option>
@@ -980,15 +980,15 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="trust" title="15. Trust & Social Proof" icon={FaShieldAlt}>
  <div className="space-y-3 p-3 bg-gray-50 dark:bg-[#13121A] rounded-lg border border-gray-250">
  <div className="flex items-center justify-between">
- <span className="font-bold text-gray-700 dark:text-slate-300">Secure Checkout Badge</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Secure Checkout Badge</span>
  <input type="checkbox" checked={config.trust.badges.secure} onChange={(e) => updateConfig('trust', 'badges', {...config.trust.badges, secure: e.target.checked})} className="w-4 h-4 accent-purple-600" />
  </div>
  <div className="flex items-center justify-between">
- <span className="font-bold text-gray-700 dark:text-slate-300">Free Returns Badge</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Free Returns Badge</span>
  <input type="checkbox" checked={config.trust.badges.returns} onChange={(e) => updateConfig('trust', 'badges', {...config.trust.badges, returns: e.target.checked})} className="w-4 h-4 accent-purple-600" />
  </div>
  <div className="flex items-center justify-between">
- <span className="font-bold text-gray-700 dark:text-slate-300">Live Viewer Counter</span>
+ <span className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Live Viewer Counter</span>
  <input type="checkbox" checked={config.trust.liveCounter} onChange={(e) => updateConfig('trust', 'liveCounter', e.target.checked)} className="w-4 h-4 accent-purple-600" />
  </div>
  </div>
@@ -1237,7 +1237,7 @@ function EditorControls({ config, setConfig, website }) {
 
  {/* Form to add a new page */}
  <div className="border-t border-gray-100 dark:border-slate-800/60 pt-4 space-y-3.5">
- <h4 className="font-bold text-gray-700 dark:text-slate-300">✦ Create New Page</h4>
+ <h4 className="font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">✦ Create New Page</h4>
  
  <div>
  <label className="block text-gray-500 dark:text-slate-400 font-bold mb-1 uppercase text-[10px]">Page Title</label>
@@ -1324,14 +1324,14 @@ function EditorControls({ config, setConfig, website }) {
  <div className="space-y-4">
  <div>
  <div className="flex justify-between items-center mb-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Meta Title</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Meta Title</label>
  <span className={`text-xs ${config.seo.title.length > 60 ? 'text-red-500 font-bold' : 'text-gray-400 dark:text-slate-500'}`}>{config.seo.title.length}/60</span>
  </div>
  <input type="text" value={config.seo.title} onChange={(e) => updateConfig('seo', 'title', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md" />
  </div>
  <div>
  <div className="flex justify-between items-center mb-1">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Meta Description</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Meta Description</label>
  <span className={`text-xs ${config.seo.description.length > 160 ? 'text-red-500 font-bold' : 'text-gray-400 dark:text-slate-500'}`}>{config.seo.description.length}/160</span>
  </div>
  <textarea value={config.seo.description} onChange={(e) => updateConfig('seo', 'description', e.target.value)} rows={3} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border rounded-md" />
@@ -1345,11 +1345,11 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="footerSettings" title="Footer" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Tagline</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Tagline</label>
  <input type="text" value={config.footer?.tagline || ''} onChange={(e) => updateConfig('footer', 'tagline', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none" />
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Layout</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Layout</label>
  <select value={config.footer?.layout || 'standard'} onChange={(e) => updateConfig('footer', 'layout', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="standard">Standard</option>
  <option value="minimal">Minimal</option>
@@ -1363,7 +1363,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="formSettings" title="Forms" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Input Border Radius</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Input Border Radius</label>
  <select value={config.forms?.inputRadius || '8px'} onChange={(e) => updateConfig('forms', 'inputRadius', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="0px">Sharp</option>
  <option value="8px">Rounded</option>
@@ -1372,7 +1372,7 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  <label className="flex items-center gap-2 cursor-pointer">
  <input type="checkbox" checked={config.forms?.border === 'true'} onChange={(e) => updateConfig('forms', 'border', e.target.checked ? 'true' : 'false')} className="accent-blue-600" />
- <span className="text-xs font-bold text-gray-700 dark:text-slate-300">Show Borders</span>
+ <span className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Show Borders</span>
  </label>
  </div>
  </Section>
@@ -1380,7 +1380,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="gallerySettings" title="Gallery" icon={FaImage}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Section Title</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Section Title</label>
  <input 
  type="text"
  value={config.gallery?.title || ''}
@@ -1390,7 +1390,7 @@ function EditorControls({ config, setConfig, website }) {
  />
  </div>
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Gallery Images (URLs)</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Gallery Images (URLs)</label>
  <p className="text-[10px] text-gray-500 mb-2 leading-relaxed">
  Paste new image links below to update your gallery photos.
  </p>
@@ -1424,7 +1424,7 @@ function EditorControls({ config, setConfig, website }) {
  <p className="text-xs text-gray-500 mb-3">Toggle visibility of store sections.</p>
  {Object.keys(config.sections || {}).map(sec => (
  <label key={sec} className="flex items-center justify-between cursor-pointer p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-150 dark:border-slate-800 rounded">
- <span className="text-xs font-bold text-gray-700 dark:text-slate-300 capitalize">{sec}</span>
+ <span className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 capitalize">{sec}</span>
  <input type="checkbox" checked={!!config.sections[sec]} onChange={(e) => updateConfig('sections', sec, e.target.checked)} className="accent-blue-600" />
  </label>
  ))}
@@ -1435,7 +1435,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="animations" title="Animations" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Page Transition</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Page Transition</label>
  <select value={config.animations?.pageAnimation || 'fade'} onChange={(e) => updateConfig('animations', 'pageAnimation', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="fade">Fade In</option>
  <option value="slide">Slide Up</option>
@@ -1450,7 +1450,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="borderRadius" title="Border Radius" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Global Radius</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Global Radius</label>
  <select value={config.spacing?.borderRadius || '8px'} onChange={(e) => updateConfig('spacing', 'borderRadius', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="0px">Sharp</option>
  <option value="4px">Slightly Rounded</option>
@@ -1466,7 +1466,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="shadows" title="Shadows" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Global Shadow Style</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Global Shadow Style</label>
  <select value={config.shadows?.globalStyle || 'medium'} onChange={(e) => updateConfig('shadows', 'globalStyle', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="none">None</option>
  <option value="light">Light</option>
@@ -1481,7 +1481,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="icons" title="Icons" icon={FaDesktop}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Icon Style</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Icon Style</label>
  <select value={config.icons?.style || 'outlined'} onChange={(e) => updateConfig('icons', 'style', e.target.value)} className="w-full p-2 bg-gray-50 dark:bg-[#13121A] border border-gray-200 dark:border-slate-700/60 rounded-md outline-none">
  <option value="outlined">Outlined</option>
  <option value="filled">Filled</option>
@@ -1496,7 +1496,7 @@ function EditorControls({ config, setConfig, website }) {
  <div className="space-y-4">
  <label className="flex items-center gap-2 cursor-pointer">
  <input type="checkbox" checked={config.images?.overlay || false} onChange={(e) => updateConfig('images', 'overlay', e.target.checked)} className="accent-blue-600" />
- <span className="text-xs font-bold text-gray-700 dark:text-slate-300">Darken Overlays</span>
+ <span className="text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Darken Overlays</span>
  </label>
  </div>
  </Section>
@@ -1504,7 +1504,7 @@ function EditorControls({ config, setConfig, website }) {
  {/* Custom CSS */}
  <Section id="customCss" title="Custom CSS" icon={FaDesktop}>
  <div className="space-y-2">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Inject Custom Styles</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Inject Custom Styles</label>
  <textarea 
  value={config.customCss || ''} 
  onChange={(e) => setConfig(p => ({ ...p, customCss: e.target.value }))}
@@ -1518,7 +1518,7 @@ function EditorControls({ config, setConfig, website }) {
  <Section id="hoursSettings" title="18. Business Hours" icon={FaClock}>
  <div className="space-y-4">
  <div>
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1">Section Title</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300 mb-1">Section Title</label>
  <input 
  type="text" 
  value={config.hours?.title || 'Business Hours'} 
@@ -1528,7 +1528,7 @@ function EditorControls({ config, setConfig, website }) {
  </div>
  
  <div className="space-y-3">
- <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">Daily Timings</label>
+ <label className="block text-xs font-bold text-gray-700 dark:text-slate-700 dark:text-slate-300">Daily Timings</label>
  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, idx) => {
  const defaultDays = config.hours?.days || [
  { day: 'Monday', hours: '9:00 AM - 9:00 PM' },

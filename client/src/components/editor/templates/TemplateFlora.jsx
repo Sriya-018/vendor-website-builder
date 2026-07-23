@@ -253,7 +253,7 @@ export default function TemplateFlora({
  🎨 Edit Hero Background
  </button>
  )}
- <div className="relative z-10 max-w-7xl mx-auto px-8 w-full text-white">
+ <div className="relative z-10 max-w-7xl mx-auto px-8 w-full text-slate-900 dark:text-white">
  <div className="max-w-md animate-fade-in" style={{ textAlign: config.header.heroAlign }}>
  <p className="text-[10px] uppercase font-bold tracking-[0.2em] mb-4 text-[#4B5E52] flex items-center gap-1.5" style={{ color: accentColor }}>
  <FaLeaf size={10} /> 100% Organic Botanical Science
@@ -275,7 +275,7 @@ export default function TemplateFlora({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3 bg-[#4B5E52] text-white hover:opacity-95 text-xs font-bold uppercase tracking-wider transition-opacity flex items-center gap-2"
+ className="px-8 py-3 bg-[#4B5E52] text-slate-900 dark:text-white hover:opacity-95 text-xs font-bold uppercase tracking-wider transition-opacity flex items-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Explore Aromatherapy'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -358,7 +358,7 @@ export default function TemplateFlora({
 
  <button 
  onClick={handleSolveQuiz}
- className="w-full py-3 bg-[#4B5E52] text-white text-[10px] uppercase font-bold tracking-wider hover:opacity-90 transition-opacity"
+ className="w-full py-3 bg-[#4B5E52] text-slate-900 dark:text-white text-[10px] uppercase font-bold tracking-wider hover:opacity-90 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Find Recommended Routine
@@ -381,7 +381,7 @@ export default function TemplateFlora({
  data-product-name={quizResult.name}
  data-product-price={quizResult.price}
  data-product-image={getProductImageUrl(quizResult, 0)}
- className="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-[10px] uppercase tracking-wider"
+ className="w-full py-2 bg-slate-800 hover:bg-slate-900 text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider"
  >
  Add Routine Combo
  </button>
@@ -479,7 +479,7 @@ export default function TemplateFlora({
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-3 py-1.5 bg-[#4B5E52] hover:opacity-90 text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-3 py-1.5 bg-[#4B5E52] hover:opacity-90 text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  style={{ backgroundColor: accentColor }}
  >
  Select
@@ -501,7 +501,7 @@ export default function TemplateFlora({
  <div className="text-center mt-16">
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3 bg-[#4B5E52] text-white hover:opacity-90 font-bold text-xs uppercase tracking-widest transition-opacity"
+ className="px-8 py-3 bg-[#4B5E52] text-slate-900 dark:text-white hover:opacity-90 font-bold text-xs uppercase tracking-widest transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Explore Catalog
@@ -844,7 +844,7 @@ export default function TemplateFlora({
 
  <button 
  type="submit"
- className="w-full py-3.5 bg-[#4B5E52] text-white font-bold uppercase tracking-wider text-xs hover:opacity-90 transition-opacity"
+ className="w-full py-3.5 bg-[#4B5E52] text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs hover:opacity-90 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Submit Apothecary Inquiry
@@ -994,7 +994,7 @@ export default function TemplateFlora({
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-3 py-1.5 bg-[#4B5E52] text-white hover:opacity-90 font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-3 py-1.5 bg-[#4B5E52] text-slate-900 dark:text-white hover:opacity-90 font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  style={{ backgroundColor: accentColor }}
  >
  Select
@@ -1241,7 +1241,7 @@ export default function TemplateFlora({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 bg-[#4B5E52] text-white font-bold uppercase tracking-wider text-xs shadow transition-all animate-pulse"
+ className="px-6 py-2.5 bg-[#4B5E52] text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs shadow transition-all animate-pulse"
  style={{ backgroundColor: accentColor }}
  >
  Done
@@ -1305,7 +1305,7 @@ export default function TemplateFlora({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[9px] text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
+ <span className="text-[9px] text-slate-900 dark:text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1344,7 +1344,7 @@ export default function TemplateFlora({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

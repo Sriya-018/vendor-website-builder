@@ -249,7 +249,7 @@ export default function TemplateSpark({
  🎨 Edit Hero Graphic
  </button>
  )}
- <div className="relative z-10 max-w-7xl mx-auto px-8 w-full text-white">
+ <div className="relative z-10 max-w-7xl mx-auto px-8 w-full text-slate-900 dark:text-white">
  <div className="max-w-xl" style={{ textAlign: config.header.heroAlign }}>
  <span className="inline-block px-3 py-1 bg-[#10B981]/10 border border-[#10B981]/30 rounded text-[10px] uppercase font-bold tracking-widest text-[#10B981] mb-6">
  Cyber Hardware Drop
@@ -272,7 +272,7 @@ export default function TemplateSpark({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3.5 bg-emerald-600 rounded text-white font-bold hover:bg-emerald-700 transition-colors uppercase tracking-widest text-[10px] shadow-theme shadow-emerald-600/30 flex items-center gap-2"
+ className="px-8 py-3.5 bg-emerald-600 rounded text-slate-900 dark:text-white font-bold hover:bg-emerald-700 transition-colors uppercase tracking-widest text-[10px] shadow-theme shadow-emerald-600/30 flex items-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Shop Gear'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -288,7 +288,7 @@ export default function TemplateSpark({
  case 'configurator':
  return (
  <SectionWrapper key="configurator" isEditable={isEditable} sectionKey="configurator" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="bg-slate-950 text-white py-20 px-8 border-b border-white/5">
+ <section className="bg-slate-950 text-slate-900 dark:text-white py-20 px-8 border-b border-slate-900/5 dark:border-white/5">
  <div className="max-w-4xl mx-auto">
  <div className="text-center mb-12">
  <span className="text-[10px] uppercase tracking-widest text-[#10B981] font-bold block mb-2">Configuration Builder</span>
@@ -305,7 +305,7 @@ export default function TemplateSpark({
  {products.slice(0, 5).map((p, idx) => (
  <label 
  key={p._id || p.id || idx}
- className="flex items-center justify-between p-3 border border-white/5 bg-slate-950/40 hover:border-[#10B981]/20 transition-colors cursor-pointer"
+ className="flex items-center justify-between p-3 border border-slate-900/5 dark:border-white/5 bg-slate-950/40 hover:border-[#10B981]/20 transition-colors cursor-pointer"
  >
  <div className="flex items-center gap-3">
  <input 
@@ -318,7 +318,7 @@ export default function TemplateSpark({
  className="accent-emerald-500 rounded h-4.5 w-4.5"
  />
  <div className="text-xs">
- <span className="font-bold uppercase tracking-wider text-slate-200 block">{p.name}</span>
+ <span className="font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 block">{p.name}</span>
  <span className="text-[10px] text-theme-muted">{p.category || 'Component'}</span>
  </div>
  </div>
@@ -328,7 +328,7 @@ export default function TemplateSpark({
  </div>
 
  {/* Calculations box */}
- <div className="h-full bg-slate-950 border border-white/5 p-8 flex flex-col justify-between items-center text-center">
+ <div className="h-full bg-slate-950 border border-slate-900/5 dark:border-white/5 p-8 flex flex-col justify-between items-center text-center">
  <div>
  <FaMicrochip className="text-theme-muted mb-4 mx-auto animate-pulse" size={28} />
  <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Rig Configuration Value</span>
@@ -367,7 +367,7 @@ Please contact me to discuss setup assembly.`
  case 'products':
  return (
  <SectionWrapper key="products" isEditable={isEditable} sectionKey="products" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="products" className="max-w-7xl mx-auto px-8 py-24 bg-slate-950 text-white">
+ <section id="products" className="max-w-7xl mx-auto px-8 py-24 bg-slate-950 text-slate-900 dark:text-white">
  <div className="text-center mb-16">
  <EditableText
  isEditable={isEditable}
@@ -391,7 +391,7 @@ Please contact me to discuss setup assembly.`
  {products.slice(0, 4).map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-[#090D16] border border-white/5 overflow-hidden hover:border-[#10B981]/25 transition-all flex flex-col justify-between"
+ className="bg-[#090D16] border border-slate-900/5 dark:border-white/5 overflow-hidden hover:border-[#10B981]/25 transition-all flex flex-col justify-between"
  >
  <div>
  <div className="h-48 overflow-hidden bg-slate-900 relative">
@@ -421,7 +421,7 @@ Please contact me to discuss setup assembly.`
  </div>
  </div>
  <div className="p-5 pt-0">
- <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+ <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-900/5 dark:border-white/5">
  {config.products?.showPrices !== false && (
  <div className="font-bold text-md text-[#10B981]">
  <span>₹</span>
@@ -443,7 +443,7 @@ Please contact me to discuss setup assembly.`
  data-product-price={product.price}
  data-product-image={product.img || `https://picsum.photos/seed/spark${i}/600/600`}
  disabled={product.inStock === false}
- className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase tracking-widest transition-colors disabled:opacity-40"
+ className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-widest transition-colors disabled:opacity-40"
  >
  Buy
  </button>
@@ -452,7 +452,7 @@ Please contact me to discuss setup assembly.`
  {isEditable && (
  <button 
  onClick={() => setActiveEditProductId(product._id || product.id)}
- className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-white uppercase tracking-widest"
+ className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-slate-900 dark:text-white uppercase tracking-widest"
  >
  ⚙️ Tech Specs
  </button>
@@ -478,7 +478,7 @@ Please contact me to discuss setup assembly.`
  const galleryImages = config.gallery?.images || [];
  return (
  <SectionWrapper key="gallery" isEditable={isEditable} sectionKey="gallery" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-7xl mx-auto px-8 py-20 bg-slate-950 text-white border-t border-b border-white/5">
+ <section className="max-w-7xl mx-auto px-8 py-20 bg-slate-950 text-slate-900 dark:text-white border-t border-b border-slate-900/5 dark:border-white/5">
  <div className="text-center mb-12">
  <EditableText
  isEditable={isEditable}
@@ -492,7 +492,7 @@ Please contact me to discuss setup assembly.`
  </div>
  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
  {galleryImages.map((img, idx) => (
- <div key={idx} className="relative aspect-square overflow-hidden group border border-white/5 bg-[#090D16]">
+ <div key={idx} className="relative aspect-square overflow-hidden group border border-slate-900/5 dark:border-white/5 bg-[#090D16]">
  <img src={img} alt={`Battlestation ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
  {isEditable && (
  <div className="absolute inset-0 bg-[#090D16]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -508,7 +508,7 @@ Please contact me to discuss setup assembly.`
  onUpdateConfig('gallery', 'images', updated);
  }
  }}
- className="w-full px-3 py-1.5 bg-[#090D16] border border-[#10B981]/30 text-white rounded text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+ className="w-full px-3 py-1.5 bg-[#090D16] border border-[#10B981]/30 text-slate-900 dark:text-white rounded text-xs outline-none focus:ring-1 focus:ring-emerald-500"
  />
  </div>
  )}
@@ -524,7 +524,7 @@ Please contact me to discuss setup assembly.`
  const faqList = config.faq?.questions || [];
  return (
  <SectionWrapper key="faq" isEditable={isEditable} sectionKey="faq" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-4xl mx-auto px-8 py-20 text-white">
+ <section className="max-w-4xl mx-auto px-8 py-20 text-slate-900 dark:text-white">
  <div className="text-center mb-12">
  <EditableText
  isEditable={isEditable}
@@ -540,7 +540,7 @@ Please contact me to discuss setup assembly.`
  {faqList.map((item, idx) => {
  const isOpen = activeFaq === idx;
  return (
- <div key={item.id || idx} className="bg-[#090D16] border border-white/5 overflow-hidden transition-all animate-fade-in">
+ <div key={item.id || idx} className="bg-[#090D16] border border-slate-900/5 dark:border-white/5 overflow-hidden transition-all animate-fade-in">
  <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-gray-250 flex items-center justify-between hover:bg-slate-900 transition-colors text-xs uppercase tracking-wider">
  <EditableText
  isEditable={isEditable}
@@ -555,7 +555,7 @@ Please contact me to discuss setup assembly.`
  <span className="text-[#10B981]">{isOpen ? '—' : '+'}</span>
  </button>
  {isOpen && (
- <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-white/5">
+ <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-slate-900/5 dark:border-white/5">
  <EditableText
  isEditable={isEditable}
  value={item.a}
@@ -581,7 +581,7 @@ Please contact me to discuss setup assembly.`
  const testList = config.testimonials?.items || [];
  return (
  <SectionWrapper key="testimonials" isEditable={isEditable} sectionKey="testimonials" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="bg-slate-950 py-24 text-white">
+ <section className="bg-slate-950 py-24 text-slate-900 dark:text-white">
  <div className="max-w-7xl mx-auto px-8">
  <div className="text-center mb-16">
  <EditableText
@@ -596,7 +596,7 @@ Please contact me to discuss setup assembly.`
  </div>
  <div className="grid md:grid-cols-3 gap-8">
  {testList.map((item, idx) => (
- <div key={idx} className="p-8 border border-white/5 bg-[#090D16] text-center flex flex-col justify-between">
+ <div key={idx} className="p-8 border border-slate-900/5 dark:border-white/5 bg-[#090D16] text-center flex flex-col justify-between">
  <div className="text-[#10B981] text-3xl font-black leading-none mb-6">“</div>
  <EditableText
  isEditable={isEditable}
@@ -609,7 +609,7 @@ Please contact me to discuss setup assembly.`
  tagName="p"
  className="text-sm font-light italic leading-relaxed text-gray-400"
  />
- <div className="mt-8 border-t border-white/5 pt-6">
+ <div className="mt-8 border-t border-slate-900/5 dark:border-white/5 pt-6">
  <EditableText
  isEditable={isEditable}
  value={item.author}
@@ -646,7 +646,7 @@ Please contact me to discuss setup assembly.`
  const hoursDays = config.hours?.days || [];
  return (
  <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-xl mx-auto px-8 py-20 text-white text-center">
+ <section className="max-w-xl mx-auto px-8 py-20 text-slate-900 dark:text-white text-center">
  <div className="text-center mb-8">
  <EditableText
  isEditable={isEditable}
@@ -658,11 +658,11 @@ Please contact me to discuss setup assembly.`
  />
  <div className="w-12 h-[2px] mx-auto mt-4 bg-emerald-500"></div>
  </div>
- <div className="divide-y divide-white/5 border-t border-b border-white/5 py-4">
+ <div className="divide-y divide-white/5 border-t border-b border-slate-900/5 dark:border-white/5 py-4">
  {hoursDays.map((item, idx) => (
  <div key={idx} className="flex justify-between py-3.5 text-xs tracking-wider">
  <span className="text-gray-400 uppercase font-semibold">{item.day}</span>
- <span className="font-bold text-white tracking-widest">{item.hours}</span>
+ <span className="font-bold text-slate-900 dark:text-white tracking-widest">{item.hours}</span>
  </div>
  ))}
  </div>
@@ -675,7 +675,7 @@ Please contact me to discuss setup assembly.`
  const contactSubtitle = config.contact?.subtitle || 'Get in touch for custom setups and compatibility queries.';
  return (
  <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-white">
+ <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-slate-900 dark:text-white">
  <div className="grid md:grid-cols-2 gap-16 items-start">
  <div className="space-y-8">
  <div>
@@ -734,7 +734,7 @@ Please contact me to discuss setup assembly.`
  value={contactForm.name}
  onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
  placeholder="e.g. John Doe"
- className="w-full px-4 py-2.5 bg-black/40 border border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
+ className="w-full px-4 py-2.5 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
  />
  </div>
 
@@ -746,7 +746,7 @@ Please contact me to discuss setup assembly.`
  value={contactForm.email}
  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
  placeholder="e.g. john@example.com"
- className="w-full px-4 py-2.5 bg-black/40 border border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
+ className="w-full px-4 py-2.5 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
  />
  </div>
 
@@ -758,7 +758,7 @@ Please contact me to discuss setup assembly.`
  value={contactForm.message}
  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
  placeholder="Please note configuration modifications, parts compatibility questions, etc."
- className="w-full px-4 py-3 bg-black/40 border border-white/10 text-xs text-white outline-none focus:border-[#10B981] resize-none"
+ className="w-full px-4 py-3 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-[#10B981] resize-none"
  />
  </div>
 
@@ -785,10 +785,10 @@ Please contact me to discuss setup assembly.`
  return (
  <div 
  id="preview-scroll-container"
- className="w-full h-full overflow-y-auto relative bg-[#090D16] text-white flex flex-col justify-between font-sans"
+ className="w-full h-full overflow-y-auto relative bg-[#090D16] text-slate-900 dark:text-white flex flex-col justify-between font-sans"
  >
  {/* Simple Header */}
- <nav className="py-6 px-8 border-b border-white/5 flex items-center justify-between">
+ <nav className="py-6 px-8 border-b border-slate-900/5 dark:border-white/5 flex items-center justify-between">
  {isEditable ? (
  <EditableText
  isEditable={true}
@@ -804,7 +804,7 @@ Please contact me to discuss setup assembly.`
  )}
  <button 
  onClick={() => changePage('home')}
- className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
+ className="text-[10px] uppercase tracking-widest font-bold border border-slate-900/15 dark:border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
  >
  ← Back To Store
  </button>
@@ -818,14 +818,14 @@ Please contact me to discuss setup assembly.`
  </div>
 
  {/* Search, Filter & Sort */}
- <div className="bg-[#090D16] p-6 border border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+ <div className="bg-[#090D16] p-6 border border-slate-900/5 dark:border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
  <div className="relative w-full md:max-w-xs">
  <input 
  type="text" 
  placeholder="Search gear..."
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- className="w-full pl-9 pr-4 py-2 bg-black/40 border border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
+ className="w-full pl-9 pr-4 py-2 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-[#10B981]"
  />
  <FaSearch className="absolute left-3.5 top-3 text-gray-550" size={10} />
  </div>
@@ -834,7 +834,7 @@ Please contact me to discuss setup assembly.`
  <select 
  value={selectedCategory} 
  onChange={(e) => setSelectedCategory(e.target.value)}
- className="px-3 py-2 bg-black/40 border border-white/10 text-xs text-white rounded-none outline-none focus:border-[#10B981] uppercase tracking-widest text-white shrink-0"
+ className="px-3 py-2 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-[#10B981] uppercase tracking-widest text-white shrink-0"
  >
  {categoriesList.map(cat => (
  <option key={cat} value={cat} className="bg-slate-900">{cat}</option>
@@ -844,7 +844,7 @@ Please contact me to discuss setup assembly.`
  <select 
  value={sortBy} 
  onChange={(e) => setSortBy(e.target.value)}
- className="w-full md:w-auto px-3 py-2 bg-black/40 border border-white/10 text-xs text-white rounded-none outline-none focus:border-[#10B981] uppercase tracking-widest text-white"
+ className="w-full md:w-auto px-3 py-2 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-[#10B981] uppercase tracking-widest text-white"
  >
  <option value="default" className="bg-slate-900">Featured Gear</option>
  <option value="price-low" className="bg-slate-900">Price: Low to High</option>
@@ -858,7 +858,7 @@ Please contact me to discuss setup assembly.`
  {sortedFilteredProducts.map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-slate-950 border border-white/5 flex flex-col justify-between hover:border-[#10B981]/20 transition-all"
+ className="bg-slate-950 border border-slate-900/5 dark:border-white/5 flex flex-col justify-between hover:border-[#10B981]/20 transition-all"
  >
  <div>
  <div className="h-56 overflow-hidden relative bg-[#090D16]">
@@ -893,7 +893,7 @@ Please contact me to discuss setup assembly.`
  </div>
  </div>
  <div className="p-5 pt-0">
- <div className="flex items-center justify-between border-t border-white/5 pt-4">
+ <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
  {config.products?.showPrices !== false && (
  <div className="font-bold text-md text-[#10B981]">
  <span>₹</span>
@@ -915,7 +915,7 @@ Please contact me to discuss setup assembly.`
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-4 py-2 bg-theme-primary text-slate-900 dark:text-white hover:bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  >
  Enquire
  </button>
@@ -928,7 +928,7 @@ Please contact me to discuss setup assembly.`
  </main>
 
  {/* Footer */}
- <footer className="py-8 text-center text-xs text-gray-550 border-t border-white/5 bg-slate-950">
+ <footer className="py-8 text-center text-xs text-gray-550 border-t border-slate-900/5 dark:border-white/5 bg-slate-950">
  <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
  </footer>
  </div>
@@ -974,7 +974,7 @@ Please contact me to discuss setup assembly.`
  </div>
 
  {/* Footer */}
- <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-theme-muted font-light">
+ <footer className="bg-black/60 py-12 px-8 border-t border-slate-900/5 dark:border-white/5 text-center text-xs text-theme-muted font-light">
  <div className="max-w-7xl mx-auto space-y-4">
  <p className="font-black text-[#10B981] uppercase tracking-widest text-sm">{businessName}</p>
  <p>© {new Date().getFullYear()} {businessName}. High-Performance Gaming Rig Scoping.</p>
@@ -990,12 +990,12 @@ Please contact me to discuss setup assembly.`
  <div className="bg-[#090D16] rounded-none max-w-lg w-full p-6 border border-[#10B981]/30 shadow-theme relative text-left">
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
  
- <h3 className="text-xl font-bold uppercase tracking-wider text-[#10B981] border-b border-white/5 pb-3 mb-6">
+ <h3 className="text-xl font-bold uppercase tracking-wider text-[#10B981] border-b border-slate-900/5 dark:border-white/5 pb-3 mb-6">
  Gear Settings & Custom Specs
  </h3>
 
@@ -1007,7 +1007,7 @@ Please contact me to discuss setup assembly.`
  type="text"
  value={product.name}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
 
@@ -1017,7 +1017,7 @@ Please contact me to discuss setup assembly.`
  type="number"
  value={product.price}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
  </div>
@@ -1030,7 +1030,7 @@ Please contact me to discuss setup assembly.`
  value={product.category || ''}
  placeholder="e.g. Graphic Cards, Gaming Rig, Keyboards"
  onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
  </div>
@@ -1042,12 +1042,12 @@ Please contact me to discuss setup assembly.`
  placeholder="Describe technical specs, clock speeds, warranty timeline."
  onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500 resize-none font-sans"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500 resize-none font-sans"
  />
  </div>
 
  <div className="grid grid-cols-2 gap-4 py-1.5">
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={!!product.isBestseller}
@@ -1059,7 +1059,7 @@ Please contact me to discuss setup assembly.`
  </div>
  </label>
 
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={product.inStock !== false}
@@ -1070,7 +1070,7 @@ Please contact me to discuss setup assembly.`
  }}
  className="w-4 h-4 accent-emerald-500 cursor-pointer"
  />
- <div className="text-[10px] font-bold uppercase tracking-wider text-white select-none">
+ <div className="text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-white select-none">
  📦 In Stock
  </div>
  </label>
@@ -1087,16 +1087,16 @@ Please contact me to discuss setup assembly.`
  onUpdateProduct(product._id || product.id, 'stockQuantity', val);
  onUpdateProduct(product._id || product.id, 'inStock', val > 0);
  }}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  placeholder="Pieces in stock"
  />
  </div>
 
  {/* Scoping Image */}
- <div className="p-4 border border-white/10 bg-black/25 space-y-3">
+ <div className="p-4 border border-slate-900/10 dark:border-white/10 bg-black/25 space-y-3">
  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Component Presentation Image</span>
  <div className="flex gap-4 items-center">
- <div className="w-20 h-20 border border-white/10 shrink-0">
+ <div className="w-20 h-20 border border-slate-900/10 dark:border-white/10 shrink-0">
  <img 
  src={getProductImageUrl(product, 0)} 
  className="w-full h-full object-cover" 
@@ -1105,7 +1105,7 @@ Please contact me to discuss setup assembly.`
  </div>
  <div className="flex-1 space-y-2">
  <div>
- <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
+ <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-slate-900/10 dark:border-white/10 hover:bg-theme-surface/10 text-slate-900 dark:text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
  📁 Upload Image
  <input 
  type="file" 
@@ -1120,13 +1120,13 @@ Please contact me to discuss setup assembly.`
  value={product.img || ''} 
  placeholder="Paste image link" 
  onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
- className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white outline-none focus:border-indigo-500" 
+ className="w-full px-3 py-1.5 bg-black/40 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500" 
  />
  </div>
  </div>
  </div>
 
- <div className="flex gap-3 pt-4 border-t border-white/5 justify-between items-center">
+ <div className="flex gap-3 pt-4 border-t border-slate-900/5 dark:border-white/5 justify-between items-center">
  <button 
  onClick={() => {
  if (onDeleteProduct) {
@@ -1142,7 +1142,7 @@ Please contact me to discuss setup assembly.`
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-theme-surface hover:bg-emerald-500 hover:text-white"
+ className="px-6 py-2.5 text-black font-bold uppercase tracking-wider text-xs shadow transition-all bg-theme-surface hover:bg-emerald-500 hover:text-slate-900 dark:text-white"
  >
  Done
  </button>
@@ -1156,19 +1156,19 @@ Please contact me to discuss setup assembly.`
  {/* Background Editor Modal */}
  {showBgModal && (
  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
- <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-theme border border-white/10 relative text-left">
+ <div className="bg-neutral-950 rounded-none max-w-lg w-full p-6 shadow-theme border border-slate-900/10 dark:border-white/10 relative text-left">
  <button 
  onClick={() => setShowBgModal(false)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
- <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-1">
+ <h3 className="text-xl font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-1">
  Spark Background Settings
  </h3>
  <p className="text-xs text-theme-muted mb-6">Select a cyberpunk hardware preset or generate using AI.</p>
 
- <div className="flex border-b border-white/10 mb-6 font-semibold">
+ <div className="flex border-b border-slate-900/10 dark:border-white/10 mb-6 font-semibold">
  <button 
  onClick={() => setActiveTab('presets')}
  className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
@@ -1199,11 +1199,11 @@ Please contact me to discuss setup assembly.`
  onUpdateConfig('header', 'heroImage', item.url);
  setShowBgModal(false);
  }}
- className="cursor-pointer group relative aspect-video border border-white/5 hover:border-[#10B981] transition-all bg-black"
+ className="cursor-pointer group relative aspect-video border border-slate-900/5 dark:border-white/5 hover:border-[#10B981] transition-all bg-black"
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[9px] text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
+ <span className="text-[9px] text-slate-900 dark:text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1217,7 +1217,7 @@ Please contact me to discuss setup assembly.`
  value={aiPrompt}
  onChange={(e) => setAiPrompt(e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-[#10B981] text-sm text-white resize-none"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-[#10B981] text-sm text-white resize-none"
  />
  </div>
 
@@ -1227,7 +1227,7 @@ Please contact me to discuss setup assembly.`
  <select 
  value={aiStyle} 
  onChange={(e) => setAiStyle(e.target.value)}
- className="w-full p-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white font-bold"
+ className="w-full p-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white font-bold"
  >
  <option value="realistic">Realistic Photo</option>
  <option value="abstract">Abstract Art</option>

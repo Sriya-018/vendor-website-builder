@@ -257,7 +257,7 @@ export default function TemplateCrave({
  value={config.header.heroHeading || storeName}
  onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
  tagName="h1"
- className="text-5xl md:text-7xl text-white mb-6 font-extrabold"
+ className="text-5xl md:text-7xl text-slate-900 dark:text-white mb-6 font-extrabold"
  style={{ fontFamily: "'Lobster', cursive" }}
  />
  <EditableText
@@ -271,7 +271,7 @@ export default function TemplateCrave({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="inline-block px-10 py-4 text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-theme flex items-center gap-2"
+ className="inline-block px-10 py-4 text-slate-900 dark:text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-theme flex items-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'See Our Menu'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -355,7 +355,7 @@ export default function TemplateCrave({
  data-product-name={product.name}
  data-product-price={product.price}
  data-product-image={product.img || `https://picsum.photos/seed/food${i}/600/600`}
- className="text-white px-5 py-2.5 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
+ className="text-slate-900 dark:text-white px-5 py-2.5 rounded-theme font-bold text-sm hover:opacity-90 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Order Now
@@ -604,7 +604,7 @@ export default function TemplateCrave({
  const countdownTitle = config.countdown?.title || 'Mega Summer Sale Ending Soon!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-8 text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
+ <section className="w-full py-12 px-8 text-slate-900 dark:text-white text-center relative overflow-hidden" style={{ backgroundColor: config.countdown?.bgColor || primaryColor }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left md:max-w-md">
  <EditableText
@@ -624,8 +624,8 @@ export default function TemplateCrave({
  { label: 'Min', val: timeLeft.minutes },
  { label: 'Sec', val: timeLeft.seconds }
  ].map((col, idx) => (
- <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-white/10 shadow-theme">
- <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
+ <div key={idx} className="flex flex-col items-center bg-black/25 px-4 py-3 rounded-theme min-w-[70px] border border-slate-900/10 dark:border-white/10 shadow-theme">
+ <span className="text-2xl font-black text-slate-900 dark:text-white">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-250 mt-1">{col.label}</span>
  </div>
  ))}
@@ -835,11 +835,11 @@ export default function TemplateCrave({
  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-red-650/95 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-red-650/95 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Sold Out
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-theme-primary text-white text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
+ <span className="absolute top-3 left-3 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20" style={{ backgroundColor: accentColor }}>
  ⭐ Bestseller
  </span>
  ) : null}
@@ -1067,7 +1067,7 @@ export default function TemplateCrave({
 
  <button 
  type="submit"
- className="w-full py-4 rounded-full text-white font-extrabold shadow-theme hover:opacity-95 transition-opacity"
+ className="w-full py-4 rounded-full text-slate-900 dark:text-white font-extrabold shadow-theme hover:opacity-95 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Submit Reservation / Inquiry
@@ -1079,7 +1079,7 @@ export default function TemplateCrave({
  )}
 
  <footer className="py-10 text-center" style={{ backgroundColor: primaryColor, color: '#fde68a' }}>
- <p className="font-medium text-sm">© 2026 {storeName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
+ <p className="font-medium text-sm">© 2026 {storeName}. Powered by <span className="text-slate-900 dark:text-white font-bold">VendorBuild</span></p>
  </footer>
 
  {/* Edit settings modal */}
@@ -1276,7 +1276,7 @@ export default function TemplateCrave({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 text-white rounded-full font-bold text-xs shadow transition-all"
+ className="px-6 py-2.5 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow transition-all"
  style={{ backgroundColor: accentColor }}
  >
  Done
@@ -1338,7 +1338,7 @@ export default function TemplateCrave({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1376,7 +1376,7 @@ export default function TemplateCrave({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

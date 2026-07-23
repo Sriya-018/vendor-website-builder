@@ -254,7 +254,7 @@ export default function TemplateBistro({
  {isEditable && (
  <button 
  onClick={() => setShowBgModal(true)}
- className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-[#1E1E1C] border border-amber-300 text-white rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
+ className="absolute bottom-6 right-6 z-20 px-4 py-2 bg-[#1E1E1C] border border-amber-300 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow-theme hover:scale-105 transition-transform flex items-center gap-1.5 font-sans"
  style={{ borderColor: accentColor }}
  >
  🎨 Edit Hero Background
@@ -267,7 +267,7 @@ export default function TemplateBistro({
  value={config.header.heroHeading || storeName}
  onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
  tagName="h1"
- className="text-4xl md:text-6xl text-white mb-6 font-serif uppercase tracking-wide leading-tight"
+ className="text-4xl md:text-6xl text-slate-900 dark:text-white mb-6 font-serif uppercase tracking-wide leading-tight"
  />
  <EditableText
  isEditable={isEditable}
@@ -295,7 +295,7 @@ export default function TemplateBistro({
  case 'products':
  return (
  <SectionWrapper key="products" isEditable={isEditable} sectionKey="products" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="products" className="max-w-7xl mx-auto px-8 py-24 bg-[#1E1E1C] text-white">
+ <section id="products" className="max-w-7xl mx-auto px-8 py-24 bg-[#1E1E1C] text-slate-900 dark:text-white">
  
  {/* Chef's Specials Showcase Carousel/Deck */}
  {bestSellers.length > 0 && (
@@ -377,7 +377,7 @@ export default function TemplateBistro({
  {activeBistroFeatured.slice(0, 6).map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-black/30 border border-white/5 group hover:border-[#C5A880]/40 transition-colors flex flex-col justify-between"
+ className="bg-black/30 border border-slate-900/5 dark:border-white/5 group hover:border-[#C5A880]/40 transition-colors flex flex-col justify-between"
  style={{ borderRadius: 'var(--radius)' }}
  >
  <div>
@@ -416,7 +416,7 @@ export default function TemplateBistro({
  </div>
  </div>
  <div className="p-6 pt-0">
- <div className="flex items-center justify-between border-t border-white/5 pt-4">
+ <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
  {config.products?.showPrices !== false && (
  <div className="font-serif text-lg text-[#C5A880]">
  <span>₹</span>
@@ -447,7 +447,7 @@ export default function TemplateBistro({
  {isEditable && (
  <button 
  onClick={() => setActiveEditProductId(product._id || product.id)}
- className="w-full mt-4 py-1.5 bg-theme-surface/5 text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-wider border border-transparent hover:border-white/10"
+ className="w-full mt-4 py-1.5 bg-theme-surface/5 text-[10px] font-bold text-gray-400 hover:text-slate-900 dark:text-white uppercase tracking-wider border border-transparent hover:border-slate-900/10 dark:border-white/10"
  >
  ⚙️ Edit Dish Parameters
  </button>
@@ -487,7 +487,7 @@ export default function TemplateBistro({
  </div>
  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
  {galleryImages.map((img, idx) => (
- <div key={idx} className="relative aspect-square overflow-hidden group border border-white/5 bg-[#1E1E1C]">
+ <div key={idx} className="relative aspect-square overflow-hidden group border border-slate-900/5 dark:border-white/5 bg-[#1E1E1C]">
  <img src={img} alt={`Bistro View ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
  {isEditable && (
  <div className="absolute inset-0 bg-[#1E1E1C]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -503,7 +503,7 @@ export default function TemplateBistro({
  onUpdateConfig('gallery', 'images', updated);
  }
  }}
- className="w-full px-3 py-1.5 bg-[#1E1E1C] border border-[#C5A880]/30 text-white rounded text-xs outline-none focus:ring-1 focus:ring-amber-500"
+ className="w-full px-3 py-1.5 bg-[#1E1E1C] border border-[#C5A880]/30 text-slate-900 dark:text-white rounded text-xs outline-none focus:ring-1 focus:ring-amber-500"
  />
  </div>
  )}
@@ -519,7 +519,7 @@ export default function TemplateBistro({
  const faqList = config.faq?.questions || [];
  return (
  <SectionWrapper key="faq" isEditable={isEditable} sectionKey="faq" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-4xl mx-auto px-8 py-20 text-white">
+ <section className="max-w-4xl mx-auto px-8 py-20 text-slate-900 dark:text-white">
  <div className="text-center mb-12">
  <EditableText
  isEditable={isEditable}
@@ -535,7 +535,7 @@ export default function TemplateBistro({
  {faqList.map((item, idx) => {
  const isOpen = activeFaq === idx;
  return (
- <div key={item.id || idx} className="bg-black/20 border border-white/5 overflow-hidden transition-all">
+ <div key={item.id || idx} className="bg-black/20 border border-slate-900/5 dark:border-white/5 overflow-hidden transition-all">
  <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-serif uppercase tracking-wider text-gray-250 flex items-center justify-between hover:bg-theme-surface/5 transition-colors">
  <EditableText
  isEditable={isEditable}
@@ -551,7 +551,7 @@ export default function TemplateBistro({
  <span className="text-[#C5A880] text-lg font-light">{isOpen ? '—' : '+'}</span>
  </button>
  {isOpen && (
- <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-white/5">
+ <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-slate-900/5 dark:border-white/5">
  <EditableText
  isEditable={isEditable}
  value={item.a}
@@ -592,7 +592,7 @@ export default function TemplateBistro({
  </div>
  <div className="grid md:grid-cols-3 gap-8">
  {testList.map((item, idx) => (
- <div key={idx} className="p-8 border border-white/5 bg-[#1E1E1C] relative text-center flex flex-col justify-between">
+ <div key={idx} className="p-8 border border-slate-900/5 dark:border-white/5 bg-[#1E1E1C] relative text-center flex flex-col justify-between">
  <div className="text-[#C5A880] text-4xl font-serif leading-none mb-6">“</div>
  <EditableText
  isEditable={isEditable}
@@ -605,7 +605,7 @@ export default function TemplateBistro({
  tagName="p"
  className="text-sm font-light italic leading-relaxed text-gray-300"
  />
- <div className="mt-8 border-t border-white/5 pt-6">
+ <div className="mt-8 border-t border-slate-900/5 dark:border-white/5 pt-6">
  <EditableText
  isEditable={isEditable}
  value={item.author}
@@ -642,7 +642,7 @@ export default function TemplateBistro({
  const hoursDays = config.hours?.days || [];
  return (
  <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-xl mx-auto px-8 py-20 text-white text-center">
+ <section className="max-w-xl mx-auto px-8 py-20 text-slate-900 dark:text-white text-center">
  <div className="text-center mb-8">
  <EditableText
  isEditable={isEditable}
@@ -658,7 +658,7 @@ export default function TemplateBistro({
  {hoursDays.map((item, idx) => (
  <div key={idx} className="flex justify-between py-3.5 text-sm font-light">
  <span className="text-gray-400 font-serif tracking-wider uppercase">{item.day}</span>
- <span className="font-semibold text-white tracking-widest">{item.hours}</span>
+ <span className="font-semibold text-slate-900 dark:text-white tracking-widest">{item.hours}</span>
  </div>
  ))}
  </div>
@@ -671,7 +671,7 @@ export default function TemplateBistro({
  const contactSubtitle = config.contact?.subtitle || 'Reserve your fine dining table experience below.';
  return (
  <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-white">
+ <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-slate-900 dark:text-white">
  <div className="grid md:grid-cols-2 gap-16 items-start">
  <div className="space-y-8">
  <div>
@@ -730,7 +730,7 @@ export default function TemplateBistro({
  <select 
  value={reservationDetails.guests}
  onChange={(e) => setReservationDetails({...reservationDetails, guests: e.target.value})}
- className="w-full px-3 py-2 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880] font-serif"
+ className="w-full px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880] font-serif"
  >
  <option value="1" className="bg-[#1E1E1C]">1 Guest</option>
  <option value="2" className="bg-[#1E1E1C]">2 Guests</option>
@@ -746,7 +746,7 @@ export default function TemplateBistro({
  type="date"
  value={reservationDetails.date}
  onChange={(e) => setReservationDetails({...reservationDetails, date: e.target.value})}
- className="w-full px-3 py-2 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
  />
  </div>
  </div>
@@ -758,7 +758,7 @@ export default function TemplateBistro({
  type="time"
  value={reservationDetails.time}
  onChange={(e) => setReservationDetails({...reservationDetails, time: e.target.value})}
- className="w-full px-3 py-2 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
  />
  </div>
  </div>
@@ -771,7 +771,7 @@ export default function TemplateBistro({
  value={contactForm.name}
  onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
  placeholder="e.g. John Doe"
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
  />
  </div>
 
@@ -783,7 +783,7 @@ export default function TemplateBistro({
  value={contactForm.email}
  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
  placeholder="e.g. john@example.com"
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
  />
  </div>
 
@@ -795,7 +795,7 @@ export default function TemplateBistro({
  value={contactForm.message}
  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
  placeholder="Please note dietary constraints, allergic considerations, etc."
- className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880] resize-none"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880] resize-none"
  />
  </div>
 
@@ -822,7 +822,7 @@ export default function TemplateBistro({
  return (
  <div 
  id="preview-scroll-container"
- className="w-full h-full overflow-y-auto relative bg-[#1E1E1C] text-white flex flex-col justify-between font-sans"
+ className="w-full h-full overflow-y-auto relative bg-[#1E1E1C] text-slate-900 dark:text-white flex flex-col justify-between font-sans"
  >
  {/* Simple Header */}
  <nav className="py-6 px-8 border-b border-[#C5A880]/10 flex items-center justify-between">
@@ -855,14 +855,14 @@ export default function TemplateBistro({
  </div>
 
  {/* Search, Filter & Sort */}
- <div className="bg-black/35 p-6 border border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+ <div className="bg-black/35 p-6 border border-slate-900/5 dark:border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
  <div className="relative w-full md:max-w-xs">
  <input 
  type="text" 
  placeholder="Search menu..."
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- className="w-full pl-9 pr-4 py-2 bg-black/30 border border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
+ className="w-full pl-9 pr-4 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none text-xs text-white outline-none focus:border-[#C5A880]"
  />
  <FaSearch className="absolute left-3.5 top-3 text-gray-550" size={10} />
  </div>
@@ -871,7 +871,7 @@ export default function TemplateBistro({
  <select 
  value={selectedCategory} 
  onChange={(e) => setSelectedCategory(e.target.value)}
- className="px-3 py-2 bg-black/30 border border-white/10 text-xs text-white rounded-none outline-none focus:border-[#C5A880] font-serif uppercase tracking-widest shrink-0"
+ className="px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-[#C5A880] font-serif uppercase tracking-widest shrink-0"
  >
  {categoriesList.map(cat => (
  <option key={cat} value={cat} className="bg-[#1E1E1C]">{cat}</option>
@@ -881,7 +881,7 @@ export default function TemplateBistro({
  <select 
  value={sortBy} 
  onChange={(e) => setSortBy(e.target.value)}
- className="w-full md:w-auto px-3 py-2 bg-black/30 border border-white/10 text-xs text-white rounded-none outline-none focus:border-[#C5A880] font-serif uppercase tracking-widest"
+ className="w-full md:w-auto px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-[#C5A880] font-serif uppercase tracking-widest"
  >
  <option value="default" className="bg-[#1E1E1C]">Featured List</option>
  <option value="price-low" className="bg-[#1E1E1C]">Price: Low to High</option>
@@ -895,7 +895,7 @@ export default function TemplateBistro({
  {sortedFilteredProducts.map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-black/20 border border-white/5 hover:border-[#C5A880]/30 group flex flex-col justify-between"
+ className="bg-black/20 border border-slate-900/5 dark:border-white/5 hover:border-[#C5A880]/30 group flex flex-col justify-between"
  style={{
  '--primary': primaryColor,
  '--accent': accentColor, borderRadius: 'var(--radius)' }}
@@ -936,7 +936,7 @@ export default function TemplateBistro({
  </div>
  </div>
  <div className="p-6 pt-0">
- <div className="flex items-center justify-between border-t border-white/5 pt-4">
+ <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
  {config.products?.showPrices !== false && (
  <div className="font-serif text-lg text-[#C5A880]">
  <span>₹</span>
@@ -971,7 +971,7 @@ export default function TemplateBistro({
  </main>
 
  {/* Simple Footer */}
- <footer className="py-8 text-center text-xs text-theme-muted border-t border-white/5 bg-black/20">
+ <footer className="py-8 text-center text-xs text-theme-muted border-t border-slate-900/5 dark:border-white/5 bg-black/20">
  <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
  </footer>
  </div>
@@ -1033,7 +1033,7 @@ export default function TemplateBistro({
  <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 border border-[#C5A880]/40 shadow-theme relative text-left">
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
@@ -1050,7 +1050,7 @@ export default function TemplateBistro({
  type="text"
  value={product.name}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
  />
  </div>
 
@@ -1060,7 +1060,7 @@ export default function TemplateBistro({
  type="number"
  value={product.price}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
  />
  </div>
  </div>
@@ -1073,7 +1073,7 @@ export default function TemplateBistro({
  value={product.category || ''}
  placeholder="e.g. Appetizers, Main Course, Desserts, Drinks"
  onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
  />
  </div>
  </div>
@@ -1085,12 +1085,12 @@ export default function TemplateBistro({
  placeholder="Provide menu description, ingredient listings, allergy info."
  onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-[#C5A880] resize-none"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-[#C5A880] resize-none"
  />
  </div>
 
  <div className="grid grid-cols-2 gap-4 py-1.5">
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={!!product.isBestseller}
@@ -1102,7 +1102,7 @@ export default function TemplateBistro({
  </div>
  </label>
 
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={product.inStock !== false}
@@ -1113,7 +1113,7 @@ export default function TemplateBistro({
  }}
  className="w-4 h-4 accent-[#C5A880] cursor-pointer"
  />
- <div className="text-[10px] font-serif uppercase tracking-widest text-white select-none">
+ <div className="text-[10px] font-serif uppercase tracking-widest text-slate-900 dark:text-white select-none">
  📦 Available Today
  </div>
  </label>
@@ -1131,16 +1131,16 @@ export default function TemplateBistro({
  onUpdateProduct(product._id || product.id, 'stockQuantity', val);
  onUpdateProduct(product._id || product.id, 'inStock', val > 0);
  }}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-[#C5A880]"
  placeholder="Daily portions"
  />
  </div>
 
  {/* Presentation Image */}
- <div className="p-4 border border-white/10 bg-black/25 space-y-3">
+ <div className="p-4 border border-slate-900/10 dark:border-white/10 bg-black/25 space-y-3">
  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Dish Presentation Image</span>
  <div className="flex gap-4 items-center">
- <div className="w-20 h-20 border border-white/10 shrink-0">
+ <div className="w-20 h-20 border border-slate-900/10 dark:border-white/10 shrink-0">
  <img 
  src={getProductImageUrl(product, 0)} 
  className="w-full h-full object-cover" 
@@ -1149,7 +1149,7 @@ export default function TemplateBistro({
  </div>
  <div className="flex-1 space-y-2">
  <div>
- <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
+ <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-slate-900/10 dark:border-white/10 hover:bg-theme-surface/10 text-slate-900 dark:text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
  📁 Upload Image
  <input 
  type="file" 
@@ -1164,13 +1164,13 @@ export default function TemplateBistro({
  value={product.img || ''} 
  placeholder="Paste image link" 
  onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
- className="w-full px-3 py-1.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-[#C5A880]" 
+ className="w-full px-3 py-1.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-[#C5A880]" 
  />
  </div>
  </div>
  </div>
 
- <div className="flex gap-3 pt-4 border-t border-white/5 justify-between items-center">
+ <div className="flex gap-3 pt-4 border-t border-slate-900/5 dark:border-white/5 justify-between items-center">
  <button 
  onClick={() => {
  if (onDeleteProduct) {
@@ -1204,7 +1204,7 @@ export default function TemplateBistro({
  <div className="bg-[#1E1E1C] rounded-none max-w-lg w-full p-6 shadow-theme border border-[#C5A880]/30 relative text-left">
  <button 
  onClick={() => setShowBgModal(false)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
@@ -1213,7 +1213,7 @@ export default function TemplateBistro({
  </h3>
  <p className="text-xs text-theme-muted mb-6">Select a fine dining preset or generate using AI.</p>
 
- <div className="flex border-b border-white/10 mb-6 font-semibold">
+ <div className="flex border-b border-slate-900/10 dark:border-white/10 mb-6 font-semibold">
  <button 
  onClick={() => setActiveTab('presets')}
  className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#C5A880] text-[#C5A880]' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
@@ -1244,11 +1244,11 @@ export default function TemplateBistro({
  onUpdateConfig('header', 'heroImage', item.url);
  setShowBgModal(false);
  }}
- className="cursor-pointer group relative aspect-video border border-white/5 hover:border-[#C5A880] transition-all bg-black"
+ className="cursor-pointer group relative aspect-video border border-slate-900/5 dark:border-white/5 hover:border-[#C5A880] transition-all bg-black"
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[9px] text-white font-serif uppercase tracking-wider truncate">{item.name}</span>
+ <span className="text-[9px] text-slate-900 dark:text-white font-serif uppercase tracking-wider truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1262,7 +1262,7 @@ export default function TemplateBistro({
  value={aiPrompt}
  onChange={(e) => setAiPrompt(e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-[#C5A880] text-sm text-white resize-none"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-[#C5A880] text-sm text-white resize-none"
  />
  </div>
 
@@ -1272,7 +1272,7 @@ export default function TemplateBistro({
  <select 
  value={aiStyle} 
  onChange={(e) => setAiStyle(e.target.value)}
- className="w-full p-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-[#C5A880] text-sm text-white"
+ className="w-full p-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-[#C5A880] text-sm text-white"
  >
  <option value="realistic">Realistic Photo</option>
  <option value="abstract">Abstract Art</option>

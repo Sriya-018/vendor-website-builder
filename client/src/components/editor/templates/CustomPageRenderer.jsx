@@ -83,7 +83,7 @@ function CustomPageRenderer({ page, primaryColor, accentColor, isEditable, onUpd
  )}
  {item.badge && (
  <span 
- className="absolute top-3 left-3 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-theme"
+ className="absolute top-3 left-3 text-slate-900 dark:text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-theme"
  style={{ backgroundColor: accentColor }}
  >
  {item.badge}
@@ -98,7 +98,7 @@ function CustomPageRenderer({ page, primaryColor, accentColor, isEditable, onUpd
  {item.btnLabel && (
  <button 
  type="button" 
- className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider rounded-theme text-white transition-all hover:opacity-90"
+ className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider rounded-theme text-slate-900 dark:text-white transition-all hover:opacity-90"
  style={{ backgroundColor: accentColor }}
  >
  {item.btnLabel}

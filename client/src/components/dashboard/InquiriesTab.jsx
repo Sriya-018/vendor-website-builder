@@ -73,7 +73,7 @@ function InquiriesTab({ businessId, websites }) {
 
  return (
  <div key={website._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden mb-6">
- <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-900/40">
+ <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-100 dark:bg-slate-900/40">
  <div>
  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
  <FaGlobe className="text-indigo-400" />

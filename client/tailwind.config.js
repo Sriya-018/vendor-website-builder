@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--body-font)', 'Inter', 'sans-serif'],
-        heading: ['var(--heading-font)', 'sans-serif'],
+        sans: ['var(--body-font, "Inter")', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['var(--heading-font, "Inter")', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {

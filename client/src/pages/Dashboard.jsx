@@ -206,11 +206,11 @@ function Dashboard({ token, businessId }) {
  <button
  onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${activeTab === id
- ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30 shadow-sm shadow-purple-500/10'
- : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/60 hover:text-slate-200'
+ ? 'bg-purple-100 dark:bg-purple-600/20 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-500/30 shadow-sm shadow-purple-500/10'
+ : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
  }`}
  >
- <Icon className={`text-sm ${activeTab === id ? 'text-purple-400' : 'text-slate-600 dark:text-slate-500'}`} />
+ <Icon className={`text-sm ${activeTab === id ? 'text-purple-700 dark:text-purple-400' : 'text-slate-600 dark:text-slate-500'}`} />
  {label}
  </button>
  );
@@ -230,7 +230,7 @@ function Dashboard({ token, businessId }) {
  <span className={`font-extrabold text-sm truncate block ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
  {business.businessName || 'My Workspace'}
  </span>
- <span className="text-xs text-purple-400 font-medium">Vendor Dashboard</span>
+ <span className="text-xs text-purple-700 dark:text-purple-400 font-medium">Vendor Dashboard</span>
  </div>
  <ThemeToggle />
  </div>
@@ -348,7 +348,7 @@ function Dashboard({ token, businessId }) {
  </button>
 
  <div className="text-center">
- <div className="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-purple-500/30">
+ <div className="w-12 h-12 bg-purple-600/20 text-purple-700 dark:text-purple-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-purple-500/30">
  <FaGlobe className="text-xl" />
  </div>
  <h3 className="text-xl font-bold text-slate-900 dark:text-white">Import Site from Website</h3>
@@ -365,7 +365,7 @@ function Dashboard({ token, businessId }) {
  onChange={(e) => setScrapeUrl(e.target.value)}
  disabled={isImporting}
  required
- className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-slate-200 bg-slate-50 dark:bg-[#09080E] placeholder-slate-600 transition-all"
+ className="w-full border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-[#09080E] placeholder-slate-600 transition-all"
  />
  </div>
 

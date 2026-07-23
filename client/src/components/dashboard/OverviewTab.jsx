@@ -31,10 +31,10 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
 
  <div className="bg-white dark:bg-[#13121A] p-6 rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg flex flex-col">
  <div className="flex justify-between items-start mb-4">
- <div className="p-2.5 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/20">
+ <div className="p-2.5 bg-indigo-600/10 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 rounded-xl border border-indigo-500/20">
  <FaBoxOpen className="text-xl" />
  </div>
- <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded-full">+5%</span>
+ <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded-full">+5%</span>
  </div>
  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{stats?.orders || 0}</div>
  <div className="text-sm text-slate-600 dark:text-slate-500 font-medium">Total Orders</div>
@@ -42,7 +42,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
 
  <div className="bg-white dark:bg-[#13121A] p-6 rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg flex flex-col">
  <div className="flex justify-between items-start mb-4">
- <div className="p-2.5 bg-emerald-600/20 text-emerald-400 rounded-xl border border-emerald-500/20">
+ <div className="p-2.5 bg-emerald-600/10 dark:bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 rounded-xl border border-emerald-500/20">
  <FaMoneyBillWave className="text-xl" />
  </div>
  <span className="text-xs font-semibold text-slate-600 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full border border-slate-300 dark:border-slate-700">All time</span>
@@ -57,17 +57,17 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
  <div className="flex items-center justify-between mb-4">
  <h2 className="text-lg font-bold text-slate-900 dark:text-white">My Stores</h2>
  </div>
- <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden">
+ <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg">
  {websites && websites.length > 0 ? (
- <div className="overflow-x-auto">
+ <div>
  <table className="w-full text-left border-collapse">
  <thead>
  <tr className="bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800/60 text-xs uppercase text-slate-600 dark:text-slate-500 tracking-wider font-semibold">
- <th className="px-6 py-4">Store Details</th>
+ <th className="px-6 py-4 rounded-tl-xl">Store Details</th>
  <th className="px-6 py-4">Website Slug</th>
  <th className="px-6 py-4">Template</th>
  <th className="px-6 py-4">Views</th>
- <th className="px-6 py-4 text-right">Actions</th>
+ <th className="px-6 py-4 text-right rounded-tr-xl">Actions</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-800/60 text-sm">
@@ -91,14 +91,14 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
  href={`/website/${website.slug}`}
  target="_blank"
  rel="noopener noreferrer"
- className="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1.5 hover:underline"
+ className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium inline-flex items-center gap-1.5 hover:underline"
  >
  {website.slug}
  <FaExternalLinkAlt className="text-[10px]" />
  </a>
  </td>
  <td className="px-6 py-4">
- <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 capitalize">
+ <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 capitalize">
  {TEMPLATE_NAMES[website.template] || website.template}
  </span>
  </td>
@@ -109,7 +109,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
  <div className="flex items-center justify-end gap-2">
  <button
  onClick={() => routerNavigate(`/editor/${website._id}`)}
- className="px-3.5 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 text-xs font-bold rounded-lg transition-colors border border-indigo-500/30"
+ className="px-3.5 py-1.5 bg-indigo-600/10 dark:bg-indigo-600/20 hover:bg-indigo-600/20 dark:hover:bg-indigo-600/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold rounded-lg transition-colors border border-indigo-500/20 dark:border-indigo-500/30"
  >
  Edit Design
  </button>
@@ -140,7 +140,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
  <div className="border-t border-slate-200 dark:border-slate-800 my-1"></div>
  <button
  onClick={() => { onDeleteWebsite(website._id); setActiveMenuId(null); }}
- className="w-full px-4 py-2 hover:bg-red-500/10 text-red-400 font-bold flex items-center gap-2"
+ className="w-full px-4 py-2 hover:bg-red-500/10 text-red-600 dark:text-red-400 font-bold flex items-center gap-2"
  >
  <FaTrash /> Delete Store
  </button>
@@ -173,7 +173,7 @@ function OverviewTab({ stats, recentOrders, websites, navigate, routerNavigate, 
  <div className="col-span-1">
  <div className="flex items-center justify-between mb-4">
  <h2 className="text-lg font-bold text-slate-900 dark:text-white">Recent Orders</h2>
- <button onClick={() => navigate('orders')} className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+ <button onClick={() => navigate('orders')} className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1">
  View all <FaArrowRight className="text-xs" />
  </button>
  </div>

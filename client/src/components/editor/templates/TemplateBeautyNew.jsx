@@ -162,7 +162,7 @@ function OnyxIngredientMeter({ accentColor }) {
  <div className="p-8 border border-yellow-900/10 bg-[#0D0D0D] grid md:grid-cols-2 gap-8 items-center">
  <div className="space-y-4">
  <h4 className="font-semibold text-xs tracking-widest uppercase text-[#C5A880]">Organic Sourcing</h4>
- <p className="text-sm font-light text-slate-300 leading-relaxed">{ing.origin}</p>
+ <p className="text-sm font-light text-slate-700 dark:text-slate-300 leading-relaxed">{ing.origin}</p>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="p-4 border border-yellow-900/15 text-center">

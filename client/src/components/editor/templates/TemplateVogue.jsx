@@ -236,13 +236,13 @@ export default function TemplateVogue({
  )}
  <div className="relative z-10 max-w-7xl mx-auto px-8 w-full pb-16" style={{ textAlign: config.header.heroAlign }}>
  <div className="max-w-2xl" style={{ marginInline: config.header.heroAlign === 'center' ? 'auto' : config.header.heroAlign === 'right' ? '0 0 0 auto' : '0' }}>
- <p className="text-[0.7rem] font-semibold tracking-[0.2em] uppercase text-white/65 mb-3">New Season</p>
+ <p className="text-[0.7rem] font-semibold tracking-[0.2em] uppercase text-slate-900 dark:text-white/65 mb-3">New Season</p>
  <EditableText
  isEditable={isEditable}
  value={config.header.heroHeading || description}
  onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
  tagName="h1"
- className="text-5xl md:text-7xl font-bold leading-[1.05] text-white mb-6 tracking-[-0.02em]"
+ className="text-5xl md:text-7xl font-bold leading-[1.05] text-slate-900 dark:text-white mb-6 tracking-[-0.02em]"
  style={{ fontFamily: "'Bodoni Moda', serif" }}
  />
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
@@ -298,7 +298,7 @@ export default function TemplateVogue({
  className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
@@ -312,7 +312,7 @@ export default function TemplateVogue({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-slate-900 dark:hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -650,7 +650,7 @@ export default function TemplateVogue({
  { label: 'Sec', val: timeLeft.seconds }
  ].map((col, idx) => (
  <div key={idx} className="flex flex-col items-center bg-[#222] px-4 py-3 rounded-none min-w-[70px] border border-neutral-800 shadow-none">
- <span className="text-2xl font-black text-white">{String(col.val).padStart(2, '0')}</span>
+ <span className="text-2xl font-black text-slate-900 dark:text-white">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 mt-1">{col.label}</span>
  </div>
  ))}
@@ -840,7 +840,7 @@ export default function TemplateVogue({
  className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
@@ -854,7 +854,7 @@ export default function TemplateVogue({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-theme-border hover:bg-black hover:text-slate-900 dark:hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -1059,7 +1059,7 @@ export default function TemplateVogue({
  )}
 
  <footer className="bg-black py-8 text-center text-white/50 text-[0.8rem] tracking-[0.06em] uppercase">
- <p>© 2026 {storeName}. Powered by <span className="text-white font-bold">VendorBuild</span></p>
+ <p>© 2026 {storeName}. Powered by <span className="text-slate-900 dark:text-white font-bold">VendorBuild</span></p>
  </footer>
 
  {/* Size Guide Modal */}
@@ -1377,7 +1377,7 @@ export default function TemplateVogue({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate font-mono">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate font-mono">{item.name}</span>
  </div>
  </div>
  ))}

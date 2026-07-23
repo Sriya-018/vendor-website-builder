@@ -165,7 +165,7 @@ function Setup({ token, businessId, setBusinessId }) {
  const steps = ['Business Type', 'Details', 'Photos', 'Launch'];
 
  return (
- <div className="min-h-screen bg-slate-50 dark:bg-[#09080E] font-sans text-slate-200 flex flex-col">
+ <div className="min-h-screen bg-slate-50 dark:bg-[#09080E] font-sans text-slate-900 dark:text-slate-200 flex flex-col">
  {/* Top Navbar / Stepper */}
  <div className="bg-white dark:bg-[#0D0C14] border-b border-slate-200 dark:border-slate-800/60 sticky top-0 z-10 px-4 py-4 md:py-6 shadow-xl shadow-black/30">
  <div className="max-w-3xl mx-auto">
@@ -217,7 +217,7 @@ function Setup({ token, businessId, setBusinessId }) {
  }`}
  >
  {type.icon}
- <span className="font-bold text-slate-200 text-sm md:text-base">{type.name}</span>
+ <span className="font-bold text-slate-800 dark:text-slate-200 text-sm md:text-base">{type.name}</span>
  </button>
  ))}
  </div>
@@ -305,7 +305,7 @@ function Setup({ token, businessId, setBusinessId }) {
  <div className="mt-10 flex justify-between">
  <button
  onClick={() => setStep(1)}
- className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
+ className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/40 hover:text-slate-800 dark:text-slate-200 font-semibold transition-colors"
  >
  Back
  </button>
@@ -354,7 +354,7 @@ function Setup({ token, businessId, setBusinessId }) {
  <div className="mt-10 flex justify-between">
  <button
  onClick={() => setStep(2)}
- className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/40 hover:text-slate-200 font-semibold transition-colors"
+ className="px-6 py-3 border border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800/40 hover:text-slate-800 dark:text-slate-200 font-semibold transition-colors"
  >
  Back
  </button>

@@ -302,10 +302,10 @@ export default function TemplateLayoutBase({
  <div className="relative aspect-square overflow-hidden rounded-theme bg-slate-100 mb-4">
  <img src={getProductImageUrl(p, i)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={p.name} />
  {p.isBestseller && (
- <span className="absolute top-2 left-2 bg-theme-primary text-white text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Bestseller</span>
+ <span className="absolute top-2 left-2 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Bestseller</span>
  )}
  {!p.inStock && (
- <span className="absolute top-2 right-2 bg-theme-primary text-white text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Sold Out</span>
+ <span className="absolute top-2 right-2 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Sold Out</span>
  )}
  </div>
  <div className="flex-1 flex flex-col">
@@ -526,7 +526,7 @@ export default function TemplateLayoutBase({
  </div>
  <button
  type="submit"
- className="w-full py-3.5 font-bold uppercase tracking-wider text-xs rounded-theme text-white shadow-theme flex items-center justify-center gap-2"
+ className="w-full py-3.5 font-bold uppercase tracking-wider text-xs rounded-theme text-slate-900 dark:text-white shadow-theme flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <FaPaperPlane size={10} /> Send Message
@@ -651,10 +651,10 @@ export default function TemplateLayoutBase({
  <div className="relative aspect-square overflow-hidden rounded-theme bg-slate-100 mb-4">
  <img src={getProductImageUrl(p, i)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={p.name} />
  {p.isBestseller && (
- <span className="absolute top-2 left-2 bg-theme-primary text-white text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Bestseller</span>
+ <span className="absolute top-2 left-2 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Bestseller</span>
  )}
  {!p.inStock && (
- <span className="absolute top-2 right-2 bg-theme-primary text-white text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Sold Out</span>
+ <span className="absolute top-2 right-2 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">Sold Out</span>
  )}
  </div>
  <div className="flex-1 flex flex-col">
@@ -787,7 +787,7 @@ export default function TemplateLayoutBase({
  >
  <img src={preset.url} className="w-full h-full object-cover" alt={preset.name} />
  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-end p-2.5">
- <span className="text-[10px] font-bold text-white uppercase tracking-widest leading-none">{preset.name}</span>
+ <span className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-widest leading-none">{preset.name}</span>
  </div>
  </button>
  ))}
@@ -831,7 +831,7 @@ export default function TemplateLayoutBase({
  </div>
  <button
  onClick={handleGenerateAiBg}
- className="w-full mt-4 py-3.5 font-bold uppercase tracking-wider text-xs bg-slate-900 text-white rounded-theme hover:bg-slate-800 shadow-theme flex items-center justify-center gap-2"
+ className="w-full mt-4 py-3.5 font-bold uppercase tracking-wider text-xs bg-slate-900 text-slate-900 dark:text-white rounded-theme hover:bg-slate-800 shadow-theme flex items-center justify-center gap-2"
  disabled={isGenerating}
  >
  {isGenerating ? (

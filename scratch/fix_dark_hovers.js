@@ -1,36 +1,37 @@
 const fs = require('fs');
-const path = require('path');
 
-const directory = path.join(__dirname, '../client/src');
-
-function fixHoversInFile(filePath) {
-  let content = fs.readFileSync(filePath, 'utf8');
-  let originalContent = content;
-  
-  // Replace multiple instances of dark:hover:bg-slate-100 with a single dark:hover:bg-slate-700
-  // e.g. "dark:hover:bg-slate-100 dark:hover:bg-slate-100" -> "dark:hover:bg-slate-700"
-  content = content.replace(/(dark:hover:bg-slate-100\s*)+/g, 'dark:hover:bg-slate-700 ');
-  
-  // Clean up any double spaces that might have been introduced
-  content = content.replace(/  +/g, ' ');
-
-  if (content !== originalContent) {
-    fs.writeFileSync(filePath, content, 'utf8');
-    console.log(`Fixed: ${filePath}`);
-  }
+function walk(dir) {
+    let results = [];
+    const list = fs.readdirSync(dir);
+    list.forEach(file => {
+        file = dir + '/' + file;
+        const stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) {
+            results = results.concat(walk(file));
+        } else {
+            if (file.endsWith('.jsx')) results.push(file);
+        }
+    });
+    return results;
 }
 
-function traverse(dir) {
-  const files = fs.readdirSync(dir);
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) {
-      traverse(fullPath);
-    } else if (fullPath.endsWith('.jsx') || fullPath.endsWith('.js')) {
-      fixHoversInFile(fullPath);
+const files = walk('./src');
+
+files.forEach(file => {
+    let content = fs.readFileSync(file, 'utf8');
+    let original = content;
+
+    // Fix the broken hover classes from previous regex
+    content = content.replace(/dark:hover:text-slate-900 dark:text-white/g, 'dark:hover:text-white');
+    
+    // Fix Dashboard.jsx specific
+    content = content.replace(/dark:text-slate-600 dark:text-slate-400/g, 'dark:text-slate-400');
+    
+    // Fix WebsiteEditor.jsx specific
+    content = content.replace(/dark:text-slate-600 dark:text-slate-400/g, 'dark:text-slate-400');
+    
+    if (content !== original) {
+        fs.writeFileSync(file, content, 'utf8');
+        console.log(`Fixed buggy hover classes in ${file}`);
     }
-  }
-}
-
-traverse(directory);
-console.log('Done fixing hovers.');
+});

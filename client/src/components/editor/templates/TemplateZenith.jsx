@@ -255,10 +255,10 @@ export default function TemplateZenith({
  case 'hero':
  return (
  <SectionWrapper key="hero" isEditable={isEditable} sectionKey="hero" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <header className="py-28 px-8 text-white animate-fade-in bg-[#0B0F19] border-b border-white/5">
+ <header className="py-28 px-8 text-slate-900 dark:text-white animate-fade-in bg-[#0B0F19] border-b border-slate-900/5 dark:border-white/5">
  <div className={`max-w-7xl mx-auto grid ${devicePreview === 'desktop' ? 'grid-cols-2' : 'grid-cols-1'} gap-16 items-center`}>
  <div style={{ textAlign: config.header.heroAlign }}>
- <div className="inline-block px-3 py-1 bg-theme-primary text-white/10 border border-indigo-500/30 rounded text-xs font-bold uppercase tracking-widest text-[#6366F1] mb-6">
+ <div className="inline-block px-3 py-1 bg-theme-primary text-slate-900 dark:text-white/10 border border-indigo-500/30 rounded text-xs font-bold uppercase tracking-widest text-[#6366F1] mb-6">
  Aviation & Space Digital Era
  </div>
  <EditableText
@@ -279,7 +279,7 @@ export default function TemplateZenith({
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : ''}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3.5 bg-theme-primary text-white rounded text-white font-bold hover:bg-theme-primary text-white transition-colors uppercase tracking-wider text-xs shadow-theme shadow-indigo-600/30 flex items-center gap-2"
+ className="px-8 py-3.5 bg-theme-primary text-slate-900 dark:text-white rounded text-slate-900 dark:text-white font-bold hover:bg-theme-primary text-slate-900 dark:text-white transition-colors uppercase tracking-wider text-xs shadow-theme shadow-indigo-600/30 flex items-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Explore Packages'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -288,12 +288,12 @@ export default function TemplateZenith({
  </div>
  </div>
  <div className="flex justify-center">
- <div className="w-full max-w-sm aspect-square rounded overflow-hidden bg-theme-surface/5 border border-white/10 p-1.5 relative group">
+ <div className="w-full max-w-sm aspect-square rounded overflow-hidden bg-theme-surface/5 border border-slate-900/10 dark:border-white/10 p-1.5 relative group">
  <img src={heroImage} className="w-full h-full object-cover" alt="Hero" />
  {isEditable && (
  <button 
  onClick={() => setShowBgModal(true)}
- className="absolute bottom-4 right-4 z-20 px-3 py-1.5 bg-[#0B0F19]/90 border border-white/10 text-white rounded font-bold text-[10px] uppercase tracking-wider hover:scale-105 transition-transform flex items-center gap-1 font-sans"
+ className="absolute bottom-4 right-4 z-20 px-3 py-1.5 bg-[#0B0F19]/90 border border-slate-900/10 dark:border-white/10 text-slate-900 dark:text-white rounded font-bold text-[10px] uppercase tracking-wider hover:scale-105 transition-transform flex items-center gap-1 font-sans"
  >
  🎨 Edit Hero Graphic
  </button>
@@ -308,7 +308,7 @@ export default function TemplateZenith({
  case 'estimator':
  return (
  <SectionWrapper key="estimator" isEditable={isEditable} sectionKey="estimator" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="bg-slate-950 text-white py-20 px-8 border-b border-white/5">
+ <section className="bg-slate-950 text-slate-900 dark:text-white py-20 px-8 border-b border-slate-900/5 dark:border-white/5">
  <div className="max-w-4xl mx-auto">
  <div className="text-center mb-12">
  <span className="text-[10px] uppercase tracking-widest text-[#6366F1] font-bold block mb-2">Estimator</span>
@@ -316,7 +316,7 @@ export default function TemplateZenith({
  <p className="text-xs text-gray-400 mt-2 font-light">Estimate your project cost instantly based on service parameters.</p>
  </div>
 
- <div className="bg-[#0B0F19] border border-white/5 p-8 grid md:grid-cols-2 gap-8 items-start">
+ <div className="bg-[#0B0F19] border border-slate-900/5 dark:border-white/5 p-8 grid md:grid-cols-2 gap-8 items-start">
  <div className="space-y-6">
  {/* Service Selector */}
  <div>
@@ -391,7 +391,7 @@ export default function TemplateZenith({
  </div>
  </div>
 
- <div className="h-full bg-black/40 border border-white/5 p-8 flex flex-col justify-between items-center text-center">
+ <div className="h-full bg-black/40 border border-slate-900/5 dark:border-white/5 p-8 flex flex-col justify-between items-center text-center">
  <div>
  <FaCalculator className="text-theme-muted mb-4 mx-auto" size={24} />
  <span className="text-[10px] uppercase tracking-widest text-gray-400">Total Estimate</span>
@@ -415,7 +415,7 @@ Please reach out to discuss implementation.`
  const section = document.getElementById('contact');
  if (section) section.scrollIntoView({ behavior: 'smooth' });
  }}
- className="mt-6 w-full py-3 bg-theme-primary text-white text-white font-bold uppercase tracking-wider text-[10px] hover:bg-theme-primary text-white transition-colors"
+ className="mt-6 w-full py-3 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-bold uppercase tracking-wider text-[10px] hover:bg-theme-primary text-slate-900 dark:text-white transition-colors"
  >
  Lock In Estimate & Inquire
  </button>
@@ -429,7 +429,7 @@ Please reach out to discuss implementation.`
  case 'products':
  return (
  <SectionWrapper key="products" isEditable={isEditable} sectionKey="products" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="services" className="max-w-7xl mx-auto px-8 py-24 bg-[#0B0F19] text-white">
+ <section id="services" className="max-w-7xl mx-auto px-8 py-24 bg-[#0B0F19] text-slate-900 dark:text-white">
  <div className="text-center mb-16">
  <EditableText
  isEditable={isEditable}
@@ -439,7 +439,7 @@ Please reach out to discuss implementation.`
  className="text-3xl font-black uppercase tracking-wider"
  style={{ color: accentColor }}
  />
- <div className="w-16 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
+ <div className="w-16 h-[2px] mx-auto mt-4 bg-theme-primary text-slate-900 dark:text-white"></div>
  </div>
  
  <div 
@@ -453,7 +453,7 @@ Please reach out to discuss implementation.`
  {products.slice(0, 3).map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-slate-950 border border-white/5 overflow-hidden hover:border-indigo-600/30 transition-all flex flex-col justify-between"
+ className="bg-slate-950 border border-slate-900/5 dark:border-white/5 overflow-hidden hover:border-indigo-600/30 transition-all flex flex-col justify-between"
  >
  <div>
  <div className="h-48 overflow-hidden bg-slate-900 relative">
@@ -505,7 +505,7 @@ Please reach out to discuss implementation.`
  data-product-price={product.price}
  data-product-image={product.img || `https://picsum.photos/seed/service${i}/600/600`}
  disabled={product.inStock === false}
- className="text-white px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="text-slate-900 dark:text-white px-4 py-2 bg-theme-primary text-slate-900 dark:text-white hover:bg-theme-primary text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  >
  Enquire
  </button>
@@ -514,7 +514,7 @@ Please reach out to discuss implementation.`
  {isEditable && (
  <button 
  onClick={() => setActiveEditProductId(product._id || product.id)}
- className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-white uppercase tracking-widest"
+ className="w-full mt-3 py-1.5 bg-theme-surface/5 text-[9px] font-bold text-theme-muted hover:text-slate-900 dark:text-white uppercase tracking-widest"
  >
  ⚙️ Setup Details
  </button>
@@ -526,7 +526,7 @@ Please reach out to discuss implementation.`
  <div className="text-center mt-16">
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-3.5 border border-indigo-600 text-indigo-400 hover:bg-theme-primary text-white hover:text-white font-bold text-xs uppercase tracking-widest transition-all"
+ className="px-8 py-3.5 border border-indigo-600 text-indigo-400 hover:bg-theme-primary text-slate-900 dark:text-white hover:text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest transition-all"
  >
  Explore All Capabilities
  </button>
@@ -540,7 +540,7 @@ Please reach out to discuss implementation.`
  const galleryImages = config.gallery?.images || [];
  return (
  <SectionWrapper key="gallery" isEditable={isEditable} sectionKey="gallery" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-7xl mx-auto px-8 py-20 bg-slate-950 text-white border-t border-b border-white/5">
+ <section className="max-w-7xl mx-auto px-8 py-20 bg-slate-950 text-slate-900 dark:text-white border-t border-b border-slate-900/5 dark:border-white/5">
  <div className="text-center mb-12">
  <EditableText
  isEditable={isEditable}
@@ -550,11 +550,11 @@ Please reach out to discuss implementation.`
  className="text-3xl font-black uppercase tracking-wider"
  style={{ color: accentColor }}
  />
- <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
+ <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-slate-900 dark:text-white"></div>
  </div>
  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
  {galleryImages.map((img, idx) => (
- <div key={idx} className="relative aspect-square overflow-hidden group border border-white/5 bg-[#0B0F19]">
+ <div key={idx} className="relative aspect-square overflow-hidden group border border-slate-900/5 dark:border-white/5 bg-[#0B0F19]">
  <img src={img} alt={`Case Study ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
  {isEditable && (
  <div className="absolute inset-0 bg-[#0B0F19]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
@@ -570,7 +570,7 @@ Please reach out to discuss implementation.`
  onUpdateConfig('gallery', 'images', updated);
  }
  }}
- className="w-full px-3 py-1.5 bg-[#0B0F19] border border-indigo-600/30 text-white rounded text-xs outline-none focus:ring-1 focus:ring-indigo-500"
+ className="w-full px-3 py-1.5 bg-[#0B0F19] border border-indigo-600/30 text-slate-900 dark:text-white rounded text-xs outline-none focus:ring-1 focus:ring-indigo-500"
  />
  </div>
  )}
@@ -586,7 +586,7 @@ Please reach out to discuss implementation.`
  const faqList = config.faq?.questions || [];
  return (
  <SectionWrapper key="faq" isEditable={isEditable} sectionKey="faq" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-4xl mx-auto px-8 py-20 text-white">
+ <section className="max-w-4xl mx-auto px-8 py-20 text-slate-900 dark:text-white">
  <div className="text-center mb-12">
  <EditableText
  isEditable={isEditable}
@@ -596,13 +596,13 @@ Please reach out to discuss implementation.`
  className="text-3xl font-black uppercase tracking-wider"
  style={{ color: accentColor }}
  />
- <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
+ <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-slate-900 dark:text-white"></div>
  </div>
  <div className="space-y-4">
  {faqList.map((item, idx) => {
  const isOpen = activeFaq === idx;
  return (
- <div key={item.id || idx} className="bg-slate-950 border border-white/5 overflow-hidden transition-all animate-fade-in">
+ <div key={item.id || idx} className="bg-slate-950 border border-slate-900/5 dark:border-white/5 overflow-hidden transition-all animate-fade-in">
  <button onClick={() => setActiveFaq(isOpen ? null : idx)} className="w-full px-6 py-4 text-left font-bold text-gray-250 flex items-center justify-between hover:bg-[#0B0F19] transition-colors text-xs uppercase tracking-wider">
  <EditableText
  isEditable={isEditable}
@@ -617,7 +617,7 @@ Please reach out to discuss implementation.`
  <span className="text-[#6366F1]">{isOpen ? '—' : '+'}</span>
  </button>
  {isOpen && (
- <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-white/5">
+ <div className="px-6 pb-5 pt-1 text-xs text-gray-400 font-light leading-relaxed border-t border-slate-900/5 dark:border-white/5">
  <EditableText
  isEditable={isEditable}
  value={item.a}
@@ -643,7 +643,7 @@ Please reach out to discuss implementation.`
  const testList = config.testimonials?.items || [];
  return (
  <SectionWrapper key="testimonials" isEditable={isEditable} sectionKey="testimonials" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="bg-slate-950 py-24 text-white">
+ <section className="bg-slate-950 py-24 text-slate-900 dark:text-white">
  <div className="max-w-7xl mx-auto px-8">
  <div className="text-center mb-16">
  <EditableText
@@ -654,11 +654,11 @@ Please reach out to discuss implementation.`
  className="text-3xl font-black uppercase tracking-wider"
  style={{ color: accentColor }}
  />
- <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
+ <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-slate-900 dark:text-white"></div>
  </div>
  <div className="grid md:grid-cols-3 gap-8">
  {testList.map((item, idx) => (
- <div key={idx} className="p-8 border border-white/5 bg-[#0B0F19] text-center flex flex-col justify-between">
+ <div key={idx} className="p-8 border border-slate-900/5 dark:border-white/5 bg-[#0B0F19] text-center flex flex-col justify-between">
  <div className="text-indigo-400 text-3xl font-black leading-none mb-6">“</div>
  <EditableText
  isEditable={isEditable}
@@ -671,7 +671,7 @@ Please reach out to discuss implementation.`
  tagName="p"
  className="text-sm font-light italic leading-relaxed text-gray-400"
  />
- <div className="mt-8 border-t border-white/5 pt-6">
+ <div className="mt-8 border-t border-slate-900/5 dark:border-white/5 pt-6">
  <EditableText
  isEditable={isEditable}
  value={item.author}
@@ -708,7 +708,7 @@ Please reach out to discuss implementation.`
  const hoursDays = config.hours?.days || [];
  return (
  <SectionWrapper key="hours" isEditable={isEditable} sectionKey="hours" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="max-w-xl mx-auto px-8 py-20 text-white text-center">
+ <section className="max-w-xl mx-auto px-8 py-20 text-slate-900 dark:text-white text-center">
  <div className="text-center mb-8">
  <EditableText
  isEditable={isEditable}
@@ -718,13 +718,13 @@ Please reach out to discuss implementation.`
  className="text-xl font-bold uppercase tracking-wider"
  style={{ color: accentColor }}
  />
- <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-white"></div>
+ <div className="w-12 h-[2px] mx-auto mt-4 bg-theme-primary text-slate-900 dark:text-white"></div>
  </div>
- <div className="divide-y divide-white/5 border-t border-b border-white/5 py-4">
+ <div className="divide-y divide-white/5 border-t border-b border-slate-900/5 dark:border-white/5 py-4">
  {hoursDays.map((item, idx) => (
  <div key={idx} className="flex justify-between py-3.5 text-xs tracking-wider">
  <span className="text-gray-400 uppercase font-semibold">{item.day}</span>
- <span className="font-bold text-white tracking-widest">{item.hours}</span>
+ <span className="font-bold text-slate-900 dark:text-white tracking-widest">{item.hours}</span>
  </div>
  ))}
  </div>
@@ -737,7 +737,7 @@ Please reach out to discuss implementation.`
  const contactSubtitle = config.contact?.subtitle || 'Get in touch for custom agency scoping.';
  return (
  <SectionWrapper key="contact" isEditable={isEditable} sectionKey="contact" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-white">
+ <section id="contact" className="max-w-4xl mx-auto px-8 py-24 text-slate-900 dark:text-white">
  <div className="grid md:grid-cols-2 gap-16 items-start">
  <div className="space-y-8">
  <div>
@@ -779,7 +779,7 @@ Please reach out to discuss implementation.`
  </div>
  </div>
 
- <div className="bg-[#0B0F19] p-8 border border-white/5 shadow-theme relative">
+ <div className="bg-[#0B0F19] p-8 border border-slate-900/5 dark:border-white/5 shadow-theme relative">
  {formSubmitted ? (
  <div className="text-center py-12 text-indigo-400 space-y-4 font-sans">
  <FaPaperPlane size={36} className="mx-auto" />
@@ -788,7 +788,7 @@ Please reach out to discuss implementation.`
  </div>
  ) : (
  <form onSubmit={handleContactSubmit} className="space-y-5">
- <h4 className="text-xs font-bold uppercase tracking-wider text-[#6366F1] border-b border-white/5 pb-3 mb-6">Briefing Scoping Document</h4>
+ <h4 className="text-xs font-bold uppercase tracking-wider text-[#6366F1] border-b border-slate-900/5 dark:border-white/5 pb-3 mb-6">Briefing Scoping Document</h4>
  
  <div className="grid grid-cols-2 gap-4">
  <div>
@@ -797,7 +797,7 @@ Please reach out to discuss implementation.`
  type="date"
  value={appointmentDetails.date}
  onChange={(e) => setAppointmentDetails({...appointmentDetails, date: e.target.value})}
- className="w-full px-3 py-2.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500 font-sans"
+ className="w-full px-3 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500 font-sans"
  />
  </div>
 
@@ -806,7 +806,7 @@ Please reach out to discuss implementation.`
  <select 
  value={appointmentDetails.serviceType}
  onChange={(e) => setAppointmentDetails({...appointmentDetails, serviceType: e.target.value})}
- className="w-full px-3 py-2.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500 font-sans"
+ className="w-full px-3 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500 font-sans"
  >
  <option value="General Consultation" className="bg-[#0B0F19]">Consultation</option>
  <option value="Web & App Development" className="bg-[#0B0F19]">Tech Dev</option>
@@ -824,7 +824,7 @@ Please reach out to discuss implementation.`
  value={contactForm.name}
  onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
  placeholder="e.g. John Doe"
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500"
  />
  </div>
 
@@ -836,7 +836,7 @@ Please reach out to discuss implementation.`
  value={contactForm.email}
  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
  placeholder="e.g. john@example.com"
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500"
  />
  </div>
 
@@ -848,13 +848,13 @@ Please reach out to discuss implementation.`
  value={contactForm.message}
  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
  placeholder="Please note timeline constraints, required deliverables, budget parameters, etc."
- className="w-full px-4 py-3 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500 resize-none font-sans"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500 resize-none font-sans"
  />
  </div>
 
  <button 
  type="submit"
- className="w-full py-3.5 bg-theme-primary text-white text-white font-bold uppercase tracking-wider text-xs hover:bg-theme-primary text-white transition-colors"
+ className="w-full py-3.5 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs hover:bg-theme-primary text-slate-900 dark:text-white transition-colors"
  >
  Request Project Scope Scrutiny
  </button>
@@ -875,10 +875,10 @@ Please reach out to discuss implementation.`
  return (
  <div 
  id="preview-scroll-container"
- className="w-full h-full overflow-y-auto relative bg-[#0B0F19] text-white flex flex-col justify-between font-sans"
+ className="w-full h-full overflow-y-auto relative bg-[#0B0F19] text-slate-900 dark:text-white flex flex-col justify-between font-sans"
  >
  {/* Simple Header */}
- <nav className="py-6 px-8 border-b border-white/5 flex items-center justify-between">
+ <nav className="py-6 px-8 border-b border-slate-900/5 dark:border-white/5 flex items-center justify-between">
  {isEditable ? (
  <EditableText
  isEditable={true}
@@ -894,7 +894,7 @@ Please reach out to discuss implementation.`
  )}
  <button 
  onClick={() => changePage('home')}
- className="text-[10px] uppercase tracking-widest font-bold border border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
+ className="text-[10px] uppercase tracking-widest font-bold border border-slate-900/15 dark:border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
  >
  ← Back To Agency
  </button>
@@ -908,14 +908,14 @@ Please reach out to discuss implementation.`
  </div>
 
  {/* Search, Filter & Sort */}
- <div className="bg-[#0B0F19] p-6 border border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+ <div className="bg-[#0B0F19] p-6 border border-slate-900/5 dark:border-white/5 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
  <div className="relative w-full md:max-w-xs">
  <input 
  type="text" 
  placeholder="Search packages..."
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- className="w-full pl-9 pr-4 py-2 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500"
+ className="w-full pl-9 pr-4 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500"
  />
  <FaSearch className="absolute left-3.5 top-3 text-gray-550" size={10} />
  </div>
@@ -924,7 +924,7 @@ Please reach out to discuss implementation.`
  <select 
  value={selectedCategory} 
  onChange={(e) => setSelectedCategory(e.target.value)}
- className="px-3 py-2 bg-black/30 border border-white/10 text-xs text-white rounded-none outline-none focus:border-indigo-500 uppercase tracking-widest text-white shrink-0"
+ className="px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-indigo-500 uppercase tracking-widest text-white shrink-0"
  >
  {categoriesList.map(cat => (
  <option key={cat} value={cat} className="bg-[#0B0F19]">{cat}</option>
@@ -934,7 +934,7 @@ Please reach out to discuss implementation.`
  <select 
  value={sortBy} 
  onChange={(e) => setSortBy(e.target.value)}
- className="w-full md:w-auto px-3 py-2 bg-black/30 border border-white/10 text-xs text-white rounded-none outline-none focus:border-indigo-500 uppercase tracking-widest text-white"
+ className="w-full md:w-auto px-3 py-2 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white rounded-none outline-none focus:border-indigo-500 uppercase tracking-widest text-white"
  >
  <option value="default" className="bg-[#0B0F19]">Featured Scopes</option>
  <option value="price-low" className="bg-[#0B0F19]">Cost: Low to High</option>
@@ -948,7 +948,7 @@ Please reach out to discuss implementation.`
  {sortedFilteredProducts.map((product, i) => (
  <div 
  key={product._id || product.id || i}
- className="bg-slate-950 border border-white/5 flex flex-col justify-between hover:border-indigo-500/20 transition-all"
+ className="bg-slate-950 border border-slate-900/5 dark:border-white/5 flex flex-col justify-between hover:border-indigo-500/20 transition-all"
  >
  <div>
  <div className="h-56 overflow-hidden relative bg-[#0B0F19]">
@@ -958,7 +958,7 @@ Please reach out to discuss implementation.`
  className="w-full h-full object-cover"
  />
  {product.isBestseller && (
- <span className="absolute top-4 left-4 px-3 py-1 bg-theme-primary text-white text-white font-bold text-[9px] uppercase tracking-widest">
+ <span className="absolute top-4 left-4 px-3 py-1 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-bold text-[9px] uppercase tracking-widest">
  Most Popular
  </span>
  )}
@@ -986,7 +986,7 @@ Please reach out to discuss implementation.`
  </div>
  </div>
  <div className="p-6 pt-0">
- <div className="flex items-center justify-between border-t border-white/5 pt-4">
+ <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
  {config.products?.showPrices !== false && (
  <div className="font-extrabold text-lg text-indigo-400">
  <span>₹</span>
@@ -1008,7 +1008,7 @@ Please reach out to discuss implementation.`
  data-product-price={product.price}
  data-product-image={getProductImageUrl(product, i)}
  disabled={product.inStock === false}
- className="px-4 py-2 bg-theme-primary text-white hover:bg-theme-primary text-white text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
+ className="px-4 py-2 bg-theme-primary text-slate-900 dark:text-white hover:bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-wider transition-colors disabled:opacity-40"
  >
  Enquire
  </button>
@@ -1021,7 +1021,7 @@ Please reach out to discuss implementation.`
  </main>
 
  {/* Footer */}
- <footer className="py-8 text-center text-xs text-gray-550 border-t border-white/5 bg-slate-950">
+ <footer className="py-8 text-center text-xs text-gray-550 border-t border-slate-900/5 dark:border-white/5 bg-slate-950">
  <p>© {new Date().getFullYear()} {businessName}. All rights reserved.</p>
  </footer>
  </div>
@@ -1053,7 +1053,7 @@ Please reach out to discuss implementation.`
  <div className="flex items-center gap-6">
  <button 
  onClick={() => changePage('shop')} 
- className="px-5 py-2 border border-indigo-500/40 hover:bg-theme-primary text-white text-xs font-bold uppercase tracking-wider text-white transition-colors"
+ className="px-5 py-2 border border-indigo-500/40 hover:bg-theme-primary text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white transition-colors"
  >
  Get Scoped
  </button>
@@ -1067,7 +1067,7 @@ Please reach out to discuss implementation.`
  </div>
 
  {/* Footer */}
- <footer className="bg-black/60 py-12 px-8 border-t border-white/5 text-center text-xs text-theme-muted font-light">
+ <footer className="bg-black/60 py-12 px-8 border-t border-slate-900/5 dark:border-white/5 text-center text-xs text-theme-muted font-light">
  <div className="max-w-7xl mx-auto space-y-4">
  <p className="font-black text-[#6366F1] uppercase tracking-widest text-sm">{businessName}</p>
  <p>© {new Date().getFullYear()} {businessName}. High-Performance Creative Scoping.</p>
@@ -1083,12 +1083,12 @@ Please reach out to discuss implementation.`
  <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 border border-indigo-600/30 shadow-theme relative text-left">
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
  
- <h3 className="text-xl font-bold uppercase tracking-wider text-[#6366F1] border-b border-white/5 pb-3 mb-6">
+ <h3 className="text-xl font-bold uppercase tracking-wider text-[#6366F1] border-b border-slate-900/5 dark:border-white/5 pb-3 mb-6">
  Scoping Settings & Deliverables
  </h3>
 
@@ -1100,7 +1100,7 @@ Please reach out to discuss implementation.`
  type="text"
  value={product.name}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'name', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
 
@@ -1110,7 +1110,7 @@ Please reach out to discuss implementation.`
  type="number"
  value={product.price}
  onChange={(e) => onUpdateProduct(product._id || product.id, 'price', parseFloat(e.target.value) || 0)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
  </div>
@@ -1123,7 +1123,7 @@ Please reach out to discuss implementation.`
  value={product.category || ''}
  placeholder="e.g. Design Services, Development Packages"
  onChange={(e) => onUpdateProduct(product._id || product.id, 'category', e.target.value)}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  />
  </div>
  </div>
@@ -1135,12 +1135,12 @@ Please reach out to discuss implementation.`
  placeholder="Describe scope, mockups timeline and hours of engagement included."
  onChange={(e) => onUpdateProduct(product._id || product.id, 'description', e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500 resize-none font-sans"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500 resize-none font-sans"
  />
  </div>
 
  <div className="grid grid-cols-2 gap-4 py-1.5">
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={!!product.isBestseller}
@@ -1152,7 +1152,7 @@ Please reach out to discuss implementation.`
  </div>
  </label>
 
- <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-white/10 bg-black/20 transition-all">
+ <label className="flex items-center gap-2.5 cursor-pointer p-3 border border-slate-900/10 dark:border-white/10 bg-black/20 transition-all">
  <input 
  type="checkbox"
  checked={product.inStock !== false}
@@ -1163,7 +1163,7 @@ Please reach out to discuss implementation.`
  }}
  className="w-4 h-4 accent-indigo-500 cursor-pointer"
  />
- <div className="text-[10px] font-bold uppercase tracking-wider text-white select-none">
+ <div className="text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-white select-none">
  📦 Slots Available
  </div>
  </label>
@@ -1181,16 +1181,16 @@ Please reach out to discuss implementation.`
  onUpdateProduct(product._id || product.id, 'stockQuantity', val);
  onUpdateProduct(product._id || product.id, 'inStock', val > 0);
  }}
- className="w-full px-4 py-2.5 bg-black/30 border border-white/10 text-sm text-white outline-none focus:border-indigo-500"
+ className="w-full px-4 py-2.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-sm text-white outline-none focus:border-indigo-500"
  placeholder="Available portion"
  />
  </div>
 
  {/* Scoping Image */}
- <div className="p-4 border border-white/10 bg-black/25 space-y-3">
+ <div className="p-4 border border-slate-900/10 dark:border-white/10 bg-black/25 space-y-3">
  <span className="block text-[10px] uppercase tracking-wider text-theme-muted">Package graphic</span>
  <div className="flex gap-4 items-center">
- <div className="w-20 h-20 border border-white/10 shrink-0">
+ <div className="w-20 h-20 border border-slate-900/10 dark:border-white/10 shrink-0">
  <img 
  src={getProductImageUrl(product, 0)} 
  className="w-full h-full object-cover" 
@@ -1199,7 +1199,7 @@ Please reach out to discuss implementation.`
  </div>
  <div className="flex-1 space-y-2">
  <div>
- <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-white/10 hover:bg-theme-surface/10 text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
+ <label className="inline-block px-4 py-2 bg-theme-surface/5 border border-slate-900/10 dark:border-white/10 hover:bg-theme-surface/10 text-slate-900 dark:text-white font-bold rounded-none text-xs cursor-pointer shadow-theme transition-all text-center">
  📁 Upload Image
  <input 
  type="file" 
@@ -1214,13 +1214,13 @@ Please reach out to discuss implementation.`
  value={product.img || ''} 
  placeholder="Paste image link" 
  onChange={(e) => onUpdateProduct(product._id || product.id, 'img', e.target.value)} 
- className="w-full px-3 py-1.5 bg-black/30 border border-white/10 text-xs text-white outline-none focus:border-indigo-500" 
+ className="w-full px-3 py-1.5 bg-black/30 border border-slate-900/10 dark:border-white/10 text-xs text-white outline-none focus:border-indigo-500" 
  />
  </div>
  </div>
  </div>
 
- <div className="flex gap-3 pt-4 border-t border-white/5 justify-between items-center">
+ <div className="flex gap-3 pt-4 border-t border-slate-900/5 dark:border-white/5 justify-between items-center">
  <button 
  onClick={() => {
  if (onDeleteProduct) {
@@ -1236,7 +1236,7 @@ Please reach out to discuss implementation.`
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 text-white font-bold uppercase tracking-wider text-xs shadow transition-all"
+ className="px-6 py-2.5 text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs shadow transition-all"
  style={{
  '--primary': primaryColor,
  '--accent': accentColor, backgroundColor: accentColor }}
@@ -1253,19 +1253,19 @@ Please reach out to discuss implementation.`
  {/* Background Editor Modal */}
  {showBgModal && (
  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
- <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 shadow-theme border border-white/10 relative text-left">
+ <div className="bg-[#0B0F19] rounded-none max-w-lg w-full p-6 shadow-theme border border-slate-900/10 dark:border-white/10 relative text-left">
  <button 
  onClick={() => setShowBgModal(false)}
- className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
+ className="absolute top-4 right-4 text-gray-400 hover:text-slate-900 dark:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center"
  >
  ×
  </button>
- <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-1">
+ <h3 className="text-xl font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-1">
  Zenith Background Settings
  </h3>
  <p className="text-xs text-theme-muted mb-6">Select a digital agency preset or generate using AI.</p>
 
- <div className="flex border-b border-white/10 mb-6 font-semibold">
+ <div className="flex border-b border-slate-900/10 dark:border-white/10 mb-6 font-semibold">
  <button 
  onClick={() => setActiveTab('presets')}
  className={`flex-1 py-2 font-bold text-xs uppercase tracking-widest text-center border-b-2 transition-colors ${activeTab === 'presets' ? 'border-[#6366F1] text-indigo-400' : 'border-transparent text-theme-muted hover:text-gray-400'}`}
@@ -1296,11 +1296,11 @@ Please reach out to discuss implementation.`
  onUpdateConfig('header', 'heroImage', item.url);
  setShowBgModal(false);
  }}
- className="cursor-pointer group relative aspect-video border border-white/5 hover:border-indigo-650 transition-all bg-black"
+ className="cursor-pointer group relative aspect-video border border-slate-900/5 dark:border-white/5 hover:border-indigo-650 transition-all bg-black"
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[9px] text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
+ <span className="text-[9px] text-slate-900 dark:text-white font-bold uppercase tracking-wider truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1314,7 +1314,7 @@ Please reach out to discuss implementation.`
  value={aiPrompt}
  onChange={(e) => setAiPrompt(e.target.value)}
  rows={3}
- className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white resize-none"
+ className="w-full px-4 py-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white resize-none"
  />
  </div>
 
@@ -1324,7 +1324,7 @@ Please reach out to discuss implementation.`
  <select 
  value={aiStyle} 
  onChange={(e) => setAiStyle(e.target.value)}
- className="w-full p-3 bg-black/30 border border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white font-bold"
+ className="w-full p-3 bg-black/30 border border-slate-900/10 dark:border-white/10 rounded-none outline-none focus:border-indigo-500 text-sm text-white font-bold"
  >
  <option value="realistic">Realistic Photo</option>
  <option value="abstract">Abstract Art</option>
@@ -1338,7 +1338,7 @@ Please reach out to discuss implementation.`
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

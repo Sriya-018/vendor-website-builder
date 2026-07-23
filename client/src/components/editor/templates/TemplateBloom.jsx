@@ -285,7 +285,7 @@ export default function TemplateBloom({
  <div className={`flex flex-wrap gap-4 items-center ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
  <button 
  onClick={() => changePage('shop')}
- className="px-8 py-4 text-white rounded-full font-bold shadow-theme hover:shadow-theme hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
+ className="px-8 py-4 text-slate-900 dark:text-white rounded-full font-bold shadow-theme hover:shadow-theme hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
  style={{ backgroundColor: accentColor, boxShadow: `0 8px 24px ${accentColor}40` }}
  >
  <EditableText isEditable={isEditable} value={config.header.ctaLabel || 'Explore Collection'} onChange={(val) => onUpdateConfig('header', 'ctaLabel', val)} />
@@ -296,7 +296,7 @@ export default function TemplateBloom({
  href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
  target="_blank"
  rel="noopener noreferrer"
- className="px-8 py-4 bg-theme-surface/90 backdrop-blur-sm rounded-full font-bold border border-pink-200 text-rose-950 shadow-theme hover:bg-theme-primary text-white hover:text-white hover:border-pink-500 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center"
+ className="px-8 py-4 bg-theme-surface/90 backdrop-blur-sm rounded-full font-bold border border-pink-200 text-rose-950 shadow-theme hover:bg-theme-primary text-slate-900 dark:text-white hover:text-slate-900 dark:text-white hover:border-pink-500 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center"
  >
  <FaWhatsapp className="mr-2 text-theme-primary text-lg" /> Chat with Us
  </a>
@@ -525,11 +525,11 @@ export default function TemplateBloom({
  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-[#EC4899] text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-[#EC4899] text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  ⭐ Bestseller
  </span>
  ) : null}
@@ -539,7 +539,7 @@ export default function TemplateBloom({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-pink-200 hover:bg-[#500724] hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-pink-200 hover:bg-[#500724] hover:text-slate-900 dark:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -607,7 +607,7 @@ export default function TemplateBloom({
  {isEditable && (
  <button 
  onClick={onAddProduct}
- className="px-8 py-3.5 text-white rounded-full font-bold transition-all text-sm hover:opacity-90 shadow-theme flex items-center gap-1.5"
+ className="px-8 py-3.5 text-slate-900 dark:text-white rounded-full font-bold transition-all text-sm hover:opacity-90 shadow-theme flex items-center gap-1.5"
  style={{ backgroundColor: accentColor }}
  >
  + Add New Product
@@ -654,7 +654,7 @@ export default function TemplateBloom({
  <div className="space-y-8 relative before:absolute before:left-6 before:top-2 before:bottom-2 before:w-[2px] before:bg-pink-200/50">
  {(routineObj.steps || []).map((step, idx) => (
  <div key={step.id || idx} className="flex gap-6 relative items-start">
- <div className="w-12 h-12 rounded-full bg-theme-primary text-white text-white font-extrabold flex items-center justify-center shrink-0 border-4 border-white shadow-theme font-mono text-sm z-10 hover:scale-110 transition-transform">
+ <div className="w-12 h-12 rounded-full bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white font-extrabold flex items-center justify-center shrink-0 border-4 border-white shadow-theme font-mono text-sm z-10 hover:scale-110 transition-transform">
  {step.num || `0${idx + 1}`}
  </div>
  <div className="bg-theme-surface/95 backdrop-blur-sm border border-pink-100/50 rounded-theme p-6 shadow-theme hover:shadow-theme transition-all duration-300 flex-1">
@@ -738,7 +738,7 @@ export default function TemplateBloom({
  const updated = galleryImages.filter((_, i) => i !== idx);
  onUpdateConfig('gallery', 'images', updated);
  }}
- className="px-4 py-1.5 bg-theme-primary text-white text-white rounded-full text-[10px] font-bold shadow hover:bg-theme-primary text-white transition-colors"
+ className="px-4 py-1.5 bg-theme-primary text-slate-900 dark:text-white text-slate-900 dark:text-white rounded-full text-[10px] font-bold shadow hover:bg-theme-primary text-slate-900 dark:text-white transition-colors"
  >
  Delete Image
  </button>
@@ -977,7 +977,7 @@ export default function TemplateBloom({
  const countdownTitle = config.countdown?.title || 'Mega Summer Sale Ending Soon!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-6 text-white text-center relative overflow-hidden" style={{ backgroundColor: accentColor }}>
+ <section className="w-full py-12 px-6 text-slate-900 dark:text-white text-center relative overflow-hidden" style={{ backgroundColor: accentColor }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left">
  <EditableText
@@ -1003,7 +1003,7 @@ export default function TemplateBloom({
  { label: 'Mins', val: timeLeft.minutes },
  { label: 'Secs', val: timeLeft.seconds }
  ].map((col, idx) => (
- <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-theme min-w-[70px] border border-white/20 backdrop-blur-sm">
+ <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-theme min-w-[70px] border border-slate-900/20 dark:border-white/20 backdrop-blur-sm">
  <span className="text-2xl font-black">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-pink-100 mt-1">{col.label}</span>
  </div>
@@ -1057,7 +1057,7 @@ export default function TemplateBloom({
  >
  {/* Announcement Bar */}
  {config.header?.announcement?.show && (
- <div className="px-4 py-2 text-center text-xs font-bold text-white relative z-50 animate-fade-in" style={{ backgroundColor: config.header.announcement.color || accentColor }}>
+ <div className="px-4 py-2 text-center text-xs font-bold text-slate-900 dark:text-white relative z-50 animate-fade-in" style={{ backgroundColor: config.header.announcement.color || accentColor }}>
  {config.header.announcement.text}
  </div>
  )}
@@ -1236,11 +1236,11 @@ export default function TemplateBloom({
  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-[#EC4899] text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-[#EC4899] text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  ⭐ Bestseller
  </span>
  ) : null}
@@ -1250,7 +1250,7 @@ export default function TemplateBloom({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-pink-200 hover:bg-[#500724] hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-pink-200 hover:bg-[#500724] hover:text-slate-900 dark:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -1511,7 +1511,7 @@ export default function TemplateBloom({
 
  <button 
  type="submit"
- className="w-full py-4 rounded-full text-white font-extrabold shadow hover:opacity-95 transition-opacity"
+ className="w-full py-4 rounded-full text-slate-900 dark:text-white font-extrabold shadow hover:opacity-95 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  <EditableText
@@ -1740,7 +1740,7 @@ export default function TemplateBloom({
  
  <button 
  onClick={() => changePage('shop')}
- className="px-6 py-2.5 text-white font-bold rounded-full hover:scale-105 transition-transform text-xs shadow-theme mt-6 self-start"
+ className="px-6 py-2.5 text-slate-900 dark:text-white font-bold rounded-full hover:scale-105 transition-transform text-xs shadow-theme mt-6 self-start"
  style={{ backgroundColor: accentColor }}
  >
  {isEditable ? (
@@ -1752,7 +1752,7 @@ export default function TemplateBloom({
  const updatedPages = config.customPages.map(p => p.id === activeCustomPage.id ? { ...p, items: updatedItems } : p);
  onUpdateConfig('customPages', null, updatedPages);
  }}
- className="w-24 text-center font-bold text-white outline-none bg-transparent"
+ className="w-24 text-center font-bold text-slate-900 dark:text-white outline-none bg-transparent"
  />
  ) : (
  item.btnLabel || 'Order Special'
@@ -1907,7 +1907,7 @@ export default function TemplateBloom({
  <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
  <div className="md:col-span-2">
  <div className="flex items-center gap-2 mb-6">
- <span className="font-black text-[1.4rem] text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{storeName}</span>
+ <span className="font-black text-[1.4rem] text-slate-900 dark:text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{storeName}</span>
  </div>
  <EditableText
  isEditable={isEditable}
@@ -1917,26 +1917,26 @@ export default function TemplateBloom({
  className="leading-relaxed max-w-sm mb-6 text-pink-200/70 text-sm"
  />
  {phoneNumber && (
- <p className="flex items-center text-white font-medium">
+ <p className="flex items-center text-slate-900 dark:text-white font-medium">
  <FaPhoneAlt className="mr-2" style={{ color: accentColor }} /> {phoneNumber}
  </p>
  )}
  </div>
  
  <div>
- <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Quick Links</h4>
+ <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">Quick Links</h4>
  <ul className="space-y-3 text-sm text-pink-200/80">
- <li><button onClick={() => changePage('home')} className="hover:text-white transition-colors">Home</button></li>
- <li><button onClick={() => changePage('shop')} className="hover:text-white transition-colors">Shop</button></li>
- <li><button onClick={() => changePage('contact')} className="hover:text-white transition-colors">Contact</button></li>
+ <li><button onClick={() => changePage('home')} className="hover:text-slate-900 dark:text-white transition-colors">Home</button></li>
+ <li><button onClick={() => changePage('shop')} className="hover:text-slate-900 dark:text-white transition-colors">Shop</button></li>
+ <li><button onClick={() => changePage('contact')} className="hover:text-slate-900 dark:text-white transition-colors">Contact</button></li>
  </ul>
  </div>
  
  <div>
- <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Newsletter</h4>
+ <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">Newsletter</h4>
  <div className="flex">
- <input type="email" placeholder="Your email" className="bg-[#5c0e2e] text-white px-4 py-3 rounded-l-full outline-none focus:ring-1 focus:ring-pink-200 border-none flex-1 text-sm" style={{ border: 'none' }} />
- <button className="text-white px-5 py-3 rounded-r-full font-bold text-sm" style={{ backgroundColor: accentColor }}><FaPaperPlane /></button>
+ <input type="email" placeholder="Your email" className="bg-[#5c0e2e] text-slate-900 dark:text-white px-4 py-3 rounded-l-full outline-none focus:ring-1 focus:ring-pink-200 border-none flex-1 text-sm" style={{ border: 'none' }} />
+ <button className="text-slate-900 dark:text-white px-5 py-3 rounded-r-full font-bold text-sm" style={{ backgroundColor: accentColor }}><FaPaperPlane /></button>
  </div>
  </div>
  </div>
@@ -1949,7 +1949,7 @@ export default function TemplateBloom({
  {config.trust?.badges?.returns && <span className="flex items-center"><FaClock className="mr-1" /> 30 Days</span>}
  </div>
 
- <p>Powered by <span className="text-white font-bold">VendorBuild</span></p>
+ <p>Powered by <span className="text-slate-900 dark:text-white font-bold">VendorBuild</span></p>
  </div>
  </div>
  </footer>
@@ -1995,7 +1995,7 @@ export default function TemplateBloom({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -2033,7 +2033,7 @@ export default function TemplateBloom({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 bg-[#EC4899] text-white font-bold rounded-full shadow hover:bg-[#db2777] transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 bg-[#EC4899] text-slate-900 dark:text-white font-bold rounded-full shadow hover:bg-[#db2777] transition-colors flex items-center justify-center gap-2"
  >
  {isGenerating ? (
  <>
@@ -2220,7 +2220,7 @@ export default function TemplateBloom({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 bg-[#500724] hover:opacity-90 text-white rounded-full font-bold text-xs shadow transition-all"
+ className="px-6 py-2.5 bg-[#500724] hover:opacity-90 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow transition-all"
  >
  Done
  </button>

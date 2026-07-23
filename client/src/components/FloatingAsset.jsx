@@ -28,7 +28,7 @@ export default function FloatingAsset({ type = 'storefront', className = '' }) {
 
  {/* Shop Front Structure (Layer 2 - highly elevated and floats with delay) */}
  <div className="absolute inset-8 animate-[float_6s_ease-in-out_infinite_1s]" style={{ transformStyle: 'preserve-3d' }}>
- <div className="w-full h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(139,92,246,0.3)] flex flex-col items-center justify-center p-4" style={{ transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(55px)' }}>
+ <div className="w-full h-full bg-slate-900/10 dark:bg-white/10 backdrop-blur-md border border-slate-900/20 dark:border-white/20 rounded-xl shadow-[0_20px_50px_rgba(139,92,246,0.3)] flex flex-col items-center justify-center p-4" style={{ transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(55px)' }}>
  {/* Neon Door & Window highlights */}
  <div className="w-full flex justify-between gap-2 mb-2">
  <div className="w-8 h-12 border-2 border-indigo-400 bg-indigo-500/10 rounded-sm"></div>
@@ -42,8 +42,8 @@ export default function FloatingAsset({ type = 'storefront', className = '' }) {
 
  {/* Floating Roof Canopy (Layer 3 - top layer) */}
  <div className="absolute inset-x-12 top-6 bottom-14 animate-[float_6s_ease-in-out_infinite_2s]" style={{ transformStyle: 'preserve-3d' }}>
- <div className="w-full h-full bg-gradient-to-br from-indigo-500/85 to-purple-600/85 border border-white/30 rounded-lg shadow-2xl flex items-center justify-center" style={{ transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(85px)' }}>
- <span className="text-[10px] font-black text-white uppercase tracking-widest">SHOP</span>
+ <div className="w-full h-full bg-gradient-to-br from-indigo-500/85 to-purple-600/85 border border-slate-900/30 dark:border-white/30 rounded-lg shadow-2xl flex items-center justify-center" style={{ transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(85px)' }}>
+ <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-widest">SHOP</span>
  </div>
  </div>
  </div>
@@ -75,8 +75,8 @@ export default function FloatingAsset({ type = 'storefront', className = '' }) {
 
  {/* Cylinder Disk 1 (Top) */}
  <div className="absolute inset-x-4 top-0 bottom-24 animate-[float_5s_ease-in-out_infinite]" style={{ transformStyle: 'preserve-3d' }}>
- <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-purple-500 border border-white/20 rounded-full flex items-center justify-center shadow-2xl" style={{ transform: 'rotateX(60deg) translateZ(60px)' }}>
- <div className="w-full h-full border border-white/10 rounded-full p-2 flex items-center justify-center">
+ <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-purple-500 border border-slate-900/20 dark:border-white/20 rounded-full flex items-center justify-center shadow-2xl" style={{ transform: 'rotateX(60deg) translateZ(60px)' }}>
+ <div className="w-full h-full border border-slate-900/10 dark:border-white/10 rounded-full p-2 flex items-center justify-center">
  <div className="w-3 h-3 bg-purple-300 rounded-full animate-ping"></div>
  </div>
  </div>
@@ -113,7 +113,7 @@ export default function FloatingAsset({ type = 'storefront', className = '' }) {
 
  {/* Floating Star (Overlay Target) */}
  <div className="absolute right-4 top-8 w-8 h-8 animate-[float_5s_ease-in-out_infinite_1.2s]" style={{ transformStyle: 'preserve-3d' }}>
- <div className="w-full h-full bg-amber-400 rounded-lg flex items-center justify-center shadow-lg text-white text-xs animate-[spin_8s_linear_infinite]" style={{ transform: 'rotateX(55deg) rotateZ(-30deg) translateZ(75px)' }}>
+ <div className="w-full h-full bg-amber-400 rounded-lg flex items-center justify-center shadow-lg text-slate-900 dark:text-white text-xs animate-[spin_8s_linear_infinite]" style={{ transform: 'rotateX(55deg) rotateZ(-30deg) translateZ(75px)' }}>
  ⭐
  </div>
  </div>
@@ -142,12 +142,12 @@ export default function FloatingAsset({ type = 'storefront', className = '' }) {
 
  {/* Floating Letter (elevated) */}
  <div className="absolute inset-x-4 top-4 bottom-12 animate-[float_5s_ease-in-out_infinite_1.2s]" style={{ transformStyle: 'preserve-3d' }}>
- <div className="w-full h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-xl p-3 flex flex-col justify-between" style={{ transform: 'rotateX(50deg) rotateZ(-20deg) translateZ(45px)' }}>
+ <div className="w-full h-full bg-slate-900/10 dark:bg-white/10 backdrop-blur-md border border-slate-900/20 dark:border-white/20 rounded-lg shadow-xl p-3 flex flex-col justify-between" style={{ transform: 'rotateX(50deg) rotateZ(-20deg) translateZ(45px)' }}>
  <div className="w-8 h-1 bg-purple-400 rounded-full"></div>
  <div className="space-y-1">
- <div className="w-full h-0.5 bg-white/30 rounded-full"></div>
- <div className="w-full h-0.5 bg-white/30 rounded-full"></div>
- <div className="w-2/3 h-0.5 bg-white/30 rounded-full"></div>
+ <div className="w-full h-0.5 bg-slate-900/30 dark:bg-white/30 rounded-full"></div>
+ <div className="w-full h-0.5 bg-slate-900/30 dark:bg-white/30 rounded-full"></div>
+ <div className="w-2/3 h-0.5 bg-slate-900/30 dark:bg-white/30 rounded-full"></div>
  </div>
  </div>
  </div>

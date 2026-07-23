@@ -126,11 +126,11 @@ function OrdersTab({ businessId, websites }) {
  <button
  type="button"
  onClick={exportOrdersCSV}
- className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:text-white px-4 py-2.5 rounded-xl font-bold transition-all text-sm"
+ className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white px-4 py-2.5 rounded-xl font-bold transition-all text-sm"
  >
  <FaDownload className="text-slate-600 dark:text-slate-400" /> Export CSV Report
  </button>
- <button onClick={fetchOrders} className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" title="Refresh Orders">
+ <button onClick={fetchOrders} className="flex items-center gap-2 bg-white dark:bg-[#13121A] border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 hover:border-slate-600 transition-colors shadow-sm text-sm" title="Refresh Orders">
  <FaSync className={isLoading ? 'animate-spin text-purple-400' : 'text-slate-600 dark:text-slate-500'} /> Refresh Orders
  </button>
  </div>
@@ -143,7 +143,7 @@ function OrdersTab({ businessId, websites }) {
 
  return (
  <div key={website._id} className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden">
- <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-900/40">
+ <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 flex justify-between items-center bg-slate-100 dark:bg-slate-900/40">
  <div>
  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
  <FaGlobe className="text-indigo-400" />
@@ -243,7 +243,7 @@ function OrdersTab({ businessId, websites }) {
  {/* Unassigned / Legacy Orders */}
  {orders.filter(o => !websites.some(w => w._id === o.websiteId || w.slug === o.storeName)).length > 0 && (
  <div className="bg-white dark:bg-[#13121A] rounded-xl border border-slate-200 dark:border-slate-800/60 shadow-lg overflow-hidden mt-8">
- <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-900/40 flex justify-between items-center">
+ <div className="p-6 border-b border-slate-200 dark:border-slate-800/60 bg-slate-100 dark:bg-slate-900/40 flex justify-between items-center">
  <div>
  <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
  <FaBoxOpen className="text-purple-400" />

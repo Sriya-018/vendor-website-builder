@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaPaintBrush, FaMagic, FaDownload, FaGlobe, FaChevronRight, FaCheck } from 'react-icons/fa';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -13,15 +14,20 @@ const PRESETS = [
 ];
 
 function BrandAssetsTab({ businessId, websites }) {
+ const { theme } = useTheme();
  const [brandName, setBrandName] = useState(websites?.[0]?.storeName || 'My Brand');
  const [slogan, setSlogan] = useState('Premium Quality Essentials');
  const [selectedPreset, setSelectedPreset] = useState(PRESETS[0]);
  const [accentColor, setAccentColor] = useState('#6366f1');
- const [darkBackground, setDarkBackground] = useState(true);
+ const [darkBackground, setDarkBackground] = useState(theme === 'dark');
  const [iconEmoji, setIconEmoji] = useState('✦');
  const [selectedWebsiteId, setSelectedWebsiteId] = useState(websites?.[0]?._id || '');
  const [saving, setSaving] = useState(false);
  const [successMsg, setSuccessMsg] = useState('');
+
+ useEffect(() => {
+   setDarkBackground(theme === 'dark');
+ }, [theme]);
 
  // Handle preset switch
  const handlePresetSelect = (preset) => {
@@ -51,7 +57,7 @@ function BrandAssetsTab({ businessId, websites }) {
  setSuccessMsg('');
  try {
  // 1. Fetch current configuration
- const webRes = await axios.get(`${API_URL}/website/${selectedWebsiteId}`);
+ const webRes = await axios.get(`${API_URL}/website/id/${selectedWebsiteId}`);
  const site = webRes.data;
  const config = site.designConfig || {};
 
@@ -129,7 +135,7 @@ function BrandAssetsTab({ businessId, websites }) {
  type="text" 
  value={brandName}
  onChange={(e) => setBrandName(e.target.value)}
- className="w-full p-2.5 bg-slate-100 dark:bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-white outline-none focus:border-indigo-500 font-semibold"
+ className="w-full p-2.5 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white outline-none focus:border-indigo-500 font-semibold"
  maxLength={24}
  />
  </div>
@@ -140,7 +146,7 @@ function BrandAssetsTab({ businessId, websites }) {
  type="text" 
  value={slogan}
  onChange={(e) => setSlogan(e.target.value)}
- className="w-full p-2.5 bg-slate-100 dark:bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-white outline-none focus:border-indigo-500 font-semibold"
+ className="w-full p-2.5 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white outline-none focus:border-indigo-500 font-semibold"
  maxLength={40}
  />
  </div>
@@ -151,7 +157,7 @@ function BrandAssetsTab({ businessId, websites }) {
  type="text" 
  value={iconEmoji}
  onChange={(e) => setIconEmoji(e.target.value)}
- className="w-full p-2.5 bg-slate-100 dark:bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-center text-white outline-none focus:border-indigo-500 font-bold"
+ className="w-full p-2.5 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-center text-slate-900 dark:text-white outline-none focus:border-indigo-500 font-bold"
  placeholder="e.g. ✦"
  />
  </div>
@@ -191,7 +197,7 @@ function BrandAssetsTab({ businessId, websites }) {
  className={`w-full text-left p-3 border rounded-xl text-xs transition-all ${
  selectedPreset.id === p.id 
  ? 'border-indigo-500 bg-indigo-500/10 text-indigo-700 dark:text-white font-bold' 
- : 'border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/40 hover:border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-200'
+ : 'border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/40 hover:border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
  }`}
  >
  <span className="block font-medium">{p.name}</span>
@@ -252,7 +258,7 @@ function BrandAssetsTab({ businessId, websites }) {
  <span className="text-xs font-bold text-slate-600 dark:text-slate-450 uppercase tracking-wider">Asset 1: Store Header Logo Vector</span>
  <button 
  onClick={() => handleDownload('svg-header-logo', `${brandName.toLowerCase()}-header-logo.svg`)}
- className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
+ className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
  title="Download Vector SVG"
  >
  <FaDownload className="text-xs" />
@@ -307,7 +313,7 @@ function BrandAssetsTab({ businessId, websites }) {
  <span className="text-xs font-bold text-slate-600 dark:text-slate-450 uppercase tracking-wider">Favicon Icon</span>
  <button 
  onClick={() => handleDownload('svg-favicon', `${brandName.toLowerCase()}-favicon.svg`)}
- className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
+ className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
  title="Download Vector SVG"
  >
  <FaDownload className="text-xs" />
@@ -338,7 +344,7 @@ function BrandAssetsTab({ businessId, websites }) {
  <span className="text-xs font-bold text-slate-600 dark:text-slate-450 uppercase tracking-wider">Asset 3: Promo / Social OpenGraph Banner</span>
  <button 
  onClick={() => handleDownload('svg-banner', `${brandName.toLowerCase()}-social-banner.svg`)}
- className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
+ className="p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 dark:bg-slate-800 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
  title="Download Vector SVG"
  >
  <FaDownload className="text-xs" />

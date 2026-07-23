@@ -134,7 +134,7 @@ function AICopilot({ isOpen, onClose, onApply, fieldName, category = 'general' }
  {/* Header */}
  <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-6 py-5 text-white flex justify-between items-center">
  <div className="flex items-center gap-2.5">
- <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center animate-pulse">
+ <div className="w-8 h-8 rounded-xl bg-slate-900/20 dark:bg-white/20 backdrop-blur-md flex items-center justify-center animate-pulse">
  <FaMagic className="text-sm" />
  </div>
  <div>
@@ -144,7 +144,7 @@ function AICopilot({ isOpen, onClose, onApply, fieldName, category = 'general' }
  </div>
  <button 
  onClick={onClose}
- className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors text-white font-bold text-sm"
+ className="w-7 h-7 rounded-full bg-slate-900/10 dark:bg-white/10 hover:bg-slate-900/20 dark:bg-white/20 flex items-center justify-center transition-colors text-slate-900 dark:text-white font-bold text-sm"
  >
  ×
  </button>

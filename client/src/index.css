@@ -24,3 +24,27 @@ button, a, [role="button"] {
   }
 }
 
+/* Global Typography Improvements for Professional Look */
+@layer base {
+  body {
+    @apply antialiased font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Elevate typography tracking globally */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+}
+
+
+

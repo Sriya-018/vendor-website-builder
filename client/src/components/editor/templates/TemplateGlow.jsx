@@ -250,14 +250,14 @@ export default function TemplateGlow({
  value={config.header.heroHeading || description}
  onChange={(val) => onUpdateConfig('header', 'heroHeading', val)}
  tagName="h1"
- className="text-4xl md:text-6xl font-black leading-[1.1] mb-6 tracking-[-0.02em] text-white"
+ className="text-4xl md:text-6xl font-black leading-[1.1] mb-6 tracking-[-0.02em] text-slate-900 dark:text-white"
  />
  <EditableText
  isEditable={isEditable}
  value={config.header.heroSubheading || 'Ethically sourced botanical products custom-tailored for conscious consumers.'}
  onChange={(val) => onUpdateConfig('header', 'heroSubheading', val)}
  tagName="p"
- className="text-white/85 text-[1.1rem] leading-[1.7] mb-10 max-w-xl"
+ className="text-slate-900 dark:text-white/85 text-[1.1rem] leading-[1.7] mb-10 max-w-xl"
  style={{ marginInline: config.header.heroAlign === 'center' ? 'auto' : config.header.heroAlign === 'right' ? '0 0 0 auto' : '0' }}
  />
  <div className={`flex flex-wrap gap-4 ${config.header.heroAlign === 'center' ? 'justify-center' : config.header.heroAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
@@ -274,7 +274,7 @@ export default function TemplateGlow({
  href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
  target="_blank"
  rel="noopener noreferrer"
- className="px-8 py-4 bg-theme-surface/15 border border-white/40 rounded-full font-bold text-white hover:bg-theme-surface/25 transition-all backdrop-blur-sm flex items-center"
+ className="px-8 py-4 bg-theme-surface/15 border border-slate-900/40 dark:border-white/40 rounded-full font-bold text-slate-900 dark:text-white hover:bg-theme-surface/25 transition-all backdrop-blur-sm flex items-center"
  >
  <FaWhatsapp className="mr-2 text-lg text-emerald-300" /> Chat with Us
  </a>
@@ -324,11 +324,11 @@ export default function TemplateGlow({
  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-emerald-600 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  ⭐ Bestseller
  </span>
  ) : null}
@@ -338,7 +338,7 @@ export default function TemplateGlow({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-slate-900 dark:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -639,7 +639,7 @@ export default function TemplateGlow({
  const countdownTitle = config.countdown?.title || 'Flash Organic Discount Event!';
  return (
  <SectionWrapper key="countdown" isEditable={isEditable} sectionKey="countdown" sectionOrder={order} onUpdateConfig={onUpdateConfig} config={config}>
- <section className="w-full py-12 px-6 text-white text-center relative overflow-hidden" style={{ backgroundColor: accentColor }}>
+ <section className="w-full py-12 px-6 text-slate-900 dark:text-white text-center relative overflow-hidden" style={{ backgroundColor: accentColor }}>
  <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
  <div className="text-left">
  <EditableText
@@ -659,7 +659,7 @@ export default function TemplateGlow({
  { label: 'Mins', val: timeLeft.minutes },
  { label: 'Secs', val: timeLeft.seconds }
  ].map((col, idx) => (
- <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-theme min-w-[70px] border border-white/20 backdrop-blur-sm">
+ <div key={idx} className="flex flex-col items-center bg-black/15 px-4 py-3 rounded-theme min-w-[70px] border border-slate-900/20 dark:border-white/20 backdrop-blur-sm">
  <span className="text-2xl font-black">{String(col.val).padStart(2, '0')}</span>
  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-100 mt-1">{col.label}</span>
  </div>
@@ -706,7 +706,7 @@ export default function TemplateGlow({
  >
  {/* Announcement Bar */}
  {config.header?.announcement?.show && (
- <div className="px-4 py-2 text-center text-xs font-bold text-white relative z-50" style={{ backgroundColor: config.header.announcement.color || accentColor }}>
+ <div className="px-4 py-2 text-center text-xs font-bold text-slate-900 dark:text-white relative z-50" style={{ backgroundColor: config.header.announcement.color || accentColor }}>
  {config.header.announcement.text}
  </div>
  )}
@@ -872,11 +872,11 @@ export default function TemplateGlow({
  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
  />
  {product.inStock === false ? (
- <span className="absolute top-3 left-3 bg-gray-900/80 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-gray-900/80 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  Out of Stock
  </span>
  ) : product.isBestseller ? (
- <span className="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
+ <span className="absolute top-3 left-3 bg-emerald-600 text-slate-900 dark:text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full shadow-theme z-20">
  ⭐ Bestseller
  </span>
  ) : null}
@@ -886,7 +886,7 @@ export default function TemplateGlow({
  e.stopPropagation();
  setActiveEditProductId(product._id || product.id);
  }}
- className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
+ className="absolute top-3 right-3 bg-theme-surface/95 backdrop-blur border border-emerald-200 hover:bg-emerald-900 hover:text-slate-900 dark:text-white p-2 rounded-full shadow-theme transition-all duration-300 z-20 hover:scale-110 flex items-center justify-center text-sm"
  title="Edit Product Settings"
  >
  ⚙️
@@ -1064,7 +1064,7 @@ export default function TemplateGlow({
 
  <button 
  type="submit"
- className="w-full py-4 rounded-full text-white font-extrabold shadow hover:opacity-95 transition-opacity"
+ className="w-full py-4 rounded-full text-slate-900 dark:text-white font-extrabold shadow hover:opacity-95 transition-opacity"
  style={{ backgroundColor: accentColor }}
  >
  Submit Form
@@ -1082,7 +1082,7 @@ export default function TemplateGlow({
  <div className="md:col-span-2">
  <div className="flex items-center gap-2 mb-6">
  <span className="text-[1.4rem]">🌿</span>
- <span className="font-black text-[1.3rem] text-white">{storeName}</span>
+ <span className="font-black text-[1.3rem] text-slate-900 dark:text-white">{storeName}</span>
  </div>
  <EditableText
  isEditable={isEditable}
@@ -1092,26 +1092,26 @@ export default function TemplateGlow({
  className="leading-relaxed max-w-sm mb-6 text-emerald-200/70 text-sm"
  />
  {phoneNumber && (
- <p className="flex items-center text-white font-medium">
+ <p className="flex items-center text-slate-900 dark:text-white font-medium">
  <FaPhoneAlt className="mr-2" style={{ color: accentColor }} /> {phoneNumber}
  </p>
  )}
  </div>
  
  <div>
- <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Quick Links</h4>
+ <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">Quick Links</h4>
  <ul className="space-y-3 text-sm text-emerald-200/80">
- <li><button onClick={() => changePage('home')} className="hover:text-white transition-colors">Home</button></li>
- <li><button onClick={() => changePage('shop')} className="hover:text-white transition-colors">Shop</button></li>
- <li><button onClick={() => changePage('contact')} className="hover:text-white transition-colors">Contact</button></li>
+ <li><button onClick={() => changePage('home')} className="hover:text-slate-900 dark:text-white transition-colors">Home</button></li>
+ <li><button onClick={() => changePage('shop')} className="hover:text-slate-900 dark:text-white transition-colors">Shop</button></li>
+ <li><button onClick={() => changePage('contact')} className="hover:text-slate-900 dark:text-white transition-colors">Contact</button></li>
  </ul>
  </div>
  
  <div>
- <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Newsletter</h4>
+ <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">Newsletter</h4>
  <div className="flex">
- <input type="email" placeholder="Your email" className="bg-emerald-950 text-white px-4 py-3 rounded-l-full outline-none focus:ring-1 focus:ring-emerald-200 border-none flex-1 text-sm" style={{ border: 'none' }} />
- <button className="text-white px-5 py-3 rounded-r-full font-bold text-sm" style={{ backgroundColor: accentColor }}><FaPaperPlane /></button>
+ <input type="email" placeholder="Your email" className="bg-emerald-950 text-slate-900 dark:text-white px-4 py-3 rounded-l-full outline-none focus:ring-1 focus:ring-emerald-200 border-none flex-1 text-sm" style={{ border: 'none' }} />
+ <button className="text-slate-900 dark:text-white px-5 py-3 rounded-r-full font-bold text-sm" style={{ backgroundColor: accentColor }}><FaPaperPlane /></button>
  </div>
  </div>
  </div>
@@ -1124,7 +1124,7 @@ export default function TemplateGlow({
  {config.trust?.badges?.returns && <span className="flex items-center"><FaClock className="mr-1" /> 30 Days</span>}
  </div>
 
- <p>Powered by <span className="text-white font-bold">VendorBuild</span></p>
+ <p>Powered by <span className="text-slate-900 dark:text-white font-bold">VendorBuild</span></p>
  </div>
  </div>
  </footer>
@@ -1301,7 +1301,7 @@ export default function TemplateGlow({
  </button>
  <button 
  onClick={() => setActiveEditProductId(null)}
- className="px-6 py-2.5 bg-emerald-900 hover:opacity-90 text-white rounded-full font-bold text-xs shadow transition-all"
+ className="px-6 py-2.5 bg-emerald-900 hover:opacity-90 text-slate-900 dark:text-white rounded-full font-bold text-xs shadow transition-all"
  >
  Done
  </button>
@@ -1362,7 +1362,7 @@ export default function TemplateGlow({
  >
  <img src={item.url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt={item.name} />
  <div className="absolute inset-0 bg-black/40 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <span className="text-[10px] text-white font-bold leading-tight truncate">{item.name}</span>
+ <span className="text-[10px] text-slate-900 dark:text-white font-bold leading-tight truncate">{item.name}</span>
  </div>
  </div>
  ))}
@@ -1400,7 +1400,7 @@ export default function TemplateGlow({
  <button 
  onClick={handleGenerateAiBg}
  disabled={isGenerating}
- className="w-full py-3.5 hover:opacity-90 text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
+ className="w-full py-3.5 hover:opacity-90 text-slate-900 dark:text-white font-bold rounded-full shadow transition-colors flex items-center justify-center gap-2"
  style={{ backgroundColor: accentColor }}
  >
  {isGenerating ? (

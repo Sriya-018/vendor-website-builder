@@ -154,11 +154,11 @@ function PulseCalorieEstimator({ accentColor }) {
  const cal = getCalorieDetails();
 
  return (
- <section className="py-20 px-8 bg-neutral-950 border-t border-b border-neutral-900 text-white text-left font-sans italic tracking-tight">
+ <section className="py-20 px-8 bg-neutral-950 border-t border-b border-neutral-900 text-slate-900 dark:text-white text-left font-sans italic tracking-tight">
  <div className="max-w-xl mx-auto border border-neutral-800 p-8 bg-neutral-900 rounded-none shadow-theme">
  <div className="text-center mb-8 uppercase font-black">
  <FaHeartbeat size={30} className="mx-auto mb-3 text-theme-primary animate-pulse" />
- <h2 className="text-3xl text-white">Daily Target Calorie Guide</h2>
+ <h2 className="text-3xl text-slate-900 dark:text-white">Daily Target Calorie Guide</h2>
  <p className="text-[10px] tracking-wider text-neutral-500 mt-2 font-bold uppercase">Configure metrics to calculate coaching pack</p>
  </div>
 
@@ -203,7 +203,7 @@ function PulseCalorieEstimator({ accentColor }) {
 
  <div className="mt-8 p-6 bg-black border border-neutral-800">
  <span className="text-[10px] uppercase tracking-widest font-black text-theme-primary">Daily Target: {cal.calculated} kCal</span>
- <h4 className="text-base font-black text-white mt-1 uppercase">{cal.coachingType}</h4>
+ <h4 className="text-base font-black text-slate-900 dark:text-white mt-1 uppercase">{cal.coachingType}</h4>
  <p className="text-xs text-neutral-400 leading-relaxed mt-2">{cal.details}</p>
  </div>
  </div>
@@ -295,7 +295,7 @@ function PixelCraftPortfolio({ accentColor }) {
  const p = portfolios[activeScreen];
 
  return (
- <section className="py-20 px-8 bg-[#0A0015] border-t border-b border-purple-950 text-white font-sans text-left">
+ <section className="py-20 px-8 bg-[#0A0015] border-t border-b border-purple-950 text-slate-900 dark:text-white font-sans text-left">
  <div className="max-w-4xl mx-auto">
  <div className="text-center mb-12">
  <FaBriefcase size={28} className="mx-auto mb-3 text-purple-400" />
@@ -320,7 +320,7 @@ function PixelCraftPortfolio({ accentColor }) {
  </div>
 
  <div className="bg-[#150C24] p-8 border border-purple-950 rounded-theme shadow-theme">
- <h4 className="font-bold text-sm tracking-wide text-white border-b border-purple-900 pb-3 mb-4 uppercase">
+ <h4 className="font-bold text-sm tracking-wide text-slate-900 dark:text-white border-b border-purple-900 pb-3 mb-4 uppercase">
  {p.title}
  </h4>
  <p className="text-xs leading-relaxed text-slate-350 mb-5">{p.desc}</p>
