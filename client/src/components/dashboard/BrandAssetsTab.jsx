@@ -75,8 +75,8 @@ function BrandAssetsTab({ businessId, websites }) {
  },
  typography: {
  ...(config.typography || {}),
- heading: selectedPreset.font,
- body: selectedPreset.font === 'Playfair Display' || selectedPreset.font === 'Cormorant Garamond' ? 'Lora' : 'Outfit'
+ headingFont: selectedPreset.font,
+ bodyFont: selectedPreset.font === 'Playfair Display' || selectedPreset.font === 'Cormorant Garamond' ? 'Lora' : 'Outfit'
  }
  };
 

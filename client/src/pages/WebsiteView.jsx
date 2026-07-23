@@ -615,6 +615,35 @@ function WebsiteView({ forceSlug }) {
  }
  }, [website]);
 
+ // Inject fonts dynamically based on website design config
+ useEffect(() => {
+ const typo = website?.designConfig?.typography;
+ if (!typo) return;
+ const fontsToLoad = [];
+ const googleFonts = ['Outfit', 'Montserrat', 'Plus Jakarta Sans', 'Playfair Display', 'Cormorant Garamond', 'Lora', 'Cabinet Grotesk', 'Bricolage Grotesque', 'Syne', 'Oswald', 'Space Mono'];
+ 
+ const headingFont = typo.headingFont || typo.heading || 'sans';
+ const bodyFont = typo.bodyFont || typo.body || 'sans';
+
+ if (googleFonts.includes(headingFont)) {
+ fontsToLoad.push(headingFont.replace(/ /g, '+'));
+ }
+ if (googleFonts.includes(bodyFont) && bodyFont !== headingFont) {
+ fontsToLoad.push(bodyFont.replace(/ /g, '+'));
+ }
+ if (fontsToLoad.length > 0) {
+ const linkId = 'google-fonts-live-site';
+ let linkElement = document.getElementById(linkId);
+ if (!linkElement) {
+ linkElement = document.createElement('link');
+ linkElement.id = linkId;
+ linkElement.rel = 'stylesheet';
+ document.head.appendChild(linkElement);
+ }
+ linkElement.href = `https://fonts.googleapis.com/css2?family=${fontsToLoad.join('&family=')}&display=swap`;
+ }
+ }, [website]);
+
  const handleTemplateClick = (e) => {
  // Find the closest button or anchor
  const btn = e.target.closest('button, a');
@@ -1032,51 +1061,88 @@ function WebsiteView({ forceSlug }) {
  website
  };
 
+ const getFontFamily = (type) => {
+ const font = config.typography[type] || config.typography[type.replace('Font', '')] || 'sans';
+ const googleFonts = ['Outfit', 'Montserrat', 'Plus Jakarta Sans', 'Playfair Display', 'Cormorant Garamond', 'Lora', 'Cabinet Grotesk', 'Bricolage Grotesque', 'Syne', 'Oswald', 'Space Mono'];
+ if (googleFonts.includes(font)) return `"${font}", sans-serif`;
+ switch (font) {
+ case 'serif': return 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif';
+ case 'mono': return 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+ case 'display': return '"Oswald", "Righteous", sans-serif';
+ default: return 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+ }
+ };
+
+ const cssVariables = {
+ '--primary': config.theme?.primary || '#2563eb',
+ '--secondary': config.theme?.secondary || '#4f46e5',
+ '--accent': config.theme?.accent || '#f59e0b',
+ '--background': config.theme?.background || '#ffffff',
+ '--surface': config.theme?.surface || '#f9fafb',
+ '--text': config.theme?.text || '#111827',
+ '--muted': config.theme?.muted || '#6b7280',
+ '--border': config.theme?.border || '#e5e7eb',
+ '--heading-font': getFontFamily('headingFont'),
+ '--body-font': getFontFamily('bodyFont'),
+ '--base-size': `${config.typography?.baseSize || 16}px`,
+ '--line-height': config.typography?.lineHeight === 'compact' ? 1.4 : config.typography?.lineHeight === 'relaxed' ? 1.8 : 1.6,
+ '--letter-spacing': config.typography?.letterSpacing === 'tight' ? '-0.02em' : config.typography?.letterSpacing === 'wide' ? '0.05em' : 'normal',
+ '--radius': config.spacing?.borderRadius || '8px',
+ '--shadow': config.shadows?.globalStyle === 'none' ? 'none' : config.shadows?.globalStyle === 'light' ? '0 1px 2px 0 rgb(0 0 0 / 0.05)' : config.shadows?.globalStyle === 'heavy' ? '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)' : '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+ };
+
+ let TemplateComp = TemplateAurora;
  switch (config.template) {
- case 't9': return <TemplateGlow {...props} />;
- case 't8': return <TemplatePixel {...props} />;
- case 't7': return <TemplateVogue {...props} />;
- case 't6': return <TemplateNexus {...props} />;
- case 't12': return <TemplateZenith {...props} />;
- case 't5': return <TemplateHaven {...props} />;
- case 't11': return <TemplateLoft {...props} />;
- case 't4': return <TemplateCrave {...props} />;
- case 't10': return <TemplateBistro {...props} />;
- case 't3': return <TemplateBloom {...props} />;
- case 't15': return <TemplateFlora {...props} />;
- case 't2': return <TemplateSlate {...props} />;
- case 't14': return <TemplateSpark {...props} />;
- case 't13': return <TemplateTrend {...props} />;
+ case 't9': TemplateComp = TemplateGlow; break;
+ case 't8': TemplateComp = TemplatePixel; break;
+ case 't7': TemplateComp = TemplateVogue; break;
+ case 't6': TemplateComp = TemplateNexus; break;
+ case 't12': TemplateComp = TemplateZenith; break;
+ case 't5': TemplateComp = TemplateHaven; break;
+ case 't11': TemplateComp = TemplateLoft; break;
+ case 't4': TemplateComp = TemplateCrave; break;
+ case 't10': TemplateComp = TemplateBistro; break;
+ case 't3': TemplateComp = TemplateBloom; break;
+ case 't15': TemplateComp = TemplateFlora; break;
+ case 't2': TemplateComp = TemplateSlate; break;
+ case 't14': TemplateComp = TemplateSpark; break;
+ case 't13': TemplateComp = TemplateTrend; break;
  case 't16':
  case 't17':
  case 't18':
- return <TemplateFashionNew {...props} />;
+ TemplateComp = TemplateFashionNew; break;
  case 't19':
  case 't20':
  case 't21':
- return <TemplateElectronicsNew {...props} />;
+ TemplateComp = TemplateElectronicsNew; break;
  case 't22':
  case 't23':
  case 't24':
- return <TemplateBeautyNew {...props} />;
+ TemplateComp = TemplateBeautyNew; break;
  case 't25':
  case 't26':
  case 't27':
  case 't28':
- return <TemplateFoodNew {...props} />;
+ TemplateComp = TemplateFoodNew; break;
  case 't29':
  case 't30':
  case 't31':
  case 't32':
- return <TemplateDecorNew {...props} />;
+ TemplateComp = TemplateDecorNew; break;
  case 't33':
  case 't34':
  case 't35':
  case 't36':
- return <TemplateServicesNew {...props} />;
+ TemplateComp = TemplateServicesNew; break;
  case 't1':
- default: return <TemplateAurora {...props} />;
+ default: TemplateComp = TemplateAurora; break;
  }
+ 
+ return (
+   <div style={cssVariables} className="w-full h-full relative">
+     <TemplateComp {...props} />
+   </div>
+ );
  };
 
  return (
