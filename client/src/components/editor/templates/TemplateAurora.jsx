@@ -752,7 +752,7 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+ <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
  )}
  <EditableText
  isEditable={true}
@@ -771,7 +771,7 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+ <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
  )}
  <span 
  className={`font-extrabold text-xl tracking-tight transition-colors ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
@@ -1155,7 +1155,7 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}><FaStore /></div>
+ <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
  )}
  <span className="font-extrabold text-xl text-slate-900 dark:text-white tracking-tight" style={{ fontFamily: 'var(--heading-font)' }}>{storeName}</span>
  </div>

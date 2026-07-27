@@ -29,6 +29,39 @@ function BrandAssetsTab({ businessId, websites }) {
    setDarkBackground(theme === 'dark');
  }, [theme]);
 
+  // Ensure a default website is selected if none is set
+  useEffect(() => {
+    if (!selectedWebsiteId && websites && websites.length > 0) {
+      setSelectedWebsiteId(websites[0]._id);
+    }
+  }, [websites, selectedWebsiteId]);
+
+  // Update brand assets when the selected website changes in the dropdown
+  useEffect(() => {
+    if (!websites || websites.length === 0) return;
+    const selectedSite = websites.find((w) => w._id === selectedWebsiteId) || websites[0];
+    if (!selectedSite) return;
+
+    // Prioritize the store's name when switching between websites
+    setBrandName(selectedSite.storeName || selectedSite.designConfig?.navbar?.logoText || 'My Brand');
+
+    if (selectedSite.designConfig?.themeColor && /^#[0-9A-Fa-f]{6}$/.test(selectedSite.designConfig.themeColor)) {
+      setAccentColor(selectedSite.designConfig.themeColor);
+    }
+
+    if (selectedSite.designConfig?.navbar?.logoIcon) {
+      setIconEmoji(selectedSite.designConfig.navbar.logoIcon);
+    } else if (selectedSite.designConfig?.typography?.headingFont) {
+      const matchingPreset = PRESETS.find((p) => p.font === selectedSite.designConfig.typography.headingFont);
+      if (matchingPreset) {
+        setSelectedPreset(matchingPreset);
+        if (matchingPreset.icon) setIconEmoji(matchingPreset.icon);
+      }
+    } else {
+      setIconEmoji('✦');
+    }
+  }, [selectedWebsiteId]);
+
  // Handle preset switch
  const handlePresetSelect = (preset) => {
  setSelectedPreset(preset);
@@ -68,6 +101,7 @@ function BrandAssetsTab({ businessId, websites }) {
  navbar: {
  ...(config.navbar || {}),
  logoText: brandName,
+ logoIcon: iconEmoji,
  announcement: {
  ...(config.navbar?.announcement || {}),
  color: accentColor
@@ -376,7 +410,7 @@ function BrandAssetsTab({ businessId, websites }) {
  letterSpacing: selectedPreset.id === 'minimal' ? '0.1em' : 'normal'
  }}
  >
- {brandName}
+ {iconEmoji ? `${iconEmoji} ${brandName}` : brandName}
  </text>
 
  {/* Slogan */}
