@@ -44,8 +44,8 @@ export default function TemplateSlate({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Next-gen products for a modern world.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -335,7 +335,8 @@ export default function TemplateSlate({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between mt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-lg flex items-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -348,8 +349,10 @@ export default function TemplateSlate({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -360,7 +363,8 @@ export default function TemplateSlate({
  >
  Buy Now
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -688,6 +692,14 @@ export default function TemplateSlate({
  {/* NAV */}
  <nav className="sticky top-0 z-50 bg-[#0f172a] border-b border-slate-800 px-8 transition-shadow" style={{ boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.5)' : 'none' }}>
  <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+ ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#0f172a'}, ${accentColor})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
  {isEditable ? (
  <EditableText
  isEditable={true}
@@ -706,6 +718,7 @@ export default function TemplateSlate({
  {businessName}
  </button>
  )}
+ </div>
  {devicePreview === 'desktop' && (
  <div className="flex gap-8 text-sm font-bold text-slate-400">
  {['Home', 'Shop', 'Contact'].map(page => (
@@ -857,7 +870,8 @@ export default function TemplateSlate({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between mt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-lg flex items-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -870,9 +884,11 @@ export default function TemplateSlate({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  <div className="flex flex-col items-end gap-1.5">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -889,7 +905,8 @@ export default function TemplateSlate({
  >
  {product.inStock === false ? 'Sold Out' : 'Buy Now'}
  </button>
- )}
+ 
+)}
  {product.specs && product.specs.length > 0 && (
  <button 
  onClick={() => setActiveSpecsProduct(product)}

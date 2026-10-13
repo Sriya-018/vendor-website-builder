@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TemplateLayoutBase from './TemplateLayoutBase';
-import { FaExchangeAlt, FaGamepad, FaInfoCircle, FaMicrochip, FaVolumeUp } from 'react-icons/fa';
+import { FaExchangeAlt, FaGamepad, FaInfoCircle, FaMicrochip, FaVolumeUp , FaStore } from 'react-icons/fa';
 
 export default function TemplateElectronicsNew(props) {
  const { config } = props;

@@ -47,8 +47,8 @@ export default function TemplateCrave({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Restaurant');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Fresh flavors, unforgettable taste.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -335,7 +335,8 @@ export default function TemplateCrave({
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between mt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -348,8 +349,10 @@ export default function TemplateCrave({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -360,7 +363,8 @@ export default function TemplateCrave({
  >
  Order Now
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -696,6 +700,14 @@ export default function TemplateCrave({
  }}
  >
  <div className="max-w-7xl mx-auto flex items-center justify-between h-20">
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+ ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
  {isEditable ? (
  <EditableText
  isEditable={true}
@@ -714,6 +726,7 @@ export default function TemplateCrave({
  {businessName}
  </button>
  )}
+ </div>
  {devicePreview === 'desktop' && (
  <div className={`flex gap-8 font-bold ${(scrolled || currentPage !== 'home') ? 'text-amber-900' : 'text-white'}`}>
  {[
@@ -882,7 +895,8 @@ export default function TemplateCrave({
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between mt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-xl flex items-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -895,8 +909,10 @@ export default function TemplateCrave({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -913,7 +929,8 @@ export default function TemplateCrave({
  >
  {product.inStock === false ? 'Sold Out' : 'Order Now'}
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>

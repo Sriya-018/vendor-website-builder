@@ -6,6 +6,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 const API_URL = 'http://localhost:5000/api';
 
 const PRESETS = [
+  { id: 'storefront', name: 'Storefront Icon', font: 'Outfit', tracking: 'tracking-tight', textTransform: 'normal-case', icon: '🏪' },
  { id: 'minimal', name: 'Minimalist Sans', font: 'Outfit', tracking: 'tracking-widest', textTransform: 'uppercase', icon: '✦' },
  { id: 'cozy', name: 'Cozy Espresso', font: 'Playfair Display', tracking: 'tracking-normal', textTransform: 'normal-case', icon: '☕' },
  { id: 'tech', name: 'Cyber Neon', font: 'Space Mono', tracking: 'tracking-wider', textTransform: 'uppercase', icon: '⚡' },
@@ -82,56 +83,71 @@ function BrandAssetsTab({ businessId, websites }) {
 
  // Apply to Store logic
  const handleApplyToStore = async () => {
- if (!selectedWebsiteId) {
- alert('Please select a store to update.');
- return;
- }
- setSaving(true);
- setSuccessMsg('');
- try {
- // 1. Fetch current configuration
- const webRes = await axios.get(`${API_URL}/website/id/${selectedWebsiteId}`);
- const site = webRes.data;
- const config = site.designConfig || {};
+    if (!selectedWebsiteId) {
+      alert('Please select a store to update.');
+      return;
+    }
+    setSaving(true);
+    setSuccessMsg('');
+    try {
+      // 1. Fetch current configuration
+      const webRes = await axios.get(`${API_URL}/website/id/${selectedWebsiteId}`);
+      const site = webRes.data;
+      const config = site.designConfig || {};
 
- // 2. Map brand assets into designConfig
- const updatedConfig = {
- ...config,
- themeColor: accentColor,
- navbar: {
- ...(config.navbar || {}),
- logoText: brandName,
- logoIcon: iconEmoji,
- announcement: {
- ...(config.navbar?.announcement || {}),
- color: accentColor
- }
- },
- typography: {
- ...(config.typography || {}),
- headingFont: selectedPreset.font,
- bodyFont: selectedPreset.font === 'Playfair Display' || selectedPreset.font === 'Cormorant Garamond' ? 'Lora' : 'Outfit'
- }
- };
+      // Capture exact SVG of the Favicon Icon displayed in the preview
+      let faviconSvgDataUrl = null;
+      const svgFavicon = document.getElementById('svg-favicon');
+      if (svgFavicon) {
+        const svgString = new XMLSerializer().serializeToString(svgFavicon);
+        faviconSvgDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
+      }
 
- // 3. Save website back to server
- await axios.put(`${API_URL}/website/update/${selectedWebsiteId}`, {
- designConfig: updatedConfig,
- theme: {
- primaryColor: site.theme?.primaryColor || accentColor,
- secondaryColor: site.theme?.secondaryColor || '#FFFFFF',
- backgroundColor: site.theme?.backgroundColor || '#FFFFFF'
- }
- });
+      const initialLetter = (brandName || 'S').trim().charAt(0).toUpperCase();
 
- setSuccessMsg('Successfully applied logo styling and accent theme to your website!');
- setTimeout(() => setSuccessMsg(''), 4000);
- } catch (error) {
- console.error(error);
- alert('Failed to apply brand assets: ' + (error.response?.data?.message || error.message));
- }
- setSaving(false);
- };
+      // 2. Map brand assets into designConfig WITHOUT touching site-wide colors or typography
+      const updatedConfig = {
+        ...config,
+        navbar: {
+          ...(config.navbar || {}),
+          logoText: brandName,
+          logoIcon: initialLetter,
+          logoColor: accentColor,
+          logoImage: faviconSvgDataUrl,
+          faviconSvg: faviconSvgDataUrl
+        }
+      };
+
+      // Ensure any legacy rogue #6366f1 themeColor is removed so the website's original design palette is preserved
+      if (updatedConfig.themeColor === '#6366f1' || updatedConfig.themeColor === accentColor) {
+        delete updatedConfig.themeColor;
+      }
+      if (updatedConfig.theme && (updatedConfig.theme.primaryColor === '#6366f1' || updatedConfig.theme.primaryColor === accentColor)) {
+        delete updatedConfig.theme.primaryColor;
+      }
+
+      // 3. Save website back to server including storeInfo.logo and seo.favicon
+      await axios.put(`${API_URL}/website/update/${selectedWebsiteId}`, {
+        designConfig: updatedConfig,
+        storeName: brandName,
+        storeInfo: {
+          ...(site.storeInfo || {}),
+          logo: faviconSvgDataUrl || site.storeInfo?.logo
+        },
+        seo: {
+          ...(site.seo || {}),
+          favicon: faviconSvgDataUrl || site.seo?.favicon
+        }
+      });
+
+      setSuccessMsg('Successfully applied Favicon logo to your website navbar!');
+      setTimeout(() => setSuccessMsg(''), 4000);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to apply brand assets: ' + (error.response?.data?.message || error.message));
+    }
+    setSaving(false);
+  };
 
  // SVG Export Utility
  const handleDownload = (elementId, filename) => {

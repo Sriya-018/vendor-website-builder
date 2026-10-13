@@ -44,8 +44,8 @@ export default function TemplateVogue({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Curated fashion for the bold.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -345,7 +345,8 @@ export default function TemplateVogue({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-[1.1rem] flex items-center gap-0.5">
  <span>₹</span>
  <EditableText
@@ -358,9 +359,11 @@ export default function TemplateVogue({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  <div className="flex flex-col items-end gap-1.5">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -376,7 +379,8 @@ export default function TemplateVogue({
  >
  {product.inStock === false ? 'Out' : 'Add to Bag'}
  </button>
- )}
+ 
+)}
  {product.sizes && product.sizes.length > 0 && (
  <button 
  onClick={() => setActiveSizeGuideProduct(product)}
@@ -719,7 +723,15 @@ export default function TemplateVogue({
  {/* NAV */}
  <nav className="sticky top-0 z-50 bg-theme-surface border-b-2 border-black transition-all px-8">
  <div className="max-w-7xl mx-auto flex items-center justify-between h-[4.5rem]">
- {isEditable ? (
+ <div className="flex items-center gap-3">
+            {fullLogoUrl ? (
+              <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#2563eb'}, ${accentColor || '#3b82f6'})` }}>
+                {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+              </div>
+            )}
+            {isEditable ? (
  <EditableText
  isEditable={true}
  value={businessName}
@@ -737,6 +749,7 @@ export default function TemplateVogue({
  {businessName}
  </button>
  )}
+          </div>
  {devicePreview === 'desktop' && (
  <div className="flex gap-10 text-[0.8rem] font-medium tracking-[0.08em] uppercase">
  {['Home', 'Shop', 'Contact'].map(page => (
@@ -887,7 +900,8 @@ export default function TemplateVogue({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-[1.1rem] flex items-center gap-0.5">
  <span>₹</span>
  <EditableText
@@ -900,9 +914,11 @@ export default function TemplateVogue({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  <div className="flex flex-col items-end gap-1.5">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -918,7 +934,8 @@ export default function TemplateVogue({
  >
  {product.inStock === false ? 'Out' : 'Add to Bag'}
  </button>
- )}
+ 
+)}
  {product.sizes && product.sizes.length > 0 && (
  <button 
  onClick={() => setActiveSizeGuideProduct(product)}

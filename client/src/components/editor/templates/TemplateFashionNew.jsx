@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TemplateLayoutBase from './TemplateLayoutBase';
-import { FaCheck, FaInfoCircle, FaTshirt, FaRunning, FaHistory } from 'react-icons/fa';
+import { FaCheck, FaInfoCircle, FaTshirt, FaRunning, FaHistory , FaStore } from 'react-icons/fa';
 
 export default function TemplateFashionNew(props) {
  const { config } = props;

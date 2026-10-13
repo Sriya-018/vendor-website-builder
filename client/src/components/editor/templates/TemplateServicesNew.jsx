@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TemplateLayoutBase from './TemplateLayoutBase';
-import { FaHeartbeat, FaInfoCircle, FaCalculator, FaBookOpen, FaBriefcase } from 'react-icons/fa';
+import { FaHeartbeat, FaInfoCircle, FaCalculator, FaBookOpen, FaBriefcase , FaStore } from 'react-icons/fa';
 
 export default function TemplateServicesNew(props) {
  const { config } = props;

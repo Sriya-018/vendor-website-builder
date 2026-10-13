@@ -50,15 +50,15 @@ export default function TemplateLayoutBase({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'Organic Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header?.heroSubheading || 'Discover our premium selection.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
 
  const primaryColor = theme.primaryColor || '#1F2937';
- const accentColor = config.themeColor || theme.accentColor || '#3B82F6';
+ const accentColor = (config.themeColor && config.themeColor !== '#6366f1' ? config.themeColor : null) || theme.accentColor || '#3B82F6';
  const heroImage = config.header?.heroImage || theme.defaultHeroImage || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80';
 
  const defaultOrder = ['hero', nicheSectionKey, 'products', 'gallery', 'faq', 'testimonials', 'hours', 'contact'];
@@ -555,12 +555,15 @@ export default function TemplateLayoutBase({
  {/* Navigation */}
  <nav className={`sticky top-0 left-0 right-0 z-50 transition-all py-5 px-8 ${theme.navbarClass || 'bg-theme-surface border-b border-theme-border shadow-theme'}`}>
  <div className="max-w-7xl mx-auto flex items-center justify-between">
- {isEditable ? (
- fullLogoUrl ? (
- <div className={`font-black uppercase tracking-tight text-xl ${theme.logoTextClass || 'text-theme-text'}`}>
- <img src={fullLogoUrl} className="h-8 object-contain" alt="logo" />
- </div>
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" alt="logo" />
  ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#2563eb'}, ${accentColor || '#3b82f6'})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
+ {isEditable ? (
  <EditableText
  isEditable={true}
  value={config.navbar?.logoText || businessName}
@@ -568,12 +571,12 @@ export default function TemplateLayoutBase({
  tagName="span"
  className={`font-black focus:outline-none uppercase tracking-tight text-xl cursor-text ${theme.logoTextClass || 'text-theme-text'}`}
  />
- )
  ) : (
  <button onClick={() => changePage('home')} className={`font-black focus:outline-none uppercase tracking-tight text-xl ${theme.logoTextClass || 'text-theme-text'}`}>
- {fullLogoUrl ? <img src={fullLogoUrl} className="h-8 object-contain" alt="logo" /> : businessName}
+ {config.navbar?.logoText || businessName}
  </button>
  )}
+ </div>
  <div className="flex items-center gap-6">
  <button onClick={() => changePage('home')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80">Home</button>
  <button onClick={() => changePage('shop')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80 border-b-2 pb-1" style={{
@@ -704,12 +707,15 @@ export default function TemplateLayoutBase({
  {/* Navigation */}
  <nav className={`sticky top-0 left-0 right-0 z-50 transition-all py-5 px-8 ${theme.navbarClass || 'bg-theme-surface border-b border-theme-border shadow-theme'}`}>
  <div className="max-w-7xl mx-auto flex items-center justify-between">
- {isEditable ? (
- fullLogoUrl ? (
- <div className={`font-black uppercase tracking-tight text-xl ${theme.logoTextClass || 'text-theme-text'}`}>
- <img src={fullLogoUrl} className="h-8 object-contain" alt="logo" />
- </div>
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" alt="logo" />
  ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#2563eb'}, ${accentColor || '#3b82f6'})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
+ {isEditable ? (
  <EditableText
  isEditable={true}
  value={config.navbar?.logoText || businessName}
@@ -717,12 +723,12 @@ export default function TemplateLayoutBase({
  tagName="span"
  className={`font-black focus:outline-none uppercase tracking-tight text-xl cursor-text ${theme.logoTextClass || 'text-theme-text'}`}
  />
- )
  ) : (
  <button onClick={() => changePage('home')} className={`font-black focus:outline-none uppercase tracking-tight text-xl ${theme.logoTextClass || 'text-theme-text'}`}>
- {fullLogoUrl ? <img src={fullLogoUrl} className="h-8 object-contain" alt="logo" /> : businessName}
+ {config.navbar?.logoText || businessName}
  </button>
  )}
+ </div>
  <div className="flex items-center gap-6">
  <button onClick={() => changePage('home')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80 border-b-2 pb-1" style={{ borderColor: accentColor }}>Home</button>
  <button onClick={() => changePage('shop')} className="text-xs font-bold uppercase tracking-wider hover:opacity-80">Catalog</button>

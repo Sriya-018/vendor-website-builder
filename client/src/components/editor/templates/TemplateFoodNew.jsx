@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TemplateLayoutBase from './TemplateLayoutBase';
-import { FaCoffee, FaCheck, FaUtensils, FaBeer, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCoffee, FaCheck, FaUtensils, FaBeer, FaMapMarkerAlt , FaStore } from 'react-icons/fa';
 
 export default function TemplateFoodNew(props) {
  const { config } = props;

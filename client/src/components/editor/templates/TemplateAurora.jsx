@@ -48,8 +48,8 @@ export default function TemplateAurora({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Welcome to our store';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -752,15 +752,15 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || "#1e3a8a"}, ${accentColor || "#2563eb"})` }}>{(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}</div>
  )}
  <EditableText
  isEditable={true}
  value={businessName}
  onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
  tagName="span"
- className={`font-extrabold text-xl tracking-tight transition-colors cursor-text ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
- style={{ fontFamily: 'var(--heading-font)', color: config.navbar?.textColor }}
+ className="font-extrabold text-xl tracking-tight transition-colors cursor-text text-slate-900 dark:text-white"
+ style={{ fontFamily: "var(--heading-font)", color: config.navbar?.textColor || "#111827" }}
  />
  </>
  ) : (
@@ -771,11 +771,11 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || "#1e3a8a"}, ${accentColor || "#2563eb"})` }}>{(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}</div>
  )}
  <span 
- className={`font-extrabold text-xl tracking-tight transition-colors ${(scrolled || currentPage !== 'home') ? 'text-theme-text' : 'text-white'}`}
- style={{ fontFamily: 'var(--heading-font)', color: config.navbar?.textColor }}
+ className="font-extrabold text-xl tracking-tight transition-colors text-slate-900 dark:text-white"
+ style={{ fontFamily: "var(--heading-font)", color: config.navbar?.textColor || "#111827" }}
  >
  {businessName}
  </span>
@@ -1155,7 +1155,7 @@ export default function TemplateAurora({
  {fullLogoUrl ? (
  <img src={fullLogoUrl} alt="Store Logo" className="w-10 h-10 object-contain rounded-theme" style={{background:'transparent'}} />
  ) : (
- <div className="w-10 h-10 rounded-theme flex items-center justify-center text-slate-900 dark:text-white text-xl font-bold" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})` }}>{config.navbar?.logoIcon || <FaStore />}</div>
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || "#1e3a8a"}, ${accentColor || "#2563eb"})` }}>{(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}</div>
  )}
  <span className="font-extrabold text-xl text-slate-900 dark:text-white tracking-tight" style={{ fontFamily: 'var(--heading-font)' }}>{storeName}</span>
  </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TemplateLayoutBase from './TemplateLayoutBase';
-import { FaLeaf, FaTint, FaWind, FaInfoCircle } from 'react-icons/fa';
+import { FaLeaf, FaTint, FaWind, FaInfoCircle , FaStore } from 'react-icons/fa';
 
 export default function TemplateBeautyNew(props) {
  const { config } = props;

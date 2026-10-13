@@ -47,8 +47,8 @@ export default function TemplateTrend({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'Trend Apparel');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Bold streetwear design for trendsetters.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -333,7 +333,8 @@ export default function TemplateTrend({
  <p className="text-xs text-gray-400 leading-relaxed font-light">
  {product.description || "Premium streetwear piece made of heavy fleece, dropped shoulders, and loose style fit details."}
  </p>
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button
  data-cart-add="true"
  data-product-name={product.name}
@@ -343,7 +344,8 @@ export default function TemplateTrend({
  >
  Add This Piece
  </button>
- )}
+ 
+)}
  </div>
  );
  })() : (
@@ -418,7 +420,8 @@ export default function TemplateTrend({
 
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-900/5 dark:border-white/5">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-md text-[#F43F5E]">
  <span>₹</span>
  <EditableText
@@ -431,8 +434,10 @@ export default function TemplateTrend({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -443,7 +448,8 @@ export default function TemplateTrend({
  >
  Bag
  </button>
- )}
+ 
+)}
  </div>
  {isEditable && (
  <button 
@@ -890,7 +896,8 @@ export default function TemplateTrend({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4 mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-md text-[#F43F5E]">
  <span>₹</span>
  <EditableText
@@ -903,8 +910,10 @@ export default function TemplateTrend({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -915,7 +924,8 @@ export default function TemplateTrend({
  >
  Bag
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -939,7 +949,15 @@ export default function TemplateTrend({
  {/* Navigation */}
  <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-black/95 border-b border-white/5 shadow-theme' : 'bg-transparent'}`}>
  <div className="max-w-7xl mx-auto flex items-center justify-between">
- {isEditable ? (
+ <div className="flex items-center gap-3">
+            {fullLogoUrl ? (
+              <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#2563eb'}, ${accentColor || '#3b82f6'})` }}>
+                {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+              </div>
+            )}
+            {isEditable ? (
  <EditableText
  isEditable={true}
  value={businessName}
@@ -952,6 +970,7 @@ export default function TemplateTrend({
  {businessName}
  </button>
  )}
+          </div>
  
  <div className="flex items-center gap-6">
  <button 

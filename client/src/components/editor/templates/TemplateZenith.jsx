@@ -50,8 +50,8 @@ export default function TemplateZenith({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'Zenith Agency');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Exquisite high-performance digital services.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -484,7 +484,8 @@ Please reach out to discuss implementation.`
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-xl flex items-center gap-0.5 text-indigo-400">
  <span>₹</span>
  <EditableText
@@ -497,8 +498,10 @@ Please reach out to discuss implementation.`
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -509,7 +512,8 @@ Please reach out to discuss implementation.`
  >
  Enquire
  </button>
- )}
+ 
+)}
  </div>
  {isEditable && (
  <button 
@@ -879,6 +883,14 @@ Please reach out to discuss implementation.`
  >
  {/* Simple Header */}
  <nav className="py-6 px-8 border-b border-slate-900/5 dark:border-white/5 flex items-center justify-between">
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt={businessName} className="h-9 w-auto max-w-[140px] object-contain rounded" />
+ ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#6366f1'}, ${accentColor || '#8b5cf6'})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
  {isEditable ? (
  <EditableText
  isEditable={true}
@@ -892,6 +904,7 @@ Please reach out to discuss implementation.`
  {businessName}
  </button>
  )}
+ </div>
  <button 
  onClick={() => changePage('home')}
  className="text-[10px] uppercase tracking-widest font-bold border border-slate-900/15 dark:border-white/15 px-4 py-2 transition-all hover:bg-theme-surface/5"
@@ -987,7 +1000,8 @@ Please reach out to discuss implementation.`
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-lg text-indigo-400">
  <span>₹</span>
  <EditableText
@@ -1000,8 +1014,10 @@ Please reach out to discuss implementation.`
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -1012,7 +1028,8 @@ Please reach out to discuss implementation.`
  >
  Enquire
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>

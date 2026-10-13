@@ -51,8 +51,8 @@ export default function TemplateFlora({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'Flora Organic');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Organic aromatherapy and botanical cosmetics.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -375,7 +375,8 @@ export default function TemplateFlora({
  </div>
  <h4 className="font-bold text-sm uppercase text-theme-text">{quizResult.name}</h4>
  <span className="text-[#4B5E52] font-bold text-sm" style={{ color: accentColor }}>₹{quizResult.price}</span>
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button
  data-cart-add="true"
  data-product-name={quizResult.name}
@@ -385,7 +386,8 @@ export default function TemplateFlora({
  >
  Add Routine Combo
  </button>
- )}
+ 
+)}
  </div>
  ) : (
  <div className="py-16 text-gray-400 text-xs font-light space-y-2">
@@ -458,7 +460,8 @@ export default function TemplateFlora({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -471,8 +474,10 @@ export default function TemplateFlora({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -484,7 +489,8 @@ export default function TemplateFlora({
  >
  Select
  </button>
- )}
+ 
+)}
  </div>
  {isEditable && (
  <button 
@@ -973,7 +979,8 @@ export default function TemplateFlora({
  </div>
  <div className="p-5 pt-0">
  <div className="flex items-center justify-between border-t border-theme-border/50 pt-4 mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-md text-[#4B5E52]" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -986,8 +993,10 @@ export default function TemplateFlora({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -999,7 +1008,8 @@ export default function TemplateFlora({
  >
  Select
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -1023,7 +1033,15 @@ export default function TemplateFlora({
  {/* Navigation */}
  <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${(scrolled || currentPage !== 'home') ? 'bg-theme-surface/95 border-b border-theme-border shadow-theme text-theme-text' : 'bg-transparent text-white'}`}>
  <div className="max-w-7xl mx-auto flex items-center justify-between">
- {isEditable ? (
+ <div className="flex items-center gap-3">
+            {fullLogoUrl ? (
+              <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#2563eb'}, ${accentColor || '#3b82f6'})` }}>
+                {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+              </div>
+            )}
+            {isEditable ? (
  <EditableText
  isEditable={true}
  value={businessName}
@@ -1036,6 +1054,7 @@ export default function TemplateFlora({
  {businessName}
  </button>
  )}
+          </div>
  
  <div className="flex items-center gap-6">
  {[

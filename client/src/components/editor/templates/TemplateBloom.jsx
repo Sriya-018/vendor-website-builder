@@ -48,8 +48,8 @@ export default function TemplateBloom({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Radiant beauty, naturally curated.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -556,7 +556,8 @@ export default function TemplateBloom({
  style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}
  />
  <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-lg mb-4 flex items-center justify-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -569,11 +570,13 @@ export default function TemplateBloom({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  </div>
  </div>
  <div className="p-6 pt-0 text-center">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -590,7 +593,8 @@ export default function TemplateBloom({
  >
  {product.inStock === false ? 'Out of Stock' : 'Add to Bag'}
  </button>
- )}
+ 
+)}
  </div>
  </div>
  ))}
@@ -1066,12 +1070,16 @@ export default function TemplateBloom({
  <nav className={`sticky top-0 z-50 w-full transition-all duration-300 border-b border-pink-100/50 ${scrolled ? 'bg-theme-surface/90 backdrop-blur-md shadow-theme' : 'bg-theme-surface/80 backdrop-blur-md'}`}>
  <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
  <div 
- className="flex items-center gap-2 cursor-pointer"
+ className="flex items-center gap-3 cursor-pointer"
  onClick={() => !isEditable && changePage('home')}
  >
  {fullLogoUrl ? (
- <img src={fullLogoUrl} alt="Logo" className="w-8 h-8 object-contain rounded" />
+ <img src={fullLogoUrl} alt="Logo" className="h-9 w-auto max-w-[140px] object-contain rounded" />
  ) : (
+ <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#be185d'}, ${accentColor || '#ec4899'})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
  <EditableText
  isEditable={isEditable}
  value={businessName}
@@ -1080,7 +1088,6 @@ export default function TemplateBloom({
  className="font-extrabold text-[1.4rem] cursor-text"
  style={{ color: primaryColor, fontFamily: "'Playfair Display', serif" }}
  />
- )}
  </div>
 
  {devicePreview === 'desktop' ? (
@@ -1267,7 +1274,8 @@ export default function TemplateBloom({
  style={{ color: config.navbar?.textColor || primaryColor, fontFamily: "'Playfair Display', serif" }}
  />
  <div className="text-[11px] font-medium text-theme-muted mt-1 opacity-80">Stock: <span className="font-bold">{product.stockQuantity ?? 10}</span></div>
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-bold text-lg mb-4 flex items-center justify-center gap-0.5" style={{ color: accentColor }}>
  <span>₹</span>
  <EditableText
@@ -1280,12 +1288,14 @@ export default function TemplateBloom({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  </div>
  </div>
 
  <div className="p-6 pt-0 text-center">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -1302,7 +1312,8 @@ export default function TemplateBloom({
  >
  {product.inStock === false ? 'Out of Stock' : 'Add to Bag'}
  </button>
- )}
+ 
+)}
  </div>
  </div>
  ))}

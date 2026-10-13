@@ -45,8 +45,8 @@ export default function TemplatePixel({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'My Store');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'High-performance gear for every setup.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
@@ -353,7 +353,8 @@ export default function TemplatePixel({
 
  <div className="p-4 pt-0">
  <div className="flex items-center justify-between mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}>
  <span>₹</span>
  <EditableText
@@ -366,8 +367,10 @@ export default function TemplatePixel({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -378,7 +381,8 @@ export default function TemplatePixel({
  >
  BUY_NOW
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -707,10 +711,14 @@ export default function TemplatePixel({
  <nav className="sticky top-0 z-50 bg-[#020617]/90 backdrop-blur border-b border-[#0f172a] px-8 transition-all">
  <div className="max-w-7xl mx-auto flex items-center justify-between h-[3.75rem]">
  <div className="flex items-center gap-3">
- {isEditable ? (
- fullLogoUrl ? (
- <img src={fullLogoUrl} alt="Logo" className="w-8 h-8 object-contain rounded" />
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt="Logo" className="w-9 h-9 object-contain rounded" />
  ) : (
+ <div className="w-9 h-9 rounded flex items-center justify-center text-white text-base font-bold shadow-sm" style={{ background: `linear-gradient(135deg, ${primaryColor || '#020617'}, ${accentColor || '#38bdf8'})` }}>
+ {(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}
+ </div>
+ )}
+ {isEditable ? (
  <EditableText
  isEditable={true}
  value={config.navbar?.logoText || businessName}
@@ -719,20 +727,13 @@ export default function TemplatePixel({
  className="text-[1.2rem] font-bold cursor-text"
  style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}
  />
- )
  ) : (
  <button 
  onClick={() => changePage('home')}
  className="text-[1.2rem] font-bold focus:outline-none hover:opacity-85 text-left"
  style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}
  >
- {fullLogoUrl ? (
- <img src={fullLogoUrl} alt="Logo" className="w-8 h-8 object-contain rounded" />
- ) : (
- <>
  &gt; {businessName.toUpperCase().replace(/\s+/g, '_')}_
- </>
- )}
  </button>
  )}
  </div>
@@ -906,7 +907,8 @@ export default function TemplatePixel({
 
  <div className="p-4 pt-0">
  <div className="flex items-center justify-between mt-2">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-extrabold text-[1.1rem] flex items-center gap-0.5" style={{ color: accentColor, fontFamily: "'Share Tech Mono', monospace" }}>
  <span>₹</span>
  <EditableText
@@ -919,9 +921,11 @@ export default function TemplatePixel({
  tagName="span"
  />
  </div>
- )}
+ 
+)}
  <div className="flex flex-col items-end gap-1 font-mono">
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add={product.inStock !== false ? "true" : undefined}
  data-product-id={product._id || product.id}
@@ -942,7 +946,8 @@ export default function TemplatePixel({
  >
  {product.inStock === false ? 'SOLD_OUT' : 'BUY_NOW'}
  </button>
- )}
+ 
+)}
  {product.specs && product.specs.length > 0 && (
  <button 
  onClick={() => setActiveSpecsProduct(product)}

@@ -47,15 +47,15 @@ export default function TemplateBistro({
 
  const businessName = config.navbar?.logoText || (website?.storeInfo?.businessName ?? business?.businessName ?? 'Le Bistro');
  const storeName = website?.storeName || business?.businessName || 'My Store';
- const logo = website?.storeInfo?.logo ?? business?.logo ?? null;
- const fullLogoUrl = logo ? (logo.startsWith('http') ? logo : `http://localhost:5000${logo}`) : null;
+ const logo = config.navbar?.logoImage || config.navbar?.faviconSvg || website?.storeInfo?.logo || business?.logo || null;
+ const fullLogoUrl = logo ? (logo.startsWith("http") || logo.startsWith("data:") ? logo : `http://localhost:5000${logo}`) : null;
  const description = config.header.heroHeading || 'Exquisite culinary artistry and fine dining.';
  const phoneNumber = website?.storeInfo?.contact?.phone ?? business?.contact?.phone ?? business?.phone ?? '';
  const email = website?.storeInfo?.contact?.email ?? business?.contact?.email ?? business?.email ?? '';
  const address = website?.storeInfo?.location?.address ?? business?.location?.address ?? business?.address ?? '';
  
  const primaryColor = config.theme?.primary || '#1E1E1C'; // Elegant charcoal
- const accentColor = config.theme?.accent || '#C5A880'; // Rich gold
+ const accentColor = config.theme?.accent || (config.themeColor && config.themeColor !== '#6366f1' ? config.themeColor : '#C5A880'); // Rich gold
  const heroImage = config.header.heroImage || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80';
 
  // Ticking countdown timer logic
@@ -319,7 +319,8 @@ export default function TemplateBistro({
  </p>
  <div className="flex justify-between items-center">
  <span className="text-2xl font-serif text-[#C5A880]">₹{bestSellers[0].price}</span>
- {config.products?.showAddToCart !== false && (
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={bestSellers[0].name}
@@ -329,7 +330,8 @@ export default function TemplateBistro({
  >
  Book Experience
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -417,7 +419,8 @@ export default function TemplateBistro({
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-serif text-lg text-[#C5A880]">
  <span>₹</span>
  <EditableText
@@ -430,8 +433,10 @@ export default function TemplateBistro({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -442,7 +447,8 @@ export default function TemplateBistro({
  >
  Order
  </button>
- )}
+ 
+)}
  </div>
  {isEditable && (
  <button 
@@ -826,19 +832,27 @@ export default function TemplateBistro({
  >
  {/* Simple Header */}
  <nav className="py-6 px-8 border-b border-[#C5A880]/10 flex items-center justify-between">
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt={businessName} className="h-9 w-auto max-w-[140px] object-contain rounded" />
+ ) : (
+ <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-sm shrink-0" style={{ background: config.navbar?.logoColor ? config.navbar.logoColor : `linear-gradient(135deg, ${primaryColor || "#1e3a8a"}, ${accentColor || "#2563eb"})` }}>{(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}</div>
+ )}
  {isEditable ? (
  <EditableText
  isEditable={true}
  value={businessName}
  onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
  tagName="span"
- className="font-serif text-xl uppercase tracking-wider text-[#C5A880] cursor-text"
+ className="font-serif text-xl uppercase tracking-wider cursor-text"
+ style={{ fontFamily: config.typography?.headingFont ? `'${config.typography.headingFont}', serif` : undefined, color: accentColor }}
  />
  ) : (
- <button onClick={() => changePage('home')} className="font-serif text-xl uppercase tracking-wider text-[#C5A880]">
+ <button onClick={() => changePage('home')} className="font-serif text-xl uppercase tracking-wider text-left" style={{ fontFamily: config.typography?.headingFont ? `'${config.typography.headingFont}', serif` : undefined, color: accentColor }}>
  {businessName}
  </button>
  )}
+ </div>
  <button 
  onClick={() => changePage('home')}
  className="text-xs uppercase tracking-widest hover:text-[#C5A880] font-serif border border-[#C5A880]/30 px-4 py-2 transition-all"
@@ -937,7 +951,8 @@ export default function TemplateBistro({
  </div>
  <div className="p-6 pt-0">
  <div className="flex items-center justify-between border-t border-slate-900/5 dark:border-white/5 pt-4">
- {config.products?.showPrices !== false && (
+ 
+{config.products?.showPrices !== false && (
  <div className="font-serif text-lg text-[#C5A880]">
  <span>₹</span>
  <EditableText
@@ -950,8 +965,10 @@ export default function TemplateBistro({
  tagName="span"
  />
  </div>
- )}
- {config.products?.showAddToCart !== false && (
+ 
+)}
+ 
+{config.products?.showAddToCart !== false && (
  <button 
  data-cart-add="true"
  data-product-name={product.name}
@@ -962,7 +979,8 @@ export default function TemplateBistro({
  >
  Add To Order
  </button>
- )}
+ 
+)}
  </div>
  </div>
  </div>
@@ -986,19 +1004,27 @@ export default function TemplateBistro({
  {/* Navigation */}
  <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-8 ${scrolled ? 'bg-[#1E1E1C]/95 border-b border-[#C5A880]/10 shadow-theme' : 'bg-transparent'}`}>
  <div className="max-w-7xl mx-auto flex items-center justify-between">
+ <div className="flex items-center gap-3">
+ {fullLogoUrl ? (
+ <img src={fullLogoUrl} alt={businessName} className="w-10 h-10 object-contain rounded-xl shadow-sm shrink-0" />
+ ) : (
+ <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-sm shrink-0" style={{ background: config.navbar?.logoColor ? config.navbar.logoColor : `linear-gradient(135deg, ${primaryColor || "#1e3a8a"}, ${accentColor || "#2563eb"})` }}>{(!config.navbar?.logoIcon || config.navbar.logoIcon === "store" || config.navbar.logoIcon === "FaStore") ? <FaStore className="text-white" /> : config.navbar.logoIcon}</div>
+ )}
  {isEditable ? (
  <EditableText
  isEditable={true}
  value={businessName}
  onChange={(val) => onUpdateConfig('navbar', 'logoText', val)}
  tagName="span"
- className="font-serif text-2xl uppercase tracking-widest text-[#C5A880] cursor-text"
+ className="font-serif text-2xl uppercase tracking-widest cursor-text"
+ style={{ fontFamily: config.typography?.headingFont ? `'${config.typography.headingFont}', serif` : undefined, color: accentColor }}
  />
  ) : (
- <button onClick={() => changePage('home')} className="font-serif text-2xl uppercase tracking-widest text-[#C5A880] focus:outline-none">
+ <button onClick={() => changePage('home')} className="font-serif text-2xl uppercase tracking-widest focus:outline-none text-left transition-opacity hover:opacity-90" style={{ fontFamily: config.typography?.headingFont ? `'${config.typography.headingFont}', serif` : undefined, color: accentColor }}>
  {businessName}
  </button>
  )}
+ </div>
  
  <div className="flex items-center gap-6">
  <button 
